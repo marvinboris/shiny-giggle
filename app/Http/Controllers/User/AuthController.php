@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
+use App\Http\Controllers\Controller;
+use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Carbon\Carbon;
-use App\User;
 
 class AuthController extends Controller
 {
@@ -49,11 +50,11 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|string|email',
+            'ref' => 'required|string',
             'password' => 'required|string',
-            'remember_me' => 'boolean'
+            'terms' => 'accepted'
         ]);
-        $credentials = request(['email', 'password']);
+        $credentials = request(['ref', 'password']);
         if (!Auth::attempt($credentials))
             return response()->json([
                 'message' => 'Unauthorized'

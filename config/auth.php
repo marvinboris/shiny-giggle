@@ -47,6 +47,11 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
+        
+        'outer' => [
+            'driver' => 'passport',
+            'provider' => 'guests',
+        ],
     ],
 
     /*
@@ -70,6 +75,11 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\User::class,
+        ],
+        
+        'guests' => [
+            'driver' => 'eloquent',
+            'model' => App\Guest::class,
         ],
 
         // 'users' => [

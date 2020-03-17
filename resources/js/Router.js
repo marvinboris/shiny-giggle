@@ -1,9 +1,10 @@
 import React from 'react';
-import { BrowserRouter, Link, Route, Switch } from 'react-router-dom'; import Home from './components/Home/Home';
+import { BrowserRouter, Link, Route, Switch } from 'react-router-dom'; 
 
+import Home from './components/Home/Home';
 import Login from './views/Login/Login';
 import Register from './views/Register/Register';
-import NotFound from './views/NotFound/NotFound'
+import NotFound from './views/NotFound/NotFound';
 
 // User is LoggedIn
 import PrivateRoute from './PrivateRoute'

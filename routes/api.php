@@ -18,11 +18,20 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::prefix('auth')->group(function () {
+Route::namespace('Guest')->prefix('guest')->group(function () {
     Route::post('login', 'AuthController@login');
-    Route::post('signup', 'AuthController@signup');
-  
-    Route::middleware('auth:api')->group(function() {
+
+    Route::middleware('auth:outer')->group(function () {
+        Route::get('logout', 'AuthController@logout');
+        Route::get('user', 'AuthController@user');
+    });
+});
+
+Route::namespace('User')->prefix('user')->group(function () {
+    Route::post('login', 'AuthController@login');
+    // Route::post('signup', 'AuthController@signup');
+
+    Route::middleware('auth:api')->group(function () {
         Route::get('logout', 'AuthController@logout');
         Route::get('user', 'AuthController@user');
     });

@@ -7,7 +7,7 @@ import Register from './views/Register/Register';
 import NotFound from './views/NotFound/NotFound';
 
 // User is LoggedIn
-import PrivateRoute from './PrivateRoute'
+import PrivateRoute from './PrivateRoute';
 import Dashboard from './views/user/Dashboard/Dashboard';
 
 const Main = props => (

@@ -18,21 +18,23 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::namespace('Guest')->prefix('guest')->group(function () {
-    Route::post('login', 'AuthController@login');
+Route::namespace('Guest')->prefix('guest')->name('guest.')->group(function () {
+    Route::post('login', 'AuthController@login')->name('login');
 
     Route::middleware('auth:outer')->group(function () {
-        Route::get('logout', 'AuthController@logout');
-        Route::get('user', 'AuthController@user');
+        Route::get('logout', 'AuthController@logout')->name('logout');
+        Route::get('user', 'AuthController@user')->name('user');
     });
 });
 
-Route::namespace('User')->prefix('user')->group(function () {
-    Route::post('login', 'AuthController@login');
+Route::namespace('User')->prefix('user')->name('user.')->group(function () {
+    Route::post('login', 'AuthController@login')->name('login');
     // Route::post('signup', 'AuthController@signup');
 
     Route::middleware('auth:api')->group(function () {
-        Route::get('logout', 'AuthController@logout');
-        Route::get('user', 'AuthController@user');
+        Route::get('logout', 'AuthController@logout')->name('logout');
+        Route::get('user', 'AuthController@user')->name('user');
     });
 });
+
+Route::get('home', 'FrontEndController@home')->name('home');

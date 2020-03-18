@@ -42,4 +42,12 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Plan');
     }
+
+    /**
+     * Get all of the user's transactions.
+     */
+    public function transactions()
+    {
+        return $this->morphMany('App\Transaction', 'transactionable');
+    }
 }

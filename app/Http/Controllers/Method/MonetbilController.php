@@ -39,8 +39,7 @@ class MonetbilController extends Controller
         $user = request()->user();
 
         $json = [
-            'amount' => $input['amount'],
-            // 'amount' => $input['amount'] * 620,
+            'amount' => $input['amount'] * 620,
             'item_ref' => $input['plan_id'],
             'payment_ref' => time(),
             'country' => 'XAF',

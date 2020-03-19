@@ -33,21 +33,21 @@ class PlansController extends Controller
 
         $methods = [];
 
-        foreach ($methodsData as $index => $method) {
+        foreach ($methodsData as $method) {
             switch ($method->name) {
                 case 'Mobile':
                     new MonetbilController();
                     $monetbil = MonetbilController::generateWidgetData([
-                        'amount' => $plan->amount,
+                        'amount' => $plan->price,
                         'plan_id' => $plan->id
                     ]);
                     $link = $monetbil['link'];
                     break;
                 default:
-                    $link = route('plans.payment.confirm', $method->slug);
+                    $link = route('plans.payment.confirm', ['plan' => $plan->slug, 'method' => $method->slug]);
                     break;
             }
-            $methods[] = array_merge($methodsData[$index], ['link' => $link]);
+            $methods[] = array_merge($method->toArray(), ['link' => $link]);
         }
 
         return response()->json([
@@ -64,13 +64,16 @@ class PlansController extends Controller
     {
     }
 
-    public function mobile()
+    public function confirm($plan, $method)
     {
     }
 
     public function getCalculate()
     {
         $plan = request()->user()->plan;
+        $packs = $plan->packs;
+        $periods = $plan->periods;
+        $durations = $plan->durations;
         return response()->json([
             'plan' => $plan
         ]);
@@ -78,6 +81,12 @@ class PlansController extends Controller
 
     public function calculate()
     {
+        $points = request()->user()->points;
+        if ($points === 0) return response()->json([
+            'message' => 'Insufficent points. Please subscribe to a plan'
+        ]);
+        else request()->user()->update(['points' => $points - 1]);
+
         $plan = request()->user()->plan;
         $pack = $plan->packs()->findOrFail(request()->pack);
         $duration = $plan->durations()->findOrFail(request()->duration)->weeks;
@@ -88,7 +97,7 @@ class PlansController extends Controller
         $floatingPackPeriod = (52 / $period) - $packPeriod;
 
         $balance = 0;
-        $ownedPacks = [$pack];
+        $ownedPacks = [[$pack]];
         $leftPacks = [['pack' => $pack, 'leftWeeks' => 52]];
 
         function rpa(Pack $pack, $period)
@@ -135,6 +144,7 @@ class PlansController extends Controller
             'plan' => $plan,
             'period' => $period,
             'balance' => $balance,
+            'points' => $points - 1,
             'duration' => $duration,
             'leftPacks' => $leftPacks,
             'ownedPacks' => $ownedPacks,

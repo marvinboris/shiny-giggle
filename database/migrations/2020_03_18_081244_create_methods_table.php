@@ -17,6 +17,7 @@ class CreateMethodsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('text');
+            $table->string('slug');
             $table->tinyInteger('is_active')->default(1);
             $table->timestamps();
         });

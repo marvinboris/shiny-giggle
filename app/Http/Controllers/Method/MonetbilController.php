@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Method;
 
+use App\Guest;
 use App\User;
 use App\Transaction;
 use GuzzleHttp\Client;
@@ -38,7 +39,8 @@ class MonetbilController extends Controller
         $user = request()->user();
 
         $json = [
-            'amount' => $input['amount'] * 600,
+            'amount' => $input['amount'],
+            // 'amount' => $input['amount'] * 620,
             'item_ref' => $input['plan_id'],
             'payment_ref' => time(),
             'country' => 'XAF',
@@ -82,7 +84,8 @@ class MonetbilController extends Controller
             $input[$key] = htmlspecialchars($value);
         }
 
-        $user = User::where('email', $input['email'])->first();
+        $user = Guest::where('email', $input['email'])->first();
+        if (!$user) $user = User::where('email', $input['email'])->first();
 
         if (!$user) {
             error_log('No user found !');
@@ -95,11 +98,10 @@ class MonetbilController extends Controller
 
         if (!$transaction) {
             $transaction = Transaction::create([
-                'amount' => $plan->amount,
+                'amount' => $plan->price,
                 'tx_id' => $input['payment_ref'],
                 'tx_hash' => $input['transaction_id'],
                 'plan_id' => +$request->item_ref,
-                'user_id' => $user->id,
                 'vendor' => 'monetbil',
                 'method' =>  $request->operator ? $input['operator'] : 'MTN',
                 'type' => 'deposit',
@@ -107,6 +109,7 @@ class MonetbilController extends Controller
                 'currency' => 'USD',
                 'address' => $input['phone']
             ]);
+            $user->transactions()->save($transaction);
         }
 
         if ($request->currency) $transaction->currency = $input['currency'];

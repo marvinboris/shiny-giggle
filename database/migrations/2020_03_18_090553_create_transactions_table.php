@@ -17,7 +17,7 @@ class CreateTransactionsTable extends Migration
             $table->id();
             $table->string('address', 200)->nullable();
             $table->integer('transactionable_id')->nullable();
-            $table->string('transactionable_type');
+            $table->string('transactionable_type')->nullable();
             $table->decimal('amount', 18, 6);
             $table->integer('plan_id')->index();
             $table->string('currency')->nullable();

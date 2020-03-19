@@ -20,11 +20,6 @@ class AuthController extends Controller
         return 'email';
     }
 
-    public function __construct()
-    {
-        $this->middleware('guest:outer')->except('logout');
-    }
-
     public function guard()
     {
         return Auth::guard('outer');
@@ -52,7 +47,6 @@ class AuthController extends Controller
             ]);
         }
 
-        $guest = $request->user('outer');
         $tokenResult = $guest->createToken('Personal Access Token');
         $token = $tokenResult->token;
         if ($request->remember_me)

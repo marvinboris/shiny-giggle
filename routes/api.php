@@ -39,9 +39,15 @@ Route::namespace('User')->prefix('user')->name('user.')->group(function () {
 
 Route::get('home', 'FrontEndController@home')->name('home');
 
-Route::middleware('guest:outer')->group(function () {
+Route::middleware('auth:outer')->group(function () {
     Route::get('plans', 'PlansController@index');
     Route::get('plans/{plan}/payment', 'PlansController@payment')->name('plans.payment');
+    Route::post('plans/{plan}/payment/{method}', 'PlansController@confirm')->name('plans.payment.confirm');
     Route::get('calculate', 'PlansController@getCalculate');
     Route::post('calculate', 'PlansController@calculate');
+});
+
+Route::namespace('Method')->group(function () {
+    Route::get('monetbil/notify', 'MonetbilController@notify')->name('monetbil.notify.get');
+    Route::post('monetbil/notify', 'MonetbilController@notify')->name('monetbil.notify.post');
 });

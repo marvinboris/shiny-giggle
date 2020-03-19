@@ -38,3 +38,10 @@ Route::namespace('User')->prefix('user')->name('user.')->group(function () {
 });
 
 Route::get('home', 'FrontEndController@home')->name('home');
+
+Route::middleware('guest:outer')->group(function () {
+    Route::get('plans', 'PlansController@index');
+    Route::get('plans/{plan}/payment', 'PlansController@payment')->name('plans.payment');
+    Route::get('calculate', 'PlansController@getCalculate');
+    Route::post('calculate', 'PlansController@calculate');
+});

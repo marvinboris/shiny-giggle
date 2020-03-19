@@ -68,12 +68,20 @@ class PlansController extends Controller
     {
     }
 
-    public function calculate(Request $request)
+    public function getCalculate()
     {
-        $plan = $request->user()->plan;
-        $pack = $plan->packs()->findOrFail($request->pack);
-        $duration = $plan->durations()->findOrFail($request->duration)->weeks;
-        $period = $plan->periods()->findOrFail($request->period)->weeks;
+        $plan = request()->user()->plan;
+        return response()->json([
+            'plan' => $plan
+        ]);
+    }
+
+    public function calculate()
+    {
+        $plan = request()->user()->plan;
+        $pack = $plan->packs()->findOrFail(request()->pack);
+        $duration = $plan->durations()->findOrFail(request()->duration)->weeks;
+        $period = $plan->periods()->findOrFail(request()->period)->weeks;
 
         $totalPeriods = floor($duration / $period);
         $packPeriod = floor(52 / $period);
@@ -81,45 +89,55 @@ class PlansController extends Controller
 
         $balance = 0;
         $ownedPacks = [$pack];
-
-        $weekInfo = [];
+        $leftPacks = [['pack' => $pack, 'leftWeeks' => 52]];
 
         function rpa(Pack $pack, $period)
         {
             return $pack->amount * $pack->rate * $period / 52;
         }
 
-        function roundBalance($number)
+        function littleRound($number)
         {
-            if (ceil($number) - $number < 0.0001) return ceil($number);
-            return $number;
+            return (abs(round($number) - $number) < 0.0001) ? round($number) : $number;
         }
 
         for ($currentPeriod = 0; $currentPeriod <= $totalPeriods; $currentPeriod++) {
-            $leftPacks = [];
+            $leftPeriodPacks = [];
             foreach ($ownedPacks as $ownedPacksPeriod => $ownedPeriodPacks) {
                 if ($currentPeriod - $ownedPacksPeriod < $packPeriod) {
-                    $leftPacks[] = $ownedPeriodPacks;
                     foreach ($ownedPeriodPacks as $ownedPack) {
+                        $leftPeriodPacks[] = ['pack' => $ownedPack, 'leftWeeks' => 52 - ($currentPeriod - $ownedPacksPeriod + 1) * $period];
                         $balance += rpa($ownedPack, $period);
                     }
-                }
-                else if ($currentPeriod - $ownedPacksPeriod === $packPeriod + 1 && $floatingPackPeriod > 0)
+                } else if ($currentPeriod - $ownedPacksPeriod === $packPeriod + 1 && $floatingPackPeriod > 0)
                     foreach ($ownedPeriodPacks as $ownedPack) {
+                        $leftPeriodPacks[] = ['pack' => $ownedPack, 'leftWeeks' => round($floatingPackPeriod * $period)];
                         $balance += $floatingPackPeriod * rpa($ownedPack, $period);
-                    }   
+                    }
             }
-            $balance = roundBalance($balance);
-    
+            $balance = littleRound($balance);
+
             if ($totalPeriods - $currentPeriod > $packPeriod) {
                 $selectedPacks = [];
                 while ($balance >= 100) {
                     $selectedPack = $plan->packs()->where('amount', '<=', $balance)->latest()->first();
+                    $leftPeriodPacks[] = ['pack' => $ownedPack, 'leftWeeks' => 52];
                     $selectedPacks[] = $selectedPack;
                     $balance -= $selectedPack->amount;
                 }
                 $ownedPacks[] = $selectedPacks;
             }
+            $leftPacks[] = $leftPeriodPacks;
         }
+
+        return response()->json([
+            'pack' => $pack,
+            'plan' => $plan,
+            'period' => $period,
+            'balance' => $balance,
+            'duration' => $duration,
+            'leftPacks' => $leftPacks,
+            'ownedPacks' => $ownedPacks,
+        ]);
     }
 }

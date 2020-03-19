@@ -11,9 +11,9 @@ class FrontEndController extends Controller
     {
         return response()->json([
             'links' => [
-                'customer' => url('api/user/login'),
-                'guest' => url('api/guest/login'),
-                'non-customer' => 'https://www.liyeplimal.net/registration/?ref=',
+                'customer' => route('user.login'),
+                'guest' => route('guest.login'),
+                'non-customer' => 'https://www.liyeplimal.net/registration/?ref=5AS7AW',
             ]
         ]);
     }

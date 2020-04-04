@@ -1,0 +1,60 @@
+.home-page{
+    font-family: 'Montserrat', sans-serif;
+}
+.dot-warning{
+    height: 10px;
+    width: 10px;
+    top:-21px;
+    left: 80px;
+}
+.section-1 a{
+    text-decoration: none!important;
+
+    
+}
+.section-btn {
+    width: 236px;
+    height: 75px;
+    border-radius: 2px;
+    background-color: #06b640;
+    margin: auto;
+    
+}
+.home-btn-text{
+    text-align: center;
+    padding: 10px 0;
+}
+.v-line{
+    font-family: 'Montserrat', sans-serif;
+    height: 65px;
+    width: 1px;
+    top:-78px;
+    left: 35px;
+    background-color: rgba(133, 11, 11, 0.658)!important;
+}
+.hr-line{
+    font-family: 'Montserrat', sans-serif;
+    height: 290px;
+    width: 1px;
+    top:-300px;
+    left: 335px;
+    background-color: white;
+}
+.check-icon {
+    position: relative;
+    top:-460px;
+    left: 118px;
+}
+.user-icon{
+    position: relative;
+    top:-170px;
+    left: 118px;
+}
+.section-btn:hover {
+   
+   color: red!important;
+}
+
+.login-section{
+    margin-bottom: 275px;
+}

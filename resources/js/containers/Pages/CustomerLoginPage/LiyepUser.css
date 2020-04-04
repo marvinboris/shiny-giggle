@@ -1,0 +1,18 @@
+.dot-warning{
+    height: 10px;
+    width: 10px;
+    top:-21px;
+    left: 80px;
+}
+.user-input{
+    outline: none!important;
+    text-decoration: none;
+    background-color: red!important;
+}
+.liyep-v-line{
+    font-family: 'Montserrat', sans-serif;
+    height: 275px;
+    width: 1px;
+    
+    background-color: rgba(243, 243, 243, 0.658)!important;
+}

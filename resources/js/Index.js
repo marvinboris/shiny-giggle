@@ -16,7 +16,7 @@ import './index.css';
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const rootReducer = combineReducers({
     auth: authReducer,
-    payement: payementReducer
+    payement:payementReducer
 })
 
 const store = createStore(rootReducer, composeEnhancers(
@@ -32,7 +32,7 @@ const app = (
 )
 
 
-ReactDOM.render(app, document.getElementById('root'));
+ReactDOM.render(app, document.getElementById('app'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

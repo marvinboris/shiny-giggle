@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux';
+import * as actions from '../../../store/actions/index';
 import AppBar from '../../../components/AppBar/AppBar'
 import { Container, Row, Col, Form, InputGroup, InputGroupAddon, InputGroupText, Input, Button, Label, FormGroup } from 'reactstrap';
 import './LiyepUser.css';
@@ -6,8 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faLock, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import mancompute from '../../../assets/images/man-compute.png';
 import Footer from '../../../components/Footer/Footer';
-import { connect } from 'react-redux';
-import * as actions from '../../../store/actions/index';
+
 import { Redirect } from 'react-router-dom';
 
 class LiyepUser extends Component {

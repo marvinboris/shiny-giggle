@@ -7,5 +7,7 @@ export {
 
 export {
     setPayementPage,
-    getPayementPage
+    getPayementPage,
+    setPaymentLink,
+    getPaymentLink
 } from './payement';

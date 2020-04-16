@@ -18,7 +18,7 @@ import Error from '../../../components/Error/Error';
 import { updateObject } from '../../../shared/utility';
 
 // Images
-import FinanceTracker from '../../../assets/images/Group 166@2x.png';
+import FinanceTracker from '/invest-laravel/images/Group 166@2x.png';
 
 class Dashboard extends Component {
     componentDidMount() {

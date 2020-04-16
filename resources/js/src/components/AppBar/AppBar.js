@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPowerOff } from '@fortawesome/free-solid-svg-icons';
 import { NavLink } from 'react-router-dom';
 
-import Logo from '../../assets/images/Group 118@2x.png';
+import Logo from '/invest-laravel/images/Group 118@2x.png';
 
 export default ({ isAuthenticated, logout }) => <div>
     <Navbar className="border-bottom bg-darkblue border-yellow d-flex align-items-center px-5" light expand="md">

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Image from '../../../assets/images/logo.png';
+import Image from '/invest-laravel/images/logo.png';
 
 const NewLogo = ({ big }) => (
     <div className="NewLogo mb-0 text-center">

@@ -6,7 +6,7 @@ import PlanCard from '../../../components/UI/PlanCard/PlanCard';
 import Error from '../../../components/Error/Error';
 import Title from '../../../components/UI/Title/Title';
 
-import mansee from '../../../assets/images/mansee.png';
+import mansee from '/invest-laravel/images/mansee.png';
 
 import * as actions from '../../../store/actions/index';
 

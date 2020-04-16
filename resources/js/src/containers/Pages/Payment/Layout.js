@@ -4,10 +4,10 @@ import { NavLink } from 'react-router-dom';
 
 import Title from '../../../components/UI/Title/Title';
 
-import manpaye from '/invest-laravel/images/Group 136@2x.png';
-import limoImg from '/invest-laravel/images/Liom-logo-New@2x.png';
-import mobileImg from '/invest-laravel/images/Group 138@2x.png';
-import btcImg from '/invest-laravel/images/bitcoin@2x.png';
+import manpaye from '../../../assets/images/Group 136@2x.png';
+import limoImg from '../../../assets/images/Liom-logo-New@2x.png';
+import mobileImg from '../../../assets/images/Group 138@2x.png';
+import btcImg from '../../../assets/images/bitcoin@2x.png';
 
 const MethodImg = ({ src, disabled }) => <img src={src} alt="Payment" width={26} className="mr-2" style={disabled ? { filter: 'grayscale(1)' } : null} />;
 

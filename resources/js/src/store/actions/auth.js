@@ -44,7 +44,7 @@ export const authLogin = data => async dispatch => {
     try {
         const form = new FormData(data);
 
-        const res = await fetch('/invest-laravel/api/user/login', {
+        const res = await fetch('/invest-laravel/public/api/user/login', {
             method: 'POST',
             mode: 'cors',
             body: form,
@@ -72,7 +72,7 @@ export const authSignup = data => async dispatch => {
     try {
         const form = new FormData(data);
 
-        const res = await fetch('/invest-laravel/api/user/signup', {
+        const res = await fetch('/invest-laravel/public/api/user/signup', {
             method: 'POST',
             mode: 'cors',
             body: form,
@@ -95,7 +95,7 @@ export const authGuestSignup = data => async dispatch => {
     try {
         const form = new FormData(data);
 
-        const res = await fetch('/invest-laravel/api/guest/login', {
+        const res = await fetch('/invest-laravel/public/api/guest/login', {
             method: 'POST',
             mode: 'cors',
             body: form,
@@ -128,7 +128,7 @@ export const authCheckState = () => async dispatch => {
     if (!token) dispatch(authLogout());
     else {
         try {
-            const res = await fetch('/invest-laravel/api/guest/user', {
+            const res = await fetch('/invest-laravel/public/api/guest/user', {
                 method: 'GET',
                 headers: {
                     'Authorization': token

@@ -7,12 +7,9 @@ import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 
 import App from './src/App';
 import * as serviceWorker from './src/serviceWorker';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import authReducer from './src/store/reducers/auth';
 import paymentReducer from './src/store/reducers/payment';
 import calculationReducer from './src/store/reducers/calculation';
-
-// import './src/index.scss';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const rootReducer = combineReducers({

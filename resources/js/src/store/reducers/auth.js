@@ -18,10 +18,7 @@ const authGuestSignupSuccess = (state, action) => updateObject(state, { error: n
 
 const authFail = (state, action) => updateObject(state, { loading: false, ...action });
 
-const authLogout = (state, action) => {
-    console.log("authLogout");
-    return updateObject(state, { token: null });
-};
+const authLogout = (state, action) => updateObject(state, { loading: false, token: null });
 
 const setAuthRedirectPath = (state, action) => updateObject(state, { authRedirectPath: action.path });
 

@@ -43,7 +43,7 @@ class MonetbilController extends Controller
             'item_ref' => $input['plan_id'],
             'payment_ref' => time(),
             'country' => 'XAF',
-            // 'logo' => asset('/images/Groupe 130@2x.png'),
+            // 'logo' => asset(../../../assets/images/Groupe 130@2x.png'),
             'email' => $user->email,
             'country' => 'CM',
             'return_url' => route('monetbil.notify.get')

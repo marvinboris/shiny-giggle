@@ -28,6 +28,7 @@ class Layout extends Component {
     render() {
         const { auth: { loading }, onAuthLogout } = this.props;
         const isAuthenticated = localStorage.getItem('token') !== null;
+        console.log({ loading })
 
         let routes = <Switch>
             <Route path="/auth/register" component={SignUp} />

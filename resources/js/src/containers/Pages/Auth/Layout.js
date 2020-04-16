@@ -2,7 +2,7 @@ import React from 'react';
 import { Row, Col } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 
-import manMoney from '/invest-laravel/images/Group 24@2x.png';
+import manMoney from '../../../assets/images/Group 24@2x.png';
 import Title from '../../../components/UI/Title/Title';
 
 const ActiveLink = ({ link, children }) => <div className="text-white position-relative h4"><NavLink className="text-decoration-none text-white" to={"/auth/" + link}>{children}</NavLink></div>;

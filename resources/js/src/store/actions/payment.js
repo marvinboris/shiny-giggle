@@ -19,7 +19,7 @@ export const getPlans = () => async dispatch => {
     dispatch(getPlansStart());
 
     try {
-        const res = await fetch('http://invest-calc.test:3000/api/plans', {
+        const res = await fetch('/invest-laravel/api/plans', {
             method: 'GET',
             headers: {
                 Authorization: token
@@ -52,7 +52,7 @@ export const getPaymentInfo = slug => async dispatch => {
     dispatch(getPaymentInfoStart());
 
     try {
-        const res = await fetch(`http://invest-calc.test:3000/api/plans/${slug}/payment`, {
+        const res = await fetch(`/invest-laravel/api/plans/${slug}/payment`, {
             method: 'GET',
             headers: {
                 Authorization: token

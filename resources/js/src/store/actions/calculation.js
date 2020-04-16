@@ -18,7 +18,7 @@ const getCalculateFail = error => ({
 export const getCalculate = () => dispatch => {
     dispatch(getCalculateStart());
     const token = localStorage.getItem('token');
-    const link = "http://invest-calc.test:3000/api/calculate";
+    const link = "/invest-laravel/api/calculate";
 
     fetch(link, {
         method: 'GET',
@@ -50,7 +50,7 @@ export const makeCalculation = data => dispatch => {
     const token = localStorage.getItem('token');
 
     const form = new FormData(data);
-    const link = "http://invest-calc.test:3000/api/calculate";
+    const link = "/invest-laravel/api/calculate";
     fetch(link, {
         method: 'POST',
         mode: 'cors',

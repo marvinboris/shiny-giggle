@@ -29,7 +29,7 @@ Route::namespace('Guest')->prefix('guest')->name('guest.')->group(function () {
 
 Route::namespace('User')->prefix('user')->name('user.')->group(function () {
     Route::post('login', 'AuthController@login')->name('login');
-    // Route::post('signup', 'AuthController@signup');
+    Route::post('signup', 'AuthController@signup');
 
     Route::middleware('auth:api')->group(function () {
         Route::get('logout', 'AuthController@logout')->name('logout');

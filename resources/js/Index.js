@@ -5,18 +5,20 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 
-import App from './Application';
-import * as serviceWorker from './serviceWorker';
+import App from './src/App';
+import * as serviceWorker from './src/serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import authReducer from './store/reducers/auth';
-import payementReducer from './store/reducers/payement';
+import authReducer from './src/store/reducers/auth';
+import paymentReducer from './src/store/reducers/payment';
+import calculationReducer from './src/store/reducers/calculation';
 
-import './index.css';
+// import './src/index.scss';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const rootReducer = combineReducers({
     auth: authReducer,
-    payement:payementReducer
+    payment: paymentReducer,
+    calculation: calculationReducer
 })
 
 const store = createStore(rootReducer, composeEnhancers(
@@ -30,7 +32,6 @@ const app = (
         </BrowserRouter>
     </Provider>
 )
-
 
 ReactDOM.render(app, document.getElementById('app'));
 

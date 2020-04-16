@@ -1,0 +1,10 @@
+@import "./assets/scss/app";
+
+.SideDrawerItem {
+    &.active {
+        span {
+            @extend .text-orange;
+            @extend .text-700;
+        }
+    }
+}

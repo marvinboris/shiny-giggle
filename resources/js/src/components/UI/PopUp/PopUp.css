@@ -1,0 +1,42 @@
+.popup-container {
+  background: #f5f5f5;
+  width: 200px;
+}
+
+.menu-bar {
+  display: inline-block;
+}
+
+.menu-bar-item {
+  position: relative;
+  display: inline-block;
+  margin: 0 2px;
+}
+
+.menu-bar-link {
+  text-decoration: none;
+  padding: 4px 16px;
+  color: #323232;
+  display: inline-block;
+}
+
+.mega-menu {
+  display: none;
+}
+
+.mega-menu.true {
+  display: block;
+}
+
+.mega-menu-content {
+  background: #ffffff;
+  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  position: absolute;
+  z-index: 999;
+  top: 30px;
+  left: -170px;
+  width: 200px;
+  box-shadow: rgba(0, 0, 0, 0.11765) 0px 1px 6px, rgba(0, 0, 0, 0.11765) 0px 1px 4px;
+}

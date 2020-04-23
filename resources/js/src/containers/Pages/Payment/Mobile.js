@@ -12,30 +12,13 @@ import FormButton from '../../../components/UI/FormButton/FormButton';
 import CustomSpinner from '../../../components/UI/CustomSpinner/CustomSpinner';
 
 class Mobile extends Component {
-    state = {
-        loading: false,
-        processing: false,
-        processPage: <h1>process</h1>
-    }
-
     componentDidMount() {
         this.props.onGetPaymentInfo(this.props.match.params.slug);
     }
 
     onSubmitHandler = e => {
         e.preventDefault();
-        this.props.history.push('/success');
-        this.setState({ ...this.state, loading: true });
-        fetch('https://www.monetbil.africa/pay/v2.1/gKznLEpbkBj7EOXVxx3WvH4Yw3Ijuk').then(response => {
-            return response.text();
-        }).then(html => {
-            return html
-        }).then(htmlDoc => {
-            ;
-
-            // this.setState({ loading: false, processing: true, processPage: <iframe style={{ border: 'none' }} scrolling="no" width="600px" height="670px" src={this.props.paymentLink}></iframe> })
-        })
-            .catch(err => console.log(err));
+        window.location.href = this.props.payment.methods.find(({ slug }) => slug === 'mobile').link;
     }
 
     inputChangeHandler = (e, name) => {

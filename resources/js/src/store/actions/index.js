@@ -1,7 +1,9 @@
 export {
     authLogin,
     authSignup,
-    authGuestSignup,
+    authGuest,
+    authCode,
+    clearSignup,
     authLogout,
     setAuthRedirectPath,
     authCheckState
@@ -14,5 +16,9 @@ export {
 
 export {
     makeCalculation,
-    getCalculate
+    makeCalculationStart,
+    setSelectedPlan,
+    getCalculate,
+    getCalculateFromCode,
+    getUserPlans
 } from './calculation';

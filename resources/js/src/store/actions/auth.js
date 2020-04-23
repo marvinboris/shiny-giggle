@@ -1,22 +1,36 @@
 import * as actionTypes from './actionTypes';
+import { rootPath } from '../..';
 
 const authStart = () => ({
     type: actionTypes.AUTH_START
 });
 
-const authLoginSuccess = token => ({
+const authLoginSuccess = (token, data) => ({
     type: actionTypes.AUTH_LOGIN_SUCCESS,
     token,
+    data: { ...data, role: 'user' }
 });
 
-const authSignupSuccess = () => ({
+const authSignupSuccess = email => ({
     type: actionTypes.AUTH_SIGNUP_SUCCESS,
-    signup_success: true,
+    signup: { status: true, email },
 });
 
-const authGuestSignupSuccess = token => ({
-    type: actionTypes.AUTH_GUEST_SIGNUP_SUCCESS,
+export const clearSignup = () => ({
+    type: actionTypes.CLEAR_SIGNUP,
+    signup: { status: false, email: null }
+});
+
+const authGuestSuccess = (token, data) => ({
+    type: actionTypes.AUTH_GUEST_SUCCESS,
     token,
+    data: { ...data, role: 'guest' }
+});
+
+const authCodeSuccess = (token, data) => ({
+    type: actionTypes.AUTH_CODE_SUCCESS,
+    token,
+    data: { ...data, role: 'guest' }
 });
 
 const authFail = error => ({
@@ -28,7 +42,8 @@ export const authLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('expirationDate');
     return {
-        type: actionTypes.AUTH_LOGOUT
+        type: actionTypes.AUTH_LOGOUT,
+        data: {}
     };
 };
 
@@ -44,7 +59,7 @@ export const authLogin = data => async dispatch => {
     try {
         const form = new FormData(data);
 
-        const res = await fetch('/invest-laravel/public/api/user/login', {
+        const res = await fetch(rootPath + '/api/user/login', {
             method: 'POST',
             mode: 'cors',
             body: form,
@@ -52,14 +67,17 @@ export const authLogin = data => async dispatch => {
 
         const resData = await res.json();
 
-        let { access_token, token_type, expires_at } = resData;
-        const idToken = token_type + ' ' + access_token;
+        let { access_token, token_type, expires_at, userData } = resData;
+        const token = token_type + ' ' + access_token;
         expires_at = new Date(expires_at).getTime();
 
+        if (res.status === 422) throw new Error(Object.values(resData.errors).join('\n'));
+        console.log(resData)
+
         const expirationDate = new Date(expires_at);
-        localStorage.setItem('token', idToken);
+        localStorage.setItem('token', token);
         localStorage.setItem('expirationDate', expirationDate);
-        dispatch(authLoginSuccess(idToken));
+        dispatch(authLoginSuccess(token, userData));
         dispatch(checkAuthTimeout(expires_at - new Date().getTime()));
     } catch (err) {
         dispatch(authFail(err));
@@ -72,45 +90,76 @@ export const authSignup = data => async dispatch => {
     try {
         const form = new FormData(data);
 
-        const res = await fetch('/invest-laravel/public/api/user/signup', {
-            method: 'POST',
-            mode: 'cors',
-            body: form,
-        });
-
-        if (res.status === 422) throw new Error('La validation a échoué. Assurez-vous que cette adresse mail n\'est pas utilisée.');
-        if (res.status !== 200 && res.status !== 201) {
-            throw new Error('L\'authentification a échoué.');
-        }
-
-        dispatch(authSignupSuccess());
-    } catch (err) {
-        dispatch(authFail(err));
-    }
-};
-
-export const authGuestSignup = data => async dispatch => {
-    dispatch(authStart());
-
-    try {
-        const form = new FormData(data);
-
-        const res = await fetch('/invest-laravel/public/api/guest/login', {
+        const res = await fetch(rootPath + '/api/user/signup', {
             method: 'POST',
             mode: 'cors',
             body: form,
         });
 
         const resData = await res.json();
+        if (res.status === 422) throw new Error(Object.values(resData.errors).join('\n'));
+        if (res.status !== 200 && res.status !== 201) {
+            throw new Error('Authentication has failed.');
+        }
 
-        let { access_token, token_type, expires_at } = resData;
-        const idToken = token_type + ' ' + access_token;
+        dispatch(authSignupSuccess(resData.email));
+    } catch (err) {
+        dispatch(authFail(err));
+    }
+};
+
+export const authCode = data => async dispatch => {
+    dispatch(authStart());
+
+    try {
+        const form = new FormData(data);
+
+        const res = await fetch(rootPath + '/api/guest/login', {
+            method: 'POST',
+            mode: 'cors',
+            body: form,
+        });
+
+        const resData = await res.json();
+        if (res.status === 422) throw new Error(Object.values(resData.errors).join('\n'));
+
+        let { access_token, token_type, expires_at, userData } = resData;
+        const token = token_type + ' ' + access_token;
         expires_at = new Date(expires_at).getTime();
 
         const expirationDate = new Date(expires_at);
-        localStorage.setItem('token', idToken);
+        localStorage.setItem('token', token);
         localStorage.setItem('expirationDate', expirationDate);
-        dispatch(authGuestSignupSuccess(idToken));
+        dispatch(authCodeSuccess(token, userData));
+        dispatch(checkAuthTimeout(expires_at - new Date().getTime()));
+    } catch (err) {
+        dispatch(authFail(err));
+    }
+};
+
+export const authGuest = data => async dispatch => {
+    dispatch(authStart());
+
+    try {
+        const form = new FormData(data);
+
+        const res = await fetch(rootPath + '/api/guest/signup', {
+            method: 'POST',
+            mode: 'cors',
+            body: form,
+        });
+
+        const resData = await res.json();
+        if (res.status === 422) throw new Error(Object.values(resData.errors).join('\n'));
+
+        let { access_token, token_type, expires_at, userData } = resData;
+        const token = token_type + ' ' + access_token;
+        expires_at = new Date(expires_at).getTime();
+
+        const expirationDate = new Date(expires_at);
+        localStorage.setItem('token', token);
+        localStorage.setItem('expirationDate', expirationDate);
+        dispatch(authGuestSuccess(token, userData));
         dispatch(checkAuthTimeout(expires_at - new Date().getTime()));
     } catch (err) {
         dispatch(authFail(err));
@@ -128,7 +177,7 @@ export const authCheckState = () => async dispatch => {
     if (!token) dispatch(authLogout());
     else {
         try {
-            const res = await fetch('/invest-laravel/public/api/guest/user', {
+            const res = await fetch(rootPath + '/api/user', {
                 method: 'GET',
                 headers: {
                     'Authorization': token
@@ -140,9 +189,12 @@ export const authCheckState = () => async dispatch => {
                 throw new Error('Erreur lors de la récupération des informations.');
             }
 
+            const { data, role } = await res.json();
+
             const expirationDate = new Date(localStorage.getItem('expirationDate'));
             if (expirationDate > new Date()) {
-                dispatch(authLoginSuccess(token));
+                if (role === 'user') dispatch(authLoginSuccess(token, data));
+                else if (role === 'guest') dispatch(authCodeSuccess(token, data));
                 dispatch(checkAuthTimeout(expirationDate.getTime() - new Date().getTime()));
             } else dispatch(authLogout());
         } catch (err) {

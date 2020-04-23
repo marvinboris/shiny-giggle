@@ -1,5 +1,10 @@
 import * as actionTypes from './actionTypes';
+import { rootPath } from '../..';
 
+export const setSelectedPlan = selectedPlan => ({
+    type: actionTypes.SET_SELECTED_PLAN,
+    selectedPlan
+});
 
 const getCalculateStart = () => ({
     type: actionTypes.GET_CALCULATE_START
@@ -18,7 +23,7 @@ const getCalculateFail = error => ({
 export const getCalculate = () => dispatch => {
     dispatch(getCalculateStart());
     const token = localStorage.getItem('token');
-    const link = "/invest-laravel/public/api/calculate";
+    const link = rootPath + '/api/calculate';
 
     fetch(link, {
         method: 'GET',
@@ -31,13 +36,59 @@ export const getCalculate = () => dispatch => {
         .catch(err => dispatch(getCalculateFail(err)));
 }
 
-const makeCalculationStart = () => ({
+export const getCalculateFromCode = code => dispatch => {
+    dispatch(getCalculateStart());
+    const token = localStorage.getItem('token');
+    const link = rootPath + '/api/calculate/' + code;
+
+    fetch(link, {
+        method: 'GET',
+        headers: {
+            'Authorization': token
+        }
+    })
+        .then(res => res.json())
+        .then(data => dispatch(getCalculateSuccess(data)))
+        .catch(err => dispatch(getCalculateFail(err)));
+}
+
+const getUserPlansStart = () => ({
+    type: actionTypes.GET_USER_PLANS_START
+});
+
+const getUserPlansSuccess = plans => ({
+    type: actionTypes.GET_USER_PLANS_SUCCESS,
+    plans
+});
+
+const getUserPlansFail = error => ({
+    type: actionTypes.GET_USER_PLANS_FAIL,
+    error
+});
+
+export const getUserPlans = () => dispatch => {
+    dispatch(getUserPlansStart());
+    const token = localStorage.getItem('token');
+    const link = rootPath + '/api/user/plans';
+
+    fetch(link, {
+        method: 'GET',
+        headers: {
+            'Authorization': token
+        }
+    })
+        .then(res => res.json())
+        .then(data => dispatch(getUserPlansSuccess(data)))
+        .catch(err => dispatch(getUserPlansFail(err)));
+}
+
+export const makeCalculationStart = () => ({
     type: actionTypes.MAKE_CALCULATION_START
 });
 
-const makeCalculationSuccess = data => ({
+const makeCalculationSuccess = simulation => ({
     type: actionTypes.MAKE_CALCULATION_SUCCESS,
-    data
+    simulation
 });
 
 const makeCalculationFail = error => ({
@@ -50,7 +101,7 @@ export const makeCalculation = data => dispatch => {
     const token = localStorage.getItem('token');
 
     const form = new FormData(data);
-    const link = "/invest-laravel/public/api/calculate";
+    const link = rootPath + '/api/calculate';
     fetch(link, {
         method: 'POST',
         mode: 'cors',

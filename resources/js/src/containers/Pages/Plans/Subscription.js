@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import { Row, Col, Spinner } from 'reactstrap';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+
+import FrontEnd from '../../FrontEnd';
 
 import PlanCard from '../../../components/UI/PlanCard/PlanCard';
 import Error from '../../../components/Error/Error';
@@ -16,8 +19,14 @@ class Subscribtion extends Component {
     }
 
     render() {
-        let { payment: { loading, error, plans, links } } = this.props;
-        
+        let { payment: { loading, error, plans, links }, auth: { data: { name, role, plan_id, points }} } = this.props;
+
+        let redirect = null;
+        if (role === 'guest' && plan_id) {
+            if (points > 0) redirect = <Redirect to="/calculation" />;
+            else this.props.logout();
+        }
+
         let content = null;
 
         if (loading) content = <div className="py-5">
@@ -40,8 +49,10 @@ class Subscribtion extends Component {
         }
         
         return (
-            <>
-                <Title check>Good Job ! Welcome Mr John Doe. Please select a plan to get started</Title>
+            <FrontEnd>
+                {redirect}
+
+                <Title check>Good Job ! Welcome <span className="text-yellow">{name}</span>. Please select a plan to get started</Title>
 
                 <Row className="justify-content-between align-items-center flex-fill">
                     <Col xs={8} className="border-right border-border pr-5 py-5">
@@ -53,7 +64,7 @@ class Subscribtion extends Component {
                         <img alt="mansee" src={mansee} className="img-fluid" />
                     </Col>
                 </Row>
-            </>
+            </FrontEnd>
         )
     }
 }
@@ -61,7 +72,8 @@ class Subscribtion extends Component {
 const mapStateToProps = state => ({ ...state });
 
 const mapDispatchToProps = dispatch => ({
-    onGetPlans: () => dispatch(actions.getPlans())
+    onGetPlans: () => dispatch(actions.getPlans()),
+    logout: () => dispatch(actions.authLogout())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Subscribtion);

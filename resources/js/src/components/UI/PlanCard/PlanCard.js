@@ -33,7 +33,11 @@ export default ({ name, slug, points, validity, price, best, color, chooseColor,
             <div className="pb-2"><FontAwesomeIcon icon={faCheckCircle} className="text-green mr-2" fixedWidth />{packs} Packages</div>
             <div className="pb-2"><FontAwesomeIcon icon={faCheckCircle} className="text-green mr-2" fixedWidth />{points} Calculations only</div>
             <div className="pb-2"><FontAwesomeIcon icon={faCheckCircle} className="text-green mr-2" fixedWidth />{points} Points</div>
-            <div className="pb-2"><FontAwesomeIcon icon={faCheckCircle} className="text-green mr-2" fixedWidth />{{ 2: '2 Weeks', 4: '1 Month', 8: '2 Months' }[validity]} validity</div>
+            {best ? <>
+                <div className="pb-2"><FontAwesomeIcon icon={faCheckCircle} className="text-green mr-2" fixedWidth />Best available option <span className="text-danger text-x-small">(Coming soon)</span></div>
+                <div className="pb-2"><FontAwesomeIcon icon={faCheckCircle} className="text-green mr-2" fixedWidth />Weekly Calculations</div>
+            </> : null}
+            <div className="pb-2"><FontAwesomeIcon icon={faCheckCircle} className="text-green mr-2" fixedWidth />{{ 2: '2 Weeks', 4: '1 Month', 10: '2 Months' }[validity]} validity</div>
         </div>
 
         <div className="border-top border-border py-3 px-4 text-center">

@@ -7,18 +7,20 @@ import { faTachometerAlt, faWallet, faUserFriends, faEnvelope, faTicketAlt, faTa
 import { faArrowAltCircleLeft, faArrowAltCircleRight } from '@fortawesome/free-regular-svg-icons';
 
 // Components
-import Breadcrumb from '../../../components/Admin/UI/Breadcrumb/Breadcrumb';
-import SpecialTitle from '../../../components/UI/Titles/SpecialTitle/SpecialTitle';
-import Subtitle from '../../../components/UI/Titles/Subtitle/Subtitle';
-import Card from '../../../components/Admin/Dashboard/Card/Card';
-import Table from '../../../components/Admin/UI/Table/Table';
-import Error from '../../../components/Error/Error';
+import BackEnd from '../../../BackEnd';
+
+import Breadcrumb from '../../../../components/Backend/UI/Breadcrumb/Breadcrumb';
+import SpecialTitle from '../../../../components/UI/Titles/SpecialTitle/SpecialTitle';
+import Subtitle from '../../../../components/UI/Titles/Subtitle/Subtitle';
+import Card from '../../../../components/Backend/Dashboard/Card/Card';
+import Table from '../../../../components/Backend/UI/Table/Table';
+import Error from '../../../../components/Error/Error';
 
 // import * as actions from '../../../store/actions';
-import { updateObject } from '../../../shared/utility';
+import { updateObject } from '../../../../shared/utility';
 
 // Images
-import FinanceTracker from '../../../assets/images/Group 166@2x.png';
+import FinanceTracker from '../../../../assets/images/Group 166@2x.png';
 
 class Dashboard extends Component {
     componentDidMount() {
@@ -344,7 +346,7 @@ class Dashboard extends Component {
         }
 
         return (
-            <div>
+            <BackEnd>
                 <div className="bg-darklight py-4 pl-5 pr-4 position-relative">
                     <Breadcrumb main="Dashboard" icon={faTachometerAlt} />
                     <SpecialTitle user icon={faTachometerAlt}>Admin panel</SpecialTitle>
@@ -354,7 +356,7 @@ class Dashboard extends Component {
                     {errors}
                     {content}
                 </div>
-            </div>
+            </BackEnd>
         );
     }
 }

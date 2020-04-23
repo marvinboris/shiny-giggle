@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Mail\VerificationLink;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -22,18 +26,29 @@ class AuthController extends Controller
     public function signup(Request $request)
     {
         $request->validate([
-            'name' => 'required|string',
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
+            'username' => 'required|string|unique:users|alpha_dash',
             'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|confirmed'
+            'password' => 'required|string|confirmed',
+            'country' => 'required',
+            'terms' => 'accepted'
         ]);
-        $user = new User([
-            'name' => $request->name,
+        $user = User::create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'username' => $request->username,
             'email' => $request->email,
-            'password' => bcrypt($request->password)
+            'phone' => $request->phone,
+            'password' => Hash::make($request->password),
+            'country' => $request->country
         ]);
-        $user->save();
+        $user = User::find($user->id);
+        $link = url('/api/email/verify/' . $user->id) . '/' . Crypt::encryptString($user->toJson());
+        Mail::to($user->email)->send(new VerificationLink($link));
         return response()->json([
-            'message' => 'Successfully created user!'
+            'message' => 'Successfully created user!',
+            'email' => $request->email
         ], 201);
     }
 
@@ -52,14 +67,18 @@ class AuthController extends Controller
         $request->validate([
             'ref' => 'required|string',
             'password' => 'required|string',
-            'terms' => 'accepted'
         ]);
-        $credentials = request(['ref', 'password']);
+
+        $user = null;
+        if (filter_var($request->ref, FILTER_VALIDATE_EMAIL)) $user = User::whereEmail($request->ref)->first();
+        else $user = User::whereUsername($request->ref)->first();
+
+        $credentials = ['email' => $user->email, 'password' => $request->password];
         if (!Auth::attempt($credentials))
             return response()->json([
                 'message' => 'Unauthorized'
             ], 401);
-        $user = $request->user();
+            
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->token;
         if ($request->remember_me)
@@ -70,7 +89,8 @@ class AuthController extends Controller
             'token_type' => 'Bearer',
             'expires_at' => Carbon::parse(
                 $tokenResult->token->expires_at
-            )->toDateTimeString()
+            )->toDateTimeString(),
+            'userData' => array_merge($user->toArray(), ['plans' => $user->plans])
         ]);
     }
 
@@ -94,6 +114,7 @@ class AuthController extends Controller
      */
     public function user(Request $request)
     {
-        return response()->json($request->user());
+        $user = $request->user();
+        return response()->json(['data' => array_merge($user->toArray(), ['plans' => $user->plans]), 'role' => $user->role()]);
     }
 }

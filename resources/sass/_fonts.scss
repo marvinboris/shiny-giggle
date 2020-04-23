@@ -6,12 +6,10 @@
 }
 
 // Fonts
-$fonts: 
-// "baloo" "Baloo Bhaina" cursive, 
-// "comfortaa" Comfortaa, 
+$fonts:  
 "montserrat" Montserrat,
-// "montserrat-alt" "Montserrat Alternates", 
 "poppins" Poppins, 
+"bahnschrift" Bahnschrift, 
 "fa" "Font Awesome 5 Free" Poppins;
 @each $name, $font, $second in $fonts {
   .text-#{$name} {

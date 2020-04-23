@@ -40,7 +40,7 @@ class PlansController extends Controller
 
         foreach ($methodsData as $method) {
             switch ($method->name) {
-                case 'Mobil':
+                case 'Mobile':
                     new MonetbilController();
                     $monetbil = MonetbilController::generateWidgetData([
                         'amount' => $plan->price,
@@ -61,6 +61,10 @@ class PlansController extends Controller
         ]);
     }
 
+    public function userPlans() {
+        return response()->json(request()->user()->plans);
+    }
+
     public function bitcoin()
     {
     }
@@ -75,24 +79,58 @@ class PlansController extends Controller
 
     public function getCalculate()
     {
-        $plan = request()->user()->plan;
+        $user = request()->user();
+
+        $plan = $user->plan;
         $packs = $plan->packs;
         $periods = $plan->periods;
         $durations = $plan->durations;
+    
+        $points = $user->points;
         return response()->json([
-            'plan' => $plan
+            'plan' => $plan,
+            'points' => $points
         ]);
     }
 
-    public function calculate()
-    {
-        $points = request()->user()->points;
-        if ($points === 0) return response()->json([
-            'message' => 'Insufficent points. Please subscribe to a plan'
-        ]);
-        else request()->user()->update(['points' => $points - 1]);
+    public function getCalculateFromCode($code) {
+        $user = request()->user();
 
-        $plan = request()->user()->plan;
+        $plan = $user->plans()->whereCode($code)->first();
+        $packs = $plan->packs;
+        $periods = $plan->periods;
+        $durations = $plan->durations;
+    
+        $points = $plan->pivot->points;
+        return response()->json([
+            'plan' => $plan,
+            'points' => $points
+        ]);
+    }
+
+    public function makeCalculation()
+    {
+        $user = request()->user();
+
+        $role = $user->role();
+
+        if ($role === 'guest') {
+            $points = $user->points;
+            if ($points === 0) return response()->json([
+                'message' => 'Insufficent points. Please subscribe to a plan'
+            ], 500);
+            else $user->update(['points' => $points - 1]);
+            $plan = $user->plan;
+        } else if ($role === 'user') {
+            $plan = $user->plans()->whereCode(request()->code)->first();
+            $points = $plan->pivot->points;
+            if ($points === 0) return response()->json([
+                'message' => 'Insufficent points. Please subscribe to a plan'
+            ], 500);
+            else $plan->pivot->update(['points' => $points - 1]);
+        }
+        
+
         $pack = $plan->packs()->findOrFail(request()->pack);
         $duration = $plan->durations()->findOrFail(request()->duration)->weeks;
         $period = $plan->periods()->findOrFail(request()->period)->weeks;

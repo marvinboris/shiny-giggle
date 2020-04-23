@@ -25,7 +25,7 @@ class Plan extends Model
 
     public function users()
     {
-        return $this->hasMany('App\User');
+        return $this->belongsToMany('App\User', 'plan_user')->withPivot(['points', 'code']);
     }
 
     public function guests()
@@ -46,5 +46,36 @@ class Plan extends Model
     public function durations()
     {
         return $this->belongsToMany('App\Duration');
+    }
+
+    public static function generateCode()
+    {
+        $letters = range('A', 'Z');
+        $numbers = range(0, 9);
+        $chars = array_merge($letters, $numbers);
+        $length = count($chars);
+
+        $code = '';
+
+        for ($i = 0; $i < 10; $i++) {
+            $index = rand(0, $length - 1);
+            $code .= $chars[$index];
+        }
+
+        return $code;
+    }
+
+    public static function code()
+    {
+        $code = self::generateCode();
+        $guest = Guest::where('plan_code', $code)->first();
+        $plan_user = PlanUser::where('code', $code)->first();
+        while ($guest || $plan_user) {
+            $code = self::generateCode();
+            $guest = Guest::where('plan_code', $code)->first();
+            $plan_user = PlanUser::where('code', $code)->first();
+        }
+
+        return $code;
     }
 }

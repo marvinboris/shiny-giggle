@@ -1,4 +1,5 @@
 import * as actionTypes from './actionTypes';
+import { rootPath } from '../..';
 
 const getPlansStart = () => ({
     type: actionTypes.GET_PLANS_START
@@ -19,7 +20,7 @@ export const getPlans = () => async dispatch => {
     dispatch(getPlansStart());
 
     try {
-        const res = await fetch('/invest-laravel/public/api/plans', {
+        const res = await fetch(rootPath + '/api/plans', {
             method: 'GET',
             headers: {
                 Authorization: token
@@ -52,7 +53,7 @@ export const getPaymentInfo = slug => async dispatch => {
     dispatch(getPaymentInfoStart());
 
     try {
-        const res = await fetch(`/invest-laravel/public/api/plans/${slug}/payment`, {
+        const res = await fetch(rootPath + `/api/plans/${slug}/payment`, {
             method: 'GET',
             headers: {
                 Authorization: token

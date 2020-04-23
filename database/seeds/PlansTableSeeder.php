@@ -24,7 +24,7 @@ class PlansTableSeeder extends Seeder
 
         $gold = Plan::create([
             'name' => 'Gold Plan',
-            'points' => 4,
+            'points' => 5,
             'validity' => 4,
             'price' => 5
         ]);
@@ -44,7 +44,7 @@ class PlansTableSeeder extends Seeder
         $gold->durations()->sync([1, 2, 3, 4]);
         $gold->periods()->sync([3, 4, 6]);
 
-        $diamond->packs()->sync([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+        $diamond->packs()->sync([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
         $diamond->durations()->sync([1, 2, 3, 4, 5, 6, 7]);
         $diamond->periods()->sync([1, 2, 3, 4, 5, 6]);
     }

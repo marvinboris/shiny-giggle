@@ -24,7 +24,7 @@ class Limo extends Component {
 
     onSubmitHandler = e => {
         e.preventDefault();
-        this.props.history.push('/success');
+        this.props.history.push('/payment/success');
         this.setState({ ...this.state, loading: true });
         fetch('https://www.monetbil.africa/pay/v2.1/gKznLEpbkBj7EOXVxx3WvH4Yw3Ijuk').then(response => {
             return response.text();

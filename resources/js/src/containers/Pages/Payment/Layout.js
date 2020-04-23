@@ -2,6 +2,8 @@ import React from 'react';
 import { Row, Col } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 
+import FrontEnd from '../../FrontEnd';
+
 import Title from '../../../components/UI/Title/Title';
 
 import manpaye from '../../../assets/images/Group 136@2x.png';
@@ -14,7 +16,7 @@ const MethodImg = ({ src, disabled }) => <img src={src} alt="Payment" width={26}
 const ActiveLink = ({ link, src, children }) => <div className="text-white position-relative h4"><NavLink className="text-decoration-none text-white" to={link}><MethodImg src={src} />{children}</NavLink></div>;
 const InactiveLink = ({ link, src, children }) => <div className="m-0 h6"><NavLink className="text-decoration-none text-gray" to={link}><MethodImg src={src} disabled />{children}</NavLink></div>;
 
-export default ({ limo, mobile, btc, children, loading, link }) => <>
+export default ({ limo, mobile, btc, children, loading, link }) => <FrontEnd>
     <Title check>Well done ! Please make payment and proceed to next step</Title>
 
     <div className="mx-auto w-90 flex-fill d-flex align-items-center">
@@ -45,4 +47,4 @@ export default ({ limo, mobile, btc, children, loading, link }) => <>
             </Col>
         </Row>
     </div>
-</>;
+</FrontEnd>;

@@ -81,6 +81,14 @@ $colors: "green" $mygreen $white, "lemongreen" $mylemongreen $dark, "darkgreen" 
     background-color: rgba($color, 0.8) !important;
   }
 
+  .shadow-#{$name} {
+    box-shadow: 0 0.5rem 1rem rgba($color, 0.15) !important;
+  }
+
+  .shadow-#{$name} {
+    box-shadow: 0 1rem 3rem rgba($color, 0.175) !important;
+  }
+
   .btn-#{$name} {
     background-color: $color;
     border-color: $color;

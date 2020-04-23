@@ -9,6 +9,8 @@ use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Plan;
+use App\PlanUser;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class MonetbilController extends Controller
@@ -39,12 +41,14 @@ class MonetbilController extends Controller
         $user = request()->user();
 
         $json = [
+            // 'amount' => 1,
             'amount' => $input['amount'] * 620,
             'item_ref' => $input['plan_id'],
             'payment_ref' => time(),
             'country' => 'XAF',
-            // 'logo' => asset(../../../assets/images/Groupe 130@2x.png'),
+            'logo' => asset('images/Group 13@2x.png'),
             'email' => $user->email,
+            'user' => $user->role(),
             'country' => 'CM',
             'return_url' => route('monetbil.notify.get')
         ];
@@ -83,8 +87,10 @@ class MonetbilController extends Controller
             $input[$key] = htmlspecialchars($value);
         }
 
-        $user = Guest::where('email', $input['email'])->first();
-        if (!$user) $user = User::where('email', $input['email'])->first();
+        $user = null;
+        $role = $input['user'] ?? 'guest';
+        if ($role === 'guest') $user = Guest::where('email', $input['email'])->first();
+        else $user = User::where('email', $input['email'])->first();
 
         if (!$user) {
             error_log('No user found !');
@@ -105,7 +111,7 @@ class MonetbilController extends Controller
                 'method' =>  $request->operator ? $input['operator'] : 'MTN',
                 'type' => 'deposit',
                 'status' => 'pending',
-                'currency' => 'USD',
+                'currency' => $request->currency ? $input['current'] : 'USD',
                 'address' => $input['phone']
             ]);
             $user->transactions()->save($transaction);
@@ -121,24 +127,25 @@ class MonetbilController extends Controller
         if ($request->amount) $transaction->amount = $plan->amount;
 
         if ('success' === $input['status']) {
-            $user->update(['plan_id' => $plan->id, 'points' => $plan->points]);
-            $request->session()->flash('success', 'Successful transaction.');
+            if ($role === 'guest') $user->update(['plan_id' => $plan->id, 'plan_code' => Plan::code(), 'points' => $plan->points]);
+            else {
+                PlanUser::create([
+                    'plan_id' => $plan->id,
+                    'user_id' => $user->id,
+                    'points' => $plan->points,
+                    'code' => Plan::code(),
+                    'expiry_date' => Carbon::now()->addWeeks($plan->validity)
+                ]);
+            }
             $transaction->status = 'completed';
-        } else if ('cancelled' === $input['status']) {
-            $request->session()->flash('danger', 'Transaction cancelled.');
-            $transaction->status = $input['status'];
-        } else if ('failed' === $input['status']) {
-            $request->session()->flash('danger', 'Transaction failed.');
-            $transaction->status = $input['status'];
-        }
+        } else $transaction->status = $input['status'];
 
         $transaction->save();
 
         if ('success' === $input['status'])
-            return redirect()
-                ->url('/deposit');
+            return redirect('/payment/success');
 
         return redirect()
-            ->url('/payment');
+            ->url('/plans');
     }
 }

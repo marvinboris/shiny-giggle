@@ -13,7 +13,7 @@ class Guest extends User
     use Notifiable, HasApiTokens;
 
     protected $fillable = [
-        'email', 'phone', 'plan_id', 'points', 'password'
+        'email', 'phone', 'plan_code', 'plan_id', 'points', 'password', 'country', 'name'
     ];
 
     /**
@@ -36,5 +36,10 @@ class Guest extends User
     public function transactions()
     {
         return $this->morphMany('App\Transaction', 'transactionable');
+    }
+
+    public function role()
+    {
+        return 'guest';
     }
 }

@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'points', 'ref', 'plan_id'
+        'email', 'first_name', 'last_name', 'username', 'phone', 'country', 'password'
     ];
 
     /**
@@ -38,9 +38,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function plan()
+    public function plans()
     {
-        return $this->belongsTo('App\Plan');
+        return $this->belongsToMany('App\Plan', 'plan_user')->withPivot(['points', 'code']);
     }
 
     /**
@@ -49,5 +49,10 @@ class User extends Authenticatable
     public function transactions()
     {
         return $this->morphMany('App\Transaction', 'transactionable');
+    }
+
+    public function role()
+    {
+        return 'user';
     }
 }

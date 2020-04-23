@@ -7,12 +7,14 @@ import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import 'bootstrap/dist/css/bootstrap.min.css';
+
 import authReducer from './store/reducers/auth';
 import paymentReducer from './store/reducers/payment';
 import calculationReducer from './store/reducers/calculation';
 
-import './index.scss';
+// import './index.scss';
+
+export const rootPath = 'http://invest-calc.test:3000';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const rootReducer = combineReducers({
@@ -34,7 +36,7 @@ const app = (
 )
 
 
-ReactDOM.render(app, document.getElementById('root'));
+ReactDOM.render(app, document.getElementById('app'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

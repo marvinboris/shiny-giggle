@@ -1,23 +1,24 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-import './SideDrawerItem.scss';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { Collapse, Button } from 'reactstrap';
 
-const SideDrawerItem = ({ children, dropdown, icon, href, items }) => {
-    const [isOpen, setIsOpen] = useState(false);
+import './SideDrawerItem.css';
+
+const SideDrawerItem = ({ children, dropdown, icon, href = '', items, path = '' }) => {
+    const match = window.location.pathname.includes(path);
+    const [isOpen, setIsOpen] = useState(match);
 
     const toggle = () => setIsOpen(!isOpen);
 
     let content;
     if (!dropdown) content =
-        <NavLink exact className="SideDrawerItem nav-link row pl-3 text-large text-300 text-light" activeClassName="active bg-darkblue py-3" to={href}>
+        <NavLink exact className="SideDrawerItem nav-link pl-3 text-large text-300 text-light" activeClassName="active bg-darkblue py-3" to={href}>
             <FontAwesomeIcon fixedWidth icon={icon} className="mr-3" /> <span>{children}</span>
         </NavLink>;
     else {
-        const itemEls = items.map(({ link, text }) => (
+        const itemEls = items.map(({ link = '', text }) => (
             <li className="nav-item text-300" key={text}>
                 <NavLink exact className="nav-link" to={link}><span className="position-relative" style={{ left: -8 }}>-</span> {text}</NavLink>
             </li>
@@ -25,12 +26,12 @@ const SideDrawerItem = ({ children, dropdown, icon, href, items }) => {
 
         content = (
             <div>
-                <Button color="link" block onClick={toggle} className="SideDrawerItem px-0 nav-link row pl-3 text-large text-300 text-left text-light position-relative">
+                <Button color="link" onClick={toggle} className={`SideDrawerItem nav-link d-block w-100 pl-3 text-large text-300 rounded-0 text-left text-light position-relative ${match ? 'active bg-darkblue py-3' : ''}`} style={match ? { paddingRight: 60 } : {}}>
                     <FontAwesomeIcon fixedWidth icon={icon} className="mr-3" />
                     <span>{children}</span>
-                    <FontAwesomeIcon fixedWidth icon={faAngleDown} className={`position-absolute angle-down ${isOpen ? 'open' : ''}`}  style={{ right: -16, top: '50%' }} />
+                    <FontAwesomeIcon fixedWidth icon={faAngleDown} className={`position-absolute angle-down ${isOpen ? 'open' : ''}`}  style={{ right: 16, top: '50%' }} />
                 </Button>
-                <Collapse isOpen={isOpen} className="row pl-3 bg-darkblue-20">
+                <Collapse isOpen={isOpen} className="pl-3 bg-darkblue-20">
                     <ul className="nav flex-column border-left ml-3 border-white-20">
                         {itemEls}
                     </ul>

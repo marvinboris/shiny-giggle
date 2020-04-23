@@ -26,26 +26,69 @@ class AuthController extends Controller
     }
 
     /**
-     * Login the admin.
+     * Login user and create token
+     *
+     * @param  [string] email
+     * @param  [string] password
+     * @param  [boolean] remember_me
+     * @return [string] access_token
+     * @return [string] token_type
+     * @return [string] expires_at
+     */
+    public function login(Request $request)
+    {
+        $request->validate([
+            'code' => 'required|string',
+            'password' => 'required|string',
+        ]);
+
+        $user = Guest::where('plan_code', $request->code)->first();
+
+        if (!$user)
+            return response()->json([
+                'message' => 'Unauthorized'
+            ], 401);
+
+        $tokenResult = $user->createToken('Personal Access Token');
+        $token = $tokenResult->token;
+        if ($request->remember_me)
+            $token->expires_at = Carbon::now()->addWeeks(1);
+        $token->save();
+        return response()->json([
+            'access_token' => $tokenResult->accessToken,
+            'token_type' => 'Bearer',
+            'expires_at' => Carbon::parse(
+                $tokenResult->token->expires_at
+            )->toDateTimeString(),
+            'userData' => $user
+        ]);
+    }
+
+    /**
+     * Create guest and token
      *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function login(Request $request)
+    public function signup(Request $request)
     {
-        $input = $request->validate([
-            'email' => 'required|email',
+        $request->validate([
+            'email' => 'required|email|unique:guests',
+            'name' => 'required|string',
             'phone' => 'required|string',
+            'country' => 'required|string',
+            'code' => 'required|numeric',
+            'password' => 'required|digits:4|confirmed',
+            'terms' => 'accepted'
         ]);
-        $guest = Guest::where('email', $input['email'])->first();
 
-        if (!$guest) {
-            $guest = Guest::create([
-                'email' => $input['email'],
-                'phone' => $input['phone'],
-                'password' => Hash::make($input['email'])
-            ]);
-        }
+        $guest = Guest::create([
+            'email' => $request->email,
+            'name' => $request->name,
+            'phone' => $request->code . $request->phone,
+            'country' => $request->country,
+            'password' => Hash::make($request->password)
+        ]);
 
         $tokenResult = $guest->createToken('Personal Access Token');
         $token = $tokenResult->token;
@@ -58,7 +101,8 @@ class AuthController extends Controller
             'token_type' => 'Bearer',
             'expires_at' => Carbon::parse(
                 $tokenResult->token->expires_at
-            )->toDateTimeString()
+            )->toDateTimeString(),
+            'userData' => $guest
         ]);
     }
 
@@ -69,7 +113,7 @@ class AuthController extends Controller
      */
     public function logout(Request $request)
     {
-        $request->user('outer')->token()->revoke();
+        $request->user()->token()->revoke();
         return response()->json([
             'message' => 'Successfully logged out'
         ]);
@@ -82,6 +126,7 @@ class AuthController extends Controller
      */
     public function user(Request $request)
     {
-        return response()->json($request->user('outer'));
+        $user = $request->user();
+        return response()->json(['data' => $user, 'role' => $user->role()]);
     }
 }

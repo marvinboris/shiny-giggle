@@ -1,0 +1,43 @@
+.UserPlan.hover .block {
+    transform: scale(1) rotate(0deg);
+    transform-origin: center;
+    transition: scale .25s;
+    scale: 1;
+}
+
+.UserPlan.hover:hover .block {
+    /* transform: scale(1.05); */
+    scale: 1.05;
+}
+
+.UserPlan.hover.selected .block {
+    transform: scale(1) rotateY(180deg);
+    transition: all .25s;
+    scale: 1;
+}
+
+.UserPlan.hover .main {
+    transform: rotateY(0deg) scale(1);
+    transition: none;
+}
+
+.UserPlan.hover.selected .main {
+    transform: rotateY(180deg);
+    transition: all .25s;
+}
+
+.UserPlan.hover .select {
+    opacity: 0;
+    transform: translateY(-00%) rotateY(0deg);
+    transition: all .25s;
+}
+
+.UserPlan.hover:hover .select {
+    opacity: 1;
+    transform: translateY(0%);
+}
+
+.UserPlan.hover.selected .select {
+    opacity: 0;
+    transform: translateY(-00%) rotateY(180deg);
+}

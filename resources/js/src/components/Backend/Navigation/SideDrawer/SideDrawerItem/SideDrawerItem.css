@@ -1,0 +1,8 @@
+.SideDrawerItem .angle-down {
+    transform: translateY(-50%) rotate(0);
+    transition: all 0.25s;
+}
+
+.SideDrawerItem .angle-down.open {
+    transform: translateY(-50%) rotate(90deg);
+}

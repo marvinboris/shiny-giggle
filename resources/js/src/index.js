@@ -14,7 +14,7 @@ import calculationReducer from './store/reducers/calculation';
 
 // import './index.scss';
 
-export const rootPath = 'http://invest-calc.test:3000';
+export const rootPath = '/invest-laravel/public';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const rootReducer = combineReducers({

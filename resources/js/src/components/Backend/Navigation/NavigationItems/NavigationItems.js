@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Collapse, Nav, UncontrolledDropdown, DropdownToggle, Badge, DropdownMenu, DropdownItem, Button } from 'reactstrap';
+import { Collapse, Nav, UncontrolledDropdown, DropdownToggle, Badge, DropdownMenu, DropdownItem, Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShoppingCart, faBell, faBars, faCalendar, faPowerOff, faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { faShoppingCart, faBell, faBars, faCalendar, faPowerOff, faEnvelope, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { faClock, faComments } from '@fortawesome/free-regular-svg-icons';
 
 // import NavigationItem from './NavigationItem/NavigationItem';
@@ -25,6 +25,10 @@ export default ({ cartItemsNumber, name, logoutHandler, role, notifications, cli
             {message}
         </DropdownItem>
     });
+
+    const [modal, setModal] = useState(false);
+
+    const toggle = () => setModal(!modal);
 
     return (
         <>
@@ -104,10 +108,20 @@ export default ({ cartItemsNumber, name, logoutHandler, role, notifications, cli
                             </DropdownMenu>
                         </UncontrolledDropdown>
                     </div>
-                    <div onClick={logoutHandler} style={{ cursor: 'pointer' }} className="d-flex align-items-center ml-5">
+                    <div onClick={toggle} style={{ cursor: 'pointer' }} className="d-flex align-items-center ml-5">
                         Sign out
                         <FontAwesomeIcon icon={faPowerOff} size="lg" className="ml-2" />
                     </div>
+                    <Modal isOpen={modal} toggle={toggle}>
+                        <ModalHeader toggle={toggle}>Logout</ModalHeader>
+                        <ModalBody className="text-center">
+                            <p>Are you sure you want to logout?</p>
+                            <div>
+                                <Button color="lightblue" onClick={logoutHandler}>Logout <FontAwesomeIcon icon={faPowerOff} fixedWidth /></Button>{' '}
+                                <Button color="orange" onClick={toggle}>Close <FontAwesomeIcon icon={faTimes} fixedWidth /></Button>
+                            </div>
+                        </ModalBody>
+                    </Modal>
                 </Nav>
             </Collapse>
         </>

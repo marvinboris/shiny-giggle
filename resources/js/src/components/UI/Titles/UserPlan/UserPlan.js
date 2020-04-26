@@ -27,9 +27,10 @@ export default class UserPlan extends Component {
     }
 
     render() {
-        const { name, price, pivot: { code, points }, slug, points: total, onClick, hover, selected } = this.props;
+        let { name, price, pivot: { code, points }, slug, points: total, onClick, hover, selected } = this.props;
         const { animatedPercentage, animatedUsed } = this.state;
         const left = Math.min(points, total);
+        const unselectionable = left === 0;
         let colors = { text: null, plan: null, card: null, price: null, used: null, left: null, pie: null, number: null, select: null, code: null, border: null };
         switch (slug) {
             case 'diamond-plan':
@@ -48,9 +49,9 @@ export default class UserPlan extends Component {
                 break;
         }
 
-        return <Col xl={4} lg={6} xs={12} className={`UserPlan position-relative ${selected ? 'selected' : ''} ${hover ? 'hover' : ''}`} style={selected ? { zIndex: 2 } : { zIndex: 1 }}>
+        return <div className={`UserPlan position-relative p-3 ${selected ? 'selected' : ''} ${hover && !unselectionable ? 'hover' : ''}`} style={selected ? { zIndex: 2 } : { zIndex: 1 }}>
             <div className="block position-relative">
-                <div style={{ cursor: 'pointer' }} className={`main shadow rounded-4 pt-3 px-5 bg-${colors.card} text-${colors.text} d-flex flex-column position-relative overflow-hidden`}>
+                <div className={`main shadow rounded-4 pt-3 px-5 bg-${colors.card} text-${colors.text} d-flex flex-column position-relative overflow-hidden`}>
                     <div className="d-flex justify-content-between pb-2 border-bottom border-border">
                         <div className={`text-bahnschrift h4 m-0 text-${colors.plan}`}>{name} <FontAwesomeIcon icon={faMedal} /></div>
 
@@ -59,6 +60,7 @@ export default class UserPlan extends Component {
 
                     <FontAwesomeIcon icon={faCircle} className="text-darkblue position-absolute" size="3x" style={{ top: '50%', left: 0, transform: 'translate(-50%, -50%)' }} />
                     <FontAwesomeIcon icon={faCircle} className="text-darkblue position-absolute" size="3x" style={{ top: '50%', right: 0, transform: 'translate(50%, -50%)' }} />
+                    {unselectionable ? <span className={`text-700 text-${colors.used} text-large position-absolute`} style={{ top: '50%', right: '20%', transform: 'translate(50%, -50%)' }}>Expired</span> : null}
 
                     <div className="flex-fill d-flex justify-content-center align-items-center position-relative" style={{ marginBottom: -8 }}>
                         <div className="position-absolute text-300 text-small text-left" style={{ left: 0, transform: 'translateY(-30px)' }}>
@@ -93,7 +95,7 @@ export default class UserPlan extends Component {
                         </div>
                     </div>
                 </div>
-                {hover ? <div className={`select rounded-4 position-absolute overflow-hidden w-100 h-100 d-flex justify-content-center align-items-center bg-light-80`} style={{ top: 0, left: 0 }}>
+                {hover && !unselectionable ? <div className={`select rounded-4 position-absolute overflow-hidden w-100 h-100 d-flex justify-content-center align-items-center bg-light-80`} style={{ top: 0, left: 0 }}>
 
                     <FontAwesomeIcon icon={faCircle} className="text-darkblue position-absolute" size="3x" style={{ top: '50%', left: 0, transform: 'translate(-50%, -50%)' }} />
                     <FontAwesomeIcon icon={faCircle} className="text-darkblue position-absolute" size="3x" style={{ top: '50%', right: 0, transform: 'translate(50%, -50%)' }} />
@@ -101,10 +103,10 @@ export default class UserPlan extends Component {
                     <button type="button" className="btn btn-darklight rounded-2 px-4 btn-lg" onClick={onClick}>Select this plan</button>
                 </div> : null}
             </div>
-            {selected ? <span className="fa-stack fa-2x text-green position-absolute" style={{ top: 0, right: 16, transform: 'translate(50%, -50%)' }}>
+            {selected ? <span className="fa-stack fa-2x text-green position-absolute" style={{ top: 32, right: 32, transform: 'translate(50%, -50%)' }}>
                 <FontAwesomeIcon icon={faCircle} className={`fa-stack-2x`} />
                 <FontAwesomeIcon icon={faCheck} className={`fa-stack-1x fa-inverse`} />
             </span> : null}
-        </Col>;
+        </div>;
     }
 }

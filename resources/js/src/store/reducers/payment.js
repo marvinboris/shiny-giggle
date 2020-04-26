@@ -1,7 +1,7 @@
 import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../../shared/utility';
 
-const initialState2 = {
+const initialState = {
     plans: null,
     links: null,
     plan: null,
@@ -22,7 +22,7 @@ const getPaymentInfoSuccess = (state, action) => updateObject(state, { loading: 
 
 const getPaymentInfoFail = (state, action) => updateObject(state, { loading: false, ...action });
 
-const reducer = (state = initialState2, action) => {
+const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.GET_PLANS_START: return getPlansStart(state, action);
         case actionTypes.GET_PLANS_FAIL: return getPlansFail(state, action);

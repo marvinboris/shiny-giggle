@@ -4,6 +4,7 @@ import { Col, Row, Form, FormGroup } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import ReactOwlCarousel from 'react-owl-carousel';
 
 import BackEnd from '../../../BackEnd';
 
@@ -51,24 +52,33 @@ class Calculate extends Component {
         selectedPack: 'none'
     }
 
+
+
     componentDidMount() {
-        this.props.onGetUserPlans();
+        this.props.onGetUserCalculatePlans();
     }
 
     componentWillUnmount() {
-        const { exit, setSelectedPlan } = this.props;
+        const { setSelectedPlan, exit } = this.props;
         setSelectedPlan(null);
         exit();
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        const { calculation: { data } } = nextProps;
+        const { backend: { calculate: { plan } } } = nextProps;
 
-        if (data.plan && data.plan.pivot.code !== prevState.code) {
-            const { plan: { packs, periods, durations, name, pivot: { code, points } } } = data;
+        if (plan && plan.pivot.code !== prevState.code) {
+            const { packs, periods, durations, name, pivot: { code, points } } = plan;
             return { ...prevState, packs, periods, durations, name, points, code };
         }
         return prevState;
+    }
+
+
+
+    clickHandler = code => {
+        this.props.setSelectedPlan(code);
+        this.props.onGetUserCalculatePlan(code);
     }
 
     inputChangeHandler = (e, name) => {
@@ -83,13 +93,16 @@ class Calculate extends Component {
                 break;
             default: break;
         }
+        this.props.onResetSimulation();
     }
 
     submitHandler = e => {
         e.preventDefault();
         this.divRef.current.scrollTo(0, 0);
-        this.props.makeCalculation(e.target);
+        this.props.onPostUserCalculate(e.target);
     }
+
+
 
     previousPageHandler = () => {
         let { page, pageFirst, pageLast, pageSecond } = this.state;
@@ -103,7 +116,7 @@ class Calculate extends Component {
 
     nextPageHandler = () => {
         let { page, pageFirst, pageLast, pageSecond } = this.state;
-        const result = this.props.calculation.simulation.leftPacksPerWeek;
+        const result = this.props.backend.calculate.simulation.leftPacksPerWeek;
         if (page >= result.length / 8) return;
         page++;
         pageFirst++;
@@ -121,7 +134,7 @@ class Calculate extends Component {
 
     lastPageHandler = () => {
         let { page } = this.state;
-        const result = this.props.calculation.simulation.leftPacksPerWeek;
+        const result = this.props.backend.calculate.simulation.leftPacksPerWeek;
         if (page >= result.length / 8) return;
         page = Math.ceil(result.length / 8);
         let pageFirst = page - 2,
@@ -140,13 +153,10 @@ class Calculate extends Component {
         this.setState({ page, pageFirst, pageSecond, pageLast });
     }
 
-    clickHandler = code => {
-        this.props.setSelectedPlan(code);
-        this.props.onGetCalculateFromCode(code);
-    }
+
 
     render() {
-        let { calculation: { loading, error, plans, selectedPlan, simulation } } = this.props;
+        let { calculation: { selectedPlan }, backend: { calculate: { loading, error, plans, simulation } } } = this.props;
         let { points, page, packs, newPeriods, durations, name, pageFirst, pageLast, pageSecond, pack, duration, period, selectedDuration, selectedPack, selectedPeriod } = this.state;
 
         let content = '';
@@ -158,14 +168,17 @@ class Calculate extends Component {
         if (loading && !plans) plansContent = <Col xs={12}>
             <CustomSpinner />
         </Col>;
-        else if (plans) plansContent = plans.map((plan, index) => {
-            const selected = selectedPlan === plan.pivot.code;
-            if (selected && simulation) plan.pivot.points = simulation.points;
-            return <UserPlan key={index} onClick={() => this.clickHandler(plan.pivot.code)} hover selected={selected} {...plan} />;
-        });
+        else if (plans) plansContent = <Col xs={12}>
+            {/* <ReactOwlCarousel loop nav>
+                {plans.map((plan, index) => <UserPlan key={index} onClick={() => this.clickHandler(plan.pivot.code)} hover selected={selectedPlan === plan.pivot.code} simulation={simulation} {...plan} />)}
+            </ReactOwlCarousel> */}
+            <Row>
+                {plans.map((plan, index) => <Col xs={4} className="p-0"><UserPlan key={index} onClick={() => this.clickHandler(plan.pivot.code)} hover selected={selectedPlan === plan.pivot.code} simulation={simulation} {...plan} /></Col>)}
+            </Row>
+        </Col>;
 
         let formContent = null;
-        if (selectedPlan) formContent = <Col xs={12} className="pt-3">
+        if (selectedPlan) formContent = <Col xs={12} className="py-3">
             <Form onSubmit={this.submitHandler}>
                 <Row className="align-items-center">
                     <FormInput type="select" className="col-3" icon={faWallet} onChange={e => this.inputChangeHandler(e, "pack")} value={pack} name="pack" required>
@@ -307,7 +320,7 @@ class Calculate extends Component {
                     <div className="pb-2 mb-5 border-bottom border-light text-light">
                         Purchased Plans
                         </div>
-                    <h2 className="text-white mb-4">Choose a plan to get started</h2>
+                    <h2 className="text-white mb-3">Choose a plan to get started</h2>
 
                     {content}
                 </div>
@@ -319,10 +332,11 @@ class Calculate extends Component {
 const mapStateToProps = state => ({ ...state });
 
 const mapDispatchToProps = dispatch => ({
-    onGetUserPlans: () => dispatch(actions.getUserPlans()),
-    onGetCalculateFromCode: code => dispatch(actions.getCalculateFromCode(code)),
-    makeCalculation: data => dispatch(actions.makeCalculation(data)),
-    exit: () => dispatch(actions.makeCalculationStart()),
+    onGetUserCalculatePlans: () => dispatch(actions.getUserCalculatePlans()),
+    onGetUserCalculatePlan: code => dispatch(actions.getUserCalculatePlan(code)),
+    onPostUserCalculate: data => dispatch(actions.postUserCalculate(data)),
+    exit: () => dispatch(actions.postUserCalculateStart()),
+    onResetSimulation: () => dispatch(actions.resetSimulation()),
     logout: () => dispatch(actions.authLogout()),
     setSelectedPlan: code => dispatch(actions.setSelectedPlan(code)),
 });

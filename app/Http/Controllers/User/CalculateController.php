@@ -1,96 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Method\MonetbilController;
-use App\Method;
+use App\Http\Controllers\Controller;
 use App\Pack;
-use App\Plan;
 use Illuminate\Http\Request;
 
-class PlansController extends Controller
+class CalculateController extends Controller
 {
     //
-    public function index()
-    {
-        $plans = [];
-        $links = [];
-
-        foreach (Plan::get() as $plan) {
-            $plans[] = array_merge($plan->toArray(), [
-                'durations' => count($plan->durations),
-                'packs' => count($plan->packs),
-                'periods' => count($plan->periods),
-            ]);
-            $links[] = route('plans.payment', $plan->slug);
-        }
-
-        return response()->json([
-            'plans' => $plans,
-            'links' => $links
-        ]);
-    }
-
-    public function payment($slug)
-    {
-        $plan = Plan::whereSlug($slug)->first();
-        $methodsData = Method::whereIsActive(1)->get();
-
-        $methods = [];
-
-        foreach ($methodsData as $method) {
-            switch ($method->name) {
-                case 'Mobile':
-                    new MonetbilController();
-                    $monetbil = MonetbilController::generateWidgetData([
-                        'amount' => $plan->price,
-                        'plan_id' => $plan->id
-                    ]);
-                    $link = $monetbil['link'];
-                    break;
-                default:
-                    $link = route('plans.payment.confirm', ['plan' => $plan->slug, 'method' => $method->slug]);
-                    break;
-            }
-            $methods[] = array_merge($method->toArray(), ['link' => $link]);
-        }
-
-        return response()->json([
-            'plan' => $plan,
-            'methods' => $methods
-        ]);
-    }
-
     public function userPlans()
     {
-        return response()->json(request()->user()->plans);
-    }
-
-    public function bitcoin()
-    {
-    }
-
-    public function limo()
-    {
-    }
-
-    public function confirm($plan, $method)
-    {
-    }
-
-    public function getCalculate()
-    {
-        $user = request()->user();
-
-        $plan = $user->plan;
-        $packs = $plan->packs;
-        $periods = $plan->periods;
-        $durations = $plan->durations;
-
-        $points = $user->points;
         return response()->json([
-            'plan' => $plan,
-            'points' => $points
+            'plans' => request()->user()->plans
         ]);
     }
 
@@ -114,25 +36,14 @@ class PlansController extends Controller
     {
         $user = request()->user();
 
-        $role = $user->role();
-
-        if ($role === 'guest') {
-            $points = $user->points;
-            if ($points === 0) return response()->json([
-                'message' => 'Insufficent points. Please subscribe to a plan'
-            ], 500);
-            else $user->update(['points' => $points - 1]);
-            $plan = $user->plan;
-        } else if ($role === 'user') {
-            $plan = $user->plans()->whereCode(request()->code)->first();
-            $points = $plan->pivot->points;
-            if ($points === 0) return response()->json([
-                'message' => 'Insufficent points. Please subscribe to a plan'
-            ], 500);
-            else {
-                $plan->pivot->update(['points' => $points - 1]);
-                $user->update(['calculations' => $user->calculations + 1]);
-            }
+        $plan = $user->plans()->whereCode(request()->code)->first();
+        $points = $plan->pivot->points;
+        if ($points === 0) return response()->json([
+            'message' => 'Insufficent points. Please subscribe to a plan'
+        ], 500);
+        else {
+            $plan->pivot->update(['points' => $points - 1]);
+            $user->update(['calculations' => $user->calculations + 1]);
         }
 
 

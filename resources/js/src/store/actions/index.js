@@ -22,3 +22,13 @@ export {
     getCalculateFromCode,
     getUserPlans
 } from './calculation';
+
+export {
+    getUserDashboard,
+
+    getUserCalculatePlans,
+    getUserCalculatePlan,
+    postUserCalculateStart,
+    postUserCalculate,
+    resetSimulation
+} from './backend';

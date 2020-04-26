@@ -31,9 +31,9 @@ class PlansTableSeeder extends Seeder
 
         $diamond = Plan::create([
             'name' => 'Diamond Plan',
-            'points' => 10,
+            'points' => 11,
             'validity' => 10,
-            'price' => 10
+            'price' => 15
         ]);
 
         $silver->packs()->sync([1, 2, 3, 4]);

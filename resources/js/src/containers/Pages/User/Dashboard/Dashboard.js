@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-// import { connect } from 'react-redux';
-import { NavLink, withRouter } from 'react-router-dom';
-import { Col, Row, Spinner, Label, Input, Button } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTachometerAlt, faWallet, faUserFriends, faEnvelope, faTicketAlt, faTasks, faArrowsAlt, faTimes, faMedal, faEye, faEdit, faTrash, faReply } from '@fortawesome/free-solid-svg-icons';
-import { faArrowAltCircleLeft, faArrowAltCircleRight } from '@fortawesome/free-regular-svg-icons';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { Col, Row } from 'reactstrap';
+import { faTachometerAlt, faWallet, faUserFriends, faEnvelope, faTicketAlt } from '@fortawesome/free-solid-svg-icons';
+import ReactOwlCarousel from 'react-owl-carousel';
 
 // Components
 import BackEnd from '../../../BackEnd';
@@ -20,44 +18,40 @@ import CustomSpinner from '../../../../components/UI/CustomSpinner/CustomSpinner
 import PlanCard from '../../../../components/UI/PlanCard/PlanCard';
 
 import * as actions from '../../../../store/actions';
-import { updateObject } from '../../../../shared/utility';
 
 class Dashboard extends Component {
     componentDidMount() {
-        const { onGetUserPlans, onGetPlans } = this.props;
-        onGetUserPlans();
-        onGetPlans();
-        // onGetProducts();
-        // onGetUsers();
-        // onGetRoles();
+        const { onGetUserDashboard } = this.props;
+        onGetUserDashboard();
     }
 
     componentWillUnmount() {
-        // this.props.onAdminReset();
     }
 
     selectPlan = code => {
         this.props.setSelectedPlan(code);
-        this.props.history.push('/calculation');
+        this.props.history.push('/user/calculate');
     }
 
     render() {
-        let { calculation: { loading: calculationLoading, error: calculationError, plans: calculationPlans }, payment: { loading: paymentLoading, error: paymentError, plans: paymentPlans, links } } = this.props;
+        let { backend: { dashboard: { loading, error, blocksData, purchasedPlans, buyablePlans } } } = this.props;
         let content = null;
         let errors = null;
 
-        if (calculationLoading || paymentLoading) content = <Col xs={12}>
+        if (loading) content = <Col xs={12}>
             <CustomSpinner />
         </Col>;
         else {
             errors = <>
-                <Error err={calculationError || paymentError} />
+                <Error err={error} />
             </>;
-            if (calculationPlans && paymentPlans && links) {
+            if (purchasedPlans && buyablePlans && blocksData) {
+                let { plans } = buyablePlans;
+                const { purchasedPlans: totalPackages, calculations, notifications, paidAmount } = blocksData;
                 const data = [
                     {
                         title: 'Total Packages',
-                        children: '12',
+                        children: totalPackages,
                         icon: faWallet,
                         link: '/user/plans',
                         color: 'darklight',
@@ -68,7 +62,7 @@ class Dashboard extends Component {
                     },
                     {
                         title: 'Total Calculations',
-                        children: '20',
+                        children: calculations,
                         icon: faUserFriends,
                         link: '/user/calculations',
                         color: 'darklight',
@@ -79,7 +73,7 @@ class Dashboard extends Component {
                     },
                     {
                         title: 'Notifications',
-                        children: '4',
+                        children: notifications,
                         icon: faEnvelope,
                         link: '/user/notifications',
                         color: 'darklight',
@@ -90,7 +84,7 @@ class Dashboard extends Component {
                     },
                     {
                         title: 'Total Amount Paid',
-                        children: '$ 203',
+                        children: '$ ' + paidAmount,
                         icon: faTicketAlt,
                         link: '/admin/roles',
                         color: 'darklight',
@@ -102,14 +96,14 @@ class Dashboard extends Component {
                 ];
 
                 const cards = data.map(({ title, titleColor, icon, link, color, children, details, circleBorder, circleColor }, index) => <Card color={color} key={index} title={title} titleColor={titleColor} details={details} circleBorder={circleBorder} circleColor={circleColor} icon={icon} link={link}>{children}</Card>);
-                const planCards = calculationPlans.map((plan, index) => <UserPlan key={index} onClick={() => this.selectPlan(plan.pivot.code)} {...plan} />);
-                paymentPlans = paymentPlans.map((plan, index) => ({
+                const planCards = purchasedPlans.map((plan, index) => <UserPlan key={index} onClick={() => this.selectPlan(plan.pivot.code)} {...plan} />);
+                plans = plans.map((plan, index) => ({
                     ...plan,
                     ...[{ color: 'light', chooseColor: 'yellow' }, { color: 'yellow', chooseColor: 'green' }, { color: 'yellow', chooseColor: 'green' }][index]
                 }));
-                paymentPlans[2].best = true;
-                paymentPlans = [paymentPlans[0], paymentPlans[2], paymentPlans[1]];
-                const subscriptionPlans = paymentPlans.map((plan, index) => <Col key={index} xs={4}>
+                plans[2].best = true;
+                plans = [plans[0], plans[2], plans[1]];
+                const subscriptionPlans = plans.map((plan, index) => <Col key={index} xs={4}>
                     <PlanCard {...plan} />
                 </Col>);
 
@@ -119,16 +113,20 @@ class Dashboard extends Component {
                             {cards}
 
                             <Col xs={12} className="pt-5">
-                                <div className="pb-2 mb-5 border-bottom border-light text-light">
+                                <div className="pb-2 mb-3 border-bottom border-light text-light">
                                     Purchased Plans
                                 </div>
 
                                 <Row>
-                                    {planCards}
+                                    <Col xs={12} className="p-0">
+                                        <ReactOwlCarousel loop nav>
+                                            {planCards}
+                                        </ReactOwlCarousel>
+                                    </Col>
                                 </Row>
                             </Col>
 
-                            <Col xs={12} className="pt-5">
+                            <Col xs={12} className="pt-4">
                                 <div className="pb-2 mb-5 border-bottom border-light text-light">
                                     Select a plan
                                 </div>
@@ -167,8 +165,7 @@ class Dashboard extends Component {
 const mapStateToProps = state => ({ ...state });
 
 const mapDispatchToProps = dispatch => ({
-    onGetUserPlans: () => dispatch(actions.getUserPlans()),
-    onGetPlans: () => dispatch(actions.getPlans()),
+    onGetUserDashboard: () => dispatch(actions.getUserDashboard()),
     setSelectedPlan: code => dispatch(actions.setSelectedPlan(code)),
 });
 

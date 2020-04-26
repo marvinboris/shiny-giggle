@@ -8,6 +8,7 @@ import Layout from './Layout';
 
 import FormInput from '../../../components/UI/FormInput/FormInput';
 import FormButton from '../../../components/UI/FormButton/FormButton';
+import Error from '../../../components/Error/Error';
 
 import * as actions from '../../../store/actions/index';
 
@@ -27,8 +28,11 @@ export class Home extends Component {
     }
 
     render() {
+        const { auth: { error } } = this.props;
+        const errors = <Error err={error} />;
         return (
             <Layout getIn>
+                {errors}
                 <Form onSubmit={this.submitHandler} className="w-50">
                     <FormInput type="text" icon={faUser} onChange={(e) => this.inputChangeHandler(e, "ref")} value={this.state.ref} name="ref" required placeholder="Email or username" />
                     <FormInput type="password" icon={faLock} onChange={(e) => this.inputChangeHandler(e, "password")} value={this.state.password} name="password" required placeholder="Password" />
@@ -43,8 +47,10 @@ export class Home extends Component {
     }
 }
 
+const mapStateToProps = state => ({ ...state });
+
 const mapDispatchToProps = dispatch => ({
     onAuth: data => dispatch(actions.authLogin(data)),
 });
 
-export default connect(null, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

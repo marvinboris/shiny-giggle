@@ -26,10 +26,10 @@ Route::fallback(function () {
     ], 404);
 });
 
-Route::get('email/verify/{id}/{code}', function ($id, $code) {
+Route::middleware('web')->get('email/verify/{id}/{code}', function ($id, $code) {
     $user = User::findOrFail($id);
     if ($user->email_verified_at) {
-        Request::session()->flash('already_verified', 'Account already activated. Please login.');
+        request()->session()->flash('already_verified', 'Account already activated. Please login.');
     } else {
         $string = $user->toJson();
         if ($string === Crypt::decryptString($code)) {
@@ -37,10 +37,10 @@ Route::get('email/verify/{id}/{code}', function ($id, $code) {
             $now = time();
             if ($now - strtotime($time) < 24 * 60 * 60) {
                 $user->email_verified_at = $now;
-                Request::session()->flash('activated', 'Account activation successful.');
+                request()->session()->flash('activated', 'Account activation successful.');
                 $user->save();
-            } else Request::session()->flash('not_verified', 'Your activation link has expired. Please, contact the administrator.');
-        } else Request::session()->flash('not_verified', 'Your activation link is incorrect. Please, contact the administrator.');
+            } else request()->session()->flash('not_verified', 'Your activation link has expired. Please, contact the administrator.');
+        } else request()->session()->flash('not_verified', 'Your activation link is incorrect. Please, contact the administrator.');
     }
 
     return redirect('/auth/login');
@@ -61,14 +61,24 @@ Route::namespace('User')->prefix('user')->name('user.')->group(function () {
     Route::post('signup', 'AuthController@signup')->name('signup');
 
     Route::middleware('auth:api')->group(function () {
-        Route::get('logout', 'AuthController@logout')->name('logout');
-        Route::get('user', 'AuthController@user')->name('user');
+        Route::get('dashboard', 'DashboardController@index')->name('dashboard');
+
+        Route::prefix('calculate')->group(function () {
+            Route::get('plans', 'CalculateController@userPlans');
+            Route::get('{code}', 'CalculateController@getCalculateFromCode');
+            Route::post('', 'CalculateController@makeCalculation');
+        });
     });
 });
 
-Route::get('home', 'FrontEndController@home')->name('home');
-
 Route::middleware('auth:api,outer')->group(function () {
+    Route::get('logout', function () {
+        request()->user()->token()->revoke();
+        return response()->json([
+            'message' => 'Successfully logged out'
+        ]);
+    })->name('logout');
+
     Route::get('user', function () {
         $user = request()->user();
         $role = $user->role();
@@ -77,12 +87,11 @@ Route::middleware('auth:api,outer')->group(function () {
         if ($role === 'user') $data = array_merge($data, ['plans' => $user->plans]);
         return response()->json(['data' => $data, 'role' => $role]);
     });
-    Route::get('user/plans', 'PlansController@userPlans');
+
     Route::get('plans', 'PlansController@index');
     Route::get('plans/{plan}/payment', 'PlansController@payment')->name('plans.payment');
     Route::post('plans/{plan}/payment/{method}', 'PlansController@confirm')->name('plans.payment.confirm');
     Route::get('calculate', 'PlansController@getCalculate');
-    Route::get('calculate/{code}', 'PlansController@getCalculateFromCode');
     Route::post('calculate', 'PlansController@makeCalculation');
 });
 

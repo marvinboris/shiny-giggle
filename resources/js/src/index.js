@@ -9,18 +9,23 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 import authReducer from './store/reducers/auth';
-import paymentReducer from './store/reducers/payment';
+import backendReducer from './store/reducers/backend';
 import calculationReducer from './store/reducers/calculation';
+import paymentReducer from './store/reducers/payment';
 
 // import './index.scss';
+import 'owl.carousel/dist/assets/owl.carousel.css';
+import 'owl.carousel/dist/assets/owl.theme.default.css';
 
+// export const rootPath = 'http://invest-calc.test:3000';
 export const rootPath = '/invest-laravel/public';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const rootReducer = combineReducers({
     auth: authReducer,
+    backend: backendReducer,
+    calculation: calculationReducer,
     payment: paymentReducer,
-    calculation: calculationReducer
 })
 
 const store = createStore(rootReducer, composeEnhancers(

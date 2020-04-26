@@ -17,7 +17,7 @@ import CustomSpinner from '../../../../../components/UI/CustomSpinner/CustomSpin
 
 class Plans extends Component {
     componentDidMount() {
-        this.props.onGetUserPlans();
+        this.props.onGetUserCalculateplans();
     }
 
     clickHandler = code => {
@@ -25,7 +25,7 @@ class Plans extends Component {
     }
 
     render() {
-        let { calculation: { loading, error, plans }, auth: { data: { role, points } } } = this.props;
+        let { backend: { calculate: { loading, error, plans } }, auth: { data: { role, points } } } = this.props;
 
         let redirect = null;
         if (role === 'guest') {
@@ -42,12 +42,12 @@ class Plans extends Component {
             if (plans) {
                 content = <Row>
                     <Col xs={12}>
-                        <div className="pb-2 mb-5 border-bottom border-light text-light">
+                        <div className="pb-2 mb-4 border-bottom border-light text-light">
                             Purchased Plans
                         </div>
                     </Col>
 
-                    {plans.map((plan, index) => <UserPlan key={index} onClick={() => this.clickHandler(plan.pivot.code)} {...plan} />)}
+                    {plans.map((plan, index) => <Col key={index} xs={4} className="p-0"><UserPlan onClick={() => this.clickHandler(plan.pivot.code)} {...plan} /></Col>)}
                 </Row>;
             } else content = <div className="py-5">
                 <Error err={error} />
@@ -73,7 +73,7 @@ class Plans extends Component {
 const mapStateToProps = state => ({ ...state });
 
 const mapDispatchToProps = dispatch => ({
-    onGetUserPlans: () => dispatch(actions.getUserPlans()),
+    onGetUserCalculateplans: () => dispatch(actions.getUserCalculatePlans()),
     setSelectedPlan: code => dispatch(actions.setSelectedPlan(code)),
 });
 

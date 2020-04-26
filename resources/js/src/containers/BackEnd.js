@@ -58,7 +58,7 @@ class BackEnd extends Component {
                     {loading ? <div className="h-100 d-flex justify-content-center align-items-center"><CustomSpinner /></div> : children}
                 </div>
                 <footer style={{ position: 'absolute', left: 280, bottom: 0, width: 'calc(100% - 280px)' }} className="py-3 px-4 bg-darklight text-white">
-                    <strong className="text-orange text-large">&copy;</strong> Copyright {new Date().getFullYear()} <strong><Link to="/" className="text-white">Liyeplimal Reinvestment System Calculator</Link></strong>. All rights reserved by <strong className="text-orange">Briluce Services</strong>.
+                    <strong className="text-orange text-large">&copy;</strong> Copyright {new Date().getFullYear()} <strong><Link to="/" className="text-white">Liyeplimal Reinvestment System Calculator</Link></strong>. All rights reserved by <strong className="text-orange">Briluce Services</strong>. Developed by <strong className="text-lightblue">Code Items</strong>.
                 </footer>
             </main>
         </div>;

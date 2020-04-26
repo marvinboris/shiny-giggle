@@ -24,7 +24,7 @@ export default function ResultCard({ invest, payout, week, balPrevW, totPayout, 
 
             <div className="d-flex align-items-center pt-2 pr-1">
                 <div className="text-truncate">Total Payout:</div>
-                <div className="flex-fill text-truncate pl-1">{payout.join(" + ")}</div>
+                <div className="text-truncate pl-1">{payout.join(" + ")}</div>
                 <FontAwesomeIcon icon={faArrowAltCircleDown} id={'payouts' + random} className="text-dark ml-auto" />
             </div>
 

@@ -18,7 +18,7 @@ class DashboardController extends Controller
         
         $paidAmount = 0;
         foreach ($purchasedPlans as $plan) {
-            $paidAmount += $plan->amount;
+            $paidAmount += $plan->price;
         }
 
         $plans = [];

@@ -76,10 +76,10 @@ const sideDrawer = ({ name, photo = "https://placehold.it/100x100", role = '' })
                             {sideDrawerItems}
                             <SideDrawerItem icon={faEnvelope} href="/following">Contact us<Badge color="green" className="position-relative rounded-circle text-x-small text-700 d-inline-flex justify-content-center align-items-center" style={{ width: 18, height: 18, top: -7, transform: 'translateX(-40px)' }}>12</Badge></SideDrawerItem>
                             <SideDrawerItem icon={faTasks} dropdown path="/packages" items={[]}>Packages</SideDrawerItem>
-                            <SideDrawerItem icon={faCog} dropdown path="/settings" items={[
-                                { link: '/settings/change-password', text: 'Change Password' },
-                                { link: '/settings/profile', text: 'Profile' },
-                            ]}>Settings</SideDrawerItem>
+                            <SideDrawerItem icon={faCog} dropdown path="/options" items={[
+                                { link: '/options/terms-conditions', text: 'Terms & Conditions' },
+                                { link: '/options/auto-reinvest', text: 'Auto Reinvest' },
+                            ]}>Options</SideDrawerItem>
                         </ul>
                     </div>
                 </nav>

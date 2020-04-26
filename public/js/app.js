@@ -82543,15 +82543,15 @@ var sideDrawer = function sideDrawer(_ref) {
   }, "Packages"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SideDrawerItem_SideDrawerItem__WEBPACK_IMPORTED_MODULE_4__["default"], {
     icon: _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_3__["faCog"],
     dropdown: true,
-    path: "/settings",
+    path: "/options",
     items: [{
-      link: '/settings/change-password',
-      text: 'Change Password'
+      link: '/options/terms-conditions',
+      text: 'Terms & Conditions'
     }, {
-      link: '/settings/profile',
-      text: 'Profile'
+      link: '/options/auto-reinvest',
+      text: 'Auto Reinvest'
     }]
-  }, "Settings"))))));
+  }, "Options"))))));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (sideDrawer);

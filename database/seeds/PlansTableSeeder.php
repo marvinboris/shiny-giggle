@@ -36,16 +36,16 @@ class PlansTableSeeder extends Seeder
             'price' => 15
         ]);
 
-        $silver->packs()->sync([1, 2, 3, 4]);
+        $silver->packs()->sync([1, 2, 3]);
         $silver->durations()->sync([1, 2]);
         $silver->periods()->sync([3, 6]);
 
-        $gold->packs()->sync([1, 2, 3, 4, 5, 6]);
-        $gold->durations()->sync([1, 2, 3, 4]);
+        $gold->packs()->sync([1, 2, 3, 4, 5]);
+        $gold->durations()->sync([1, 2, 3]);
         $gold->periods()->sync([3, 4, 6]);
 
         $diamond->packs()->sync([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
-        $diamond->durations()->sync([1, 2, 3, 4, 5, 6, 7]);
+        $diamond->durations()->sync([1, 2, 3, 4, 5]);
         $diamond->periods()->sync([1, 2, 3, 4, 5, 6]);
     }
 }

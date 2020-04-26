@@ -19,8 +19,6 @@ class DurationsTableSeeder extends Seeder
             4 => 'Four years',
             5 => 'Five years',
             6 => 'Six years',
-            7 => 'Seven years',
-            8 => 'Eight years'
         ];
 
         foreach ($years as $key => $value) {

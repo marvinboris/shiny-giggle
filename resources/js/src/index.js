@@ -17,8 +17,8 @@ import paymentReducer from './store/reducers/payment';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 
-export const rootPath = 'http://invest-calc.test:3000';
-// export const rootPath = '/invest-laravel/public';
+// export const rootPath = 'http://invest-calc.test:3000';
+export const rootPath = '/invest-laravel/public';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const rootReducer = combineReducers({

@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPowerOff, faTachometerAlt, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 
-import Logo from '../../assets/images/Group 118@2x.png';
+import Logo from '../../assets/images/logo-header.png';
 
 export default ({ isAuthenticated, role, logout, dashboard }) => {
     const [modal, setModal] = useState(false);

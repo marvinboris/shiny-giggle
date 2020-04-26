@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopyright } from '@fortawesome/free-regular-svg-icons'
 import { Row, Col, Container } from 'reactstrap';
 
-import Logo from '../../assets/images/Group 13@2x.png';
+import Logo from '../../assets/images/logo-footer.png';
 
 export default class Footer extends Component {
     render() {

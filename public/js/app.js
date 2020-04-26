@@ -81767,19 +81767,6 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 
 /***/ }),
 
-/***/ "./resources/js/src/assets/images/Group 118@2x.png":
-/*!*********************************************************!*\
-  !*** ./resources/js/src/assets/images/Group 118@2x.png ***!
-  \*********************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("/images/Group 118@2x.png?3e1ef3515a70c4a4187efeec0fc2b8e1");
-
-/***/ }),
-
 /***/ "./resources/js/src/assets/images/Group 136@2x.png":
 /*!*********************************************************!*\
   !*** ./resources/js/src/assets/images/Group 136@2x.png ***!
@@ -81803,19 +81790,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ("/images/Group 138@2x.png?8b8e01447cd61da6e587995f74ed4b5a");
-
-/***/ }),
-
-/***/ "./resources/js/src/assets/images/Group 13@2x.png":
-/*!********************************************************!*\
-  !*** ./resources/js/src/assets/images/Group 13@2x.png ***!
-  \********************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("/images/Group 13@2x.png?b5707b6df7f7776e7d0b06def270f709");
 
 /***/ }),
 
@@ -81871,6 +81845,32 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/src/assets/images/logo-footer.png":
+/*!********************************************************!*\
+  !*** ./resources/js/src/assets/images/logo-footer.png ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("/images/logo-footer.png?b5707b6df7f7776e7d0b06def270f709");
+
+/***/ }),
+
+/***/ "./resources/js/src/assets/images/logo-header.png":
+/*!********************************************************!*\
+  !*** ./resources/js/src/assets/images/logo-header.png ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("/images/logo-header.png?3e1ef3515a70c4a4187efeec0fc2b8e1");
+
+/***/ }),
+
 /***/ "./resources/js/src/assets/images/mansee.png":
 /*!***************************************************!*\
   !*** ./resources/js/src/assets/images/mansee.png ***!
@@ -81899,7 +81899,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fortawesome/react-fontawesome */ "./node_modules/@fortawesome/react-fontawesome/index.es.js");
 /* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ "./node_modules/@fortawesome/free-solid-svg-icons/index.es.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var _assets_images_Group_118_2x_png__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../assets/images/Group 118@2x.png */ "./resources/js/src/assets/images/Group 118@2x.png");
+/* harmony import */ var _assets_images_logo_header_png__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../assets/images/logo-header.png */ "./resources/js/src/assets/images/logo-header.png");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
@@ -81936,7 +81936,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Link"], {
     to: "/"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: _assets_images_Group_118_2x_png__WEBPACK_IMPORTED_MODULE_5__["default"],
+    src: _assets_images_logo_header_png__WEBPACK_IMPORTED_MODULE_5__["default"],
     width: 341,
     alt: "Logo"
   })), isAuthenticated ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -83012,7 +83012,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @fortawesome/react-fontawesome */ "./node_modules/@fortawesome/react-fontawesome/index.es.js");
 /* harmony import */ var _fortawesome_free_regular_svg_icons__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fortawesome/free-regular-svg-icons */ "./node_modules/@fortawesome/free-regular-svg-icons/index.es.js");
 /* harmony import */ var reactstrap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! reactstrap */ "./node_modules/reactstrap/es/index.js");
-/* harmony import */ var _assets_images_Group_13_2x_png__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../assets/images/Group 13@2x.png */ "./resources/js/src/assets/images/Group 13@2x.png");
+/* harmony import */ var _assets_images_logo_footer_png__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../assets/images/logo-footer.png */ "./resources/js/src/assets/images/logo-footer.png");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -83057,7 +83057,7 @@ var Footer = /*#__PURE__*/function (_Component) {
         xs: 11,
         className: "text-left"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: _assets_images_Group_13_2x_png__WEBPACK_IMPORTED_MODULE_4__["default"],
+        src: _assets_images_logo_footer_png__WEBPACK_IMPORTED_MODULE_4__["default"],
         width: 341,
         alt: "Logo"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
@@ -83238,7 +83238,7 @@ var FormInput = function FormInput(_ref) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _assets_images_Group_13_2x_png__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../assets/images/Group 13@2x.png */ "./resources/js/src/assets/images/Group 13@2x.png");
+/* harmony import */ var _assets_images_logo_header_png__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../assets/images/logo-header.png */ "./resources/js/src/assets/images/logo-header.png");
 
 
 /* harmony default export */ __webpack_exports__["default"] = (function (_ref) {
@@ -83246,7 +83246,7 @@ __webpack_require__.r(__webpack_exports__);
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "NewLogo mb-0 text-center"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: _assets_images_Group_13_2x_png__WEBPACK_IMPORTED_MODULE_1__["default"],
+    src: _assets_images_logo_header_png__WEBPACK_IMPORTED_MODULE_1__["default"],
     alt: "NewLogo",
     style: big ? {
       width: 240

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Image from '../../../assets/images/Group 13@2x.png';
+import Image from '../../../assets/images/logo-header.png';
 
 export default ({ big }) => (
     <div className="NewLogo mb-0 text-center">

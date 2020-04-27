@@ -89543,7 +89543,7 @@ __webpack_require__.r(__webpack_exports__);
 
  // export const rootPath = 'http://invest-calc.test:3000';
 
-var rootPath = '/invest-laravel/public';
+var rootPath = '/';
 var composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || redux__WEBPACK_IMPORTED_MODULE_5__["compose"];
 var rootReducer = Object(redux__WEBPACK_IMPORTED_MODULE_5__["combineReducers"])({
   auth: _store_reducers_auth__WEBPACK_IMPORTED_MODULE_8__["default"],

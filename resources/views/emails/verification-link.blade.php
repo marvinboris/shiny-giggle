@@ -1,44 +1,48 @@
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"> 
 <div
-    style="background-color: white; width: 100%; font-size: 1.2rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
-    <div style="padding: 3rem 5%; background-color: forestgreen; color: white;">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <div style="display: flex; align-items: center;">
-                <div style="padding-right: 2rem;">
-                    <div style="background-color: white; width: 1rem; height: 6rem;"></div>
-                </div>
-                <div style="font-size: xx-large;">
-                    <div><span style="font-weight: 300;">Thank you for choosing</span></div>
-                    <div><strong>GIT Academy</strong> !</div>
-                </div>
+    style="box-sizing: border-box; text-align: center; background-color: white; padding: 65px 1rem; width: 100%; font-size: 1.125rem; font-family: Poppins, Montserrat, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
+    <div style="margin: auto; width: 840px; max-width: 100%; background-color: #F4F8FB; padding: 35px 40px;">
+        <div style="padding: 36px 31px; background-color: white;">
+            <img src="{{ asset('/images/email/Group 118@2x.png') }}" width="270" alt="Logo">
+
+            <div style="margin: 72px 0 50px 0; font-weight: 700; color: #06B0B6; font-size: 30px;">Please confirm
+                subscription</div>
+
+            <p style="font-weight: 300;">
+                Great! Your account was created successfully. Kindly click on
+                the activation link below to confirm your subscription. Link will expire
+                after 24 hours.
+            </p>
+
+            <a href="{{ $link }}"
+                style="display: inline-block; margin: 37px 0 43px 0; border: none; border-radius: 3px; background: #F5A10E; padding: 1.5rem 2.5rem; text-decoration: none; color: white;">
+                Activate account
+            </a>
+
+            <hr>
+
+            <div style="font-size: 1rem; font-weight: 300;">
+                If you received this email by mistake, simply delete it. You won't be subscribed if you
+                don't click the confirmation link above.
             </div>
         </div>
-    </div>
-    <div style="padding-top: 3rem; padding-bottom: 3rem; margin: auto; width: 80%;">
-        <h1 style="color: forestgreen;">YOUR ACCOUNT WAS CREATED SUCCESSFULLY</h1>
-        <p style="width: 60%; min-width: 19rem; font-weight: 300;">
-            Greetings from <span style="font-weight: 700;">Global Investment Trading Academy</span>. <br>
-            We thank you very much for your concern in our Crypto Trading Academy.<br>
-            Your account is not yet activated. Please find the activation button and click
-            on it to activate your account. We strongly recommend you to read the
-            attached terms and conditions before activating your account.
-        </p>
-        <p>
-            <strong>
-                Kind Regards <br>
-                The support.
-            </strong><br><br>
-        </p>
-        <p style="font-size: x-large;">
-            <a href="#"
-                style="display: inline-block; margin-right: 1rem; margin-bottom: 1rem; border: none; border-radius: 3px; background: orangered; padding: .75rem 2rem; text-decoration: none; color: white;">Terms
-                & Conditions</a>
-            <a href="{{ $link }}"
-                style="display: inline-block; margin-right: 1rem; margin-bottom: 1rem; border: none; border-radius: 3px; background: forestgreen; padding: .75rem 2rem; text-decoration: none; color: white;">Activate
-                account</a>
-        </p>
-        <br>
-        <p style="text-align: center; color: red;">
-            <strong>Do not reply to this Email.</strong>
-        </p>
+
+        <div style="display: flex; margin: 3rem 0 2.625rem 0; justify-content: space-around; color: #06B0B6; font-weight: 700;">
+            <div>HELP CENTER</div>
+            <div>SUPPORT 24/7</div>
+            <div>ACCOUNT</div>
+        </div>
+        
+        <div style="font-size: 15px;">
+            <div>Copyright 2020 Liyeplimal Reinvestment System Calculator. All rights reserved by <span style="font-weight: 700; color: #06B0B6;">Briluce Services</span>.</div>
+            <div style="font-weight: 700; margin: 10px 0 53px 0;">support@limocalc.com    |   +237 612 123 123    |   Unsubscribe</div>        
+        </div>
+        
+        <div style="width: 224px; color: #06B0B6; display: flex; margin: auto;">
+            <img src="{{ asset('/images/fa/facebook-square@2x.png') }}" height="26" alt="Facebook">
+            <img src="{{ asset('/images/fa/twitter-square@2x.png') }}" height="26" alt="Twitter">
+            <img src="{{ asset('/images/fa/instagram@2x.png') }}" height="26" alt="Instagram">
+            <img src="{{ asset('/images/fa/whatsapp@2x.png') }}" height="26" alt="Whatsapp">
+        </div>
     </div>
 </div>

@@ -75,7 +75,7 @@ Route::namespace('User')->prefix('user')->name('user.')->group(function () {
     });
 });
 
-Route::middleware('auth:admin,outer,api')->group(function () {
+Route::middleware('auth:api,outer,admin')->group(function () {
     Route::get('logout', function () {
         request()->user()->token()->revoke();
         return response()->json([

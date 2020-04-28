@@ -3,9 +3,12 @@ export {
     authSignup,
     authGuest,
     authCode,
+    authAdmin,
+    authVerify,
     clearSignup,
     authLogout,
     setAuthRedirectPath,
+    setHash,
     authCheckState
 } from './auth';
 
@@ -30,5 +33,7 @@ export {
     getUserCalculatePlan,
     postUserCalculateStart,
     postUserCalculate,
-    resetSimulation
+    resetSimulation,
+
+    getAdminDashboard
 } from './backend';

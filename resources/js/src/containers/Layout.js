@@ -16,6 +16,8 @@ import SignUp from './Pages/Auth/SignUp';
 import SignUpSuccess from './Pages/Auth/Success';
 import Guest from './Pages/Auth/Guest';
 import Code from './Pages/Auth/Code';
+import Admin from './Pages/Auth/Admin';
+import Verify from './Pages/Auth/Verify';
 
 // Payment pages
 import Limo from './Pages/Payment/Limo';
@@ -40,20 +42,25 @@ class Layout extends Component {
             case 'user':
                 dashboard = UserDashboard;
                 break;
-                
+
             case 'admin':
                 dashboard = AdminDashboard;
                 break;
-        
+
             default:
                 break;
         }
 
         let routes = <Switch>
-            <Route path="/auth/register/success" component={SignUpSuccess} />
-            <Route path="/auth/register" component={SignUp} />
+            <Route path="/auth/admin/login" component={Admin} />
+            <Route path="/auth/admin/verify" component={Verify} />
+            <Redirect path="/admin" to="/auth/admin/login" />
+
             <Route path="/auth/guest" component={Guest} />
             <Route path="/auth/code" component={Code} />
+
+            <Route path="/auth/register/success" component={SignUpSuccess} />
+            <Route path="/auth/register" component={SignUp} />
             <Route path="/auth/login" component={Login} />
             <Redirect to="/auth/login" />
         </Switch>;

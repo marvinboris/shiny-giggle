@@ -43,6 +43,13 @@ const postUserCalculateSuccess = (state, action) => updateObject(state, { calcul
 const postUserCalculateFail = (state, action) => updateObject(state, { calculate: updateObject(state.calculate, { loading: false, ...action }) });
 const resetSimulation = (state, action) => updateObject(state, { calculate: updateObject(state.calculate, { simulation: null }) });
 
+
+
+
+const getAdminDashboardStart = (state, action) => updateObject(state, { dashboard: updateObject(state.dashboard, { loading: true }) });
+const getAdminDashboardSuccess = (state, action) => updateObject(state, { dashboard: updateObject(state.dashboard, { loading: false, error: null, ...action }) });
+const getAdminDashboardFail = (state, action) => updateObject(state, { dashboard: updateObject(state.dashboard, { loading: false, ...action }) });
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.GET_USER_DASHBOARD_START: return getUserDashboardStart(state, action);
@@ -58,6 +65,12 @@ const reducer = (state = initialState, action) => {
         case actionTypes.POST_USER_CALCULATE_START: return postUserCalculateStart(state, action);
         case actionTypes.POST_USER_CALCULATE_FAIL: return postUserCalculateFail(state, action);
         case actionTypes.POST_USER_CALCULATE_SUCCESS: return postUserCalculateSuccess(state, action);
+
+
+        
+        case actionTypes.GET_ADMIN_DASHBOARD_START: return getAdminDashboardStart(state, action);
+        case actionTypes.GET_ADMIN_DASHBOARD_FAIL: return getAdminDashboardFail(state, action);
+        case actionTypes.GET_ADMIN_DASHBOARD_SUCCESS: return getAdminDashboardSuccess(state, action);
 
         default: return state;
     }

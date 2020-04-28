@@ -38,6 +38,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function paidAmount() {
+        $paidAmount = 0;
+        foreach ($this->plans as $plan) {
+            $paidAmount += $plan->price;
+        }
+        return $paidAmount;
+    }
+
     public function plans()
     {
         return $this->belongsToMany('App\Plan', 'plan_user')->withPivot(['points', 'code']);

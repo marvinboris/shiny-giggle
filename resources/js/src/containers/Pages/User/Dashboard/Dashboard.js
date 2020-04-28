@@ -66,7 +66,7 @@ class Dashboard extends Component {
                         icon: faUserFriends,
                         link: '/user/calculations',
                         color: 'darklight',
-                        details: 'All Created Accounts',
+                        details: 'Calculations made',
                         titleColor: 'white',
                         circleColor: 'white',
                         circleBorder: 'lightblue'
@@ -77,7 +77,7 @@ class Dashboard extends Component {
                         icon: faEnvelope,
                         link: '/user/notifications',
                         color: 'darklight',
-                        details: 'Unread Messages',
+                        details: 'Unread messages',
                         titleColor: 'orange',
                         circleColor: 'orange',
                         circleBorder: 'white'

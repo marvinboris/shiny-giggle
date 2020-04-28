@@ -166,3 +166,28 @@ export const getUserPaidAmount = () => async dispatch => {
         dispatch(getUserPaidAmountFail(err));
     }
 };
+
+
+
+// Admin
+export const getAdminDashboardStart = () => ({ type: actionTypes.GET_ADMIN_DASHBOARD_START });
+const getAdminDashboardSuccess = data => ({ type: actionTypes.GET_ADMIN_DASHBOARD_SUCCESS, ...data });
+const getAdminDashboardFail = error => ({ type: actionTypes.GET_ADMIN_DASHBOARD_FAIL, error });
+export const getAdminDashboard = () => async dispatch => {
+    const token = localStorage.getItem('token');
+    dispatch(getAdminDashboardStart());
+
+    try {
+        const res = await fetch(rootPath + '/api/admin/dashboard', {
+            method: 'GET',
+            headers: {
+                Authorization: token
+            }
+        });
+        const resData = await res.json();
+        dispatch(getAdminDashboardSuccess(resData));
+    } catch (err) {
+        console.log(err);
+        dispatch(getAdminDashboardFail(err));
+    }
+};

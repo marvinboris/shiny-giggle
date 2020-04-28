@@ -49,10 +49,14 @@ Route::middleware('web')->get('email/verify/{id}/{code}', function ($id, $code) 
 Route::namespace('Guest')->prefix('guest')->name('guest.')->group(function () {
     Route::post('login', 'AuthController@login')->name('login');
     Route::post('signup', 'AuthController@signup')->name('signup');
+});
 
-    Route::middleware('auth:outer')->group(function () {
-        Route::get('logout', 'AuthController@logout')->name('logout');
-        Route::get('user', 'AuthController@user')->name('user');
+Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
+    Route::post('login', 'AuthController@login')->name('login');
+    Route::post('verify', 'AuthController@verify')->name('verify');
+
+    Route::middleware('auth:admin')->group(function () {
+        Route::get('dashboard', 'DashboardController@index')->name('dashboard');
     });
 });
 
@@ -71,11 +75,11 @@ Route::namespace('User')->prefix('user')->name('user.')->group(function () {
     });
 });
 
-Route::middleware('auth:api,outer')->group(function () {
+Route::middleware('auth:admin,outer,api')->group(function () {
     Route::get('logout', function () {
         request()->user()->token()->revoke();
         return response()->json([
-            'message' => 'Successfully logged out'
+            'message' => 'Successfully logged out.'
         ]);
     })->name('logout');
 

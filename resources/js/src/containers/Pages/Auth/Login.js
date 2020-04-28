@@ -9,6 +9,7 @@ import Layout from './Layout';
 import FormInput from '../../../components/UI/FormInput/FormInput';
 import FormButton from '../../../components/UI/FormButton/FormButton';
 import Error from '../../../components/Error/Error';
+import Feedback from '../../../components/Feedback/Feedback';
 
 import * as actions from '../../../store/actions/index';
 
@@ -28,11 +29,13 @@ export class Home extends Component {
     }
 
     render() {
-        const { auth: { error } } = this.props;
+        const { auth: { error, message } } = this.props;
         const errors = <Error err={error} />;
+        const feedback = <Feedback message={message} />;
         return (
             <Layout getIn>
                 {errors}
+                {feedback}
                 <Form onSubmit={this.submitHandler} className="w-50">
                     <FormInput type="text" icon={faUser} onChange={(e) => this.inputChangeHandler(e, "ref")} value={this.state.ref} name="ref" required placeholder="Email or username" />
                     <FormInput type="password" icon={faLock} onChange={(e) => this.inputChangeHandler(e, "password")} value={this.state.password} name="password" required placeholder="Password" />

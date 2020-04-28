@@ -49,7 +49,7 @@ class AuthController extends Controller
                 'message' => 'Unauthorized'
             ], 401);
 
-        $tokenResult = $user->createToken('Personal Access Token');
+        $tokenResult = $user->createToken('Guest Personal Access Token');
         $token = $tokenResult->token;
         if ($request->remember_me)
             $token->expires_at = Carbon::now()->addWeeks(1);
@@ -90,7 +90,7 @@ class AuthController extends Controller
             'password' => Hash::make($request->password)
         ]);
 
-        $tokenResult = $guest->createToken('Personal Access Token');
+        $tokenResult = $guest->createToken('Guest Personal Access Token');
         $token = $tokenResult->token;
         if ($request->remember_me)
             $token->expires_at = Carbon::now()->addWeeks(1);
@@ -104,29 +104,5 @@ class AuthController extends Controller
             )->toDateTimeString(),
             'userData' => $guest
         ]);
-    }
-
-    /**
-     * Logout the guest.
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function logout(Request $request)
-    {
-        $request->user()->token()->revoke();
-        return response()->json([
-            'message' => 'Successfully logged out'
-        ]);
-    }
-
-    /**
-     * Get the authenticated User
-     *
-     * @return [json] user object
-     */
-    public function user(Request $request)
-    {
-        $user = $request->user();
-        return response()->json(['data' => $user, 'role' => $user->role()]);
     }
 }

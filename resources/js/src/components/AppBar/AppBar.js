@@ -12,7 +12,7 @@ export default ({ isAuthenticated, role, logout, dashboard }) => {
     const toggle = () => setModal(!modal);
 
     return <div>
-        <Navbar className="border-bottom bg-darkblue border-yellow d-flex align-items-center px-5" light expand="md">
+        <Navbar className="border-bottom bg-darkblue border-yellow-50 d-flex align-items-center px-5" light expand="md">
             <Link to="/">
                 <img src={Logo} width={341} alt="Logo" />
             </Link>

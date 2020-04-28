@@ -27,6 +27,8 @@ const table = ({ fields, array, limit, bordered, xs, sm, md, lg, xl, className, 
         return <tr className="align-middle" key={index + 1}>{inside}</tr>;
     });
 
+    console.log({ titles, keys, content })
+
     return (
         <Col xs={xs} sm={sm} md={md} lg={lg} xl={xl} className="h-100">
             <div className={(dark ? "text-light " : " ") + className} style={style}>

@@ -74,12 +74,21 @@ class AuthController extends Controller
         else $user = User::whereUsername($request->ref)->first();
 
         $credentials = ['email' => $user->email, 'password' => $request->password];
+        if (!$user->email_verified_at) return response()->json([
+            'message' => [
+                'type' => 'danger',
+                'content' => 'Please, check your mailbox and click on the activation link.'
+            ]
+            ], 403);
         if (!Auth::attempt($credentials))
             return response()->json([
-                'message' => 'Unauthorized'
+                'message' => [
+                    'type' => 'danger',
+                    'content' => 'Unauthorized'
+                ]
             ], 401);
             
-        $tokenResult = $user->createToken('Personal Access Token');
+        $tokenResult = $user->createToken('User Personal Access Token');
         $token = $tokenResult->token;
         if ($request->remember_me)
             $token->expires_at = Carbon::now()->addWeeks(1);
@@ -92,29 +101,5 @@ class AuthController extends Controller
             )->toDateTimeString(),
             'userData' => array_merge($user->toArray(), ['plans' => $user->plans])
         ]);
-    }
-
-    /**
-     * Logout user (Revoke the token)
-     *
-     * @return [string] message
-     */
-    public function logout(Request $request)
-    {
-        $request->user()->token()->revoke();
-        return response()->json([
-            'message' => 'Successfully logged out'
-        ]);
-    }
-
-    /**
-     * Get the authenticated User
-     *
-     * @return [json] user object
-     */
-    public function user(Request $request)
-    {
-        $user = $request->user();
-        return response()->json(['data' => array_merge($user->toArray(), ['plans' => $user->plans]), 'role' => $user->role()]);
     }
 }

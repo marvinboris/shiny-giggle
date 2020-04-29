@@ -1,14 +1,17 @@
 import React from 'react';
 import { Col, Badge } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTachometerAlt, faUserTie, faCalendarAlt, faEnvelope, faTasks, faCog, faCircle, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faTachometerAlt, faUserTie, faCalendarAlt, faEnvelope, faTasks, faCog, faCircle, faEdit, faMoneyBillWave } from '@fortawesome/free-solid-svg-icons';
 
 import SideDrawerItem from './SideDrawerItem/SideDrawerItem';
 import './SideDrawer.css';
 
-const capitalize = string => string.charAt(0).toUpperCase() + string.slice(1);
+const roles = {
+    user: 'System User',
+    admin: 'Administrator'
+};
 
-const sideDrawer = ({ name, photo = "https://placehold.it/100x100", role = '' }) => {
+const sideDrawer = ({ name, photo = "https://placehold.it/100x100", role = '', credits, ref  }) => {
     let sideDrawerItems = null;
     switch (role) {
         case 'user':
@@ -18,6 +21,10 @@ const sideDrawer = ({ name, photo = "https://placehold.it/100x100", role = '' })
                     { link: '/user/subscription/plans', text: 'My Plans' },
                 ]}>Subscription Plan</SideDrawerItem>
                 <SideDrawerItem icon={faCalendarAlt} href="/user/calculate">Calculate</SideDrawerItem>
+                <SideDrawerItem icon={faMoneyBillWave} dropdown path="/user/finances" items={[
+                    { link: '/user/finances/deposits/add', text: 'Deposit Credits' },
+                    { link: '/user/finances/deposits/', text: 'Deposit List' },
+                ]}>Finances</SideDrawerItem>
             </>;
             break;
 
@@ -63,7 +70,7 @@ const sideDrawer = ({ name, photo = "https://placehold.it/100x100", role = '' })
                                     </div>
                                 </Col>
                                 <Col xs={12} className="p-0 text-success small">
-                                    <FontAwesomeIcon fixedWidth icon={faCircle} size="sm" className="mr-1" />{capitalize(role)}
+                                    <FontAwesomeIcon fixedWidth icon={faCircle} size="sm" className="mr-1" />{roles[role]}
                                 </Col>
                             </div>
                         </Col>

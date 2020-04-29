@@ -2,6 +2,7 @@ import React from 'react';
 import { Col, Badge } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTachometerAlt, faUserTie, faCalendarAlt, faEnvelope, faTasks, faCog, faCircle, faEdit, faMoneyBillWave } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle } from '@fortawesome/free-regular-svg-icons';
 
 import SideDrawerItem from './SideDrawerItem/SideDrawerItem';
 import './SideDrawer.css';
@@ -11,7 +12,7 @@ const roles = {
     admin: 'Administrator'
 };
 
-const sideDrawer = ({ name, photo = "https://placehold.it/100x100", role = '', credits, ref  }) => {
+const sideDrawer = ({ name, photo = "https://placehold.it/100x100", role = '', credits, ref }) => {
     let sideDrawerItems = null;
     switch (role) {
         case 'user':
@@ -69,8 +70,11 @@ const sideDrawer = ({ name, photo = "https://placehold.it/100x100", role = '', c
                                         <div className="bg-orange border rounded-circle border-white position-absolute" style={{ width: 10, height: 10, bottom: 0, left: '50%', transform: 'translate(-50%, 50%)' }} />
                                     </div>
                                 </Col>
-                                <Col xs={12} className="p-0 text-success small">
-                                    <FontAwesomeIcon fixedWidth icon={faCircle} size="sm" className="mr-1" />{roles[role]}
+                                <Col xs={12} className="p-0 text-success text-300 small">
+                                    <FontAwesomeIcon fixedWidth icon={faUserTie} size="sm" className="mr-1" />Account ID: <span className="text-700">{ref}</span>
+                                </Col>
+                                <Col xs={12} className="p-0 text-success text-300 small">
+                                    <FontAwesomeIcon fixedWidth icon={faCheckCircle} size="sm" className="mr-1" />{roles[role]}
                                 </Col>
                             </div>
                         </Col>

@@ -36,7 +36,7 @@ class DashboardController extends Controller
                 'notifications' => $notifications,
                 'paidPoints' => $paidPoints,
             ],
-            'totalUsers' => $users
+            'totalUsers' => $users->toArray()
         ]);
     }
 }

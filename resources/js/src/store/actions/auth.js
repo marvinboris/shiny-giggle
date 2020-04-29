@@ -2,6 +2,7 @@ import * as actionTypes from './actionTypes';
 import { rootPath } from '../..';
 
 const authStart = () => ({ type: actionTypes.AUTH_START });
+const authMessage = message => ({ type: actionTypes.AUTH_MESSAGE, message });
 const authFail = error => ({ type: actionTypes.AUTH_FAIL, error });
 export const authLogout = () => {
     localStorage.removeItem('token');
@@ -47,6 +48,7 @@ export const authLogin = data => async dispatch => {
         expires_at = new Date(expires_at).getTime();
 
         if (res.status === 422) throw new Error(Object.values(resData.errors).join('\n'));
+        else if (res.status === 403 || res.status === 401) return dispatch(authMessage(resData.message));
         else if (res.status !== 200 && res.status !== 201) throw new Error(resData);
 
         const expirationDate = new Date(expires_at);
@@ -73,6 +75,7 @@ export const authSignup = data => async dispatch => {
 
         const resData = await res.json();
         if (res.status === 422) throw new Error(Object.values(resData.errors).join('\n'));
+        else if (res.status === 403 || res.status === 401) return dispatch(authMessage(resData.message));
         if (res.status !== 200 && res.status !== 201) {
             throw new Error('Authentication has failed.');
         }
@@ -97,6 +100,7 @@ export const authCode = data => async dispatch => {
 
         const resData = await res.json();
         if (res.status === 422) throw new Error(Object.values(resData.errors).join('\n'));
+        else if (res.status === 403 || res.status === 401) return dispatch(authMessage(resData.message));
 
         let { access_token, token_type, expires_at, userData } = resData;
         const token = token_type + ' ' + access_token;
@@ -126,6 +130,7 @@ export const authGuest = data => async dispatch => {
 
         const resData = await res.json();
         if (res.status === 422) throw new Error(Object.values(resData.errors).join('\n'));
+        else if (res.status === 403 || res.status === 401) return dispatch(authMessage(resData.message));
 
         let { access_token, token_type, expires_at, userData } = resData;
         const token = token_type + ' ' + access_token;
@@ -158,6 +163,7 @@ export const authAdmin = data => async dispatch => {
         let { hash } = resData;
 
         if (res.status === 422) throw new Error(Object.values(resData.errors).join('\n'));
+        else if (res.status === 403 || res.status === 401) return dispatch(authMessage(resData.message));
         else if (res.status !== 200 && res.status !== 201) throw new Error(resData);
 
         dispatch(authAdminSuccess(hash));
@@ -186,6 +192,7 @@ export const authVerify = data => async dispatch => {
         expires_at = new Date(expires_at).getTime();
 
         if (res.status === 422) throw new Error(Object.values(resData.errors).join('\n'));
+        else if (res.status === 403 || res.status === 401) return dispatch(authMessage(resData.message));
         else if (res.status !== 200 && res.status !== 201) throw new Error(resData);
 
         const expirationDate = new Date(expires_at);

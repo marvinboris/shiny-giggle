@@ -35,8 +35,8 @@ export class Home extends Component {
         return (
             <Layout getIn>
                 {errors}
-                {feedback}
                 <Form onSubmit={this.submitHandler} className="w-50">
+                    {feedback}
                     <FormInput type="text" icon={faUser} onChange={(e) => this.inputChangeHandler(e, "ref")} value={this.state.ref} name="ref" required placeholder="Email or username" />
                     <FormInput type="password" icon={faLock} onChange={(e) => this.inputChangeHandler(e, "password")} value={this.state.password} name="password" required placeholder="Password" />
                     <FormGroup className="ml-2 mb-5 mt-4">

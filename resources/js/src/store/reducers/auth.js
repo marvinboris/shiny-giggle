@@ -8,10 +8,11 @@ const initialState = {
     hash: null,
     signup: { status: false, email: null },
     loading: false,
+    message: null,
     authRedirectPath: '/plans'
 };
 
-const authStart = (state, action) => updateObject(state, { error: null, loading: true });
+const authStart = (state, action) => updateObject(state, { error: null, loading: true, message: null });
 
 const authLoginSuccess = (state, action) => updateObject(state, { error: null, loading: false, ...action });
 
@@ -28,6 +29,8 @@ const authAdminSuccess = (state, action) => updateObject(state, { error: null, l
 const authVerifySuccess = (state, action) => updateObject(state, { error: null, loading: false, ...action });
 
 const authFail = (state, action) => updateObject(state, { loading: false, ...action });
+
+const authMessage = (state, action) => updateObject(state, { loading: false, ...action });
 
 const authLogout = (state, action) => updateObject(state, { loading: false, token: null });
 
@@ -46,6 +49,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.AUTH_ADMIN_SUCCESS: return authAdminSuccess(state, action);
         case actionTypes.AUTH_VERIFY_SUCCESS: return authVerifySuccess(state, action);
         case actionTypes.AUTH_FAIL: return authFail(state, action);
+        case actionTypes.AUTH_MESSAGE: return authMessage(state, action);
         case actionTypes.AUTH_LOGOUT: return authLogout(state, action);
         case actionTypes.SET_AUTH_REDIRECT_PATH: return setAuthRedirectPath(state, action);
         case actionTypes.SET_HASH: return setHash(state, action);

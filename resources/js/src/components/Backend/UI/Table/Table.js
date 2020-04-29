@@ -9,7 +9,6 @@ const table = ({ fields, array, limit, bordered, xs, sm, md, lg, xl, className, 
     if (select) titles.unshift(<th className="align-middle text-center" key="select_all">
         <input type="checkbox" onClick={selectHandler} className="select_all" />
     </th>);
-    const keys = fields.map(({ key }) => key);
 
     const content = array.map((item, index) => {
         if (limit && index >= limit) return null;
@@ -17,17 +16,13 @@ const table = ({ fields, array, limit, bordered, xs, sm, md, lg, xl, className, 
         if (select) inside.unshift(<th className="text-center align-middle" key={'secondary' + index}>
             <input type="checkbox" value={item._id} />
         </th>);
-        for (const key in item) {
-            if (item.hasOwnProperty(key)) {
-                const element = item[key];
-                if (keys.includes(key)) inside.push(<td className="align-middle" key={key}>{element}</td>);
-            }
-        }
+        fields.forEach(({ key }) => {
+            inside.push(<td className="align-middle" key={key}>{item[key]}</td>);
+        });
 
         return <tr className="align-middle" key={index + 1}>{inside}</tr>;
     });
 
-    console.log({ titles, keys, content })
 
     return (
         <Col xs={xs} sm={sm} md={md} lg={lg} xl={xl} className="h-100">
@@ -44,7 +39,7 @@ const table = ({ fields, array, limit, bordered, xs, sm, md, lg, xl, className, 
                     </div>
                 </div>
                 <div className={(!p0 ? "p-3" : "p-0")}>
-                    <div className="table-responsive-xl">
+                    <div className="table-responsive">
                         <Table dark={dark} bordered={bordered} borderless={borderless} className={innerClassName}>
                             <thead className="text-gray"><tr>{titles}</tr></thead>
                             <tbody className="bg-darklight-50 text-light">{content}</tbody>

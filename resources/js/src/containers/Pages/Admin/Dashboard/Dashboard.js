@@ -24,49 +24,64 @@ import { updateObject } from '../../../../shared/utility';
 import FinanceTracker from '../../../../assets/images/Group 166@2x.png';
 
 class Dashboard extends Component {
-    componentDidMount() {
+    state = {
+        countries: []
+    }
+
+    async componentDidMount() {
         const { onGetAdminDashboard } = this.props;
+        const cors = 'https://cors-anywhere.herokuapp.com/';
+
+        const phoneRes = await fetch(cors + 'http://country.io/phone.json', { method: 'GET', mode: 'cors' });
+        const namesRes = await fetch(cors + 'http://country.io/names.json', { method: 'GET', mode: 'cors' });
+
+        const phone = await phoneRes.json();
+        const names = await namesRes.json();
+
+        const countries = Object.keys(phone).map(key => ({ country: key, code: phone[key], name: names[key] })).sort((a, b) => a.country > b.country);
+
+        await this.setState({ countries });
         onGetAdminDashboard();
     }
 
     render() {
         let { backend: { dashboard: { loading, error, blocksData, totalUsers } } } = this.props;
+        const { countries } = this.state;
         let content = null;
         let errors = null;
 
-        const
-            messages = [
-                {
-                    received_date: new Date().getDate(),
-                    sender_name: 'John Mc Doe',
-                    object: 'Kindly send report...',
-                    content: 'Hello, you are invited...'
-                },
-                {
-                    received_date: new Date().getDate(),
-                    sender_name: 'Messila Marinera',
-                    object: 'Validate our meeting...',
-                    content: 'Checking operating...'
-                },
-                {
-                    received_date: new Date().getDate(),
-                    sender_name: 'John DOE',
-                    object: 'Call Client John Olie...',
-                    content: 'Good morning sir...'
-                },
-                {
-                    received_date: new Date().getDate(),
-                    sender_name: 'Mark Labilo',
-                    object: 'Schedule a meeting...',
-                    content: 'You are excepted to...'
-                },
-                {
-                    received_date: new Date().getDate(),
-                    sender_name: 'June de Jules',
-                    object: 'Make payment of...',
-                    content: 'Users are always...'
-                },
-            ];
+        const messages = [
+            {
+                received_date: new Date().getDate(),
+                sender_name: 'John Mc Doe',
+                object: 'Kindly send report...',
+                content: 'Hello, you are invited...'
+            },
+            {
+                received_date: new Date().getDate(),
+                sender_name: 'Messila Marinera',
+                object: 'Validate our meeting...',
+                content: 'Checking operating...'
+            },
+            {
+                received_date: new Date().getDate(),
+                sender_name: 'John DOE',
+                object: 'Call Client John Olie...',
+                content: 'Good morning sir...'
+            },
+            {
+                received_date: new Date().getDate(),
+                sender_name: 'Mark Labilo',
+                object: 'Schedule a meeting...',
+                content: 'You are excepted to...'
+            },
+            {
+                received_date: new Date().getDate(),
+                sender_name: 'June de Jules',
+                object: 'Make payment of...',
+                content: 'Users are always...'
+            },
+        ];
 
         if (loading) content = <Col xs={12}>
             <CustomSpinner />
@@ -76,6 +91,7 @@ class Dashboard extends Component {
                 <Error err={error} />
             </>;
             if (totalUsers && blocksData) {
+                console.log({ countries })
                 const { paidAmount, subscribers, notifications, paidPoints } = blocksData;
                 const data = [
                     {
@@ -126,26 +142,23 @@ class Dashboard extends Component {
 
                 const cards = data.map(({ title, titleColor, icon, link, color, children, details, circleBorder, circleColor }, index) => <Card color={color} key={index} title={title} titleColor={titleColor} details={details} circleBorder={circleBorder} circleColor={circleColor} icon={icon} link={link}>{children}</Card>);
 
-                const countries = {
-                    cm: 'Cameroun',
-                    fr: 'France',
-                    us: 'United States',
-                    ke: 'Kenya'
-                };
-                const usersData = totalUsers.map(user => updateObject(user, {
-                    country: <div className="d-flex align-items-center">
-                        <div className="border border-1 border-white rounded-circle overflow-hidden position-relative d-flex justify-content-center align-items-center mr-2" style={{ width: 20, height: 20 }}>
-                            <span className={`flag-icon text-large position-absolute flag-icon-${user.country.toLowerCase()}`} />
-                        </div>
+                const usersData = totalUsers.map(user => {
+                    const country = countries.find(country => country.country === user.country);
+                    return updateObject(user, {
+                        country: <div className="d-flex align-items-center">
+                            <div className="border border-1 border-white rounded-circle overflow-hidden position-relative d-flex justify-content-center align-items-center mr-2" style={{ width: 20, height: 20 }}>
+                                <span className={`flag-icon text-large position-absolute flag-icon-${user.country.toLowerCase()}`} />
+                            </div>
 
-                        {countries[user.country.toLowerCase()]}
-                    </div>,
-                    action: <div className="text-center">
-                        <FontAwesomeIcon icon={faEye} className="text-lightblue mr-2" fixedWidth />
-                        <FontAwesomeIcon icon={faEdit} className="text-green mr-2" fixedWidth />
-                        <FontAwesomeIcon icon={faTrash} className="text-red" fixedWidth />
-                    </div>
-                }));
+                            {country ? country.name : null}
+                        </div>,
+                        action: <div className="text-center">
+                            <FontAwesomeIcon icon={faEye} className="text-lightblue mr-2" fixedWidth />
+                            <FontAwesomeIcon icon={faEdit} className="text-green mr-2" fixedWidth />
+                            <FontAwesomeIcon icon={faTrash} className="text-red" fixedWidth />
+                        </div>
+                    });
+                });
                 const messagesData = messages.map(message => updateObject(message, {
                     action: <div className="text-center">
                         <Button size="sm" color="orange" className="mr-2">
@@ -190,7 +203,7 @@ class Dashboard extends Component {
                                     </div>
 
                                     <Row className="p-3">
-                                        <Col xs={12} lg={10}>
+                                        <Col xs={12} lg={11}>
                                             <img src={FinanceTracker} alt="Finance Tracker" className="img-fluid" />
                                         </Col>
                                     </Row>

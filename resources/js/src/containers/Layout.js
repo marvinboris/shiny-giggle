@@ -16,8 +16,8 @@ import SignUp from './Pages/Auth/SignUp';
 import SignUpSuccess from './Pages/Auth/Success';
 import Guest from './Pages/Auth/Guest';
 import Code from './Pages/Auth/Code';
-import Admin from './Pages/Auth/Admin';
-import Verify from './Pages/Auth/Verify';
+import Admin from './Pages/Admin/Auth/Login';
+import Verify from './Pages/Admin/Auth/Verify';
 
 // Payment pages
 import Limo from './Pages/Payment/Limo';

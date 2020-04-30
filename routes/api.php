@@ -57,6 +57,10 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
 
     Route::middleware('auth:admin')->group(function () {
         Route::get('dashboard', 'DashboardController@index')->name('dashboard');
+        
+        Route::prefix('users')->name('users.')->group(function () {
+            Route::get('', 'UsersController@index')->name('index');
+        });
     });
 });
 

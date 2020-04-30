@@ -30,7 +30,7 @@ const sideDrawer = ({ name, photo = "https://placehold.it/100x100", role = '', c
                         <div className="position-absolute border border-2 border-green rounded-circle bg-white" style={{ top: '50%', left: 0, width: 10, height: 10, transform: 'translate(-50%, -50%)' }} />
                     </div>
                 </ButtonGroup>
-                
+
                 <Col xs={12} className="p-0 text-orange text-300 small">
                     <FontAwesomeIcon fixedWidth icon={faUserTie} size="sm" className="mr-1" />Account ID: <span className="text-700">{id}</span>
                 </Col>
@@ -45,6 +45,11 @@ const sideDrawer = ({ name, photo = "https://placehold.it/100x100", role = '', c
                     { link: '/user/finances/deposits/add', text: 'Deposit Credits' },
                     { link: '/user/finances/deposits/', text: 'Deposit List' },
                 ]}>Finances</SideDrawerItem>
+                <SideDrawerItem icon={faCog} dropdown path="/user/options" items={[
+                    { link: '/user/options/terms-conditions', text: 'Terms & Conditions' },
+                    { link: '/user/options/auto-reinvest', text: 'Auto Reinvest' },
+                    { link: '/user/options/sms-notification', text: 'SMS Notification' },
+                ]}>Options</SideDrawerItem>
             </>;
             break;
 
@@ -59,6 +64,8 @@ const sideDrawer = ({ name, photo = "https://placehold.it/100x100", role = '', c
                     { link: '/admin/users/add', text: 'Add User' },
                     { link: '/admin/users', text: 'User List' },
                 ]}>Users</SideDrawerItem>
+                <SideDrawerItem icon={faEnvelope} href="/following">Contact us<Badge color="green" className="position-relative rounded-circle text-x-small text-700 d-inline-flex justify-content-center align-items-center" style={{ width: 18, height: 18, top: -7, transform: 'translateX(-40px)' }}>12</Badge></SideDrawerItem>
+                <SideDrawerItem icon={faTasks} dropdown path="/packages" items={[]}>Packages</SideDrawerItem>
             </>;
             break;
 
@@ -102,12 +109,6 @@ const sideDrawer = ({ name, photo = "https://placehold.it/100x100", role = '', c
                         <ul className="navbar-nav w-100 flex-column">
                             <SideDrawerItem icon={faTachometerAlt} href="/dashboard">Dashboard</SideDrawerItem>
                             {sideDrawerItems}
-                            <SideDrawerItem icon={faEnvelope} href="/following">Contact us<Badge color="green" className="position-relative rounded-circle text-x-small text-700 d-inline-flex justify-content-center align-items-center" style={{ width: 18, height: 18, top: -7, transform: 'translateX(-40px)' }}>12</Badge></SideDrawerItem>
-                            <SideDrawerItem icon={faTasks} dropdown path="/packages" items={[]}>Packages</SideDrawerItem>
-                            <SideDrawerItem icon={faCog} dropdown path="/options" items={[
-                                { link: '/options/terms-conditions', text: 'Terms & Conditions' },
-                                { link: '/options/auto-reinvest', text: 'Auto Reinvest' },
-                            ]}>Options</SideDrawerItem>
                         </ul>
                     </div>
                 </nav>

@@ -6,6 +6,12 @@ const initialState = {
         loading: false,
         error: null,
     },
+
+    users: {
+        loading: false,
+        error: null
+    },
+
     calculate: {
         loading: false,
         error: null
@@ -50,6 +56,10 @@ const getAdminDashboardStart = (state, action) => updateObject(state, { dashboar
 const getAdminDashboardSuccess = (state, action) => updateObject(state, { dashboard: updateObject(state.dashboard, { loading: false, error: null, ...action }) });
 const getAdminDashboardFail = (state, action) => updateObject(state, { dashboard: updateObject(state.dashboard, { loading: false, ...action }) });
 
+const getAdminUsersStart = (state, action) => updateObject(state, { users: updateObject(state.users, { loading: true }) });
+const getAdminUsersSuccess = (state, action) => updateObject(state, { users: updateObject(state.users, { loading: false, error: null, ...action }) });
+const getAdminUsersFail = (state, action) => updateObject(state, { users: updateObject(state.users, { loading: false, ...action }) });
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.GET_USER_DASHBOARD_START: return getUserDashboardStart(state, action);
@@ -71,6 +81,10 @@ const reducer = (state = initialState, action) => {
         case actionTypes.GET_ADMIN_DASHBOARD_START: return getAdminDashboardStart(state, action);
         case actionTypes.GET_ADMIN_DASHBOARD_FAIL: return getAdminDashboardFail(state, action);
         case actionTypes.GET_ADMIN_DASHBOARD_SUCCESS: return getAdminDashboardSuccess(state, action);
+        
+        case actionTypes.GET_ADMIN_USERS_START: return getAdminUsersStart(state, action);
+        case actionTypes.GET_ADMIN_USERS_FAIL: return getAdminUsersFail(state, action);
+        case actionTypes.GET_ADMIN_USERS_SUCCESS: return getAdminUsersSuccess(state, action);
 
         default: return state;
     }

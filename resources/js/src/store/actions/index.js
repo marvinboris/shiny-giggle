@@ -35,5 +35,6 @@ export {
     postUserCalculate,
     resetSimulation,
 
-    getAdminDashboard
+    getAdminDashboard,
+    getAdminUsers,
 } from './backend';

@@ -145,6 +145,6 @@ class MonetbilController extends Controller
         if ('success' === $input['status'])
             return redirect('/payment/success');
 
-        return redirect('/plans');
+        return redirect('/plans/' + $plan->slug + '/payment/mobile');
     }
 }

@@ -91,7 +91,6 @@ class Dashboard extends Component {
                 <Error err={error} />
             </>;
             if (totalUsers && blocksData) {
-                console.log({ countries })
                 const { paidAmount, subscribers, notifications, paidPoints } = blocksData;
                 const data = [
                     {

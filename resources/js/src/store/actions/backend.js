@@ -191,3 +191,27 @@ export const getAdminDashboard = () => async dispatch => {
         dispatch(getAdminDashboardFail(err));
     }
 };
+
+
+
+export const getAdminUsersStart = () => ({ type: actionTypes.GET_ADMIN_USERS_START });
+const getAdminUsersSuccess = data => ({ type: actionTypes.GET_ADMIN_USERS_SUCCESS, ...data });
+const getAdminUsersFail = error => ({ type: actionTypes.GET_ADMIN_USERS_FAIL, error });
+export const getAdminUsers = () => async dispatch => {
+    const token = localStorage.getItem('token');
+    dispatch(getAdminUsersStart());
+
+    try {
+        const res = await fetch(rootPath + '/api/admin/users', {
+            method: 'GET',
+            headers: {
+                Authorization: token
+            }
+        });
+        const resData = await res.json();
+        dispatch(getAdminUsersSuccess(resData));
+    } catch (err) {
+        console.log(err);
+        dispatch(getAdminUsersFail(err));
+    }
+};

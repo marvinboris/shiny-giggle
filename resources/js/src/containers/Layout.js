@@ -27,6 +27,8 @@ import PaymentSuccess from './Pages/Payment/Success';
 
 // Backend pages
 import AdminDashboard from './Pages/Admin/Dashboard/Dashboard';
+import AdminUsers from './Pages/Admin/Users';
+
 import UserDashboard from './Pages/User/Dashboard/Dashboard';
 import Plans from './Pages/User/Subscription/Plans/Plans';
 import Buy from './Pages/User/Subscription/Buy/Buy';
@@ -69,6 +71,8 @@ class Layout extends Component {
             <Route path="/dashboard" component={dashboard} />
             <Route path="/user/subscription/buy" component={Buy} />
             <Route path="/user/subscription/plans" component={Plans} />
+
+            <Route path="/admin/users" component={AdminUsers} />
 
             <Route path="/user/calculate" component={Calculate} />
 

@@ -112,7 +112,7 @@ class MonetbilController extends Controller
                 'type' => 'deposit',
                 'status' => 'pending',
                 'currency' => $request->currency ? $input['current'] : 'USD',
-                'address' => $input['phone']
+                'address' => $request->phone
             ]);
             $user->transactions()->save($transaction);
         }

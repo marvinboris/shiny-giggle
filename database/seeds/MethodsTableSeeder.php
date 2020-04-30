@@ -16,7 +16,8 @@ class MethodsTableSeeder extends Seeder
         $methods = [
             'Bitcoin' => 'Bitcoin',
             'Mobile' => 'Mobile Payment',
-            'Limo' => 'Pay using Limo account'
+            'Limo' => 'Pay using Limo account',
+            'Admin' => 'Admin'
         ];
 
         foreach ($methods as $key => $value) {

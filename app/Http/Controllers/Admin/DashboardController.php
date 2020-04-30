@@ -14,7 +14,7 @@ class DashboardController extends Controller
     {
         $user = request()->user();
 
-        $users = User::orderBy('created_at', 'desc')->get();
+        $users = User::orderBy('id', 'desc')->limit(5)->get();
         $guests = Guest::get();
 
         $paidAmount = 0;

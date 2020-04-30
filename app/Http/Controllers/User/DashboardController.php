@@ -13,7 +13,7 @@ class DashboardController extends Controller
         $user = request()->user();
 
         $purchasedPlans = $user->plans;
-        $calculations = $user->calculations;
+        $calculations = $user->calculations();
         $notifications = count($user->notifications);
         
         $paidAmount = 0;

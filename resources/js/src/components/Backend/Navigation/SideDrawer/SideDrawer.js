@@ -1,7 +1,7 @@
 import React from 'react';
-import { Col, Badge } from 'reactstrap';
+import { Col, Badge, ButtonGroup, Button } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTachometerAlt, faUserTie, faCalendarAlt, faEnvelope, faTasks, faCog, faCircle, faEdit, faMoneyBillWave } from '@fortawesome/free-solid-svg-icons';
+import { faTachometerAlt, faUserTie, faCalendarAlt, faEnvelope, faTasks, faCog, faCircle, faEdit, faMoneyBillWave, faWallet } from '@fortawesome/free-solid-svg-icons';
 import { faCheckCircle } from '@fortawesome/free-regular-svg-icons';
 
 import SideDrawerItem from './SideDrawerItem/SideDrawerItem';
@@ -12,10 +12,29 @@ const roles = {
     admin: 'Administrator'
 };
 
-const sideDrawer = ({ name, photo = "https://placehold.it/100x100", role = '', credits, ref }) => {
+const sideDrawer = ({ name, photo = "https://placehold.it/100x100", role = '', credits = 0, id, sponsor }) => {
+    let addOns = null;
     let sideDrawerItems = null;
     switch (role) {
         case 'user':
+            addOns = <>
+                <ButtonGroup className="shadow-sm text-small mb-3">
+                    <div className="rounded-left-2 py-1 pl-2 pr-3 border-right border-white bg-orange text-white">
+                        <FontAwesomeIcon icon={faWallet} className="text-black mr-1" fixedWidth />
+                        Credits
+                    </div>
+
+                    <div className="rounded-right-2 py-1 pr-2 pl-3 border-0 text-700 bg-orange text-white position-relative">
+                        ${credits}
+
+                        <div className="position-absolute border border-2 border-green rounded-circle bg-white" style={{ top: '50%', left: 0, width: 10, height: 10, transform: 'translate(-50%, -50%)' }} />
+                    </div>
+                </ButtonGroup>
+                
+                <Col xs={12} className="p-0 text-orange text-300 small">
+                    <FontAwesomeIcon fixedWidth icon={faUserTie} size="sm" className="mr-1" />Account ID: <span className="text-700">{id}</span>
+                </Col>
+            </>;
             sideDrawerItems = <>
                 <SideDrawerItem icon={faUserTie} dropdown path="/user/subscription" items={[
                     { link: '/user/subscription/buy', text: 'Buy Plan' },
@@ -65,15 +84,13 @@ const sideDrawer = ({ name, photo = "https://placehold.it/100x100", role = '', c
                                     <strong>{name}</strong>
 
                                     <div className="d-flex justify-content-center position-relative">
-                                        <div className="border-bottom border-white" style={{ width: 100 }} />
+                                        <div className="border-bottom border-border" style={{ width: 100 }} />
 
                                         <div className="bg-orange border rounded-circle border-white position-absolute" style={{ width: 10, height: 10, bottom: 0, left: '50%', transform: 'translate(-50%, 50%)' }} />
                                     </div>
                                 </Col>
-                                <Col xs={12} className="p-0 text-success text-300 small">
-                                    <FontAwesomeIcon fixedWidth icon={faUserTie} size="sm" className="mr-1" />Account ID: <span className="text-700">{ref}</span>
-                                </Col>
-                                <Col xs={12} className="p-0 text-success text-300 small">
+                                {addOns}
+                                <Col xs={12} className="p-0 text-green text-300 small">
                                     <FontAwesomeIcon fixedWidth icon={faCheckCircle} size="sm" className="mr-1" />{roles[role]}
                                 </Col>
                             </div>

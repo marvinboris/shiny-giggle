@@ -82365,9 +82365,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var reactstrap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! reactstrap */ "./node_modules/reactstrap/es/index.js");
 /* harmony import */ var _fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fortawesome/react-fontawesome */ "./node_modules/@fortawesome/react-fontawesome/index.es.js");
 /* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ "./node_modules/@fortawesome/free-solid-svg-icons/index.es.js");
-/* harmony import */ var _SideDrawerItem_SideDrawerItem__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./SideDrawerItem/SideDrawerItem */ "./resources/js/src/components/Backend/Navigation/SideDrawer/SideDrawerItem/SideDrawerItem.js");
-/* harmony import */ var _SideDrawer_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./SideDrawer.css */ "./resources/js/src/components/Backend/Navigation/SideDrawer/SideDrawer.css");
-/* harmony import */ var _SideDrawer_css__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_SideDrawer_css__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _fortawesome_free_regular_svg_icons__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fortawesome/free-regular-svg-icons */ "./node_modules/@fortawesome/free-regular-svg-icons/index.es.js");
+/* harmony import */ var _SideDrawerItem_SideDrawerItem__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./SideDrawerItem/SideDrawerItem */ "./resources/js/src/components/Backend/Navigation/SideDrawer/SideDrawerItem/SideDrawerItem.js");
+/* harmony import */ var _SideDrawer_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./SideDrawer.css */ "./resources/js/src/components/Backend/Navigation/SideDrawer/SideDrawer.css");
+/* harmony import */ var _SideDrawer_css__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_SideDrawer_css__WEBPACK_IMPORTED_MODULE_6__);
 
 
 
@@ -82375,8 +82376,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var capitalize = function capitalize(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
+var roles = {
+  user: 'System User',
+  admin: 'Administrator'
 };
 
 var sideDrawer = function sideDrawer(_ref) {
@@ -82384,12 +82386,47 @@ var sideDrawer = function sideDrawer(_ref) {
       _ref$photo = _ref.photo,
       photo = _ref$photo === void 0 ? "https://placehold.it/100x100" : _ref$photo,
       _ref$role = _ref.role,
-      role = _ref$role === void 0 ? '' : _ref$role;
+      role = _ref$role === void 0 ? '' : _ref$role,
+      _ref$credits = _ref.credits,
+      credits = _ref$credits === void 0 ? 0 : _ref$credits,
+      id = _ref.id,
+      sponsor = _ref.sponsor;
+  var addOns = null;
   var sideDrawerItems = null;
 
   switch (role) {
     case 'user':
-      sideDrawerItems = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SideDrawerItem_SideDrawerItem__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      addOns = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["ButtonGroup"], {
+        className: "shadow-sm text-small mb-3"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "rounded-left-2 py-1 pl-2 pr-3 border-right border-white bg-orange text-white"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_2__["FontAwesomeIcon"], {
+        icon: _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_3__["faWallet"],
+        className: "text-black mr-1",
+        fixedWidth: true
+      }), "Credits"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "rounded-right-2 py-1 pr-2 pl-3 border-0 text-700 bg-orange text-white position-relative"
+      }, "$", credits, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "position-absolute border border-2 border-green rounded-circle bg-white",
+        style: {
+          top: '50%',
+          left: 0,
+          width: 10,
+          height: 10,
+          transform: 'translate(-50%, -50%)'
+        }
+      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Col"], {
+        xs: 12,
+        className: "p-0 text-orange text-300 small"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_2__["FontAwesomeIcon"], {
+        fixedWidth: true,
+        icon: _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_3__["faUserTie"],
+        size: "sm",
+        className: "mr-1"
+      }), "Account ID: ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "text-700"
+      }, id)));
+      sideDrawerItems = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SideDrawerItem_SideDrawerItem__WEBPACK_IMPORTED_MODULE_5__["default"], {
         icon: _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_3__["faUserTie"],
         dropdown: true,
         path: "/user/subscription",
@@ -82400,14 +82437,25 @@ var sideDrawer = function sideDrawer(_ref) {
           link: '/user/subscription/plans',
           text: 'My Plans'
         }]
-      }, "Subscription Plan"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SideDrawerItem_SideDrawerItem__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      }, "Subscription Plan"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SideDrawerItem_SideDrawerItem__WEBPACK_IMPORTED_MODULE_5__["default"], {
         icon: _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_3__["faCalendarAlt"],
         href: "/user/calculate"
-      }, "Calculate"));
+      }, "Calculate"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SideDrawerItem_SideDrawerItem__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        icon: _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_3__["faMoneyBillWave"],
+        dropdown: true,
+        path: "/user/finances",
+        items: [{
+          link: '/user/finances/deposits/add',
+          text: 'Deposit Credits'
+        }, {
+          link: '/user/finances/deposits/',
+          text: 'Deposit List'
+        }]
+      }, "Finances"));
       break;
 
     case 'admin':
-      sideDrawerItems = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SideDrawerItem_SideDrawerItem__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      sideDrawerItems = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SideDrawerItem_SideDrawerItem__WEBPACK_IMPORTED_MODULE_5__["default"], {
         icon: _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_3__["faUserTie"],
         dropdown: true,
         path: "/admin/finances",
@@ -82421,7 +82469,7 @@ var sideDrawer = function sideDrawer(_ref) {
           link: '/admin/finances/points',
           text: 'Deposit Points List'
         }]
-      }, "Finances"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SideDrawerItem_SideDrawerItem__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      }, "Finances"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SideDrawerItem_SideDrawerItem__WEBPACK_IMPORTED_MODULE_5__["default"], {
         icon: _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_3__["faCalendarAlt"],
         dropdown: true,
         path: "/admin/users",
@@ -82492,7 +82540,7 @@ var sideDrawer = function sideDrawer(_ref) {
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-center position-relative"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "border-bottom border-white",
+    className: "border-bottom border-border",
     style: {
       width: 100
     }
@@ -82505,25 +82553,25 @@ var sideDrawer = function sideDrawer(_ref) {
       left: '50%',
       transform: 'translate(-50%, 50%)'
     }
-  }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Col"], {
+  }))), addOns, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Col"], {
     xs: 12,
-    className: "p-0 text-success small"
+    className: "p-0 text-green text-300 small"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_2__["FontAwesomeIcon"], {
     fixedWidth: true,
-    icon: _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_3__["faCircle"],
+    icon: _fortawesome_free_regular_svg_icons__WEBPACK_IMPORTED_MODULE_4__["faCheckCircle"],
     size: "sm",
     className: "mr-1"
-  }), capitalize(role)))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
+  }), roles[role]))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
     className: "navbar navbar-expand navbar-dark py-0 px-0 mt-5"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "collapse navbar-collapse",
     id: "navbarNav"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
     className: "navbar-nav w-100 flex-column"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SideDrawerItem_SideDrawerItem__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SideDrawerItem_SideDrawerItem__WEBPACK_IMPORTED_MODULE_5__["default"], {
     icon: _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_3__["faTachometerAlt"],
     href: "/dashboard"
-  }, "Dashboard"), sideDrawerItems, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SideDrawerItem_SideDrawerItem__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }, "Dashboard"), sideDrawerItems, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SideDrawerItem_SideDrawerItem__WEBPACK_IMPORTED_MODULE_5__["default"], {
     icon: _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_3__["faEnvelope"],
     href: "/following"
   }, "Contact us", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Badge"], {
@@ -82535,12 +82583,12 @@ var sideDrawer = function sideDrawer(_ref) {
       top: -7,
       transform: 'translateX(-40px)'
     }
-  }, "12")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SideDrawerItem_SideDrawerItem__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }, "12")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SideDrawerItem_SideDrawerItem__WEBPACK_IMPORTED_MODULE_5__["default"], {
     icon: _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_3__["faTasks"],
     dropdown: true,
     path: "/packages",
     items: []
-  }, "Packages"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SideDrawerItem_SideDrawerItem__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }, "Packages"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SideDrawerItem_SideDrawerItem__WEBPACK_IMPORTED_MODULE_5__["default"], {
     icon: _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_3__["faCog"],
     dropdown: true,
     path: "/options",
@@ -82854,12 +82902,16 @@ var table = function table(_ref) {
       md = _ref.md,
       lg = _ref.lg,
       xl = _ref.xl,
-      className = _ref.className,
+      _ref$className = _ref.className,
+      className = _ref$className === void 0 ? '' : _ref$className,
       title = _ref.title,
       icon = _ref.icon,
       dark = _ref.dark,
       borderless = _ref.borderless,
-      innerClassName = _ref.innerClassName,
+      _ref$innerClassName = _ref.innerClassName,
+      innerClassName = _ref$innerClassName === void 0 ? '' : _ref$innerClassName,
+      _ref$outerClassName = _ref.outerClassName,
+      outerClassName = _ref$outerClassName === void 0 ? '' : _ref$outerClassName,
       p0 = _ref.p0,
       select = _ref.select,
       children = _ref.children,
@@ -82868,7 +82920,7 @@ var table = function table(_ref) {
   var titles = fields.map(function (_ref2) {
     var name = _ref2.name;
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-      className: "align-middle",
+      className: "align-middle text-nowrap",
       key: name
     }, name);
   });
@@ -82900,7 +82952,7 @@ var table = function table(_ref) {
     fields.forEach(function (_ref3) {
       var key = _ref3.key;
       inside.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-        className: "align-middle",
+        className: "align-middle text-nowrap",
         key: key
       }, item[key]));
     });
@@ -82915,9 +82967,9 @@ var table = function table(_ref) {
     md: md,
     lg: lg,
     xl: xl,
-    className: "h-100"
+    className: outerClassName
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: (dark ? "text-light " : " ") + className,
+    className: "d-flex flex-column h-100 " + (dark ? "text-light " : " ") + className,
     style: style
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "p-3 border-bottom border-border text-orange text-700 d-flex position-relative"
@@ -82947,9 +82999,9 @@ var table = function table(_ref) {
     icon: _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_3__["faTimes"],
     size: "2x"
   }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: !p0 ? "p-3" : "p-0"
+    className: "flex-fill d-flex flex-column " + (!p0 ? "p-3" : "p-0")
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "table-responsive"
+    className: "table-responsive flex-fill"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_1__["Table"], {
     dark: dark,
     bordered: bordered,
@@ -82960,7 +83012,7 @@ var table = function table(_ref) {
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, titles)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", {
     className: "bg-darklight-50 text-light"
   }, content))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "mt-3"
+    className: "pt-3"
   }, children))));
 };
 
@@ -84246,6 +84298,9 @@ var BackEnd = /*#__PURE__*/function (_Component) {
           name = _this$props$auth$data.name,
           role = _this$props$auth$data.role,
           photo = _this$props$auth$data.photo,
+          ref = _this$props$auth$data.ref,
+          sponsor = _this$props$auth$data.sponsor,
+          credits = _this$props$auth$data.credits,
           onAuthLogout = _this$props.onAuthLogout,
           children = _this$props.children;
       var isAuthenticated = localStorage.getItem('token') !== null;
@@ -84263,7 +84318,10 @@ var BackEnd = /*#__PURE__*/function (_Component) {
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Backend_Navigation_SideDrawer_SideDrawer__WEBPACK_IMPORTED_MODULE_4__["default"], {
         name: name || first_name + ' ' + last_name,
         photo: photo,
-        role: role
+        role: role,
+        id: ref,
+        sponsor: sponsor,
+        credits: credits
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("main", {
         className: "bg-darkblue position-relative pb-5",
         style: {
@@ -85489,7 +85547,9 @@ var Dashboard = /*#__PURE__*/function (_Component) {
               }), "Reply"))
             });
           });
-          content = react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["Row"], null, cards, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_components_Backend_UI_Table_Table__WEBPACK_IMPORTED_MODULE_13__["default"], {
+          content = react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["Row"], null, cards), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["Row"], {
+            className: "mt-5"
+          }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_components_Backend_UI_Table_Table__WEBPACK_IMPORTED_MODULE_13__["default"], {
             array: usersData,
             searchable: true,
             draggable: true,
@@ -85501,7 +85561,7 @@ var Dashboard = /*#__PURE__*/function (_Component) {
             limit: 5,
             lg: 6,
             innerClassName: "bg-darkblue",
-            className: "bg-darklight shadow-sm mt-5",
+            className: "bg-darklight shadow-sm",
             fields: [{
               name: 'First Name',
               key: 'first_name'
@@ -85525,10 +85585,9 @@ var Dashboard = /*#__PURE__*/function (_Component) {
             to: "/admin/users",
             className: "text-white"
           }, "View full task list | >")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["Col"], {
-            lg: 6,
-            className: "mt-5"
+            lg: 6
           }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-            className: "bg-darklight shadow-sm text-white h-100"
+            className: "bg-darklight shadow-sm text-white h-100 d-flex flex-column"
           }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
             className: "p-3 border-bottom border-border text-orange text-700 position-relative d-flex"
           }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
@@ -85553,7 +85612,7 @@ var Dashboard = /*#__PURE__*/function (_Component) {
             icon: _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_6__["faTimes"],
             size: "2x"
           }))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["Row"], {
-            className: "p-3"
+            className: "p-3 flex-fill"
           }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["Col"], {
             xs: 12,
             lg: 11
@@ -85573,7 +85632,8 @@ var Dashboard = /*#__PURE__*/function (_Component) {
             limit: 5,
             lg: 8,
             innerClassName: "bg-darkblue",
-            className: "bg-darklight shadow-sm mt-4",
+            className: "bg-darklight shadow-sm",
+            outerClassName: "pt-4",
             fields: [{
               name: 'Received Date',
               key: 'received_date'
@@ -85595,7 +85655,7 @@ var Dashboard = /*#__PURE__*/function (_Component) {
             className: "text-white"
           }, "View full list | >")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_4__["Col"], {
             lg: 4,
-            className: "mt-4"
+            className: "pt-4"
           }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
             className: "bg-darklight shadow-sm h-100 text-white position-relative d-flex flex-column"
           }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {

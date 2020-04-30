@@ -17,7 +17,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'email', 'first_name', 'last_name', 'username', 'phone', 'country', 'password', 'calculations'
+        'email', 'first_name', 'last_name', 'username', 'phone', 'country', 'password', 'sponsor', 'ref', 'credits'
     ];
 
     /**
@@ -38,7 +38,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public function paidAmount() {
+    public function paidAmount()
+    {
         $paidAmount = 0;
         foreach ($this->plans as $plan) {
             $paidAmount += $plan->price;
@@ -48,7 +49,22 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function plans()
     {
-        return $this->belongsToMany('App\Plan', 'plan_user')->withPivot(['points', 'code']);
+        return $this->belongsToMany('App\Plan', 'plan_user')->withPivot(['points', 'code', 'calculations']);
+    }
+
+    public function deposits()
+    {
+        return $this->hasMany('App\Deposit');
+    }
+
+    public function calculations()
+    {
+        $plans = $this->plans;
+        $calculations = 0;
+        foreach ($plans as $plan) {
+            $calculations += $plan->calculations;
+        }
+        return $calculations;
     }
 
     /**
@@ -57,6 +73,58 @@ class User extends Authenticatable implements MustVerifyEmail
     public function transactions()
     {
         return $this->morphMany('App\Transaction', 'transactionable');
+    }
+
+    public static function generateNewRef()
+    {
+        $letters = range('A', 'Z');
+        $numbers = range(0, 9);
+        $chars = array_merge($letters, $numbers);
+        $length = count($chars);
+
+        $code = '';
+
+        for ($i = 0; $i < 6; $i++) {
+            $index = rand(0, $length - 1);
+            $code .= $chars[$index];
+        }
+
+        return $code;
+    }
+
+    public static function ref()
+    {
+        $ref = self::generateNewRef();
+        $user = self::where('ref', $ref)->first();
+        while ($user) {
+            $ref = self::generateNewRef();
+            $user = self::where('ref', $ref)->first();
+        }
+
+        return $ref;
+    }
+
+    public function abbreviation()
+    {
+        return strtoupper($this->first_name[0] . $this->last_name[0]);
+    }
+
+    public function referrals($latest = false, $limit = 0)
+    {
+        $referrals = self::where('sponsor', $this->ref);
+        if ($latest) $referrals = $referrals->latest();
+        if ($limit > 0) $referrals = $referrals->limit($limit);
+        return $referrals->get();
+    }
+
+    public function name()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
+    public function sponsor()
+    {
+        return self::where('ref', $this->sponsor)->first();
     }
 
     public function role()

@@ -17,8 +17,9 @@ class CreatePlanUserTable extends Migration
             $table->id();
             $table->bigInteger('plan_id')->unsigned()->index();
             $table->bigInteger('user_id')->unsigned()->index();
-            $table->string('code', 50)->unique();
+            $table->string('code', 20)->unique();
             $table->integer('points');
+            $table->integer('calculations')->default(0);
             $table->datetime('expiry_date');
             $table->timestamps();
 

@@ -177,8 +177,10 @@ class Dashboard extends Component {
                     <>
                         <Row>
                             {cards}
-                            <Table
-                                array={usersData} searchable draggable closable title="Total Users" dark icon={faTasks} bordered limit={5} lg={6} innerClassName="bg-darkblue" className="bg-darklight shadow-sm mt-5"
+                        </Row>
+
+                        <Row className="mt-5">
+                            <Table array={usersData} searchable draggable closable title="Total Users" dark icon={faTasks} bordered limit={5} lg={6} innerClassName="bg-darkblue" className="bg-darklight shadow-sm"
                                 fields={[
                                     { name: 'First Name', key: 'first_name' },
                                     { name: 'Last Name', key: 'last_name' },
@@ -190,8 +192,8 @@ class Dashboard extends Component {
                                 <Link to="/admin/users" className="text-white">View full task list | ></Link>
                             </Table>
 
-                            <Col lg={6} className="mt-5">
-                                <div className="bg-darklight shadow-sm text-white h-100">
+                            <Col lg={6}>
+                                <div className="bg-darklight shadow-sm text-white h-100 d-flex flex-column">
                                     <div className="p-3 border-bottom border-border text-orange text-700 position-relative d-flex">
                                         <span className="d-inline-flex align-items-center"><FontAwesomeIcon size="lg" className="mr-2" fixedWidth icon={faTasks} />Finance Tracker</span>
 
@@ -202,7 +204,7 @@ class Dashboard extends Component {
                                         </div>
                                     </div>
 
-                                    <Row className="p-3">
+                                    <Row className="p-3 flex-fill">
                                         <Col xs={12} lg={11}>
                                             <img src={FinanceTracker} alt="Finance Tracker" className="img-fluid" />
                                         </Col>
@@ -210,8 +212,7 @@ class Dashboard extends Component {
                                 </div>
                             </Col>
 
-                            <Table
-                                array={messagesData} searchable draggable closable title="Recent Messages" dark icon={faEnvelope} bordered limit={5} lg={8} innerClassName="bg-darkblue" className="bg-darklight shadow-sm mt-4"
+                            <Table array={messagesData} searchable draggable closable title="Recent Messages" dark icon={faEnvelope} bordered limit={5} lg={8} innerClassName="bg-darkblue" className="bg-darklight shadow-sm" outerClassName="pt-4"
                                 fields={[
                                     { name: 'Received Date', key: 'received_date' },
                                     { name: 'Sender Name', key: 'sender_name' },
@@ -222,7 +223,7 @@ class Dashboard extends Component {
                                 <Link to="/admin/messages" className="text-white">View full list | ></Link>
                             </Table>
 
-                            <Col lg={4} className="mt-4">
+                            <Col lg={4} className="pt-4">
                                 <div className="bg-darklight shadow-sm h-100 text-white position-relative d-flex flex-column">
                                     <div className="p-3 border-bottom border-border text-orange text-700 position-relative d-flex">
                                         <span className="d-inline-flex align-items-center"><FontAwesomeIcon size="lg" className="mr-2" fixedWidth icon={faTasks} />All Packages</span>

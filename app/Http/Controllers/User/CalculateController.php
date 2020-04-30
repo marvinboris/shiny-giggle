@@ -38,12 +38,12 @@ class CalculateController extends Controller
 
         $plan = $user->plans()->whereCode(request()->code)->first();
         $points = $plan->pivot->points;
+        $calculations = $plan->pivot->calculations;
         if ($points === 0) return response()->json([
             'message' => 'Insufficent points. Please subscribe to a plan'
         ], 500);
         else {
-            $plan->pivot->update(['points' => $points - 1]);
-            $user->update(['calculations' => $user->calculations + 1]);
+            $plan->pivot->update(['points' => $points - 1, 'calculations' => $calculations + 1]);
         }
 
 

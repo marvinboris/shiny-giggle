@@ -45,14 +45,14 @@ class BackEnd extends Component {
 
     render() {
         const { date, clock } = this.state;
-        const { auth: { loading, data: { notifications, first_name, last_name, name, role, photo } }, onAuthLogout, children } = this.props;
+        const { auth: { loading, data: { notifications, first_name, last_name, name, role, photo, ref, sponsor, credits } }, onAuthLogout, children } = this.props;
         const isAuthenticated = localStorage.getItem('token') !== null;
 
         if (!isAuthenticated) onAuthLogout();
 
         return <div className="text-left">
             <Toolbar notifications={notifications} name={name || first_name + ' ' + last_name} role={role} clickHandler={this.clickHandler} logoutHandler={onAuthLogout} date={date} clock={clock} />
-            <SideDrawer name={name || first_name + ' ' + last_name} photo={photo} role={role} />
+            <SideDrawer name={name || first_name + ' ' + last_name} photo={photo} role={role} id={ref} sponsor={sponsor} credits={credits} />
             <main className="bg-darkblue position-relative pb-5" style={{ paddingLeft: 280, minHeight: 'calc(100vh - 101px)' }}>
                 <div className="bg-darkblue mb-5 pb-5">
                     {loading ? <div className="h-100 d-flex justify-content-center align-items-center"><CustomSpinner /></div> : children}

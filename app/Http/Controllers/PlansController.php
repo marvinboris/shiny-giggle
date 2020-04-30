@@ -34,7 +34,7 @@ class PlansController extends Controller
     public function payment($slug)
     {
         $plan = Plan::whereSlug($slug)->first();
-        $methodsData = Method::whereIsActive(1)->get();
+        $methodsData = Method::where('name', '!=', 'Admin')->whereIsActive(1)->get();
 
         $methods = [];
 

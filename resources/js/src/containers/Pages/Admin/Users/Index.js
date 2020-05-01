@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { Col, Row } from 'reactstrap';
+import { Col, Row, Badge } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEdit, faTrash, faUsers, faThList } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faEdit, faTrash, faUsers, faThList, faTimesCircle, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 
 // Components
 import BackEnd from '../../../BackEnd';
@@ -18,6 +18,12 @@ import List from '../../../../components/Backend/UI/List/List';
 import * as actions from '../../../../store/actions';
 import { updateObject } from '../../../../shared/utility';
 
+const convertDate = date => {
+    const d = new Date(date)
+    const dtf = new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit' });
+
+    return dtf.formatToParts(d).map(({ value }) => value).join('');
+};
 
 class Index extends Component {
     state = {
@@ -57,6 +63,8 @@ class Index extends Component {
                 const usersData = totalUsers.map(user => {
                     const country = countries.find(country => country.country === user.country);
                     return updateObject(user, {
+                        name: user.first_name + ' ' + user.last_name,
+                        created_at: convertDate(user.created_at),
                         country: <div className="d-flex align-items-center">
                             <div className="border border-1 border-white rounded-circle overflow-hidden position-relative d-flex justify-content-center align-items-center mr-2" style={{ width: 20, height: 20 }}>
                                 <span className={`flag-icon text-large position-absolute flag-icon-${user.country.toLowerCase()}`} />
@@ -64,6 +72,9 @@ class Index extends Component {
 
                             {country ? country.name : null}
                         </div>,
+                        status: user.email_verified_at ? 
+                        <Badge color="success" className="badge-block position-static"><FontAwesomeIcon icon={faCheckCircle} className="mr-2" fixedWidth />Active</Badge> :
+                        <Badge color="danger" className="badge-block position-static"><FontAwesomeIcon icon={faTimesCircle} className="mr-2" fixedWidth />Inactive</Badge>,
                         action: <div className="text-center">
                             <FontAwesomeIcon icon={faEye} className="text-lightblue mr-2" fixedWidth />
                             <FontAwesomeIcon icon={faEdit} className="text-green mr-2" fixedWidth />
@@ -77,13 +88,14 @@ class Index extends Component {
                         <Row>
                             <List array={usersData} dark bordered icon={faThList} title="User List" add="Add User" innerClassName="bg-darkblue" className="bg-darklight shadow-sm"
                                 fields={[
-                                    { name: 'First Name', key: 'first_name' },
-                                    { name: 'Last Name', key: 'last_name' },
-                                    { name: 'Username', key: 'username' },
+                                    { name: 'Full Name', key: 'name' },
+                                    // { name: 'Username', key: 'username' },
+                                    { name: 'User ID', key: 'ref' },
                                     { name: 'Email', key: 'email' },
                                     { name: 'Phone', key: 'phone' },
                                     { name: 'Country', key: 'country' },
                                     { name: 'Creation date', key: 'created_at' },
+                                    { name: 'Status', key: 'status' },
                                     { name: 'Action', key: 'action' }
                                 ]} />
                         </Row>

@@ -13,7 +13,7 @@ export default ({ isAuthenticated, role, logout, dashboard }) => {
 
     return <div>
         <Navbar className="border-bottom bg-darkblue border-yellow-50 d-flex align-items-center px-5" light expand="md">
-            <Link to="/">
+            <Link to="/" style={{ transform: 'scale(.7)', transformOrigin: 'center' }}>
                 <img src={Logo} width={341} alt="Logo" />
             </Link>
 

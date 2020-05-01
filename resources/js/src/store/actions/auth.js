@@ -9,7 +9,6 @@ export const authLogout = () => {
     localStorage.removeItem('expirationDate');
     return {
         type: actionTypes.AUTH_LOGOUT,
-        data: {}
     };
 };
 

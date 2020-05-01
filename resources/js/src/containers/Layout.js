@@ -64,7 +64,8 @@ class Layout extends Component {
             <Route path="/auth/register/success" component={SignUpSuccess} />
             <Route path="/auth/register" component={SignUp} />
             <Route path="/auth/login" component={Login} />
-            <Redirect to="/auth/login" />
+            
+            <Redirect to={role === 'admin' ? "/admin" : "/auth/login"} />
         </Switch>;
 
         if (isAuthenticated) routes = <Switch>

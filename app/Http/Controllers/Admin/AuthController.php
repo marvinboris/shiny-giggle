@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Admin;
 use App\Http\Controllers\Controller;
 use App\Mail\VerificationCode;
-use App\Plan;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\Request;
@@ -55,7 +55,7 @@ class AuthController extends Controller
 
         if ($admin) {
             if (Hash::check($input['password'], $admin->password)) {
-                $code = Plan::code();
+                $code = User::generateNewRef();
                 Mail::to($admin->email)->send(new VerificationCode($code));
                 $hash = Crypt::encryptString(json_encode([
                     'id' => $admin->id,

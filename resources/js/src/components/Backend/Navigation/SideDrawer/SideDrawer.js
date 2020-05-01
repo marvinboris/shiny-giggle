@@ -45,6 +45,7 @@ const sideDrawer = ({ name, photo = "https://placehold.it/100x100", role = '', c
                     { link: '/user/finances/deposits/add', text: 'Deposit Credits' },
                     { link: '/user/finances/deposits/', text: 'Deposit List' },
                 ]}>Finances</SideDrawerItem>
+                <SideDrawerItem icon={faEnvelope} href="/following">Contact us<Badge color="green" className="position-relative rounded-circle text-x-small text-700 d-inline-flex justify-content-center align-items-center" style={{ width: 18, height: 18, top: -7, transform: 'translateX(-40px)' }}>12</Badge></SideDrawerItem>
                 <SideDrawerItem icon={faCog} dropdown path="/user/options" items={[
                     { link: '/user/options/terms-conditions', text: 'Terms & Conditions' },
                     { link: '/user/options/auto-reinvest', text: 'Auto Reinvest' },
@@ -74,7 +75,7 @@ const sideDrawer = ({ name, photo = "https://placehold.it/100x100", role = '', c
     }
 
     return (
-        <div className="SideDrawer nav-left-sidebar bg-darklight border-right border-darkblue text-white" style={{ width: 280, position: 'fixed', top: 101, zIndex: 1100, height: 'calc(100vh - 101px)' }}>
+        <div className="SideDrawer nav-left-sidebar bg-darklight border-right border-darkblue text-white" style={{ width: 280, position: 'fixed', top: 101, zIndex: 1040, height: 'calc(100vh - 101px)' }}>
             <div className="menu-list">
                 <Col xs={12}>
                     <div className="py-3 align-items-center border-top border-bottom border-white-20">

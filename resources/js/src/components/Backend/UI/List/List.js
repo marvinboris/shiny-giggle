@@ -17,7 +17,7 @@ export default ({ fields, array, limit, bordered, xs = 12, sm = 12, md = 12, lg 
             <input type="checkbox" value={item._id} />
         </th>);
         fields.forEach(({ key }) => {
-            inside.push(<td className="align-middle text-nowrap" key={key}>{item[key]}</td>);
+            inside.push(<td className="align-middle text-nowrap position-relative" key={key}>{item[key]}</td>);
         });
 
         return <tr className="align-middle" key={index + 1}>{inside}</tr>;
@@ -39,9 +39,9 @@ export default ({ fields, array, limit, bordered, xs = 12, sm = 12, md = 12, lg 
                 <div className="p-4 border-bottom border-border text-orange text-700 position-relative">
                     <Row className="align-items-center justify-content-between">
                         <div className="col-6 pb-2 pb-lg-0 col-lg-2">
-                            <div className="d-flex align-items-center text-secondary rounded-2 overflow-hidden bg-darkblue">
-                                <div className="px-3 py-2 font-weight-bold border-right border-black-20">Show</div>
-                                <Input type="select" name="show" className="px-3 py-2 text-center d-block text-reset border-0 bg-darkblue">
+                            <div className="d-flex align-items-center text-secondary rounded-2">
+                                <div className="px-3 py-2 font-weight-bold h-100 border-bottom border-darkblue bg-darkblue">Show</div>
+                                <Input type="select" name="show" className="px-3 py-2 text-center rounded-0 h-100 d-block text-reset border-top-0 border-right-0 border-bottom-0 border-black-20 bg-darkblue" style={{ width: '5rem' }}>
                                     <option value="10">10</option>
                                     <option value="25">25</option>
                                     <option value="50">50</option>
@@ -57,10 +57,10 @@ export default ({ fields, array, limit, bordered, xs = 12, sm = 12, md = 12, lg 
 
                         <div className="col-lg-4 pb-2 pb-lg-0 rounded-2 overflow-hidden">
                             <div className="bg-darkblue d-flex text-light justify-content-around align-items-center font-weight-bold py-2">
-                                <a href="{{ route('export.xlsx') }}" className="px-2 export text-decoration-none text-reset"><FontAwesomeIcon icon={faFileExcel} className="fas fa-file-excel text-darkblue mr-2" />Excel</a>
-                                <a href="{{ route('export.pdf') }}" className="px-2 export text-decoration-none text-reset"><FontAwesomeIcon icon={faFilePdf} className="fas fa-file-pdf text-danger mr-2" />PDF</a>
-                                <a href="{{ route('export.csv') }}" className="px-2 export text-decoration-none text-reset"><FontAwesomeIcon icon={faFileCsv} className="fas fa-file-csv text-green mr-2" />CSV</a>
-                                <a href="{{ route('export.pdf') }}" className="px-2 export text-decoration-none text-reset"><FontAwesomeIcon icon={faPrint} className="fas fa-print text-primary mr-2" />Print</a>
+                                <a href="{{ route('export.xlsx') }}" className="px-2 export text-decoration-none text-reset"><FontAwesomeIcon icon={faFileExcel} className="text-white mr-2" />Excel</a>
+                                <a href="{{ route('export.pdf') }}" className="px-2 export text-decoration-none text-reset"><FontAwesomeIcon icon={faFilePdf} className="text-danger mr-2" />PDF</a>
+                                <a href="{{ route('export.csv') }}" className="px-2 export text-decoration-none text-reset"><FontAwesomeIcon icon={faFileCsv} className="text-green mr-2" />CSV</a>
+                                <a href="{{ route('export.pdf') }}" className="px-2 export text-decoration-none text-reset"><FontAwesomeIcon icon={faPrint} className="text-primary mr-2" />Print</a>
                             </div>
                         </div>
 

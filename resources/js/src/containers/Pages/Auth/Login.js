@@ -43,7 +43,7 @@ export class Home extends Component {
                         <p className="text-light text-right">Forgot password ? <strong className="text-yellow">Reset here</strong></p>
                     </FormGroup>
                     <FormButton color="yellow" icon={faSignInAlt}>Sign In</FormButton>
-                    <p className="text-center"><Link to="/auth/code" className="text-yellow">I have a code</Link></p>
+                    {/* <p className="text-center"><Link to="/auth/code" className="text-yellow">I have a code</Link></p> */}
                 </Form>
             </Layout>
         )

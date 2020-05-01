@@ -57,7 +57,7 @@ class Plan extends Model
 
         $code = '';
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 8; $i++) {
             $index = rand(0, $length - 1);
             $code .= $chars[$index];
         }

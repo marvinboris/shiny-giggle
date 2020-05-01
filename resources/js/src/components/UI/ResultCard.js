@@ -23,7 +23,7 @@ export default function ResultCard({ invest, payout, week, balPrevW, totPayout, 
             <div style={{ backgroundColor: invest ? '#05C945' : '#F5A10E' }} className="py-1 pl-3 text-left w-100 rounded-sm d-flex align-items-center font-weight-bold"><FontAwesomeIcon size="2x" icon={faCalendar} className="pr-3" />Week {week}</div>
 
             <div className="d-flex align-items-center pt-2 pr-1">
-                <div className="text-truncate">Total Payout:</div>
+                <div className="text-nowrap">Total Payout:</div>
                 <div className="text-truncate pl-1">{payout.join(" + ")}</div>
                 <FontAwesomeIcon icon={faArrowAltCircleDown} id={'payouts' + random} className="text-dark ml-auto" />
             </div>
@@ -57,7 +57,7 @@ export default function ResultCard({ invest, payout, week, balPrevW, totPayout, 
                             {leftWeeks > 0 ? <div className="position-relative pr-3">
                                 <FontAwesomeIcon className="" size="2x" color="#05C945" icon={faFolder} />
                                 <span className="position-absolute text-bahnschrift text-white text-x-small" style={{ top: 0, transform: 'translate(calc(-15px - 50%), 10px)', zIndex: 3 }}>{amount}</span>
-                                <Badge className="rounded-circle float-right" style={{ top: 0, transform: 'translateX(-1.5rem)', zIndex: 2 }} color="danger">-{leftWeeks}</Badge>
+                                <Badge className="rounded-circle float-right" style={{ top: 0, transform: 'translateX(-1.5rem)', zIndex: 2 }} color="danger">-{leftWeeks - 1}</Badge>
                             </div> : ''}
                         </div>)}
                 </div>
@@ -69,7 +69,7 @@ export default function ResultCard({ invest, payout, week, balPrevW, totPayout, 
                         {leftWeeks > 0 ? <div className="position-relative pr-3">
                             <FontAwesomeIcon className="" size="2x" color="#05C945" icon={faFolder} />
                             <span className="position-absolute text-white text-x-small" style={{ top: 0, transform: 'translate(calc(-15px - 50%), 10px)', zIndex: 3 }}>{amount}</span>
-                            <Badge className="rounded-circle float-right" style={{ top: 0, transform: 'translateX(-1.5rem)', zIndex: 2 }} color="danger">-{leftWeeks}</Badge>
+                            <Badge className="rounded-circle float-right" style={{ top: 0, transform: 'translateX(-1.5rem)', zIndex: 2 }} color="danger">-{leftWeeks - 1}</Badge>
                         </div> : ''}
                     </div>)}
             </div>

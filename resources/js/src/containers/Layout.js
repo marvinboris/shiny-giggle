@@ -28,6 +28,10 @@ import PaymentSuccess from './Pages/Payment/Success';
 // Backend pages
 import AdminDashboard from './Pages/Admin/Dashboard/Dashboard';
 import AdminUsers from './Pages/Admin/Users';
+import AdminSalesReport from './Pages/Admin/Finances/SalesReport';
+import AdminCredits from './Pages/Admin/Finances';
+import AdminAddCredit from './Pages/Admin/Finances/Add';
+import AdminPlans from './Pages/Admin/Plans';
 
 import UserDashboard from './Pages/User/Dashboard/Dashboard';
 import Plans from './Pages/User/Subscription/Plans/Plans';
@@ -74,6 +78,10 @@ class Layout extends Component {
             <Route path="/user/subscription/plans" component={Plans} />
 
             <Route path="/admin/users" component={AdminUsers} />
+            <Route path="/admin/plans" component={AdminPlans} />
+            <Route path="/admin/finances/sales-report" component={AdminSalesReport} />
+            <Route path="/admin/finances/credits/add" component={AdminAddCredit} />
+            <Route path="/admin/finances/credits" component={AdminCredits} />
 
             <Route path="/user/calculate" component={Calculate} />
 

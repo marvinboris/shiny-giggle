@@ -69,7 +69,7 @@ export default function ResultCard({ invest, payout, week, balPrevW, totPayout, 
                         {leftWeeks > 0 ? <div className="position-relative pr-3">
                             <FontAwesomeIcon className="" size="2x" color="#05C945" icon={faFolder} />
                             <span className="position-absolute text-white text-x-small" style={{ top: 0, transform: 'translate(calc(-15px - 50%), 10px)', zIndex: 3 }}>{amount}</span>
-                            <Badge className="rounded-circle float-right" style={{ top: 0, transform: 'translateX(-1.5rem)', zIndex: 2 }} color="danger">-{leftWeeks - 1}</Badge>
+                            <Badge className="rounded-circle float-right" style={{ top: 0, transform: 'translateX(-1.5rem)', zIndex: 2 }} color="danger">{leftWeeks > 1 ? '-' : ''}{leftWeeks - 1}</Badge>
                         </div> : ''}
                     </div>)}
             </div>

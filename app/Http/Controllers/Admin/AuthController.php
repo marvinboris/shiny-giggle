@@ -74,6 +74,27 @@ class AuthController extends Controller
         ], 403);
     }
 
+    public function resend(Request $request)
+    {
+        $data = json_decode(Crypt::decryptString($request->hash));
+        $admin = Admin::findOrFail($data->id);
+
+        $code = User::generateNewRef();
+        Mail::to($admin->email)->send(new VerificationCode($code));
+        $hash = Crypt::encryptString(json_encode([
+            'id' => $admin->id,
+            'code' => $code,
+        ]));
+
+        return response()->json([
+            'message' => [
+                'type' => 'success',
+                'content' => 'Verification code successfully sent.'
+            ],
+            'hash' => $hash
+        ]);
+    }
+
     public function verify(Request $request)
     {
         $input = $request->validate([

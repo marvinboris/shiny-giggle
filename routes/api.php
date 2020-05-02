@@ -53,13 +53,27 @@ Route::namespace('Guest')->prefix('guest')->name('guest.')->group(function () {
 
 Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
     Route::post('login', 'AuthController@login')->name('login');
+    Route::post('resend', 'AuthController@resend')->name('resend');
     Route::post('verify', 'AuthController@verify')->name('verify');
 
     Route::middleware('auth:admin')->group(function () {
         Route::get('dashboard', 'DashboardController@index')->name('dashboard');
-        
+
         Route::prefix('users')->name('users.')->group(function () {
             Route::get('', 'UsersController@index')->name('index');
+        });
+
+        Route::prefix('finances')->name('finances.')->group(function () {
+            Route::get('sales-report', 'FinancesController@sales_report')->name('sales-report');
+
+            Route::prefix('credits')->name('credits.')->group(function () {
+                Route::post('', 'FinancesController@store')->name('store');
+                Route::get('', 'FinancesController@index')->name('index');
+            });
+        });
+
+        Route::prefix('plans')->name('plans.')->group(function () {
+            Route::get('', 'PlansController@index')->name('index');
         });
     });
 });

@@ -41,8 +41,8 @@ class MonetbilController extends Controller
         $user = request()->user();
 
         $json = [
-            // 'amount' => 1,
-            'amount' => $input['amount'] * 620,
+            'amount' => 1,
+            // 'amount' => $input['amount'] * 620,
             'item_ref' => $input['plan_id'],
             'payment_ref' => time(),
             'country' => 'XAF',
@@ -129,13 +129,14 @@ class MonetbilController extends Controller
         if ('success' === $input['status']) {
             if ($role === 'guest') $user->update(['plan_id' => $plan->id, 'plan_code' => Plan::code(), 'points' => $plan->points]);
             else {
-                PlanUser::create([
+                $pivot = PlanUser::create([
                     'plan_id' => $plan->id,
                     'user_id' => $user->id,
                     'points' => $plan->points,
                     'code' => Plan::code(),
                     'expiry_date' => Carbon::now()->addWeeks($plan->validity)
                 ]);
+                $transaction->data = json_encode(['code' => $pivot->code]);
             }
             $transaction->status = 'completed';
         } else $transaction->status = $input['status'];
@@ -143,8 +144,8 @@ class MonetbilController extends Controller
         $transaction->save();
 
         if ('success' === $input['status'])
-            return redirect('/payment/success');
+            return redirect('/user/subscription/plans?status=1&code=' . $plan->pivot->code);
 
-        return redirect('/plans/' + $plan->slug + '/payment/mobile');
+        return redirect('/plans/' . $plan->slug . '/payment/mobile');
     }
 }

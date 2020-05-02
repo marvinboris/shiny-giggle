@@ -16,14 +16,7 @@ import CustomSpinner from '../../../../components/UI/CustomSpinner/CustomSpinner
 import List from '../../../../components/Backend/UI/List/List';
 
 import * as actions from '../../../../store/actions';
-import { updateObject } from '../../../../shared/utility';
-
-const convertDate = date => {
-    const d = new Date(date)
-    const dtf = new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit' });
-
-    return dtf.formatToParts(d).map(({ value }) => value).join('');
-};
+import { updateObject, convertDate } from '../../../../shared/utility';
 
 class Index extends Component {
     state = {
@@ -44,6 +37,11 @@ class Index extends Component {
 
         await this.setState({ countries });
         onGetAdminUsers();
+    }
+
+    componentWillUnmount() {
+        const { onGetAdminUsersStart } = this.props;
+        onGetAdminUsersStart();
     }
 
     render() {
@@ -72,9 +70,9 @@ class Index extends Component {
 
                             {country ? country.name : null}
                         </div>,
-                        status: user.email_verified_at ? 
-                        <Badge color="success" className="badge-block position-static"><FontAwesomeIcon icon={faCheckCircle} className="mr-2" fixedWidth />Active</Badge> :
-                        <Badge color="danger" className="badge-block position-static"><FontAwesomeIcon icon={faTimesCircle} className="mr-2" fixedWidth />Inactive</Badge>,
+                        status: user.email_verified_at ?
+                            <Badge color="success" className="badge-block position-static"><FontAwesomeIcon icon={faCheckCircle} className="mr-2" fixedWidth />Active</Badge> :
+                            <Badge color="danger" className="badge-block position-static"><FontAwesomeIcon icon={faTimesCircle} className="mr-2" fixedWidth />Inactive</Badge>,
                         action: <div className="text-center">
                             <FontAwesomeIcon icon={faEye} className="text-lightblue mr-2" fixedWidth />
                             <FontAwesomeIcon icon={faEdit} className="text-green mr-2" fixedWidth />
@@ -123,7 +121,8 @@ class Index extends Component {
 const mapStateToProps = state => ({ ...state });
 
 const mapDispatchToProps = dispatch => ({
-    onGetAdminUsers: () => dispatch(actions.getAdminUsers())
+    onGetAdminUsers: () => dispatch(actions.getAdminUsers()),
+    onGetAdminUsersStart: () => dispatch(actions.getAdminUsersStart()),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Index));

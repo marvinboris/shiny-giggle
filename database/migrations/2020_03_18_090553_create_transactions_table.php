@@ -25,6 +25,7 @@ class CreateTransactionsTable extends Migration
             $table->string('tx_hash');
             $table->string('vendor', 100);
             $table->string('method', 100);
+            $table->text('data')->nullable();
             $table->string('type', 100);
             $table->string('status', 10);
             $table->timestamps();

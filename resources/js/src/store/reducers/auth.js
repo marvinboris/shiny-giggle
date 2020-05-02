@@ -28,6 +28,8 @@ const authAdminSuccess = (state, action) => updateObject(state, { error: null, l
 
 const authVerifySuccess = (state, action) => updateObject(state, { error: null, loading: false, ...action });
 
+const resendCodeSuccess = (state, action) => updateObject(state, { error: null, loading: false, ...action });
+
 const authFail = (state, action) => updateObject(state, { loading: false, ...action });
 
 const authMessage = (state, action) => updateObject(state, { loading: false, ...action });
@@ -48,6 +50,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.AUTH_CODE_SUCCESS: return authCodeSuccess(state, action);
         case actionTypes.AUTH_ADMIN_SUCCESS: return authAdminSuccess(state, action);
         case actionTypes.AUTH_VERIFY_SUCCESS: return authVerifySuccess(state, action);
+        case actionTypes.RESEND_CODE_SUCCESS: return resendCodeSuccess(state, action);
         case actionTypes.AUTH_FAIL: return authFail(state, action);
         case actionTypes.AUTH_MESSAGE: return authMessage(state, action);
         case actionTypes.AUTH_LOGOUT: return authLogout(state, action);

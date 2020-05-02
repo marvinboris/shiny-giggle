@@ -29,10 +29,10 @@ export default ({ fields, array, limit, bordered, xs = 12, sm = 12, md = 12, lg 
             <div className={"rounded-4 d-flex justify-content-between align-items-center mb-5 mt-3 py-4 px-4 text-large " + className}>
                 <span className="d-inline-flex align-items-center text-orange">{icon ? <FontAwesomeIcon fixedWidth className="mr-2" icon={icon} size="lg" /> : null}{title}</span>
 
-                <Button color="green" size="lg" className="rounded-2">
+                {add ? <Button color="green" size="lg" className="rounded-2">
                     <FontAwesomeIcon icon={faPlusCircle} fixedWidth className="mr-2" />
                     {add}
-                </Button>
+                </Button> : null}
             </div>
 
             <div className={"d-flex flex-column " + (dark ? "text-light " : " ") + className} style={style}>
@@ -56,7 +56,7 @@ export default ({ fields, array, limit, bordered, xs = 12, sm = 12, md = 12, lg 
                         </div>
 
                         <div className="col-lg-4 pb-2 pb-lg-0 rounded-2 overflow-hidden">
-                            <div className="bg-darkblue d-flex text-light justify-content-around align-items-center font-weight-bold py-2">
+                            <div className="bg-darkblue d-flex text-light justify-content-around align-items-center font-weight-bold py-3">
                                 <a href="{{ route('export.xlsx') }}" className="px-2 export text-decoration-none text-reset"><FontAwesomeIcon icon={faFileExcel} className="text-white mr-2" />Excel</a>
                                 <a href="{{ route('export.pdf') }}" className="px-2 export text-decoration-none text-reset"><FontAwesomeIcon icon={faFilePdf} className="text-danger mr-2" />PDF</a>
                                 <a href="{{ route('export.csv') }}" className="px-2 export text-decoration-none text-reset"><FontAwesomeIcon icon={faFileCsv} className="text-green mr-2" />CSV</a>

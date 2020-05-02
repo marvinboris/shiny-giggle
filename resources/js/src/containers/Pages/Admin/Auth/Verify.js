@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import { Form } from 'reactstrap';
+import { Form, FormGroup } from 'reactstrap';
 import { faSignInAlt, faCode } from '@fortawesome/free-solid-svg-icons';
 
 import Layout from './Layout';
@@ -33,7 +33,7 @@ export class Home extends Component {
     }
 
     render() {
-        const { auth: { hash, loading, error, message }, history } = this.props;
+        const { auth: { hash, loading, error, message }, history, onResendCode } = this.props;
         if (!hash) history.push('/admin');
 
         const errors = <Error err={error} />;
@@ -46,8 +46,11 @@ export class Home extends Component {
             {errors}
             {feedback}
             <Form onSubmit={this.submitHandler}>
-                <FormInput className="mb-5" type="text" icon={faCode} onChange={(e) => this.inputChangeHandler(e, "code")} value={this.state.code} name="code" required placeholder="Verification code" />
+                <FormInput type="text" icon={faCode} onChange={(e) => this.inputChangeHandler(e, "code")} value={this.state.code} name="code" required placeholder="Verification code" />
                 <input type="hidden" name="hash" value={hash} />
+                <FormGroup className="ml-2 mb-5 mt-4">
+                    <p className="text-light text-right">Didn't receive code? <strong className="text-yellow" style={{ cursor: 'pointer' }} onClick={() => onResendCode(hash)}>Resend</strong></p>
+                </FormGroup>
 
                 <FormButton color="yellow" icon={faSignInAlt}>Continue</FormButton>
             </Form>
@@ -64,7 +67,8 @@ const mapStateToProps = state => ({ ...state });
 
 const mapDispatchToProps = dispatch => ({
     onAuth: data => dispatch(actions.authVerify(data)),
-    onSetHash: hash => dispatch(actions.setHash(hash))
+    onSetHash: hash => dispatch(actions.setHash(hash)),
+    onResendCode: hash => dispatch(actions.resendCode(hash))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

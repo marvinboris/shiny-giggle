@@ -215,3 +215,100 @@ export const getAdminUsers = () => async dispatch => {
         dispatch(getAdminUsersFail(err));
     }
 };
+
+
+
+export const getAdminSalesReportStart = () => ({ type: actionTypes.GET_ADMIN_SALES_REPORT_START });
+const getAdminSalesReportSuccess = data => ({ type: actionTypes.GET_ADMIN_SALES_REPORT_SUCCESS, ...data });
+const getAdminSalesReportFail = error => ({ type: actionTypes.GET_ADMIN_SALES_REPORT_FAIL, error });
+export const getAdminSalesReport = () => async dispatch => {
+    const token = localStorage.getItem('token');
+    dispatch(getAdminSalesReportStart());
+
+    try {
+        const res = await fetch(rootPath + '/api/admin/finances/sales-report', {
+            method: 'GET',
+            headers: {
+                Authorization: token
+            }
+        });
+        const resData = await res.json();
+        dispatch(getAdminSalesReportSuccess(resData));
+    } catch (err) {
+        console.log(err);
+        dispatch(getAdminSalesReportFail(err));
+    }
+};
+
+export const getAdminCreditsListStart = () => ({ type: actionTypes.GET_ADMIN_CREDITS_LIST_START });
+const getAdminCreditsListSuccess = data => ({ type: actionTypes.GET_ADMIN_CREDITS_LIST_SUCCESS, ...data });
+const getAdminCreditsListFail = error => ({ type: actionTypes.GET_ADMIN_CREDITS_LIST_FAIL, error });
+export const getAdminCreditsList = () => async dispatch => {
+    const token = localStorage.getItem('token');
+    dispatch(getAdminCreditsListStart());
+
+    try {
+        const res = await fetch(rootPath + '/api/admin/finances/credits', {
+            method: 'GET',
+            headers: {
+                Authorization: token
+            }
+        });
+        const resData = await res.json();
+        dispatch(getAdminCreditsListSuccess(resData));
+    } catch (err) {
+        console.log(err);
+        dispatch(getAdminCreditsListFail(err));
+    }
+};
+
+export const getAdminAddCreditStart = () => ({ type: actionTypes.GET_ADMIN_ADD_CREDIT_START });
+const getAdminAddCreditSuccess = message => ({ type: actionTypes.GET_ADMIN_ADD_CREDIT_SUCCESS, message });
+const getAdminAddCreditFail = error => ({ type: actionTypes.GET_ADMIN_ADD_CREDIT_FAIL, error });
+export const getAdminAddCredit = data => async dispatch => {
+    const token = localStorage.getItem('token');
+    dispatch(getAdminAddCreditStart());
+
+    try {
+        const formData = new FormData(data);
+        const res = await fetch(rootPath + '/api/admin/finances/credits', {
+            method: 'POST',
+            mode: 'cors',
+            body: formData,
+            headers: {
+                Authorization: token
+            }
+        });
+
+        const { message } = await res.json();
+
+        dispatch(getAdminAddCreditSuccess(message));
+    } catch (err) {
+        console.log(err);
+        dispatch(getAdminAddCreditFail(err));
+    }
+};
+
+
+
+export const getAdminPlansStart = () => ({ type: actionTypes.GET_ADMIN_PLANS_START });
+const getAdminPlansSuccess = data => ({ type: actionTypes.GET_ADMIN_PLANS_SUCCESS, ...data });
+const getAdminPlansFail = error => ({ type: actionTypes.GET_ADMIN_PLANS_FAIL, error });
+export const getAdminPlans = () => async dispatch => {
+    const token = localStorage.getItem('token');
+    dispatch(getAdminPlansStart());
+
+    try {
+        const res = await fetch(rootPath + '/api/admin/plans', {
+            method: 'GET',
+            headers: {
+                Authorization: token
+            }
+        });
+        const resData = await res.json();
+        dispatch(getAdminPlansSuccess(resData));
+    } catch (err) {
+        console.log(err);
+        dispatch(getAdminPlansFail(err));
+    }
+};

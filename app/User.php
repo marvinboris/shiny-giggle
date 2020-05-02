@@ -62,7 +62,7 @@ class User extends Authenticatable implements MustVerifyEmail
         $plans = $this->plans;
         $calculations = 0;
         foreach ($plans as $plan) {
-            $calculations += $plan->calculations;
+            $calculations += $plan->pivot->calculations;
         }
         return $calculations;
     }

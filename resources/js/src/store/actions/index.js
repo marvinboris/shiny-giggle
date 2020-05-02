@@ -5,6 +5,7 @@ export {
     authCode,
     authAdmin,
     authVerify,
+    resendCode,
     clearSignup,
     authLogout,
     setAuthRedirectPath,
@@ -36,5 +37,18 @@ export {
     resetSimulation,
 
     getAdminDashboard,
+    getAdminDashboardStart,
+    
     getAdminUsers,
+    getAdminUsersStart,
+
+    getAdminSalesReport,
+    getAdminSalesReportStart,
+    getAdminCreditsList,
+    getAdminCreditsListStart,
+    getAdminAddCredit,
+    getAdminAddCreditStart,
+
+    getAdminPlans,
+    getAdminPlansStart,
 } from './backend';

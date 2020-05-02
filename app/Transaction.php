@@ -15,4 +15,14 @@ class Transaction extends Model
     {
         return $this->morphTo();
     }
+
+    public function plan()
+    {
+        return $this->belongsTo('App\Plan');
+    }
+
+    public function getDataAttribute($value)
+    {
+        return json_decode($value);
+    }
 }

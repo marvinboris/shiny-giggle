@@ -21,6 +21,7 @@ const authCodeSuccess = (token, data) => ({ type: actionTypes.AUTH_CODE_SUCCESS,
 
 const authAdminSuccess = hash => ({ type: actionTypes.AUTH_ADMIN_SUCCESS, hash });
 const authVerifySuccess = (token, data) => ({ type: actionTypes.AUTH_VERIFY_SUCCESS, token, data: { ...data, role: 'admin' } });
+const resendCodeSuccess = (hash, message) => ({ type: actionTypes.RESEND_CODE_SUCCESS, hash, message });
 
 const checkAuthTimeout = (expirationTime) => dispatch => {
     setTimeout(() => {
@@ -203,6 +204,27 @@ export const authVerify = data => async dispatch => {
         dispatch(authFail(err));
     }
 };
+
+export const resendCode = hash => async dispatch => {
+    dispatch(authStart());
+
+    try {
+        const formData = new FormData();
+        formData.append('hash', hash);
+
+        const res = await fetch(rootPath + '/api/admin/resend', {
+            method: 'POST',
+            mode: 'cors',
+            body: formData,
+        });
+
+        const resData = await res.json();
+
+        dispatch(resendCodeSuccess(resData.hash, resData.message));
+    } catch (err) {
+        dispatch(authFail());
+    }
+}
 
 export const setAuthRedirectPath = path => ({ type: actionTypes.SET_AUTH_REDIRECT_PATH, path });
 export const setHash = hash => ({ type: actionTypes.SET_HASH, hash });

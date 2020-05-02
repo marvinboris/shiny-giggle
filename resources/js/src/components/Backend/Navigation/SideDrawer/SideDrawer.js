@@ -1,8 +1,9 @@
 import React from 'react';
 import { Col, Badge, ButtonGroup, Button } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTachometerAlt, faUserTie, faCalendarAlt, faEnvelope, faTasks, faCog, faCircle, faEdit, faMoneyBillWave, faWallet } from '@fortawesome/free-solid-svg-icons';
+import { faTachometerAlt, faUserTie, faCalendarAlt, faEnvelope, faTasks, faCog, faCircle, faEdit, faMoneyBillWave, faWallet, faCopy } from '@fortawesome/free-solid-svg-icons';
 import { faCheckCircle } from '@fortawesome/free-regular-svg-icons';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import SideDrawerItem from './SideDrawerItem/SideDrawerItem';
 import './SideDrawer.css';
@@ -32,7 +33,9 @@ const sideDrawer = ({ name, photo = "https://placehold.it/100x100", role = '', c
                 </ButtonGroup>
 
                 <Col xs={12} className="p-0 text-orange text-300 small">
-                    <FontAwesomeIcon fixedWidth icon={faUserTie} size="sm" className="mr-1" />Account ID: <span className="text-700">{id}</span>
+                    <FontAwesomeIcon fixedWidth icon={faUserTie} size="sm" className="mr-1" />Account ID: <span className="text-700">{id}</span> <CopyToClipboard text={id}>
+                        <FontAwesomeIcon fixedWidth icon={faCopy} className="ml-1 text-lightblue" style={{ cursor: 'pointer' }} />
+                    </CopyToClipboard>
                 </Col>
             </>;
             sideDrawerItems = <>
@@ -57,16 +60,20 @@ const sideDrawer = ({ name, photo = "https://placehold.it/100x100", role = '', c
         case 'admin':
             sideDrawerItems = <>
                 <SideDrawerItem icon={faUserTie} dropdown path="/admin/finances" items={[
-                    { link: '/admin/finances/service', text: 'Sales Report' },
-                    { link: '/admin/finances/points/deposit', text: 'Deposit Points' },
-                    { link: '/admin/finances/points', text: 'Deposit Points List' },
+                    { link: '/admin/finances/sales-report', text: 'Sales Report' },
+                    { link: '/admin/finances/credits/add', text: 'Add Credit' },
+                    { link: '/admin/finances/credits', text: 'Credit List' },
                 ]}>Finances</SideDrawerItem>
                 <SideDrawerItem icon={faCalendarAlt} dropdown path="/admin/users" items={[
                     { link: '/admin/users/add', text: 'Add User' },
                     { link: '/admin/users', text: 'User List' },
                 ]}>Users</SideDrawerItem>
                 <SideDrawerItem icon={faEnvelope} href="/following">Contact us<Badge color="green" className="position-relative rounded-circle text-x-small text-700 d-inline-flex justify-content-center align-items-center" style={{ width: 18, height: 18, top: -7, transform: 'translateX(-40px)' }}>12</Badge></SideDrawerItem>
-                <SideDrawerItem icon={faTasks} dropdown path="/packages" items={[]}>Packages</SideDrawerItem>
+                <SideDrawerItem icon={faTasks} dropdown path="/admin/plans" items={[
+                    { link: '/admin/plans/add', text: 'Add Plan' },
+                    { link: '/admin/plans', text: 'Plan List' },
+                    { link: '/admin/plans/deposit', text: 'Plan Deposit' },
+                ]}>Subscription Plan</SideDrawerItem>
             </>;
             break;
 

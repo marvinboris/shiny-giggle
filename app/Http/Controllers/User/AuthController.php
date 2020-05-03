@@ -41,7 +41,9 @@ class AuthController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
-            'country' => $request->country
+            'country' => $request->country,
+            'sponsor' => $request->sponsor ?? User::first()->ref,
+            'ref' => User::ref()
         ]);
         $user = User::find($user->id);
         $link = url('/api/email/verify/' . $user->id) . '/' . Crypt::encryptString($user->toJson());

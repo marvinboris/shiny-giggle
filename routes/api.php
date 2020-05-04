@@ -60,6 +60,7 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
         Route::get('dashboard', 'DashboardController@index')->name('dashboard');
 
         Route::prefix('users')->name('users.')->group(function () {
+            Route::post('', 'UsersController@store')->name('store');
             Route::get('', 'UsersController@index')->name('index');
         });
 
@@ -73,6 +74,8 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
         });
 
         Route::prefix('plans')->name('plans.')->group(function () {
+            Route::post('deposit', 'PlansController@deposit')->name('deposit');
+            Route::post('', 'PlansController@store')->name('store');
             Route::get('', 'PlansController@index')->name('index');
         });
     });

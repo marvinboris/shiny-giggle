@@ -8,7 +8,7 @@ class Transaction extends Model
 {
     //
     protected $fillable = [
-        'address', 'transactionable_id', 'transactionable_type', 'amount', 'currency', 'tx_id', 'tx_hash', 'vendor', 'method', 'type', 'status', 'plan_id'
+        'address', 'transactionable_id', 'transactionable_type', 'amount', 'currency', 'tx_id', 'tx_hash', 'vendor', 'method', 'type', 'status', 'plan_id', 'data'
     ];
 
     public function transactionable()

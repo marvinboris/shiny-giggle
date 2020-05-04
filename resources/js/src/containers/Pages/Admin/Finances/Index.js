@@ -95,7 +95,6 @@ const mapStateToProps = state => ({ ...state });
 
 const mapDispatchToProps = dispatch => ({
     onGetAdminCreditsList: () => dispatch(actions.getAdminCreditsList()),
-    onGetAdminCreditsListStart: () => dispatch(actions.getAdminCreditsListStart()),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Index));

@@ -3,7 +3,7 @@
     style="box-sizing: border-box; text-align: center; background-color: white; padding: 65px 1rem; width: 100%; font-size: 1.125rem; font-family: Poppins, Montserrat, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
     <div style="margin: auto; width: 840px; max-width: 100%; background-color: #F4F8FB; padding: 35px 40px;">
         <div style="padding: 36px 31px; background-color: white;">
-            <img src="{{ asset('/images/email/Group 118@2x.png') }}" width="270" alt="Logo">
+            <img src="{{ asset('images/email/logo.png') }}" width="270" alt="Logo">
 
             <div style="margin: 72px 0 50px 0; font-weight: 700; color: #06B0B6; font-size: 30px;">Please confirm
                 subscription</div>

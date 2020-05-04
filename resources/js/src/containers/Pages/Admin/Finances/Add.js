@@ -17,22 +17,27 @@ import FormInput from '../../../../components/UI/FormInput/FormInput';
 import FormButton from '../../../../components/UI/FormButton/FormButton';
 import Feedback from '../../../../components/Feedback/Feedback';
 
-
 import * as actions from '../../../../store/actions';
+
 class Add extends Component {
     state = {
         ref: '',
         amount: '',
     }
 
+    componentDidMount() {
+        const { onResetAdminFinances } = this.props;
+        onResetAdminFinances();
+    }
+
     componentWillUnmount() {
-        const { onGetAdminAddCreditStart } = this.props;
-        onGetAdminAddCreditStart();
+        const { onResetAdminFinances } = this.props;
+        onResetAdminFinances();
     }
 
     submitHandler = async e => {
         e.preventDefault();
-        await this.props.onGetAdminAddCredit(e.target);
+        await this.props.onPostAdminAddCredit(e.target);
     }
 
     inputChangeHandler = (e, name) => {
@@ -60,7 +65,7 @@ class Add extends Component {
                                 <FormInput type="text" icon={faUser} onChange={(e) => this.inputChangeHandler(e, "ref")} value={this.state.ref} name="ref" required placeholder="User ID" />
                                 <FormInput type="number" icon={faMoneyBillWave} onChange={(e) => this.inputChangeHandler(e, "amount")} value={this.state.amount} name="amount" required placeholder="Amount" />
 
-                                <FormButton color="green" icon={faPlusCircle}>Add</FormButton>
+                                <FormButton color="green" icon={faPlusCircle}>Add Credit</FormButton>
                             </Col>
                         </Form>
                     </Row>
@@ -87,8 +92,8 @@ class Add extends Component {
 const mapStateToProps = state => ({ ...state });
 
 const mapDispatchToProps = dispatch => ({
-    onGetAdminAddCredit: data => dispatch(actions.getAdminAddCredit(data)),
-    onGetAdminAddCreditStart: () => dispatch(actions.getAdminAddCreditStart()),
+    onPostAdminAddCredit: data => dispatch(actions.postAdminAddCredit(data)),
+    onResetAdminFinances: () => dispatch(actions.resetAdminFinances()),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Add));

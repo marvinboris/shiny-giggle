@@ -28,27 +28,36 @@ export {
 } from './calculation';
 
 export {
+    resetUserDashboard,
     getUserDashboard,
 
+    resetUserPackages,
+
+    resetUserCalculate,
     getUserCalculatePlans,
     getUserCalculatePlan,
     postUserCalculateStart,
     postUserCalculate,
     resetSimulation,
 
+    resetUserNotifications,
+
+
+
+    resetAdminDashboard,
     getAdminDashboard,
-    getAdminDashboardStart,
-    
+
+    resetAdminUsers,
     getAdminUsers,
-    getAdminUsersStart,
+    postAdminAddUser,
 
+    resetAdminFinances,
     getAdminSalesReport,
-    getAdminSalesReportStart,
     getAdminCreditsList,
-    getAdminCreditsListStart,
-    getAdminAddCredit,
-    getAdminAddCreditStart,
+    postAdminAddCredit,
 
+    resetAdminPlans,
     getAdminPlans,
-    getAdminPlansStart,
+    postAdminAddPlan,
+    postAdminPlanDeposit,
 } from './backend';

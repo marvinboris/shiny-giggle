@@ -100,7 +100,6 @@ const mapStateToProps = state => ({ ...state });
 
 const mapDispatchToProps = dispatch => ({
     onGetAdminSalesReport: () => dispatch(actions.getAdminSalesReport()),
-    onGetAdminSalesReportStart: () => dispatch(actions.getAdminSalesReportStart()),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SalesReport));

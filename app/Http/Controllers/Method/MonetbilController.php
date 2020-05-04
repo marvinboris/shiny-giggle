@@ -8,6 +8,7 @@ use App\Transaction;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Notifications\PlanUser as NotificationsPlanUser;
 use App\Plan;
 use App\PlanUser;
 use Carbon\Carbon;
@@ -41,12 +42,12 @@ class MonetbilController extends Controller
         $user = request()->user();
 
         $json = [
-            'amount' => 1,
-            // 'amount' => $input['amount'] * 620,
+            // 'amount' => 1,
+            'amount' => $input['amount'] * 620,
             'item_ref' => $input['plan_id'],
             'payment_ref' => time(),
             'country' => 'XAF',
-            'logo' => asset('images/Group 13@2x.png'),
+            'logo' => asset('images/email/logo.png'),
             'email' => $user->email,
             'user' => $user->role(),
             'country' => 'CM',
@@ -109,7 +110,7 @@ class MonetbilController extends Controller
                 'plan_id' => +$request->item_ref,
                 'vendor' => 'monetbil',
                 'method' =>  $request->operator ? $input['operator'] : 'MTN',
-                'type' => 'deposit',
+                'type' => 'plan',
                 'status' => 'pending',
                 'currency' => $request->currency ? $input['current'] : 'USD',
                 'address' => $request->phone
@@ -126,17 +127,19 @@ class MonetbilController extends Controller
         if ($request->phone) $transaction->address = $input['phone'];
         if ($request->amount) $transaction->amount = $plan->amount;
 
+        $code = Plan::code();
         if ('success' === $input['status']) {
-            if ($role === 'guest') $user->update(['plan_id' => $plan->id, 'plan_code' => Plan::code(), 'points' => $plan->points]);
+            if ($role === 'guest') $user->update(['plan_id' => $plan->id, 'plan_code' => $code, 'points' => $plan->points]);
             else {
                 $pivot = PlanUser::create([
                     'plan_id' => $plan->id,
                     'user_id' => $user->id,
                     'points' => $plan->points,
-                    'code' => Plan::code(),
+                    'code' => $code,
                     'expiry_date' => Carbon::now()->addWeeks($plan->validity)
                 ]);
                 $transaction->data = json_encode(['code' => $pivot->code]);
+                $user->notify(new NotificationsPlanUser($pivot));
             }
             $transaction->status = 'completed';
         } else $transaction->status = $input['status'];
@@ -144,7 +147,7 @@ class MonetbilController extends Controller
         $transaction->save();
 
         if ('success' === $input['status'])
-            return redirect('/user/subscription/plans?status=1&code=' . $plan->pivot->code);
+            return redirect('/user/subscription/plans?status=1&code=' . $code);
 
         return redirect('/plans/' . $plan->slug . '/payment/mobile');
     }

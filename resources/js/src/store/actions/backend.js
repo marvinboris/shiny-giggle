@@ -1,7 +1,8 @@
 import * as actionTypes from './actionTypes';
 import { rootPath } from '../..';
 
-export const getUserDashboardStart = () => ({ type: actionTypes.GET_USER_DASHBOARD_START });
+export const resetUserDashboard = () => ({ type: actionTypes.RESET_USER_DASHBOARD });
+const getUserDashboardStart = () => ({ type: actionTypes.GET_USER_DASHBOARD_START });
 const getUserDashboardSuccess = data => ({ type: actionTypes.GET_USER_DASHBOARD_SUCCESS, ...data });
 const getUserDashboardFail = error => ({ type: actionTypes.GET_USER_DASHBOARD_FAIL, error });
 export const getUserDashboard = () => async dispatch => {
@@ -25,6 +26,7 @@ export const getUserDashboard = () => async dispatch => {
 
 
 
+export const resetUserPackages = () => ({ type: actionTypes.RESET_USER_PACKAGES });
 const getUserPackagesStart = () => ({ type: actionTypes.GET_USER_PACKAGES_START });
 const getUserPackagesSuccess = data => ({ type: actionTypes.GET_USER_PACKAGES_SUCCESS, ...data });
 const getUserPackagesFail = error => ({ type: actionTypes.GET_USER_PACKAGES_FAIL, error });
@@ -49,6 +51,7 @@ export const getUserPackages = () => async dispatch => {
 
 
 
+export const resetUserCalculate = () => ({ type: actionTypes.RESET_USER_CALCULATE });
 const getUserCalculatePlansStart = () => ({ type: actionTypes.GET_USER_CALCULATE_PLANS_START });
 const getUserCalculatePlansSuccess = data => ({ type: actionTypes.GET_USER_CALCULATE_PLANS_SUCCESS, ...data });
 const getUserCalculatePlansFail = error => ({ type: actionTypes.GET_USER_CALCULATE_PLANS_FAIL, error });
@@ -123,6 +126,7 @@ export const resetSimulation = () => ({ type: actionTypes.RESET_SIMULATION });
 
 
 
+export const resetUserNotifications = () => ({ type: actionTypes.RESET_USER_NOTIFICATIONS });
 const getUserNotificationsStart = () => ({ type: actionTypes.GET_USER_NOTIFICATIONS_START });
 const getUserNotificationsSuccess = data => ({ type: actionTypes.GET_USER_NOTIFICATIONS_SUCCESS, ...data });
 const getUserNotificationsFail = error => ({ type: actionTypes.GET_USER_NOTIFICATIONS_FAIL, error });
@@ -170,7 +174,8 @@ export const getUserPaidAmount = () => async dispatch => {
 
 
 // Admin
-export const getAdminDashboardStart = () => ({ type: actionTypes.GET_ADMIN_DASHBOARD_START });
+export const resetAdminDashboard = () => ({ type: actionTypes.RESET_ADMIN_DASHBOARD });
+const getAdminDashboardStart = () => ({ type: actionTypes.GET_ADMIN_DASHBOARD_START });
 const getAdminDashboardSuccess = data => ({ type: actionTypes.GET_ADMIN_DASHBOARD_SUCCESS, ...data });
 const getAdminDashboardFail = error => ({ type: actionTypes.GET_ADMIN_DASHBOARD_FAIL, error });
 export const getAdminDashboard = () => async dispatch => {
@@ -194,7 +199,8 @@ export const getAdminDashboard = () => async dispatch => {
 
 
 
-export const getAdminUsersStart = () => ({ type: actionTypes.GET_ADMIN_USERS_START });
+export const resetAdminUsers = () => ({ type: actionTypes.RESET_ADMIN_USERS });
+const getAdminUsersStart = () => ({ type: actionTypes.GET_ADMIN_USERS_START });
 const getAdminUsersSuccess = data => ({ type: actionTypes.GET_ADMIN_USERS_SUCCESS, ...data });
 const getAdminUsersFail = error => ({ type: actionTypes.GET_ADMIN_USERS_FAIL, error });
 export const getAdminUsers = () => async dispatch => {
@@ -216,9 +222,38 @@ export const getAdminUsers = () => async dispatch => {
     }
 };
 
+const postAdminAddUserStart = () => ({ type: actionTypes.POST_ADMIN_ADD_USER_START });
+const postAdminAddUserSuccess = message => ({ type: actionTypes.POST_ADMIN_ADD_USER_SUCCESS, message });
+const postAdminAddUserFail = error => ({ type: actionTypes.POST_ADMIN_ADD_USER_FAIL, error });
+export const postAdminAddUser = data => async dispatch => {
+    const token = localStorage.getItem('token');
+    dispatch(postAdminAddUserStart());
+
+    try {
+        const formData = new FormData(data);
+        const res = await fetch(rootPath + '/api/admin/users', {
+            method: 'POST',
+            mode: 'cors',
+            body: formData,
+            headers: {
+                Authorization: token
+            }
+        });
+
+        const resData = await res.json();
+        if (res.status === 422) throw new Error(Object.values(resData.errors).join('\n'));
+
+        dispatch(postAdminAddUserSuccess(resData.message));
+    } catch (err) {
+        console.log(err);
+        dispatch(postAdminAddUserFail(err));
+    }
+};
 
 
-export const getAdminSalesReportStart = () => ({ type: actionTypes.GET_ADMIN_SALES_REPORT_START });
+
+export const resetAdminFinances = () => ({ type: actionTypes.RESET_ADMIN_FINANCES });
+const getAdminSalesReportStart = () => ({ type: actionTypes.GET_ADMIN_SALES_REPORT_START });
 const getAdminSalesReportSuccess = data => ({ type: actionTypes.GET_ADMIN_SALES_REPORT_SUCCESS, ...data });
 const getAdminSalesReportFail = error => ({ type: actionTypes.GET_ADMIN_SALES_REPORT_FAIL, error });
 export const getAdminSalesReport = () => async dispatch => {
@@ -240,7 +275,7 @@ export const getAdminSalesReport = () => async dispatch => {
     }
 };
 
-export const getAdminCreditsListStart = () => ({ type: actionTypes.GET_ADMIN_CREDITS_LIST_START });
+const getAdminCreditsListStart = () => ({ type: actionTypes.GET_ADMIN_CREDITS_LIST_START });
 const getAdminCreditsListSuccess = data => ({ type: actionTypes.GET_ADMIN_CREDITS_LIST_SUCCESS, ...data });
 const getAdminCreditsListFail = error => ({ type: actionTypes.GET_ADMIN_CREDITS_LIST_FAIL, error });
 export const getAdminCreditsList = () => async dispatch => {
@@ -262,12 +297,12 @@ export const getAdminCreditsList = () => async dispatch => {
     }
 };
 
-export const getAdminAddCreditStart = () => ({ type: actionTypes.GET_ADMIN_ADD_CREDIT_START });
-const getAdminAddCreditSuccess = message => ({ type: actionTypes.GET_ADMIN_ADD_CREDIT_SUCCESS, message });
-const getAdminAddCreditFail = error => ({ type: actionTypes.GET_ADMIN_ADD_CREDIT_FAIL, error });
-export const getAdminAddCredit = data => async dispatch => {
+const postAdminAddCreditStart = () => ({ type: actionTypes.POST_ADMIN_ADD_CREDIT_START });
+const postAdminAddCreditSuccess = message => ({ type: actionTypes.POST_ADMIN_ADD_CREDIT_SUCCESS, message });
+const postAdminAddCreditFail = error => ({ type: actionTypes.POST_ADMIN_ADD_CREDIT_FAIL, error });
+export const postAdminAddCredit = data => async dispatch => {
     const token = localStorage.getItem('token');
-    dispatch(getAdminAddCreditStart());
+    dispatch(postAdminAddCreditStart());
 
     try {
         const formData = new FormData(data);
@@ -280,18 +315,20 @@ export const getAdminAddCredit = data => async dispatch => {
             }
         });
 
-        const { message } = await res.json();
+        const resData = await res.json();
+        if (res.status === 422) throw new Error(Object.values(resData.errors).join('\n'));
 
-        dispatch(getAdminAddCreditSuccess(message));
+        dispatch(postAdminAddCreditSuccess(resData.message));
     } catch (err) {
         console.log(err);
-        dispatch(getAdminAddCreditFail(err));
+        dispatch(postAdminAddCreditFail(err));
     }
 };
 
 
 
-export const getAdminPlansStart = () => ({ type: actionTypes.GET_ADMIN_PLANS_START });
+export const resetAdminPlans = () => ({ type: actionTypes.RESET_ADMIN_PLANS });
+const getAdminPlansStart = () => ({ type: actionTypes.GET_ADMIN_PLANS_START });
 const getAdminPlansSuccess = data => ({ type: actionTypes.GET_ADMIN_PLANS_SUCCESS, ...data });
 const getAdminPlansFail = error => ({ type: actionTypes.GET_ADMIN_PLANS_FAIL, error });
 export const getAdminPlans = () => async dispatch => {
@@ -310,5 +347,61 @@ export const getAdminPlans = () => async dispatch => {
     } catch (err) {
         console.log(err);
         dispatch(getAdminPlansFail(err));
+    }
+};
+
+const postAdminAddPlanStart = () => ({ type: actionTypes.POST_ADMIN_ADD_PLAN_START });
+const postAdminAddPlanSuccess = message => ({ type: actionTypes.POST_ADMIN_ADD_PLAN_SUCCESS, message });
+const postAdminAddPlanFail = error => ({ type: actionTypes.POST_ADMIN_ADD_PLAN_FAIL, error });
+export const postAdminAddPlan = data => async dispatch => {
+    const token = localStorage.getItem('token');
+    dispatch(postAdminAddPlanStart());
+
+    try {
+        const formData = new FormData(data);
+        const res = await fetch(rootPath + '/api/admin/plans', {
+            method: 'POST',
+            mode: 'cors',
+            body: formData,
+            headers: {
+                Authorization: token
+            }
+        });
+
+        const resData = await res.json();
+        if (res.status === 422) throw new Error(Object.values(resData.errors).join('\n'));
+
+        dispatch(postAdminAddPlanSuccess(resData.message));
+    } catch (err) {
+        console.log(err);
+        dispatch(postAdminAddPlanFail(err));
+    }
+};
+
+const postAdminPlanDepositStart = () => ({ type: actionTypes.POST_ADMIN_PLAN_DEPOSIT_START });
+const postAdminPlanDepositSuccess = message => ({ type: actionTypes.POST_ADMIN_PLAN_DEPOSIT_SUCCESS, message });
+const postAdminPlanDepositFail = error => ({ type: actionTypes.POST_ADMIN_PLAN_DEPOSIT_FAIL, error });
+export const postAdminPlanDeposit = data => async dispatch => {
+    const token = localStorage.getItem('token');
+    dispatch(postAdminPlanDepositStart());
+
+    try {
+        const formData = new FormData(data);
+        const res = await fetch(rootPath + '/api/admin/plans/deposit', {
+            method: 'POST',
+            mode: 'cors',
+            body: formData,
+            headers: {
+                Authorization: token
+            }
+        });
+
+        const resData = await res.json();
+        if (res.status === 422) throw new Error(Object.values(resData.errors).join('\n'));
+
+        dispatch(postAdminPlanDepositSuccess(resData.message));
+    } catch (err) {
+        console.log(err);
+        dispatch(postAdminPlanDepositFail(err));
     }
 };

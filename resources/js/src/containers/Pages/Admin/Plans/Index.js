@@ -87,7 +87,6 @@ const mapStateToProps = state => ({ ...state });
 
 const mapDispatchToProps = dispatch => ({
     onGetAdminPlans: () => dispatch(actions.getAdminPlans()),
-    onGetAdminPlansStart: () => dispatch(actions.getAdminPlansStart()),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Index));

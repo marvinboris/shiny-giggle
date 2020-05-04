@@ -3,7 +3,7 @@ import { FormGroup, InputGroup, InputGroupAddon, InputGroupText, Input } from 'r
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const FormInput = ({ icon, addon, onChange, className = '', name, type = 'text', required, readonly, placeholder, value = '', append, children }) => <FormGroup className={className}>
-    <InputGroup className="bg-light-20 rounded-2" size="lg">
+    <InputGroup className="bg-input rounded-2" size="lg">
         <InputGroupAddon addonType="prepend">
             <InputGroupText className="bg-transparent border-left-0 border-top-0 border-bottom-0 border-border px-4">
                 {icon ? <FontAwesomeIcon className="text-yellow mx-1" fixedWidth icon={icon} /> : addon}

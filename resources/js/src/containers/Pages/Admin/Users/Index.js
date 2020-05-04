@@ -39,11 +39,6 @@ class Index extends Component {
         onGetAdminUsers();
     }
 
-    componentWillUnmount() {
-        const { onGetAdminUsersStart } = this.props;
-        onGetAdminUsersStart();
-    }
-
     render() {
         let { backend: { users: { loading, error, totalUsers } } } = this.props;
         const { countries } = this.state;
@@ -122,7 +117,6 @@ const mapStateToProps = state => ({ ...state });
 
 const mapDispatchToProps = dispatch => ({
     onGetAdminUsers: () => dispatch(actions.getAdminUsers()),
-    onGetAdminUsersStart: () => dispatch(actions.getAdminUsersStart()),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Index));

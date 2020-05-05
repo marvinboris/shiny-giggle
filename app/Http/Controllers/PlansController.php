@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Admin;
 use App\Http\Controllers\Method\MonetbilController;
+use App\LimoPayment;
 use App\Method;
+use App\Notifications\Admin as NotificationsAdmin;
+use App\Notifications\LimoPayment as NotificationsLimoPayment;
 use App\Pack;
 use App\Plan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 
 class PlansController extends Controller
 {
@@ -48,6 +53,9 @@ class PlansController extends Controller
                     ]);
                     $link = $monetbil['link'];
                     break;
+                case 'Limo':
+                    $link = route('plans.payment.limo');
+                    break;
                 default:
                     $link = route('plans.payment.confirm', ['plan' => $plan->slug, 'method' => $method->slug]);
                     break;
@@ -70,8 +78,35 @@ class PlansController extends Controller
     {
     }
 
-    public function limo()
+    public function limo(Request $request)
     {
+        $user = $request->user();
+        $request->validate([
+            'transfer_no' => 'required|numeric',
+            'date' => 'required|date',
+            'name' => 'required|string',
+            'email' => 'required|email',
+            'phone' => 'required|string',
+            'limo_id' => 'required|string',
+            'amount' => 'required',
+        ]);
+        $payment = LimoPayment::create([
+            'user_id' => $user->id,
+            'transfer_no' => $request->transfer_no,
+            'date' => $request->date,
+            'name' => $request->name,
+            'email' => $request->email,
+            'limo_id' => $request->limo_id,
+            'amount' => $request->amount,
+            'phone' => $request->phone,
+            'status' => 0,
+        ]);
+        $user->notify(new NotificationsLimoPayment($payment));
+        Notification::send(Admin::all(), new NotificationsAdmin($payment));
+
+        return response()->json([
+            'message' => '/user/subscription/plans?status=0'
+        ], 201);
     }
 
     public function confirm($plan, $method)

@@ -61,6 +61,7 @@ const sideDrawer = ({ name, photo = "https://placehold.it/100x100", role = '', c
             sideDrawerItems = <>
                 <SideDrawerItem icon={faUserTie} dropdown path="/admin/finances" items={[
                     { link: '/admin/finances/sales-report', text: 'Sales Report' },
+                    { link: '/admin/finances/limo-payments', text: 'Limo Payments' },
                     { link: '/admin/finances/credits/add', text: 'Add Credit' },
                     { link: '/admin/finances/credits', text: 'Credit List' },
                 ]}>Finances</SideDrawerItem>

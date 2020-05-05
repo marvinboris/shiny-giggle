@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Deposit;
 use App\Http\Controllers\Controller;
+use App\LimoPayment;
 use App\Method;
 use App\Notifications\Deposit as NotificationsDeposit;
 use App\Transaction;
@@ -25,6 +26,20 @@ class FinancesController extends Controller
 
         return response()->json([
             'salesReport' => $salesReport
+        ]);
+    }
+
+    public function limo_payments()
+    {
+        $limoPayments = [];
+        foreach (LimoPayment::all() as $limoPayment) {
+            $limoPayments[] = array_merge($limoPayment->toArray(), [
+                'user' => $limoPayment->user
+            ]);
+        }
+
+        return response()->json([
+            'limoPayments' => $limoPayments
         ]);
     }
 

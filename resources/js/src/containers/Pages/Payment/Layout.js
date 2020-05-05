@@ -36,7 +36,7 @@ export default ({ limo, mobile, btc, children, loading, link }) => <FrontEnd>
                                 </div>
                             </div>
 
-                            <div className="w-70">{children}</div>
+                            <div className={limo ? "w-100" : "w-70"}>{children}</div>
                         </>
                     : children}
                     </Col>

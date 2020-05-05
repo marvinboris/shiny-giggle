@@ -30,6 +30,7 @@ import AdminDashboard from './Pages/Admin/Dashboard/Dashboard';
 import AdminUsers from './Pages/Admin/Users';
 import AdminAddUser from './Pages/Admin/Users/Add';
 import AdminSalesReport from './Pages/Admin/Finances/SalesReport';
+import AdminLimoPayments from './Pages/Admin/Finances/LimoPayments';
 import AdminCredits from './Pages/Admin/Finances';
 import AdminAddCredit from './Pages/Admin/Finances/Add';
 import AdminPlans from './Pages/Admin/Plans';
@@ -80,16 +81,23 @@ class Layout extends Component {
             <Route path="/user/subscription/buy" component={Buy} />
             <Route path="/user/subscription/plans" component={Plans} />
 
+
+
             <Route path="/admin/users/add" component={AdminAddUser} />
             <Route path="/admin/users" component={AdminUsers} />
+            
             <Route path="/admin/plans/deposit" component={AdminPlanDeposit} />
             <Route path="/admin/plans/add" component={AdminAddPlan} />
             <Route path="/admin/plans" component={AdminPlans} />
+
             <Route path="/admin/finances/sales-report" component={AdminSalesReport} />
+            <Route path="/admin/finances/limo-payments" component={AdminLimoPayments} />
             <Route path="/admin/finances/credits/add" component={AdminAddCredit} />
             <Route path="/admin/finances/credits" component={AdminCredits} />
 
             <Route path="/user/calculate" component={Calculate} />
+
+
 
             <Route path="/plans/:slug/payment/mobile" component={Mobile} />
             <Route path="/plans/:slug/payment/btc" component={Btc} />

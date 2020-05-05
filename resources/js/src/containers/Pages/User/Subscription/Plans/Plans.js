@@ -28,16 +28,22 @@ class Plans extends Component {
 
         const status = getQueryParam(search, 'status');
         const code = getQueryParam(search, 'code');
-        this.setState({
-            message: {
-                type: status == 1 ? 'success' : 'danger',
-                content: <div>You successfully bought a plan with the code <strong>{code}</strong></div>
+        if (status) {
+            const message = {};
+            if (+status === 0) {
+                message.type = 'info';
+                message.content = <div>Successfully submitted Limo Payment form. Pending...</div>;
+            } else if (+status === 1) {
+                message.type = 'success';
+                message.content = <div>You successfully bought a plan with the code <strong>{code}</strong></div>;
             }
-        }, () => {
-            setTimeout(() => {
-                this.setState({ visible: false })
-            }, 2000)
-        });
+
+            this.setState({ message }, () => {
+                setTimeout(() => {
+                    this.setState({ visible: false })
+                }, 5000)
+            });
+        }
     }
 
     clickHandler = code => {

@@ -66,6 +66,7 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
 
         Route::prefix('finances')->name('finances.')->group(function () {
             Route::get('sales-report', 'FinancesController@sales_report')->name('sales-report');
+            Route::get('limo-payments', 'FinancesController@limo_payments')->name('limo-payments');
 
             Route::prefix('credits')->name('credits.')->group(function () {
                 Route::post('', 'FinancesController@store')->name('store');
@@ -115,6 +116,7 @@ Route::middleware('auth:admin,api,outer')->group(function () {
 
     Route::get('plans', 'PlansController@index');
     Route::get('plans/{plan}/payment', 'PlansController@payment')->name('plans.payment');
+    Route::post('plans/payment/limo', 'PlansController@limo')->name('plans.payment.limo');
     Route::post('plans/{plan}/payment/{method}', 'PlansController@confirm')->name('plans.payment.confirm');
     Route::get('calculate', 'PlansController@getCalculate');
     Route::post('calculate', 'PlansController@makeCalculation');

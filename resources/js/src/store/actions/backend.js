@@ -275,6 +275,28 @@ export const getAdminSalesReport = () => async dispatch => {
     }
 };
 
+const getAdminLimoPaymentsStart = () => ({ type: actionTypes.GET_ADMIN_LIMO_PAYMENTS_START });
+const getAdminLimoPaymentsSuccess = data => ({ type: actionTypes.GET_ADMIN_LIMO_PAYMENTS_SUCCESS, ...data });
+const getAdminLimoPaymentsFail = error => ({ type: actionTypes.GET_ADMIN_LIMO_PAYMENTS_FAIL, error });
+export const getAdminLimoPayments = () => async dispatch => {
+    const token = localStorage.getItem('token');
+    dispatch(getAdminLimoPaymentsStart());
+
+    try {
+        const res = await fetch(rootPath + '/api/admin/finances/limo-payments', {
+            method: 'GET',
+            headers: {
+                Authorization: token
+            }
+        });
+        const resData = await res.json();
+        dispatch(getAdminLimoPaymentsSuccess(resData));
+    } catch (err) {
+        console.log(err);
+        dispatch(getAdminLimoPaymentsFail(err));
+    }
+};
+
 const getAdminCreditsListStart = () => ({ type: actionTypes.GET_ADMIN_CREDITS_LIST_START });
 const getAdminCreditsListSuccess = data => ({ type: actionTypes.GET_ADMIN_CREDITS_LIST_SUCCESS, ...data });
 const getAdminCreditsListFail = error => ({ type: actionTypes.GET_ADMIN_CREDITS_LIST_FAIL, error });

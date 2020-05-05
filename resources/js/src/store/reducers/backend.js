@@ -79,6 +79,9 @@ const resetAdminFinances = (state, action) => updateObject(state, { finances: in
 const getAdminSalesReportStart = (state, action) => updateObject(state, { finances: updateObject(state.finances, { loading: true }) });
 const getAdminSalesReportSuccess = (state, action) => updateObject(state, { finances: updateObject(state.finances, { loading: false, error: null, ...action }) });
 const getAdminSalesReportFail = (state, action) => updateObject(state, { finances: updateObject(state.finances, { loading: false, ...action }) });
+const getAdminLimoPaymentsStart = (state, action) => updateObject(state, { finances: updateObject(state.finances, { loading: true }) });
+const getAdminLimoPaymentsSuccess = (state, action) => updateObject(state, { finances: updateObject(state.finances, { loading: false, error: null, ...action }) });
+const getAdminLimoPaymentsFail = (state, action) => updateObject(state, { finances: updateObject(state.finances, { loading: false, ...action }) });
 const getAdminCreditsListStart = (state, action) => updateObject(state, { finances: updateObject(state.finances, { loading: true }) });
 const getAdminCreditsListSuccess = (state, action) => updateObject(state, { finances: updateObject(state.finances, { loading: false, error: null, ...action }) });
 const getAdminCreditsListFail = (state, action) => updateObject(state, { finances: updateObject(state.finances, { loading: false, ...action }) });
@@ -134,6 +137,9 @@ const reducer = (state = initialState, action) => {
         case actionTypes.GET_ADMIN_SALES_REPORT_START: return getAdminSalesReportStart(state, action);
         case actionTypes.GET_ADMIN_SALES_REPORT_FAIL: return getAdminSalesReportFail(state, action);
         case actionTypes.GET_ADMIN_SALES_REPORT_SUCCESS: return getAdminSalesReportSuccess(state, action);
+        case actionTypes.GET_ADMIN_LIMO_PAYMENTS_START: return getAdminLimoPaymentsStart(state, action);
+        case actionTypes.GET_ADMIN_LIMO_PAYMENTS_FAIL: return getAdminLimoPaymentsFail(state, action);
+        case actionTypes.GET_ADMIN_LIMO_PAYMENTS_SUCCESS: return getAdminLimoPaymentsSuccess(state, action);
         case actionTypes.GET_ADMIN_CREDITS_LIST_START: return getAdminCreditsListStart(state, action);
         case actionTypes.GET_ADMIN_CREDITS_LIST_FAIL: return getAdminCreditsListFail(state, action);
         case actionTypes.GET_ADMIN_CREDITS_LIST_SUCCESS: return getAdminCreditsListSuccess(state, action);

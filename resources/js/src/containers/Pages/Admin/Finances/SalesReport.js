@@ -42,7 +42,7 @@ class SalesReport extends Component {
                 };
                 const salesReportData = salesReport.map(transaction => {
                     return updateObject(transaction, {
-                        name: transaction.name || transaction.transactionable.first_name + ' ' + transaction.transactionable.last_name,
+                        name: transaction.transactionable.name || transaction.transactionable.first_name + ' ' + transaction.transactionable.last_name,
                         ref: transaction.transactionable.ref,
                         plan_name: transaction.plan.name,
                         plan_price: transaction.plan.price,

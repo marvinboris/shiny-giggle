@@ -16,6 +16,7 @@ export {
 export {
     getPlans,
     getPaymentInfo,
+    postLimoPayment,
 } from './payment';
 
 export {
@@ -53,6 +54,7 @@ export {
 
     resetAdminFinances,
     getAdminSalesReport,
+    getAdminLimoPayments,
     getAdminCreditsList,
     postAdminAddCredit,
 

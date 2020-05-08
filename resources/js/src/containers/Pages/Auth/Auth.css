@@ -1,0 +1,9 @@
+.Layout .title {
+    transform: translateY(50%);
+}
+
+@media (max-width: 992px) {
+    .Layout .title {
+        transform: translateY(0%);
+    }   
+}

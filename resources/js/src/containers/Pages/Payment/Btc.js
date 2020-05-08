@@ -54,8 +54,8 @@ class Btc extends Component {
                     <FormInput type="text" icon={faWallet} value="Bitcoin" required readonly />
                     <FormInput type="text" icon={faDollarSign} value={`$${plan.price} Dollar`} append="Limo" required readonly />
 
-                    <FormGroup className="ml-2 mt-4 mb-5 d-flex align-items-center text-light">
-                        <div className="text-300 pr-1">Value in BTC</div>
+                    <FormGroup className="ml-2 mt-4 mb-5 text-justify text-light">
+                        <span className="text-300 pr-1">Value in BTC</span>
                         <span className="text-700 text-yellow">{(plan.price * 0.0000001015).toString()} BTC</span>
                     </FormGroup>
                     <FormGroup>

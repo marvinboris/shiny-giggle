@@ -84,7 +84,7 @@ class Add extends Component {
         }
 
         return (
-            <BackEnd>
+            <>
                 <div className="bg-darklight py-4 pl-5 pr-4 position-relative">
                     <Breadcrumb main="Add Plan" icon={faTasks} />
                     <SpecialTitle user icon={faTasks}>Admin panel</SpecialTitle>
@@ -94,7 +94,7 @@ class Add extends Component {
                     {errors}
                     {content}
                 </div>
-            </BackEnd>
+            </>
         );
     }
 }

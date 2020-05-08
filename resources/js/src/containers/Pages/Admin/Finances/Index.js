@@ -76,7 +76,7 @@ class Index extends Component {
         }
 
         return (
-            <BackEnd>
+            <>
                 <div className="bg-darklight py-4 pl-5 pr-4 position-relative">
                     <Breadcrumb main="Credit List" icon={faUserTie} />
                     <SpecialTitle user icon={faUserTie}>Admin panel</SpecialTitle>
@@ -86,7 +86,7 @@ class Index extends Component {
                     {errors}
                     {content}
                 </div>
-            </BackEnd>
+            </>
         );
     }
 }

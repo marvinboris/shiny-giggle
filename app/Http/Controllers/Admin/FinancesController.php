@@ -43,6 +43,41 @@ class FinancesController extends Controller
         ]);
     }
 
+    public function limo_payment($id)
+    {
+        $limoPayment = LimoPayment::find($id);
+        if (!$limoPayment) return response()->json([
+            'message' => [
+                'type' => 'danger',
+                'content' => 'Payment not found.'
+            ]
+        ], 404);
+
+        return response()->json([
+            'limoPayment' => $limoPayment
+        ]);
+    }
+
+    public function limo_payment_edit(Request $request, $id)
+    {
+        $limoPayment = LimoPayment::find($id);
+        if (!$limoPayment) return response()->json([
+            'message' => [
+                'type' => 'danger',
+                'content' => 'Payment not found.'
+            ]
+        ], 404);
+        // $limoPayment->feedback = $request->feedback;
+        $limoPayment->update(['status' => +$request->status]);
+
+        return response()->json([
+            'message' => [
+                'type' => 'success',
+                'content' => 'Successfully updated payment status.'
+            ]
+        ]);
+    }
+
     public function index()
     {
         $deposits = [];

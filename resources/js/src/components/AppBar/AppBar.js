@@ -11,7 +11,7 @@ export default ({ isAuthenticated, role, logout, dashboard }) => {
 
     const toggle = () => setModal(!modal);
 
-    return <div>
+    return <div className="AppBar d-none d-sm-block">
         <Navbar className="border-bottom bg-darkblue border-yellow-50 d-flex align-items-center px-5" light expand="md">
             <Link to="/" style={{ transform: 'scale(.7)', transformOrigin: 'center' }}>
                 <img src={Logo} width={341} alt="Logo" />

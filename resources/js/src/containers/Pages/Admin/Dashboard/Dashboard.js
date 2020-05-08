@@ -7,8 +7,6 @@ import { faTachometerAlt, faWallet, faUserFriends, faEnvelope, faTicketAlt, faTa
 import { faArrowAltCircleLeft, faArrowAltCircleRight } from '@fortawesome/free-regular-svg-icons';
 
 // Components
-import BackEnd from '../../../BackEnd';
-
 import Breadcrumb from '../../../../components/Backend/UI/Breadcrumb/Breadcrumb';
 import SpecialTitle from '../../../../components/UI/Titles/SpecialTitle/SpecialTitle';
 import Subtitle from '../../../../components/UI/Titles/Subtitle/Subtitle';
@@ -42,6 +40,10 @@ class Dashboard extends Component {
 
         await this.setState({ countries });
         onGetAdminDashboard();
+    }
+
+    componentWillUnmount() {
+        this.props.onResetAdminDashboard();
     }
 
     render() {
@@ -191,12 +193,12 @@ class Dashboard extends Component {
                                 <Link to="/admin/users" className="text-white">View full task list | ></Link>
                             </Table>
 
-                            <Col lg={6}>
+                            <Col lg={6} className="pt-3 pt-sm-0">
                                 <div className="bg-darklight shadow-sm text-white h-100 d-flex flex-column">
                                     <div className="p-3 border-bottom border-border text-orange text-700 position-relative d-flex">
                                         <span className="d-inline-flex align-items-center"><FontAwesomeIcon size="lg" className="mr-2" fixedWidth icon={faTasks} />Finance Tracker</span>
 
-                                        <div className="ml-auto d-flex justify-content-end align-items-center text-white position-absolute" style={{ top: '50%', right: 16, transform: 'translateY(-50%)' }}>
+                                        <div className="ml-auto d-none d-lg-flex justify-content-end align-items-center text-white position-absolute" style={{ top: '50%', right: 16, transform: 'translateY(-50%)' }}>
                                             <FontAwesomeIcon icon={faArrowsAlt} size="lg" className="mr-3" />
 
                                             <FontAwesomeIcon icon={faTimes} size="2x" />
@@ -287,7 +289,7 @@ class Dashboard extends Component {
         }
 
         return (
-            <BackEnd>
+            <>
                 <div className="bg-darklight py-4 pl-5 pr-4 position-relative">
                     <Breadcrumb main="Dashboard" icon={faTachometerAlt} />
                     <SpecialTitle user icon={faTachometerAlt}>Admin panel</SpecialTitle>
@@ -297,7 +299,7 @@ class Dashboard extends Component {
                     {errors}
                     {content}
                 </div>
-            </BackEnd>
+            </>
         );
     }
 }
@@ -305,7 +307,8 @@ class Dashboard extends Component {
 const mapStateToProps = state => ({ ...state });
 
 const mapDispatchToProps = dispatch => ({
-    onGetAdminDashboard: () => dispatch(actions.getAdminDashboard())
+    onGetAdminDashboard: () => dispatch(actions.getAdminDashboard()),
+    onResetAdminDashboard: () => dispatch(actions.resetAdminDashboard()),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Dashboard));

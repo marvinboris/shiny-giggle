@@ -310,7 +310,7 @@ class Calculate extends Component {
         </Row>;
 
         return (
-            <BackEnd>
+            <>
                 <div className="bg-darklight py-4 pl-5 pr-4 position-relative">
                     <Breadcrumb main="Calculate" icon={faCalendarAlt} />
                     <SpecialTitle user icon={faCalendarAlt}>User panel</SpecialTitle>
@@ -324,7 +324,7 @@ class Calculate extends Component {
 
                     {content}
                 </div>
-            </BackEnd>
+            </>
         );
     }
 }

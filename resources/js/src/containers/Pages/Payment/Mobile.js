@@ -37,8 +37,8 @@ class Mobile extends Component {
                     <FormInput type="text" icon={faWallet} value="Mobile Payment" required readonly />
                     <FormInput type="text" icon={faDollarSign} value={`$${plan.price} Dollar`} append="Limo" required readonly />
 
-                    <FormGroup className="ml-2 mt-4 mb-5 d-flex align-items-center text-light">
-                        <div className="text-300 pr-1">Rate is 620/$ Limo. Your total amount is </div>
+                    <FormGroup className="ml-2 mt-4 mb-5 text-light text-justify">
+                        <span className="text-300 pr-1">Rate is 620/$ Limo. Your total amount is </span>
                         <span className="text-700 text-yellow">{plan.price * 620} FCFA</span>
                     </FormGroup>
                     <FormGroup>

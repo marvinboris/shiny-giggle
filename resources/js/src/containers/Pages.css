@@ -1,0 +1,17 @@
+.BackEnd main {
+    padding-left: 0;
+}
+
+.BackEnd footer {
+    width: 100%;
+    bottom: 0;
+}
+
+@media (min-width: 768px) {
+    .BackEnd main {
+        padding-left: 280px;
+    }
+    .BackEnd footer {
+        width: calc(100% - 280px);
+    }
+}

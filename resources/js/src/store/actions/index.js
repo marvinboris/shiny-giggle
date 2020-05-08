@@ -55,6 +55,8 @@ export {
     resetAdminFinances,
     getAdminSalesReport,
     getAdminLimoPayments,
+    getAdminLimoPayment,
+    postAdminLimoPayment,
     getAdminCreditsList,
     postAdminAddCredit,
 

@@ -4,13 +4,6 @@ import { rootPath } from '../..';
 const authStart = () => ({ type: actionTypes.AUTH_START });
 const authMessage = message => ({ type: actionTypes.AUTH_MESSAGE, message });
 const authFail = error => ({ type: actionTypes.AUTH_FAIL, error });
-export const authLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('expirationDate');
-    return {
-        type: actionTypes.AUTH_LOGOUT,
-    };
-};
 
 const authLoginSuccess = (token, data) => ({ type: actionTypes.AUTH_LOGIN_SUCCESS, token, data: { ...data, role: 'user' } });
 const authSignupSuccess = email => ({ type: actionTypes.AUTH_SIGNUP_SUCCESS, signup: { status: true, email } });
@@ -22,6 +15,14 @@ const authCodeSuccess = (token, data) => ({ type: actionTypes.AUTH_CODE_SUCCESS,
 const authAdminSuccess = hash => ({ type: actionTypes.AUTH_ADMIN_SUCCESS, hash });
 const authVerifySuccess = (token, data) => ({ type: actionTypes.AUTH_VERIFY_SUCCESS, token, data: { ...data, role: 'admin' } });
 const resendCodeSuccess = (hash, message) => ({ type: actionTypes.RESEND_CODE_SUCCESS, hash, message });
+
+const authLogoutSuccess = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('expirationDate');
+    return {
+        type: actionTypes.AUTH_LOGOUT_SUCCESS,
+    };
+};
 
 const checkAuthTimeout = (expirationTime) => dispatch => {
     setTimeout(() => {
@@ -224,7 +225,30 @@ export const resendCode = hash => async dispatch => {
     } catch (err) {
         dispatch(authFail());
     }
-}
+};
+
+export const authLogout = () => async dispatch => {
+    dispatch(authStart());
+    const token = localStorage.getItem('token');
+
+    try {
+        const res = await fetch(rootPath + '/api/logout', {
+            method: 'GET',
+            headers: {
+                'Authorization': token
+            }
+        });
+
+        if (res.status !== 200) throw new ('Erreur lors de la récupération des informations.')
+
+        const { message } = await res.json();
+
+        dispatch(authMessage(message));
+        dispatch(authLogoutSuccess());
+    } catch (err) {
+        dispatch(authFail(err));
+    }
+};
 
 export const setAuthRedirectPath = path => ({ type: actionTypes.SET_AUTH_REDIRECT_PATH, path });
 export const setHash = hash => ({ type: actionTypes.SET_HASH, hash });
@@ -232,7 +256,7 @@ export const setHash = hash => ({ type: actionTypes.SET_HASH, hash });
 export const authCheckState = () => async dispatch => {
     dispatch(authStart());
     const token = localStorage.getItem('token');
-    if (!token) dispatch(authLogout());
+    if (!token) dispatch(authLogoutSuccess());
     else {
         try {
             const res = await fetch(rootPath + '/api/user', {
@@ -242,10 +266,10 @@ export const authCheckState = () => async dispatch => {
                 }
             });
 
-            if (res.status === 521) dispatch(authLogout());
+            if (res.status === 521) await dispatch(authLogoutSuccess());
             else if (res.status !== 200 && res.status !== 201) {
                 throw new Error('Erreur lors de la récupération des informations.');
-            }
+            } 
 
             const { data, role } = await res.json();
 
@@ -255,7 +279,7 @@ export const authCheckState = () => async dispatch => {
                 else if (role === 'guest') dispatch(authCodeSuccess(token, data));
                 else if (role === 'admin') dispatch(authVerifySuccess(token, data));
                 dispatch(checkAuthTimeout(expirationDate.getTime() - new Date().getTime()));
-            } else dispatch(authLogout());
+            } else dispatch(authLogoutSuccess());
         } catch (err) {
             dispatch(authFail(err));
         }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { Col, Row, Badge } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faUsers, faThList, faTimesCircle, faCheckCircle, faPrint, faUserTie, faEdit, faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -42,12 +42,12 @@ class LimoPayments extends Component {
                         name: limoPayment.user.first_name + ' ' + limoPayment.user.last_name,
                         ref: limoPayment.user.ref,
                         updated_at: convertDate(limoPayment.updated_at),
-                        status: limoPayment.status === 0 ? <Badge color="primary" className="badge-block position-static"><FontAwesomeIcon icon={faSpinner} className="fa-spin" fixedWidth /><span className="ml-2">Pending</span></Badge> :
+                        status: limoPayment.status === 0 ? <Badge color="orange" className="badge-block position-static"><FontAwesomeIcon icon={faSpinner} className="fa-spin" fixedWidth /><span className="ml-2">Pending</span></Badge> :
                             limoPayment.status === 1 ? <Badge color="success" className="badge-block position-static"><FontAwesomeIcon icon={faCheckCircle} className="mr-2" fixedWidth />Success</Badge> :
                                 <Badge color="danger" className="badge-block position-static"><FontAwesomeIcon icon={faTimesCircle} className="mr-2" fixedWidth />Failed</Badge>,
                         action: <div className="text-center">
                             <FontAwesomeIcon icon={faEye} className="text-lightblue mr-2" fixedWidth />
-                            <FontAwesomeIcon icon={faEdit} className="text-green mr-2" fixedWidth />
+                            <Link className="text-decoration-none text-green mr-2" to={'/admin/finances/limo-payments/' + limoPayment.id + '/edit'}><FontAwesomeIcon icon={faEdit} fixedWidth /></Link>
                         </div>
                     });
                 });
@@ -74,7 +74,7 @@ class LimoPayments extends Component {
         }
 
         return (
-            <BackEnd>
+            <>
                 <div className="bg-darklight py-4 pl-5 pr-4 position-relative">
                     <Breadcrumb main="Limo Payments" icon={faUserTie} />
                     <SpecialTitle user icon={faUserTie}>Admin panel</SpecialTitle>
@@ -84,7 +84,7 @@ class LimoPayments extends Component {
                     {errors}
                     {content}
                 </div>
-            </BackEnd>
+            </>
         );
     }
 }

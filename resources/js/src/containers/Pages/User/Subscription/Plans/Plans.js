@@ -77,7 +77,7 @@ class Plans extends Component {
                         </div>
                     </Col>
 
-                    {plans.map((plan, index) => <Col key={index} xs={4} className="p-0"><UserPlan onClick={() => this.clickHandler(plan.pivot.code)} {...plan} /></Col>)}
+                    {plans.map((plan, index) => <Col key={index} xl={4} className="p-0"><UserPlan onClick={() => this.clickHandler(plan.pivot.code)} {...plan} /></Col>)}
                 </Row>;
             } else content = <div className="py-5">
                 <Error err={error} />
@@ -85,7 +85,7 @@ class Plans extends Component {
         }
 
         return (
-            <BackEnd>
+            <>
                 <div className="bg-darklight py-4 pl-5 pr-4 position-relative">
                     <Breadcrumb main="My Plans" icon={faUserTie} />
                     <SpecialTitle user icon={faUserTie}>User panel</SpecialTitle>
@@ -95,7 +95,7 @@ class Plans extends Component {
                     {redirect}
                     {content}
                 </div>
-            </BackEnd>
+            </>
         );
     }
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Badge, ButtonGroup, Button } from 'reactstrap';
+import { Col, Badge, ButtonGroup, Button, Collapse } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTachometerAlt, faUserTie, faCalendarAlt, faEnvelope, faTasks, faCog, faCircle, faEdit, faMoneyBillWave, faWallet, faCopy } from '@fortawesome/free-solid-svg-icons';
 import { faCheckCircle } from '@fortawesome/free-regular-svg-icons';
@@ -13,7 +13,7 @@ const roles = {
     admin: 'Administrator'
 };
 
-const sideDrawer = ({ name, photo = "https://placehold.it/100x100", role = '', credits = 0, id, sponsor }) => {
+export default ({ name, photo = "https://placehold.it/100x100", role = '', credits = 0, id, sponsor, isOpen }) => {
     let addOns = null;
     let sideDrawerItems = null;
     switch (role) {
@@ -83,7 +83,7 @@ const sideDrawer = ({ name, photo = "https://placehold.it/100x100", role = '', c
     }
 
     return (
-        <div className="SideDrawer nav-left-sidebar bg-darklight border-right border-darkblue text-white" style={{ width: 280, position: 'fixed', top: 101, zIndex: 1040, height: 'calc(100vh - 101px)' }}>
+        <Collapse isOpen={isOpen} className="SideDrawer nav-left-sidebar bg-darklight border-right border-darkblue text-white position-fixed d-md-block" style={{ width: 280 }}>
             <div className="menu-list">
                 <Col xs={12}>
                     <div className="py-3 align-items-center border-top border-bottom border-white-20">
@@ -122,8 +122,7 @@ const sideDrawer = ({ name, photo = "https://placehold.it/100x100", role = '', c
                     </div>
                 </nav>
             </div>
-        </div>
+            <div className="backdrop w-100 bg-darkblue-50 position-fixed d-md-none" style={{ top: 101, zIndex: -1 }} />
+        </Collapse>
     )
 };
-
-export default sideDrawer;

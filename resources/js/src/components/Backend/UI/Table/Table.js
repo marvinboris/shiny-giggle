@@ -3,7 +3,7 @@ import { Col, Table, Input } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faArrowsAlt } from '@fortawesome/free-solid-svg-icons';
 
-const table = ({ fields, array, limit, bordered, xs, sm, md, lg, xl, className = '', title, icon, dark, borderless, innerClassName = '', outerClassName = '', p0, select, children, selectHandler, style }) => {
+export default ({ fields, array, limit, bordered, xs, sm, md, lg, xl, className = '', title, icon, dark, borderless, innerClassName = '', outerClassName = '', p0, select, children, selectHandler, style }) => {
     const titles = fields.map(({ name }) => <th className="align-middle text-nowrap" key={name}>{name}</th>);
     titles.unshift(<th className="text-center align-middle" key="#">SL</th>);
     if (select) titles.unshift(<th className="align-middle text-center" key="select_all">
@@ -30,7 +30,7 @@ const table = ({ fields, array, limit, bordered, xs, sm, md, lg, xl, className =
                 <div className="p-3 border-bottom border-border text-orange text-700 d-flex position-relative">
                     <span className="d-inline-flex align-items-center">{icon ? <FontAwesomeIcon fixedWidth className="mr-2" icon={icon} size="lg" /> : null}{title}</span>
 
-                    <div className="ml-auto d-flex justify-content-end align-items-center text-white position-absolute" style={{ top: '50%', right: 16, transform: 'translateY(-50%)' }}>
+                    <div className="ml-auto d-none d-lg-flex justify-content-end align-items-center text-white position-absolute" style={{ top: '50%', right: 16, transform: 'translateY(-50%)' }}>
                         <Input type="search" placeholder="Search here..." className="small bg-darkblue rounded-0 border-0 text-white mr-3" />
 
                         <FontAwesomeIcon icon={faArrowsAlt} size="lg" className="mr-3" />
@@ -54,5 +54,3 @@ const table = ({ fields, array, limit, bordered, xs, sm, md, lg, xl, className =
         </Col>
     );
 };
-
-export default table;

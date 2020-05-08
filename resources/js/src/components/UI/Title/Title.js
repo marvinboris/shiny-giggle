@@ -2,7 +2,9 @@ import React from 'react';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-export default ({ children, className, style, check, mt = 5 }) => <div className={"mt-" + mt + " position-relative d-flex " + className} style={{ width: '35%', ...style }}>
+import './Title.css';
+
+export default ({ children, className, style, check, mt = 5 }) => <div className={"mt-" + mt + " Title position-relative d-none d-sm-flex " + className} style={style}>
     {check ? <div className="pr-4">
         <FontAwesomeIcon icon={faCheckCircle} className="text-green" size="3x" />
     </div> : null}

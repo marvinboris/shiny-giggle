@@ -30,11 +30,11 @@ const authVerifySuccess = (state, action) => updateObject(state, { error: null, 
 
 const resendCodeSuccess = (state, action) => updateObject(state, { error: null, loading: false, ...action });
 
+const authLogoutSuccess = (state, action) => updateObject(state, { loading: false, token: null });
+
 const authFail = (state, action) => updateObject(state, { loading: false, ...action });
 
 const authMessage = (state, action) => updateObject(state, { loading: false, ...action });
-
-const authLogout = (state, action) => updateObject(state, { loading: false, token: null });
 
 const setAuthRedirectPath = (state, action) => updateObject(state, { authRedirectPath: action.path });
 
@@ -51,9 +51,9 @@ const reducer = (state = initialState, action) => {
         case actionTypes.AUTH_ADMIN_SUCCESS: return authAdminSuccess(state, action);
         case actionTypes.AUTH_VERIFY_SUCCESS: return authVerifySuccess(state, action);
         case actionTypes.RESEND_CODE_SUCCESS: return resendCodeSuccess(state, action);
+        case actionTypes.AUTH_LOGOUT_SUCCESS: return authLogoutSuccess(state, action);
         case actionTypes.AUTH_FAIL: return authFail(state, action);
         case actionTypes.AUTH_MESSAGE: return authMessage(state, action);
-        case actionTypes.AUTH_LOGOUT: return authLogout(state, action);
         case actionTypes.SET_AUTH_REDIRECT_PATH: return setAuthRedirectPath(state, action);
         case actionTypes.SET_HASH: return setHash(state, action);
 

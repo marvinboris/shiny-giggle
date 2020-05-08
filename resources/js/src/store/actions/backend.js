@@ -297,6 +297,56 @@ export const getAdminLimoPayments = () => async dispatch => {
     }
 };
 
+const getAdminLimoPaymentStart = () => ({ type: actionTypes.GET_ADMIN_LIMO_PAYMENT_START });
+const getAdminLimoPaymentSuccess = data => ({ type: actionTypes.GET_ADMIN_LIMO_PAYMENT_SUCCESS, ...data });
+const getAdminLimoPaymentFail = error => ({ type: actionTypes.GET_ADMIN_LIMO_PAYMENT_FAIL, error });
+export const getAdminLimoPayment = id => async dispatch => {
+    const token = localStorage.getItem('token');
+    dispatch(getAdminLimoPaymentStart());
+
+    try {
+        const res = await fetch(rootPath + '/api/admin/finances/limo-payments/' + id, {
+            method: 'GET',
+            headers: {
+                Authorization: token
+            }
+        });
+        const resData = await res.json();
+        dispatch(getAdminLimoPaymentSuccess(resData));
+    } catch (err) {
+        console.log(err);
+        dispatch(getAdminLimoPaymentFail(err));
+    }
+};
+
+const postAdminLimoPaymentStart = () => ({ type: actionTypes.POST_ADMIN_LIMO_PAYMENT_START });
+const postAdminLimoPaymentSuccess = message => ({ type: actionTypes.POST_ADMIN_LIMO_PAYMENT_SUCCESS, message });
+const postAdminLimoPaymentFail = error => ({ type: actionTypes.POST_ADMIN_LIMO_PAYMENT_FAIL, error });
+export const postAdminLimoPayment = (id, data) => async dispatch => {
+    const token = localStorage.getItem('token');
+    dispatch(postAdminLimoPaymentStart());
+
+    try {
+        const formData = new FormData(data);
+        const res = await fetch(rootPath + '/api/admin/finances/limo-payments/' + id, {
+            method: 'POST',
+            mode: 'cors',
+            body: formData,
+            headers: {
+                Authorization: token
+            }
+        });
+
+        const resData = await res.json();
+        if (res.status === 422) throw new Error(Object.values(resData.errors).join('\n'));
+
+        dispatch(postAdminLimoPaymentSuccess(resData.message));
+    } catch (err) {
+        console.log(err);
+        dispatch(postAdminLimoPaymentFail(err));
+    }
+};
+
 const getAdminCreditsListStart = () => ({ type: actionTypes.GET_ADMIN_CREDITS_LIST_START });
 const getAdminCreditsListSuccess = data => ({ type: actionTypes.GET_ADMIN_CREDITS_LIST_SUCCESS, ...data });
 const getAdminCreditsListFail = error => ({ type: actionTypes.GET_ADMIN_CREDITS_LIST_FAIL, error });

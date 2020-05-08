@@ -103,7 +103,7 @@ class Dashboard extends Component {
                 }));
                 plans[2].best = true;
                 plans = [plans[0], plans[2], plans[1]];
-                const subscriptionPlans = plans.map((plan, index) => <Col key={index} xs={4}>
+                const subscriptionPlans = plans.map((plan, index) => <Col key={index} xl={4}>
                     <PlanCard {...plan} />
                 </Col>);
 
@@ -119,7 +119,7 @@ class Dashboard extends Component {
 
                                 <Row>
                                     <Col xs={12} className="p-0">
-                                        <ReactOwlCarousel loop nav>
+                                        <ReactOwlCarousel responsive={{ 0: { items: 1 }, 600: { items: 2 }, 1200: { items: 3 } }} loop nav>
                                             {planCards}
                                         </ReactOwlCarousel>
                                     </Col>
@@ -131,13 +131,19 @@ class Dashboard extends Component {
                                     Select a plan
                                 </div>
 
-                                <Row className="justify-content-center embed-responsive embed-responsive-21by9 position-relative">
+                                <Row className="d-none d-sm-flex justify-content-center embed-responsive embed-responsive-21by9 position-relative">
                                     <Col xs={9} className="position-absolute" style={{ top: 0, left: '50%', transform: 'translateX(-50%)' }}>
                                         <Row className="justify-content-center">
                                             <Col xs={10} style={{ transformOrigin: 'top center', transform: 'scale(1.4)' }}><Row className="align-items-center">{subscriptionPlans}</Row></Col>
                                         </Row>
                                     </Col>
                                 </Row>
+
+                                <div className="d-sm-none">
+                                    <ReactOwlCarousel responsive={{ 0: { items: 1 }, 600: { items: 2 }, 1200: { items: 3 } }} center loop nav>
+                                        {subscriptionPlans}
+                                    </ReactOwlCarousel>
+                                </div>
                             </Col>
                         </Row>
                     </>
@@ -146,7 +152,7 @@ class Dashboard extends Component {
         }
 
         return (
-            <BackEnd>
+            <>
                 <div className="bg-darklight py-4 pl-5 pr-4 position-relative">
                     <Breadcrumb main="Dashboard" icon={faTachometerAlt} />
                     <SpecialTitle user icon={faTachometerAlt}>User panel</SpecialTitle>
@@ -156,7 +162,7 @@ class Dashboard extends Component {
                     {errors}
                     {content}
                 </div>
-            </BackEnd>
+            </>
         );
     }
 }

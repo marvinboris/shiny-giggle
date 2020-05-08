@@ -62,7 +62,7 @@ class Buy extends Component {
         }
 
         return (
-            <BackEnd>
+            <>
                 <div className="bg-darklight py-4 pl-5 pr-4 position-relative">
                     <Breadcrumb main="Buy Plan" icon={faUserTie} />
                     <SpecialTitle user icon={faUserTie}>User panel</SpecialTitle>
@@ -72,7 +72,7 @@ class Buy extends Component {
                     {redirect}
                     {content}
                 </div>
-            </BackEnd>
+            </>
         );
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+use App\Admin;
+use App\Guest;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -66,7 +68,12 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
 
         Route::prefix('finances')->name('finances.')->group(function () {
             Route::get('sales-report', 'FinancesController@sales_report')->name('sales-report');
-            Route::get('limo-payments', 'FinancesController@limo_payments')->name('limo-payments');
+
+            Route::prefix('limo-payments')->name('limo-payments.')->group(function () {
+                Route::post('{id}', 'FinancesController@limo_payment_edit')->name('update');
+                Route::get('{id}', 'FinancesController@limo_payment')->name('show');
+                Route::get('', 'FinancesController@limo_payments')->name('index');
+            });
 
             Route::prefix('credits')->name('credits.')->group(function () {
                 Route::post('', 'FinancesController@store')->name('store');
@@ -89,10 +96,10 @@ Route::namespace('User')->prefix('user')->name('user.')->group(function () {
     Route::middleware('auth:api')->group(function () {
         Route::get('dashboard', 'DashboardController@index')->name('dashboard');
 
-        Route::prefix('calculate')->group(function () {
-            Route::get('plans', 'CalculateController@userPlans');
-            Route::get('{code}', 'CalculateController@getCalculateFromCode');
-            Route::post('', 'CalculateController@makeCalculation');
+        Route::prefix('calculate')->name('calculate.')->group(function () {
+            Route::get('plans', 'CalculateController@userPlans')->name('plans');
+            Route::get('{code}', 'CalculateController@getCalculateFromCode')->name('get');
+            Route::post('', 'CalculateController@makeCalculation')->name('post');
         });
     });
 });
@@ -107,6 +114,18 @@ Route::middleware('auth:admin,api,outer')->group(function () {
 
     Route::get('user', function () {
         $user = request()->user();
+        switch ($user->token()->name) {
+            case 'User Personal Access Token':
+                $user = User::find($user->id);
+                break;
+            case 'Admin Personal Access Token':
+                $user = Admin::find($user->id);
+                break;
+            case 'Guest Personal Access Token':
+                $user = Guest::find($user->id);
+                break;
+        }
+
         $role = $user->role();
 
         $data = $user->toArray();
@@ -118,8 +137,8 @@ Route::middleware('auth:admin,api,outer')->group(function () {
     Route::get('plans/{plan}/payment', 'PlansController@payment')->name('plans.payment');
     Route::post('plans/payment/limo', 'PlansController@limo')->name('plans.payment.limo');
     Route::post('plans/{plan}/payment/{method}', 'PlansController@confirm')->name('plans.payment.confirm');
-    Route::get('calculate', 'PlansController@getCalculate');
-    Route::post('calculate', 'PlansController@makeCalculation');
+    Route::get('calculate', 'PlansController@getCalculate')->name('calculate.get');
+    Route::post('calculate', 'PlansController@makeCalculation')->name('calculate.post');
 });
 
 Route::namespace('Method')->group(function () {

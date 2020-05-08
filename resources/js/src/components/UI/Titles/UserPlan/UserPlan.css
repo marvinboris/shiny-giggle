@@ -39,5 +39,35 @@
 
 .UserPlan.hover.selected .select {
     opacity: 0;
-    transform: translateY(-00%) rotateY(180deg);
+    transform: translateY(0%) rotateY(180deg);
+}
+
+.UserPlan .Progress, .UserPlan .Info {
+    top: calc(50% - 1rem);
+    left: 50%;
+    transform: translate(-50%, calc(-50% + 15px)) scale(.8);
+}
+
+.UserPlan .embed-responsive {
+    width: 60%;
+}
+
+@media (min-width: 400px) {
+    .UserPlan .embed-responsive {
+        width: 55%;
+    }
+    
+    .UserPlan .Progress, .UserPlan .Info {
+        transform: translate(-50%, calc(-50% + 15px)) scale(.9);
+    }
+}
+
+@media (min-width: 600px) {
+    .UserPlan .embed-responsive {
+        width: 50%;
+    }
+    
+    .UserPlan .Progress, .UserPlan .Info {
+        transform: translate(-50%, calc(-50% + 15px)) scale(1);
+    }
 }

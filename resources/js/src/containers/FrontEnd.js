@@ -9,6 +9,8 @@ import Footer from '../components/Footer/Footer';
 
 import { authLogout } from '../store/actions';
 
+import LogoHeader from '../assets/images/logo-header.png';
+
 class FrontEnd extends Component {
     dashboard = () => {
         this.props.history.push('/dashboard');
@@ -20,11 +22,15 @@ class FrontEnd extends Component {
 
         return <div className="vh-100 d-flex flex-column">
             <AppBar isAuthenticated={isAuthenticated} role={role} logout={onAuthLogout} dashboard={this.dashboard} />
-            <div className="flex-fill overflow-hidden bg-darkblue">
+            <div className="flex-fill overflow-hidden position-relative bg-darkblue">
+                <div className="d-sm-none position-absolute w-100 text-center" style={{ top: 100, left: 0, opacity: .1 }}>
+                    <img src={LogoHeader} width={145} />
+                </div>
+
                 <div className="h-100">
                     <Container fluid className="h-100">
                         <Row className="justify-content-center h-100">
-                            {loading ? <div className="h-100 d-flex justify-content-center align-items-center"><CustomSpinner /></div> : <Col xs={10} className="d-flex flex-column h-100">
+                            {loading ? <div className="h-100 d-flex justify-content-center align-items-center"><CustomSpinner /></div> : <Col lg={10} className="d-flex justify-content-sm-start justify-content-center flex-column h-100">
                                 {children}
                             </Col>}
                         </Row>

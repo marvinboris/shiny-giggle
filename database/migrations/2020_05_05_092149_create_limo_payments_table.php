@@ -23,6 +23,8 @@ class CreateLimoPaymentsTable extends Migration
             $table->string('phone');
             $table->string('limo_id');
             $table->float('amount');
+            $table->text('comments')->nullable();
+            $table->text('feedback')->nullable();
             $table->tinyInteger('status');
             $table->timestamps();
         });

@@ -196,7 +196,7 @@ class CalculationPage extends Component {
             </Row>
         </div> : <h3 className="text-white flex-fill d-flex justify-content-center align-items-center m-0">Your result will show in this area !</h3>;
 
-        return <FrontEnd>
+        return <>
             <div className="h-100">
                 {redirect}
                 <Row className="py-5 align-items-center justify-content-between h-100">
@@ -270,7 +270,7 @@ class CalculationPage extends Component {
                     </Col>
                 </Row>
             </div>
-        </FrontEnd>;
+        </>;
     }
 }
 

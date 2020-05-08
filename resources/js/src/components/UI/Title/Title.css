@@ -1,0 +1,9 @@
+.Title {
+    width: 35%;
+}
+
+@media (max-width: 992px) {
+    .Title {
+        width: 100%;
+    }   
+}

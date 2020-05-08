@@ -8,7 +8,7 @@ import Logo from '../../assets/images/logo-footer.png';
 export default class Footer extends Component {
     render() {
         return (
-            <div className="bg-darkblue border-top border-yellow-50 py-3">
+            <div className="d-none d-sm-block bg-darkblue border-top border-yellow-50 py-3">
                 <Container>
                     <Row className="justify-content-center">
                         <Col xs={11} className="text-left">

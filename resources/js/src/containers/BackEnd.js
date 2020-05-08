@@ -10,6 +10,8 @@ import { authLogout } from '../store/actions';
 
 class BackEnd extends Component {
     state = {
+        isOpen: false,
+
         date: { weekDay: null, day: null, month: null, year: null },
         clock: { hours: null, minutes: null, seconds: null },
 
@@ -48,21 +50,27 @@ class BackEnd extends Component {
         onAuthLogout();
     }
 
+    toggle = () => {
+        this.setState(prevState => ({ isOpen: !prevState.isOpen }));
+    }
+
     render() {
-        const { date, clock } = this.state;
+        const { isOpen, date, clock } = this.state;
         const { auth: { loading, data: { notifications, first_name, last_name, name, role, photo, ref, sponsor, credits } }, onAuthLogout, children } = this.props;
         const isAuthenticated = localStorage.getItem('token') !== null;
 
         if (!isAuthenticated) onAuthLogout();
 
-        return <div className="text-left">
-            <Toolbar notifications={notifications} name={name || first_name + ' ' + last_name} role={role} clickHandler={this.clickHandler} logoutHandler={this.logoutHandler} date={date} clock={clock} />
-            <SideDrawer name={name || first_name + ' ' + last_name} photo={photo} role={role} id={ref} sponsor={sponsor} credits={credits} />
-            <main className="bg-darkblue position-relative pb-5" style={{ paddingLeft: 280, minHeight: 'calc(100vh - 101px)' }}>
+        return <div className="BackEnd text-left">
+            <Toolbar notifications={notifications} name={name || first_name + ' ' + last_name} role={role} toggle={this.toggle} clickHandler={this.clickHandler} logoutHandler={this.logoutHandler} date={date} clock={clock} />
+            <SideDrawer name={name || first_name + ' ' + last_name} isOpen={isOpen} photo={photo} role={role} id={ref} sponsor={sponsor} credits={credits} />
+
+            <main className="bg-darkblue full-height-user position-relative pb-5">
                 <div className="bg-darkblue mb-5 pb-5">
                     {loading ? <div className="h-100 d-flex justify-content-center align-items-center"><CustomSpinner /></div> : children}
                 </div>
-                <footer style={{ position: 'absolute', left: 280, bottom: 0, width: 'calc(100% - 280px)' }} className="py-3 px-4 bg-darklight text-white">
+
+                <footer className="position-absolute d-none d-sm-block py-3 px-4 bg-darklight text-white">
                     <strong className="text-orange text-large">&copy;</strong> Copyright {new Date().getFullYear()} <strong><Link to="/" className="text-white">Liyeplimal Reinvestment System Calculator</Link></strong>. All rights reserved by <strong className="text-orange">Briluce Services</strong>. Developed by <strong className="text-lightblue">Code Items</strong>.
                 </footer>
             </main>

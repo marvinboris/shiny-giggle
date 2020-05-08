@@ -49,7 +49,7 @@ class Subscribtion extends Component {
         }
         
         return (
-            <FrontEnd>
+            <>
                 {redirect}
 
                 <Title check>Good Job ! Welcome <span className="text-yellow">{name}</span>. Please select a plan to get started</Title>
@@ -64,7 +64,7 @@ class Subscribtion extends Component {
                         <img alt="mansee" src={mansee} className="img-fluid" />
                     </Col>
                 </Row>
-            </FrontEnd>
+            </>
         )
     }
 }

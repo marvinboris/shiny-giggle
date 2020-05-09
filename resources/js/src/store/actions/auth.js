@@ -243,7 +243,6 @@ export const authLogout = () => async dispatch => {
 
         const { message } = await res.json();
 
-        dispatch(authMessage(message));
         dispatch(authLogoutSuccess());
     } catch (err) {
         dispatch(authFail(err));
@@ -269,7 +268,7 @@ export const authCheckState = () => async dispatch => {
             if (res.status === 521) await dispatch(authLogoutSuccess());
             else if (res.status !== 200 && res.status !== 201) {
                 throw new Error('Erreur lors de la récupération des informations.');
-            } 
+            }
 
             const { data, role } = await res.json();
 

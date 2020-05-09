@@ -81,7 +81,7 @@ class AuthController extends Controller
                 'type' => 'danger',
                 'content' => 'Please, check your mailbox and click on the activation link.'
             ]
-            ], 403);
+        ], 403);
         if (!Auth::attempt($credentials))
             return response()->json([
                 'message' => [
@@ -89,7 +89,7 @@ class AuthController extends Controller
                     'content' => 'Unauthorized'
                 ]
             ], 401);
-            
+
         $tokenResult = $user->createToken('User Personal Access Token');
         $token = $tokenResult->token;
         if ($request->remember_me)
@@ -101,7 +101,10 @@ class AuthController extends Controller
             'expires_at' => Carbon::parse(
                 $tokenResult->token->expires_at
             )->toDateTimeString(),
-            'userData' => array_merge($user->toArray(), ['plans' => $user->plans])
+            'userData' => array_merge($user->toArray(), [
+                'notifications' => $user->unreadNotifications()->orderBy('created_at', 'desc')->limit(5)->get(),
+                'plans' => $user->plans
+            ])
         ]);
     }
 }

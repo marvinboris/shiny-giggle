@@ -113,7 +113,9 @@ class AuthController extends Controller
                 'expires_at' => Carbon::parse(
                     $tokenResult->token->expires_at
                 )->toDateTimeString(),
-                'userData' => $admin->toArray()
+                'userData' => array_merge($admin->toArray(), [
+                    'notifications' => $admin->unreadNotifications()->orderBy('created_at', 'desc')->limit(5)->get(),
+                ])
             ]);
         }
         return response()->json([

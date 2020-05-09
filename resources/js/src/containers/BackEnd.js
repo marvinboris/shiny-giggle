@@ -41,10 +41,6 @@ class BackEnd extends Component {
         clearInterval(this.state.interval);
     }
 
-    clickHandler = () => {
-        this.props.history.push('/user/calculate');
-    }
-
     logoutHandler = () => {
         const { onAuthLogout } = this.props;
         onAuthLogout();
@@ -62,8 +58,8 @@ class BackEnd extends Component {
         if (!isAuthenticated) onAuthLogout();
 
         return <div className="BackEnd text-left">
-            <Toolbar notifications={notifications} name={name || first_name + ' ' + last_name} role={role} toggle={this.toggle} clickHandler={this.clickHandler} logoutHandler={this.logoutHandler} date={date} clock={clock} />
-            <SideDrawer name={name || first_name + ' ' + last_name} isOpen={isOpen} photo={photo} role={role} id={ref} sponsor={sponsor} credits={credits} />
+            <Toolbar notifications={notifications} name={name || first_name + ' ' + last_name} role={role} toggle={this.toggle} logoutHandler={this.logoutHandler} date={date} clock={clock} />
+            <SideDrawer name={name || first_name + ' ' + last_name} isOpen={isOpen} photo={photo} role={role} id={ref} toggle={this.toggle} sponsor={sponsor} credits={credits} />
 
             <main className="bg-darkblue full-height-user position-relative pb-5">
                 <div className="bg-darkblue mb-5 pb-5">

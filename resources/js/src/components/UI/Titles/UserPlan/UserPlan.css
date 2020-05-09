@@ -45,7 +45,7 @@
 .UserPlan .Progress, .UserPlan .Info {
     top: calc(50% - 1rem);
     left: 50%;
-    transform: translate(-50%, calc(-50% + 15px)) scale(.8);
+    transform: translate(-50%, calc(-50% + 5px)) scale(.8);
 }
 
 .UserPlan .embed-responsive {
@@ -58,7 +58,7 @@
     }
     
     .UserPlan .Progress, .UserPlan .Info {
-        transform: translate(-50%, calc(-50% + 15px)) scale(.9);
+        transform: translate(-50%, calc(-50% + 5px)) scale(.9);
     }
 }
 
@@ -68,6 +68,6 @@
     }
     
     .UserPlan .Progress, .UserPlan .Info {
-        transform: translate(-50%, calc(-50% + 15px)) scale(1);
+        transform: translate(-50%, calc(-50% + 5px)) scale(1);
     }
 }

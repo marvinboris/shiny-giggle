@@ -13,31 +13,18 @@ const initialState = {
 };
 
 const authStart = (state, action) => updateObject(state, { error: null, loading: true, message: null });
-
 const authLoginSuccess = (state, action) => updateObject(state, { error: null, loading: false, ...action });
-
 const authSignupSuccess = (state, action) => updateObject(state, { error: null, loading: false, ...action });
-
 const clearSignup = (state, action) => updateObject(state, { error: null, loading: false, ...action });
-
 const authGuestSuccess = (state, action) => updateObject(state, { error: null, loading: false, ...action });
-
 const authCodeSuccess = (state, action) => updateObject(state, { error: null, loading: false, ...action });
-
 const authAdminSuccess = (state, action) => updateObject(state, { error: null, loading: false, ...action });
-
 const authVerifySuccess = (state, action) => updateObject(state, { error: null, loading: false, ...action });
-
 const resendCodeSuccess = (state, action) => updateObject(state, { error: null, loading: false, ...action });
-
 const authLogoutSuccess = (state, action) => updateObject(state, { loading: false, token: null });
-
 const authFail = (state, action) => updateObject(state, { loading: false, ...action });
-
 const authMessage = (state, action) => updateObject(state, { loading: false, ...action });
-
 const setAuthRedirectPath = (state, action) => updateObject(state, { authRedirectPath: action.path });
-
 const setHash = (state, action) => updateObject(state, { hash: action.hash });
 
 const reducer = (state = initialState, action) => {

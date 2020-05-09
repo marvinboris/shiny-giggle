@@ -6,21 +6,26 @@ import { Collapse, Button } from 'reactstrap';
 
 import './SideDrawerItem.css';
 
-const SideDrawerItem = ({ children, dropdown, icon, href = '', items, path = '' }) => {
+const SideDrawerItem = ({ children, dropdown, icon, href = '', items, path = '', sideDrawerToggle }) => {
     const match = window.location.pathname.includes(path);
     const [isOpen, setIsOpen] = useState(match);
 
     const toggle = () => setIsOpen(!isOpen);
 
     let content;
-    if (!dropdown) content =
-        <NavLink exact className="SideDrawerItem nav-link pl-3 text-large text-300 text-light" activeClassName="active bg-darkblue py-3" to={href}>
+    if (!dropdown) content = <>
+        <NavLink onClick={sideDrawerToggle} exact className="SideDrawerItem d-sm-none nav-link pl-3 text-large text-300 text-light" activeClassName="active bg-darkblue py-3" to={href}>
             <FontAwesomeIcon fixedWidth icon={icon} className="mr-3" /> <span>{children}</span>
-        </NavLink>;
+        </NavLink>
+        <NavLink exact className="SideDrawerItem nav-link d-none d-sm-block pl-3 text-large text-300 text-light" activeClassName="active bg-darkblue py-3" to={href}>
+            <FontAwesomeIcon fixedWidth icon={icon} className="mr-3" /> <span>{children}</span>
+        </NavLink>
+    </>;
     else {
         const itemEls = items.map(({ link = '', text }) => (
             <li className="nav-item text-300" key={text}>
-                <NavLink exact className="nav-link" to={link}><span className="position-relative" style={{ left: -8 }}>-</span> {text}</NavLink>
+                <NavLink onClick={sideDrawerToggle} exact className="nav-link d-sm-none" to={link}><span className="position-relative" style={{ left: -8 }}>-</span> {text}</NavLink>
+                <NavLink exact className="nav-link d-none d-sm-block" to={link}><span className="position-relative" style={{ left: -8 }}>-</span> {text}</NavLink>
             </li>
         ));
 

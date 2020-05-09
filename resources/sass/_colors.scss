@@ -21,15 +21,15 @@ $black: #000000;
 $light: #cacaca;
 $darklight: #1b223f;
 $border: #606060;
-$input: #28324C;
+$input: #28324c;
 
 // Colors
-$colors: "green" $mygreen $white, "lemongreen" $mylemongreen $dark, "darkgreen" $darkgreen $white, "darkblue" $darkblue $white,
-  "yellow" $myyellow $white, "darkyellow" $darkyellow $white, "red" $myred $white, "purered" $purered $white,
-  "orange" $myorange $white, "oranger" $myoranger $white, "scarlet" $scarlet $white, "blue" $myblue $white,
-  "lightblue" $mylightblue $white, "pink" $mypink $white, "mydarkblue" $mydarkblue $white, "white" $white $black,
-  "black" $black $white, "gray" $gray $white, "darklight" $darklight $white, "border" $border $white,
-  "light" $light $black, "input" $input $white;
+$colors: "green" $mygreen $white, "lemongreen" $mylemongreen $dark, "darkgreen" $darkgreen $white,
+  "darkblue" $darkblue $white, "yellow" $myyellow $white, "darkyellow" $darkyellow $white, "red" $myred $white,
+  "purered" $purered $white, "orange" $myorange $white, "oranger" $myoranger $white, "scarlet" $scarlet $white,
+  "blue" $myblue $white, "lightblue" $mylightblue $white, "pink" $mypink $white, "mydarkblue" $mydarkblue $white,
+  "white" $white $black, "black" $black $white, "gray" $gray $white, "darklight" $darklight $light,
+  "border" $border $white, "light" $light $black, "input" $input $white;
 @each $name, $color, $font in $colors {
   .text-#{$name} {
     color: $color !important;
@@ -136,6 +136,12 @@ $colors: "green" $mygreen $white, "lemongreen" $mylemongreen $dark, "darkgreen" 
       background-color: transparent;
       color: $color;
     }
+  }
+
+  .list-group-item-#{$name} {
+    background-color: $color;
+    color: $font;
+    border-color: rgba($font, 0.2);
   }
 
   .border-#{$name}-20 {

@@ -3,8 +3,7 @@ import { faUserTie } from '@fortawesome/free-solid-svg-icons';
 import { Col, Row } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-
-import BackEnd from '../../../../BackEnd';
+import ReactOwlCarousel from 'react-owl-carousel';
 
 import Breadcrumb from '../../../../../components/Backend/UI/Breadcrumb/Breadcrumb';
 import SpecialTitle from '../../../../../components/UI/Titles/SpecialTitle/SpecialTitle';
@@ -46,16 +45,24 @@ class Buy extends Component {
                 }));
                 plans[2].best = true;
                 plans = [plans[0], plans[2], plans[1]];
-                const subscriptionPlans = plans.map((plan, index) => <Col key={index} xs={4}>
+                const subscriptionPlans = plans.map((plan, index) => <Col key={index} xl={4}>
                     <PlanCard {...plan} />
                 </Col>);
-                content = <Row className="justify-content-center embed-responsive embed-responsive-21by9 position-relative">
-                    <Col xs={9} className="position-absolute" style={{ top: 0, left: '50%', transform: 'translateX(-50%)' }}>
-                        <Row className="justify-content-center">
-                            <Col xs={10} style={{ transformOrigin: 'top center', transform: 'scale(1.4)' }}><Row className="align-items-center">{subscriptionPlans}</Row></Col>
-                        </Row>
-                    </Col>
-                </Row>;
+                content = <>
+                    <Row className="d-none d-sm-flex justify-content-center embed-responsive embed-responsive-21by9 position-relative">
+                        <Col xs={9} className="position-absolute" style={{ top: 0, left: '50%', transform: 'translateX(-50%)' }}>
+                            <Row className="justify-content-center">
+                                <Col xs={10} style={{ transformOrigin: 'top center', transform: 'scale(1.4)' }}><Row className="align-items-center">{subscriptionPlans}</Row></Col>
+                            </Row>
+                        </Col>
+                    </Row>
+
+                    <div className="d-sm-none">
+                        <ReactOwlCarousel responsive={{ 0: { items: 1 }, 600: { items: 2 }, 1200: { items: 3 } }} center loop nav>
+                            {subscriptionPlans}
+                        </ReactOwlCarousel>
+                    </div>
+                </>;
             } else content = <div className="py-5">
                 <Error err={error} />
             </div>;

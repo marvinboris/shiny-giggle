@@ -4,6 +4,8 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Pack;
+use App\Plan;
+use App\PlanUser;
 use Illuminate\Http\Request;
 
 class CalculateController extends Controller
@@ -36,17 +38,20 @@ class CalculateController extends Controller
     {
         $user = request()->user();
 
-        $plan = $user->plans()->whereCode(request()->code)->first();
-        $points = $plan->pivot->points;
-        $calculations = $plan->pivot->calculations;
+        $pivot = PlanUser::whereCode(request()->code)->first();
+        if ($pivot->user_id !== $user->id) return response()->json([
+            'message' => 'Unauthorized'
+        ], 403);
+        $points = $pivot->points;
+        $calculations = $pivot->calculations;
         if ($points === 0) return response()->json([
             'message' => 'Insufficent points. Please subscribe to a plan'
         ], 500);
         else {
-            $plan->pivot->update(['points' => $points - 1, 'calculations' => $calculations + 1]);
+            $pivot->update(['points' => $points - 1, 'calculations' => $calculations + 1]);
         }
 
-
+        $plan = Plan::find($pivot->plan_id);
         $pack = $plan->packs()->findOrFail(request()->pack);
         $duration = $plan->durations()->findOrFail(request()->duration)->weeks;
         $period = $plan->periods()->findOrFail(request()->period)->weeks;

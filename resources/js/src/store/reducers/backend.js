@@ -6,6 +6,10 @@ const initialState = {
         loading: false,
         error: null,
     },
+    notifications: {
+        loading: false,
+        error: null
+    },
 
     users: {
         loading: false,
@@ -28,10 +32,6 @@ const initialState = {
         loading: false,
         error: null
     },
-    notifications: {
-        loading: false,
-        error: null
-    },
     subscriptionPlan: {
         loading: false,
         error: null
@@ -41,6 +41,10 @@ const initialState = {
         error: null
     },
 };
+
+const getNotificationsStart = (state, action) => updateObject(state, { notifications: updateObject(state.notifications, { loading: true }) });
+const getNotificationsSuccess = (state, action) => updateObject(state, { notifications: updateObject(state.notifications, { loading: false, error: null, ...action }) });
+const getNotificationsFail = (state, action) => updateObject(state, { notifications: updateObject(state.notifications, { loading: false, ...action }) });
 
 const resetUserDashboard = (state, action) => updateObject(state, { dashboard: initialState.dashboard });
 const getUserDashboardStart = (state, action) => updateObject(state, { dashboard: updateObject(state.dashboard, { loading: true }) });
@@ -108,6 +112,12 @@ const postAdminPlanDepositFail = (state, action) => updateObject(state, { plans:
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
+        case actionTypes.GET_NOTIFICATIONS_START: return getNotificationsStart(state, action);
+        case actionTypes.GET_NOTIFICATIONS_FAIL: return getNotificationsFail(state, action);
+        case actionTypes.GET_NOTIFICATIONS_SUCCESS: return getNotificationsSuccess(state, action);
+
+
+
         case actionTypes.RESET_USER_DASHBOARD: return resetUserDashboard(state, action);
         case actionTypes.GET_USER_DASHBOARD_START: return getUserDashboardStart(state, action);
         case actionTypes.GET_USER_DASHBOARD_FAIL: return getUserDashboardFail(state, action);

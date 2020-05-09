@@ -27,6 +27,8 @@ import Mobile from './containers/Pages/Payment/Mobile';
 import PaymentSuccess from './containers/Pages/Payment/Success';
 
 // Backend pages
+import Notifications from './containers/Pages/Notifications/Notifications';
+
 import AdminDashboard from './containers/Pages/Admin/Dashboard/Dashboard';
 import AdminUsers from './containers/Pages/Admin/Users';
 import AdminAddUser from './containers/Pages/Admin/Users/Add';
@@ -89,6 +91,8 @@ class App extends Component {
     if (isAuthenticated) {
       routes = (
         <Switch>
+          <Route path="/notifications" component={Notifications} />
+
           <Route path="/dashboard" component={dashboard} />
           <Route path="/user/subscription/buy" component={Buy} />
           <Route path="/user/subscription/plans" component={Plans} />

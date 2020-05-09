@@ -1,6 +1,28 @@
 import * as actionTypes from './actionTypes';
 import { rootPath } from '../..';
 
+const getNotificationsStart = () => ({ type: actionTypes.GET_NOTIFICATIONS_START });
+const getNotificationsSuccess = data => ({ type: actionTypes.GET_NOTIFICATIONS_SUCCESS, ...data });
+const getNotificationsFail = error => ({ type: actionTypes.GET_NOTIFICATIONS_FAIL, error });
+export const getNotifications = () => async dispatch => {
+    const token = localStorage.getItem('token');
+    dispatch(getNotificationsStart());
+
+    try {
+        const res = await fetch(rootPath + '/api/notifications', {
+            method: 'GET',
+            headers: {
+                Authorization: token
+            }
+        });
+        const resData = await res.json();
+        dispatch(getNotificationsSuccess(resData));
+    } catch (err) {
+        console.log(err);
+        dispatch(getNotificationsFail(err));
+    }
+};
+
 export const resetUserDashboard = () => ({ type: actionTypes.RESET_USER_DASHBOARD });
 const getUserDashboardStart = () => ({ type: actionTypes.GET_USER_DASHBOARD_START });
 const getUserDashboardSuccess = data => ({ type: actionTypes.GET_USER_DASHBOARD_SUCCESS, ...data });

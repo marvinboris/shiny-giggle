@@ -10,7 +10,7 @@ export {
     authLogout,
     setAuthRedirectPath,
     setHash,
-    authCheckState
+    authCheckState,
 } from './auth';
 
 export {
@@ -29,6 +29,8 @@ export {
 } from './calculation';
 
 export {
+    getNotifications,
+
     resetUserDashboard,
     getUserDashboard,
 

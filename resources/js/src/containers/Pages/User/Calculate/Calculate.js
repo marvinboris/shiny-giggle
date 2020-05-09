@@ -169,36 +169,41 @@ class Calculate extends Component {
             <CustomSpinner />
         </Col>;
         else if (plans) plansContent = <Col xs={12}>
-            {/* <ReactOwlCarousel loop nav>
-                {plans.map((plan, index) => <UserPlan key={index} onClick={() => this.clickHandler(plan.pivot.code)} hover selected={selectedPlan === plan.pivot.code} simulation={simulation} {...plan} />)}
-            </ReactOwlCarousel> */}
-            <Row>
+            {/* <Row className="d-none d-sm-flex">
                 {plans.map((plan, index) => <Col xs={4} className="p-0"><UserPlan key={index} onClick={() => this.clickHandler(plan.pivot.code)} hover selected={selectedPlan === plan.pivot.code} simulation={simulation} {...plan} /></Col>)}
+            </Row> */}
+
+            <Row>
+                <Col xs={12} className="p-0">
+                    <ReactOwlCarousel responsive={{ 0: { items: 1 }, 600: { items: 2 }, 1200: { items: 3 } }} loop nav>
+                        {plans.map((plan, index) => <UserPlan key={index} onClick={() => this.clickHandler(plan.pivot.code)} hover selected={selectedPlan === plan.pivot.code} simulation={simulation} {...plan} />)}
+                    </ReactOwlCarousel>
+                </Col>
             </Row>
         </Col>;
 
         let formContent = null;
-        if (selectedPlan) formContent = <Col xs={12} className="py-3">
+        if (selectedPlan) formContent = <Col xs={12} className="pb-3 pt-sm-3">
             <Form onSubmit={this.submitHandler}>
                 <Row className="align-items-center">
-                    <FormInput type="select" className="col-3" icon={faWallet} onChange={e => this.inputChangeHandler(e, "pack")} value={pack} name="pack" required>
+                    <FormInput type="select" className="col-xl-3" icon={faWallet} onChange={e => this.inputChangeHandler(e, "pack")} value={pack} name="pack" required>
                         <option>Select a package</option>
                         {packs}
                     </FormInput>
 
-                    <FormInput type="select" className="col-3" icon={faCalendar} onChange={e => this.inputChangeHandler(e, "period")} value={period} name="period" required>
+                    <FormInput type="select" className="col-xl-3" icon={faCalendar} onChange={e => this.inputChangeHandler(e, "period")} value={period} name="period" required>
                         <option>Select Reinvestment type</option>
                         {newPeriods}
                     </FormInput>
 
-                    <FormInput type="select" className="col-3" icon={faCalendar} onChange={e => this.inputChangeHandler(e, "duration")} value={duration} name="duration" required>
+                    <FormInput type="select" className="col-xl-3" icon={faCalendar} onChange={e => this.inputChangeHandler(e, "duration")} value={duration} name="duration" required>
                         <option>Select a duration</option>
                         {durations}
                     </FormInput>
 
                     <input type="hidden" name="code" value={selectedPlan} />
 
-                    <FormGroup className="col-3 m-0">
+                    <FormGroup className="col-xl-3 m-0">
                         <FormButton color="yellow" icon={faAngleDoubleRight}>Calculate Investment</FormButton>
                     </FormGroup>
                 </Row>
@@ -289,7 +294,7 @@ class Calculate extends Component {
                         </Row>
                     </div>
                 </div>;
-            } else subContent = <div className="text-x-large text-darkblue text-700">Your result will show in this area</div>;
+            } else subContent = <div className="text-x-large text-darkblue text-center text-700">Your result will show in this area</div>;
 
             simulationContent = <Col xs={12}>
                 <div ref={this.divRef} className="embed-responsive embed-responsive-16by9 bg-white rounded-4 d-flex justify-content-center align-items-center">

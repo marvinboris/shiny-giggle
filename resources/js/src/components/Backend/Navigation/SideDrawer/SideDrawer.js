@@ -1,7 +1,7 @@
 import React from 'react';
 import { Col, Badge, ButtonGroup, Button, Collapse } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTachometerAlt, faUserTie, faCalendarAlt, faEnvelope, faTasks, faCog, faCircle, faEdit, faMoneyBillWave, faWallet, faCopy } from '@fortawesome/free-solid-svg-icons';
+import { faTachometerAlt, faUserTie, faCalendarAlt, faEnvelope, faTasks, faCog, faCircle, faEdit, faMoneyBillWave, faWallet, faCopy, faBell } from '@fortawesome/free-solid-svg-icons';
 import { faCheckCircle } from '@fortawesome/free-regular-svg-icons';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
@@ -13,7 +13,7 @@ const roles = {
     admin: 'Administrator'
 };
 
-export default ({ name, photo = "https://placehold.it/100x100", role = '', credits = 0, id, sponsor, isOpen }) => {
+export default ({ name, photo = "https://placehold.it/100x100", role = '', credits = 0, id, sponsor, toggle, isOpen }) => {
     let addOns = null;
     let sideDrawerItems = null;
     switch (role) {
@@ -39,17 +39,17 @@ export default ({ name, photo = "https://placehold.it/100x100", role = '', credi
                 </Col>
             </>;
             sideDrawerItems = <>
-                <SideDrawerItem icon={faUserTie} dropdown path="/user/subscription" items={[
+                <SideDrawerItem sideDrawerToggle={toggle} icon={faUserTie} dropdown path="/user/subscription" items={[
                     { link: '/user/subscription/buy', text: 'Buy Plan' },
                     { link: '/user/subscription/plans', text: 'My Plans' },
                 ]}>Subscription Plan</SideDrawerItem>
-                <SideDrawerItem icon={faCalendarAlt} href="/user/calculate">Calculate</SideDrawerItem>
-                <SideDrawerItem icon={faMoneyBillWave} dropdown path="/user/finances" items={[
+                <SideDrawerItem sideDrawerToggle={toggle} icon={faCalendarAlt} href="/user/calculate">Calculate</SideDrawerItem>
+                <SideDrawerItem sideDrawerToggle={toggle} icon={faMoneyBillWave} dropdown path="/user/finances" items={[
                     { link: '/user/finances/deposits/add', text: 'Deposit Credits' },
                     { link: '/user/finances/deposits/', text: 'Deposit List' },
                 ]}>Finances</SideDrawerItem>
-                <SideDrawerItem icon={faEnvelope} href="/following">Contact us<Badge color="green" className="position-relative rounded-circle text-x-small text-700 d-inline-flex justify-content-center align-items-center" style={{ width: 18, height: 18, top: -7, transform: 'translateX(-40px)' }}>12</Badge></SideDrawerItem>
-                <SideDrawerItem icon={faCog} dropdown path="/user/options" items={[
+                <SideDrawerItem sideDrawerToggle={toggle} icon={faEnvelope} href="/following">Contact us<Badge color="green" className="position-relative rounded-circle text-x-small text-700 d-inline-flex justify-content-center align-items-center" style={{ width: 18, height: 18, top: -7, transform: 'translateX(-40px)' }}>12</Badge></SideDrawerItem>
+                <SideDrawerItem sideDrawerToggle={toggle} icon={faCog} dropdown path="/user/options" items={[
                     { link: '/user/options/terms-conditions', text: 'Terms & Conditions' },
                     { link: '/user/options/auto-reinvest', text: 'Auto Reinvest' },
                     { link: '/user/options/sms-notification', text: 'SMS Notification' },
@@ -59,18 +59,18 @@ export default ({ name, photo = "https://placehold.it/100x100", role = '', credi
 
         case 'admin':
             sideDrawerItems = <>
-                <SideDrawerItem icon={faUserTie} dropdown path="/admin/finances" items={[
+                <SideDrawerItem sideDrawerToggle={toggle} icon={faUserTie} dropdown path="/admin/finances" items={[
                     { link: '/admin/finances/sales-report', text: 'Sales Report' },
                     { link: '/admin/finances/limo-payments', text: 'Limo Payments' },
                     { link: '/admin/finances/credits/add', text: 'Add Credit' },
                     { link: '/admin/finances/credits', text: 'Credit List' },
                 ]}>Finances</SideDrawerItem>
-                <SideDrawerItem icon={faCalendarAlt} dropdown path="/admin/users" items={[
+                <SideDrawerItem sideDrawerToggle={toggle} icon={faCalendarAlt} dropdown path="/admin/users" items={[
                     { link: '/admin/users/add', text: 'Add User' },
                     { link: '/admin/users', text: 'User List' },
                 ]}>Users</SideDrawerItem>
-                <SideDrawerItem icon={faEnvelope} href="/following">Contact us<Badge color="green" className="position-relative rounded-circle text-x-small text-700 d-inline-flex justify-content-center align-items-center" style={{ width: 18, height: 18, top: -7, transform: 'translateX(-40px)' }}>12</Badge></SideDrawerItem>
-                <SideDrawerItem icon={faTasks} dropdown path="/admin/plans" items={[
+                <SideDrawerItem sideDrawerToggle={toggle} icon={faEnvelope} href="/following">Contact us<Badge color="green" className="position-relative rounded-circle text-x-small text-700 d-inline-flex justify-content-center align-items-center" style={{ width: 18, height: 18, top: -7, transform: 'translateX(-40px)' }}>12</Badge></SideDrawerItem>
+                <SideDrawerItem sideDrawerToggle={toggle} icon={faTasks} dropdown path="/admin/plans" items={[
                     { link: '/admin/plans/add', text: 'Add Plan' },
                     { link: '/admin/plans', text: 'Plan List' },
                     { link: '/admin/plans/deposit', text: 'Plan Deposit' },
@@ -116,13 +116,14 @@ export default ({ name, photo = "https://placehold.it/100x100", role = '', credi
                 <nav className="navbar navbar-expand navbar-dark py-0 px-0 mt-5">
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav w-100 flex-column">
-                            <SideDrawerItem icon={faTachometerAlt} href="/dashboard">Dashboard</SideDrawerItem>
+                            <SideDrawerItem sideDrawerToggle={toggle} icon={faTachometerAlt} href="/dashboard">Dashboard</SideDrawerItem>
                             {sideDrawerItems}
+                            <SideDrawerItem sideDrawerToggle={toggle} icon={faBell} href="/notifications">Notifications</SideDrawerItem>
                         </ul>
                     </div>
                 </nav>
             </div>
-            <div className="backdrop w-100 bg-darkblue-50 position-fixed d-md-none" style={{ top: 101, zIndex: -1 }} />
+            <div className="backdrop w-100 bg-darkblue-50 position-fixed d-md-none" onClick={toggle} style={{ top: 101, zIndex: -1 }} />
         </Collapse>
     )
 };

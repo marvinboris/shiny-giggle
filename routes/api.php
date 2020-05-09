@@ -128,10 +128,31 @@ Route::middleware('auth:admin,api,outer')->group(function () {
 
         $role = $user->role();
 
-        $data = $user->toArray();
+        $data = array_merge($user->toArray(), [
+            'notifications' => $user->unreadNotifications()->orderBy('created_at', 'desc')->limit(5)->get(),
+        ]);
         if ($role === 'user') $data = array_merge($data, ['plans' => $user->plans]);
         return response()->json(['data' => $data, 'role' => $role]);
     });
+
+    Route::get('notifications', function () {
+        $user = request()->user();
+        switch ($user->token()->name) {
+            case 'User Personal Access Token':
+                $user = User::find($user->id);
+                break;
+            case 'Admin Personal Access Token':
+                $user = Admin::find($user->id);
+                break;
+            case 'Guest Personal Access Token':
+                $user = Guest::find($user->id);
+                break;
+        }
+
+        return response()->json([
+            'notifications' => $user->notifications()->orderBy('created_at', 'desc')->get()
+        ]);
+    })->name('notifications');
 
     Route::get('plans', 'PlansController@index');
     Route::get('plans/{plan}/payment', 'PlansController@payment')->name('plans.payment');

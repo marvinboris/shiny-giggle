@@ -15,7 +15,7 @@ class Layout extends Component {
 
         let content = null;
         if (url.includes('auth/admin')) content = children;
-        else if (url.includes('user') || url.includes('admin') || url.includes('dashboard')) content = <BackEnd>{children}</BackEnd>;
+        else if (url.includes('user') || url.includes('admin') || url.includes('dashboard') || url.includes('notifications')) content = <BackEnd>{children}</BackEnd>;
         else content = <FrontEnd>{children}</FrontEnd>;
 
         return <ErrorBoundary>

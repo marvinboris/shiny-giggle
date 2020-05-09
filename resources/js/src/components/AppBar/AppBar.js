@@ -11,16 +11,36 @@ export default ({ isAuthenticated, role, logout, dashboard }) => {
 
     const toggle = () => setModal(!modal);
 
-    return <div className="AppBar d-none d-sm-block">
-        <Navbar className="border-bottom bg-darkblue border-yellow-50 d-flex align-items-center px-5" light expand="md">
-            <Link to="/" style={{ transform: 'scale(.7)', transformOrigin: 'center' }}>
-                <img src={Logo} width={341} alt="Logo" />
-            </Link>
+    return <div className="AppBar">
+        <div className="d-none d-sm-block">
+            <Navbar className="border-bottom bg-darkblue border-yellow-50 d-flex align-items-center px-5" light expand="md">
+                <Link to="/" style={{ transform: 'scale(.7)', transformOrigin: 'center' }}>
+                    <img src={Logo} width={341} alt="Logo" />
+                </Link>
 
-            {isAuthenticated ? <div className="d-flex align-items-center justify-content-end ml-auto">
-                {role === 'guest' ? null : <FontAwesomeIcon onClick={dashboard} className="text-white" style={{ cursor: 'pointer' }} size="3x" icon={faTachometerAlt} />}
+                {isAuthenticated ? <div className="d-flex align-items-center justify-content-end ml-auto">
+                    {role === 'guest' ? null : <FontAwesomeIcon onClick={dashboard} className="text-white" style={{ cursor: 'pointer' }} size="3x" icon={faTachometerAlt} />}
 
-                <FontAwesomeIcon onClick={toggle} className="text-white ml-3" style={{ cursor: 'pointer' }} size="3x" icon={faPowerOff} />
+                    <FontAwesomeIcon onClick={toggle} className="text-white ml-3" style={{ cursor: 'pointer' }} size="3x" icon={faPowerOff} />
+                    <Modal isOpen={modal} toggle={toggle}>
+                        <ModalHeader toggle={toggle}>Logout</ModalHeader>
+                        <ModalBody className="text-center">
+                            <p>Are you sure you want to logout?</p>
+                            <div>
+                                <Button color="lightblue" onClick={logout}>Logout <FontAwesomeIcon icon={faPowerOff} fixedWidth /></Button>{' '}
+                                <Button color="orange" onClick={toggle}>Close <FontAwesomeIcon icon={faTimes} fixedWidth /></Button>
+                            </div>
+                        </ModalBody>
+                    </Modal>
+                </div> : null}
+            </Navbar>
+        </div>
+
+        <div className="d-sm-none fixed-top w-100">
+            {isAuthenticated ? <div className="d-flex align-items-center justify-content-end p-3">
+                {role === 'guest' ? null : <FontAwesomeIcon onClick={dashboard} className="text-white" style={{ cursor: 'pointer' }} size="2x" icon={faTachometerAlt} />}
+
+                <FontAwesomeIcon onClick={toggle} className="text-white ml-3" style={{ cursor: 'pointer' }} size="2x" icon={faPowerOff} />
                 <Modal isOpen={modal} toggle={toggle}>
                     <ModalHeader toggle={toggle}>Logout</ModalHeader>
                     <ModalBody className="text-center">
@@ -32,6 +52,6 @@ export default ({ isAuthenticated, role, logout, dashboard }) => {
                     </ModalBody>
                 </Modal>
             </div> : null}
-        </Navbar>
+        </div>
     </div>;
 }

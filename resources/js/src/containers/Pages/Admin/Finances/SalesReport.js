@@ -62,7 +62,7 @@ class SalesReport extends Component {
                 content = (
                     <>
                         <Row>
-                            <List array={salesReportData} dark bordered icon={faUserTie} title="Sales Report" innerClassName="bg-darkblue" className="bg-darklight shadow-sm"
+                            <List array={salesReportData} data={JSON.stringify(salesReport)} dark bordered icon={faUserTie} title="Sales Report" innerClassName="bg-darkblue" className="bg-darklight shadow-sm"
                                 fields={[
                                     { name: 'Full Name', key: 'name' },
                                     { name: 'User ID', key: 'ref' },

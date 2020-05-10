@@ -252,7 +252,7 @@ class Dashboard extends Component {
                                             </Label>
                                         </div>
 
-                                        <div className="d-flex justify-content-center align-items-center flex-fill position-relative">
+                                        <div className="d-flex justify-content-center align-items-center flex-fill py-5 mb-5 py-lg-0 mb-lg-0 position-relative">
                                             <FontAwesomeIcon icon={faArrowAltCircleLeft} size="2x" className="position-absolute text-light" style={{ top: '50%', transform: 'translateY(-50%)', left: 0 }} />
                                             <FontAwesomeIcon icon={faArrowAltCircleRight} size="2x" className="position-absolute text-light" style={{ top: '50%', transform: 'translateY(-50%)', right: 0 }} />
 

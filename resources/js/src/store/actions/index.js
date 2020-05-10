@@ -30,6 +30,10 @@ export {
 
 export {
     getNotifications,
+    getNotification,
+
+    resetUserContactUs,
+    postUserContactUs,
 
     resetUserDashboard,
     getUserDashboard,

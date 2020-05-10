@@ -38,7 +38,8 @@ class UsersController extends Controller
             'password' => Hash::make($request->password),
             'country' => $request->country,
             'sponsor' => $request->sponsor ?? User::first()->ref,
-            'ref' => User::ref()
+            'ref' => User::ref(),
+            'email_verified_at' => now()
         ]);
         return response()->json([
             'message' => [

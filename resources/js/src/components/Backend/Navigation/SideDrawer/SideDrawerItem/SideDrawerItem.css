@@ -4,5 +4,5 @@
 }
 
 .SideDrawerItem .angle-down.open {
-    transform: translateY(-50%) rotate(90deg);
+    transform: translateY(-50%) rotate(180deg);
 }

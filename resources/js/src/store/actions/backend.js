@@ -23,6 +23,61 @@ export const getNotifications = () => async dispatch => {
     }
 };
 
+const getNotificationStart = () => ({ type: actionTypes.GET_NOTIFICATIONS_START });
+const getNotificationSuccess = data => ({ type: actionTypes.GET_NOTIFICATIONS_SUCCESS, ...data });
+const getNotificationFail = error => ({ type: actionTypes.GET_NOTIFICATIONS_FAIL, error });
+export const getNotification = id => async dispatch => {
+    const token = localStorage.getItem('token');
+    dispatch(getNotificationStart());
+
+    try {
+        const res = await fetch(rootPath + '/api/notifications/' + id, {
+            method: 'GET',
+            headers: {
+                Authorization: token
+            }
+        });
+        const resData = await res.json();
+        dispatch(getNotificationSuccess(resData));
+    } catch (err) {
+        console.log(err);
+        dispatch(getNotificationFail(err));
+    }
+};
+
+
+
+
+export const resetUserContactUs = () => ({ type: actionTypes.RESET_USER_CONTACT_US });
+const postUserContactUsStart = () => ({ type: actionTypes.POST_USER_CONTACT_US_START });
+const postUserContactUsSuccess = data => ({ type: actionTypes.POST_USER_CONTACT_US_SUCCESS, ...data });
+const postUserContactUsFail = error => ({ type: actionTypes.POST_USER_CONTACT_US_FAIL, error });
+export const postUserContactUs = data => async dispatch => {
+    const token = localStorage.getItem('token');
+    dispatch(postUserContactUsStart());
+
+    try {
+        const form = new FormData(data);
+
+        const res = await fetch(rootPath + '/api/user/contact-us', {
+            method: 'POST',
+            mode: 'cors',
+            body: form,
+            headers: {
+                Authorization: token
+            }
+        });
+        const resData = await res.json();
+
+        dispatch(postUserContactUsSuccess(resData));
+    } catch (err) {
+        console.log(err);
+        dispatch(postUserContactUsFail(err));
+    }
+};
+
+
+
 export const resetUserDashboard = () => ({ type: actionTypes.RESET_USER_DASHBOARD });
 const getUserDashboardStart = () => ({ type: actionTypes.GET_USER_DASHBOARD_START });
 const getUserDashboardSuccess = data => ({ type: actionTypes.GET_USER_DASHBOARD_SUCCESS, ...data });

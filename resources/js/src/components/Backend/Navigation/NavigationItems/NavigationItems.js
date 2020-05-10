@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Collapse, Nav, UncontrolledDropdown, DropdownToggle, Badge, DropdownMenu, DropdownItem, Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShoppingCart, faBell, faBars, faCalendar, faPowerOff, faEnvelope, faTimes, faMoneyBillWaveAlt, faHandshake, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { faShoppingCart, faBell, faBars, faCalendar, faPowerOff, faEnvelope, faTimes, faMoneyBillWaveAlt, faHandshake, faPaperPlane, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { faClock, faComments } from '@fortawesome/free-regular-svg-icons';
 
 // import NavigationItem from './NavigationItem/NavigationItem';
@@ -10,7 +10,7 @@ import { faClock, faComments } from '@fortawesome/free-regular-svg-icons';
 
 export default ({ cartItemsNumber, name, sidedrawerToggle, logoutHandler, role, notifications = [], messages = [], comments = [], date: { weekDay, day, month, year }, clock: { hours, minutes, seconds } }) => {
     const notificationItems = notifications.map(notification => {
-        let message;
+        let message, icon;
         switch (notification.type) {
             case 'App\\Notifications\\PlanUser':
                 message = <Link to={"/notifications/" + notification.id} className="text-reset text-truncate small"><FontAwesomeIcon className="text-success mr-1" size="lg" fixedWidth icon={faShoppingCart} />New plan bought.</Link>;
@@ -22,6 +22,16 @@ export default ({ cartItemsNumber, name, sidedrawerToggle, logoutHandler, role, 
 
             case 'App\\Notifications\\LimoPayment':
                 message = <Link to={"/notifications/" + notification.id} className="text-reset text-truncate small"><FontAwesomeIcon className="text-yellow mr-1" size="lg" fixedWidth icon={faPaperPlane} />Limo Payment successfully submitted.</Link>;
+                break;
+
+            case 'App\\Notifications\\LimoPaymentStatus':
+                const { message: notificationMessage, status } = notification.data;
+                if (status === 1) {
+                    icon = <FontAwesomeIcon className="text-green mr-1" size="lg" fixedWidth icon={faCheck} />;
+                } else if (status === 2) {
+                    icon = <FontAwesomeIcon className="text-danger mr-1" size="lg" fixedWidth icon={faTimes} />;
+                }
+                message = <Link to={"/notifications/" + notification.id} className="text-reset text-truncate small">{icon}{notificationMessage}</Link>;
                 break;
 
             default:

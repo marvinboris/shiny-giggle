@@ -59,7 +59,7 @@ class Add extends Component {
             content = (
                 <>
                     <Row>
-                        <Form onSubmit={this.submitHandler} icon={faUserTie} title="Add Credit" innerClassName="row" className="bg-darklight shadow-sm">
+                        <Form onSubmit={this.submitHandler} icon={faUserTie} title="Add Credit" list="Credit List" link="/admin/finances/credits" innerClassName="row" className="bg-darklight shadow-sm">
                             <Col lg={4}>
                                 <Feedback message={message} />
                                 <FormInput type="text" icon={faUser} onChange={(e) => this.inputChangeHandler(e, "ref")} value={this.state.ref} name="ref" required placeholder="User ID" />

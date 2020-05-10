@@ -45,6 +45,14 @@ const initialState = {
 const getNotificationsStart = (state, action) => updateObject(state, { notifications: updateObject(state.notifications, { loading: true }) });
 const getNotificationsSuccess = (state, action) => updateObject(state, { notifications: updateObject(state.notifications, { loading: false, error: null, ...action }) });
 const getNotificationsFail = (state, action) => updateObject(state, { notifications: updateObject(state.notifications, { loading: false, ...action }) });
+const getNotificationStart = (state, action) => updateObject(state, { notifications: updateObject(state.notifications, { loading: true }) });
+const getNotificationSuccess = (state, action) => updateObject(state, { notifications: updateObject(state.notifications, { loading: false, error: null, ...action }) });
+const getNotificationFail = (state, action) => updateObject(state, { notifications: updateObject(state.notifications, { loading: false, ...action }) });
+
+const resetUserContactUs = (state, action) => updateObject(state, { contactUs: initialState.contactUs });
+const postUserContactUsStart = (state, action) => updateObject(state, { contactUs: updateObject(state.contactUs, { loading: true }) });
+const postUserContactUsSuccess = (state, action) => updateObject(state, { contactUs: updateObject(state.contactUs, { loading: false, error: null, ...action }) });
+const postUserContactUsFail = (state, action) => updateObject(state, { contactUs: updateObject(state.contactUs, { loading: false, ...action }) });
 
 const resetUserDashboard = (state, action) => updateObject(state, { dashboard: initialState.dashboard });
 const getUserDashboardStart = (state, action) => updateObject(state, { dashboard: updateObject(state.dashboard, { loading: true }) });
@@ -115,6 +123,16 @@ const reducer = (state = initialState, action) => {
         case actionTypes.GET_NOTIFICATIONS_START: return getNotificationsStart(state, action);
         case actionTypes.GET_NOTIFICATIONS_FAIL: return getNotificationsFail(state, action);
         case actionTypes.GET_NOTIFICATIONS_SUCCESS: return getNotificationsSuccess(state, action);
+        case actionTypes.GET_NOTIFICATION_START: return getNotificationStart(state, action);
+        case actionTypes.GET_NOTIFICATION_FAIL: return getNotificationFail(state, action);
+        case actionTypes.GET_NOTIFICATION_SUCCESS: return getNotificationSuccess(state, action);
+
+
+
+        case actionTypes.RESET_USER_CONTACT_US: return resetUserContactUs(state, action);
+        case actionTypes.POST_USER_CONTACT_US_START: return postUserContactUsStart(state, action);
+        case actionTypes.POST_USER_CONTACT_US_FAIL: return postUserContactUsFail(state, action);
+        case actionTypes.POST_USER_CONTACT_US_SUCCESS: return postUserContactUsSuccess(state, action);
 
 
 

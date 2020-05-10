@@ -14,7 +14,7 @@ class DashboardController extends Controller
 
         $purchasedPlans = $user->plans;
         $calculations = $user->calculations();
-        $notifications = count($user->notifications);
+        $notifications = count($user->unreadNotifications);
         
         $paidAmount = 0;
         foreach ($purchasedPlans as $plan) {

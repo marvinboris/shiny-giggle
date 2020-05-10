@@ -55,7 +55,7 @@ class LimoPayments extends Component {
                 content = (
                     <>
                         <Row>
-                            <List array={limoPaymentsData} dark bordered icon={faUserTie} title="Limo Payments" innerClassName="bg-darkblue" className="bg-darklight shadow-sm"
+                            <List array={limoPaymentsData} data={JSON.stringify(limoPayments)} dark bordered icon={faUserTie} title="Limo Payments" innerClassName="bg-darkblue" className="bg-darklight shadow-sm"
                                 fields={[
                                     { name: 'Full Name', key: 'name' },
                                     { name: 'User ID', key: 'ref' },

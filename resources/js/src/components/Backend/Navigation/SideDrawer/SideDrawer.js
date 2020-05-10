@@ -44,15 +44,15 @@ export default ({ name, photo = "https://placehold.it/100x100", role = '', credi
                     { link: '/user/subscription/plans', text: 'My Plans' },
                 ]}>Subscription Plan</SideDrawerItem>
                 <SideDrawerItem sideDrawerToggle={toggle} icon={faCalendarAlt} href="/user/calculate">Calculate</SideDrawerItem>
-                <SideDrawerItem sideDrawerToggle={toggle} icon={faMoneyBillWave} dropdown path="/user/finances" items={[
+                {/* <SideDrawerItem sideDrawerToggle={toggle} icon={faMoneyBillWave} dropdown path="/user/finances" items={[
                     { link: '/user/finances/deposits/add', text: 'Deposit Credits' },
                     { link: '/user/finances/deposits/', text: 'Deposit List' },
-                ]}>Finances</SideDrawerItem>
-                <SideDrawerItem sideDrawerToggle={toggle} icon={faEnvelope} href="/following">Contact us<Badge color="green" className="position-relative rounded-circle text-x-small text-700 d-inline-flex justify-content-center align-items-center" style={{ width: 18, height: 18, top: -7, transform: 'translateX(-40px)' }}>12</Badge></SideDrawerItem>
+                ]}>Finances</SideDrawerItem> */}
+                <SideDrawerItem sideDrawerToggle={toggle} icon={faEnvelope} href="/user/contact-us/add">Contact us<Badge color="green" className="position-relative rounded-circle text-x-small text-700 d-inline-flex justify-content-center align-items-center" style={{ width: 18, height: 18, top: -7, transform: 'translateX(-40px)' }}>12</Badge></SideDrawerItem>
                 <SideDrawerItem sideDrawerToggle={toggle} icon={faCog} dropdown path="/user/options" items={[
                     { link: '/user/options/terms-conditions', text: 'Terms & Conditions' },
-                    { link: '/user/options/auto-reinvest', text: 'Auto Reinvest' },
-                    { link: '/user/options/sms-notification', text: 'SMS Notification' },
+                    { link: '/user/options/auto-reinvest', text: 'Auto Reinvest (Coming soon)' },
+                    { link: '/user/options/sms-notification', text: 'SMS Notification (Coming soon)' },
                 ]}>Options</SideDrawerItem>
             </>;
             break;
@@ -69,7 +69,7 @@ export default ({ name, photo = "https://placehold.it/100x100", role = '', credi
                     { link: '/admin/users/add', text: 'Add User' },
                     { link: '/admin/users', text: 'User List' },
                 ]}>Users</SideDrawerItem>
-                <SideDrawerItem sideDrawerToggle={toggle} icon={faEnvelope} href="/following">Contact us<Badge color="green" className="position-relative rounded-circle text-x-small text-700 d-inline-flex justify-content-center align-items-center" style={{ width: 18, height: 18, top: -7, transform: 'translateX(-40px)' }}>12</Badge></SideDrawerItem>
+                <SideDrawerItem sideDrawerToggle={toggle} icon={faEnvelope} href="/following">Contact us<Badge color="green" className="position-relative rounded-circle text-x-small text-700 d-inline-flex justify-content-center text-white align-items-center" style={{ width: 18, height: 18, top: -7, transform: 'translateX(-40px)' }}>12</Badge></SideDrawerItem>
                 <SideDrawerItem sideDrawerToggle={toggle} icon={faTasks} dropdown path="/admin/plans" items={[
                     { link: '/admin/plans/add', text: 'Add Plan' },
                     { link: '/admin/plans', text: 'Plan List' },
@@ -118,7 +118,7 @@ export default ({ name, photo = "https://placehold.it/100x100", role = '', credi
                         <ul className="navbar-nav w-100 flex-column">
                             <SideDrawerItem sideDrawerToggle={toggle} icon={faTachometerAlt} href="/dashboard">Dashboard</SideDrawerItem>
                             {sideDrawerItems}
-                            <SideDrawerItem sideDrawerToggle={toggle} icon={faBell} href="/notifications">Notifications</SideDrawerItem>
+                            <SideDrawerItem sideDrawerToggle={toggle} icon={faBell} exact={false} href="/notifications">Notifications</SideDrawerItem>
                         </ul>
                     </div>
                 </nav>

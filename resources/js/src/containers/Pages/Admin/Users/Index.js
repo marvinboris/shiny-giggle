@@ -79,7 +79,7 @@ class Index extends Component {
                 content = (
                     <>
                         <Row>
-                            <List array={usersData} dark bordered icon={faThList} title="User List" add="Add User" innerClassName="bg-darkblue" className="bg-darklight shadow-sm"
+                            <List array={usersData} data={JSON.stringify(totalUsers)} dark bordered icon={faThList} title="User List" add="Add User" link="/admin/users/add" innerClassName="bg-darkblue" className="bg-darklight shadow-sm"
                                 fields={[
                                     { name: 'Full Name', key: 'name' },
                                     // { name: 'Username', key: 'username' },

@@ -63,7 +63,7 @@ class Add extends Component {
             content = (
                 <>
                     <Row>
-                        <Form onSubmit={this.submitHandler} icon={faTasks} title="Add Plan" innerClassName="row" className="bg-darklight shadow-sm">
+                        <Form onSubmit={this.submitHandler} icon={faTasks} title="Add Plan" link="/admin/plans" list="Plan List" innerClassName="row" className="bg-darklight shadow-sm">
                             <Col lg={8}>
                                 <Feedback message={message} />
                                 <Row>

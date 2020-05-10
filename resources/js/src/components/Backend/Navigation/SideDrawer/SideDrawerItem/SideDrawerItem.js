@@ -6,7 +6,7 @@ import { Collapse, Button } from 'reactstrap';
 
 import './SideDrawerItem.css';
 
-const SideDrawerItem = ({ children, dropdown, icon, href = '', items, path = '', sideDrawerToggle }) => {
+const SideDrawerItem = ({ children, dropdown, icon, href = '', items, path = '', sideDrawerToggle, exact = true }) => {
     const match = window.location.pathname.includes(path);
     const [isOpen, setIsOpen] = useState(match);
 
@@ -14,10 +14,10 @@ const SideDrawerItem = ({ children, dropdown, icon, href = '', items, path = '',
 
     let content;
     if (!dropdown) content = <>
-        <NavLink onClick={sideDrawerToggle} exact className="SideDrawerItem d-sm-none nav-link pl-3 text-large text-300 text-light" activeClassName="active bg-darkblue py-3" to={href}>
+        <NavLink onClick={sideDrawerToggle} exact={exact} className="SideDrawerItem d-sm-none nav-link pl-3 text-large text-300 text-light" activeClassName="active bg-darkblue py-3" to={href}>
             <FontAwesomeIcon fixedWidth icon={icon} className="mr-3" /> <span>{children}</span>
         </NavLink>
-        <NavLink exact className="SideDrawerItem nav-link d-none d-sm-block pl-3 text-large text-300 text-light" activeClassName="active bg-darkblue py-3" to={href}>
+        <NavLink exact={exact} className="SideDrawerItem nav-link d-none d-sm-block pl-3 text-large text-300 text-light" activeClassName="active bg-darkblue py-3" to={href}>
             <FontAwesomeIcon fixedWidth icon={icon} className="mr-3" /> <span>{children}</span>
         </NavLink>
     </>;
@@ -34,7 +34,7 @@ const SideDrawerItem = ({ children, dropdown, icon, href = '', items, path = '',
                 <Button color="link" onClick={toggle} className={`SideDrawerItem nav-link d-block w-100 pl-3 text-large text-300 rounded-0 text-left text-light position-relative ${match ? 'active bg-darkblue py-3' : ''}`} style={match ? { paddingRight: 60 } : {}}>
                     <FontAwesomeIcon fixedWidth icon={icon} className="mr-3" />
                     <span>{children}</span>
-                    <FontAwesomeIcon fixedWidth icon={faAngleDown} className={`position-absolute angle-down ${isOpen ? 'open' : ''}`}  style={{ right: 16, top: '50%' }} />
+                    <FontAwesomeIcon fixedWidth icon={faAngleDown} className={`position-absolute angle-down ${isOpen ? 'open' : ''}`} style={{ right: 16, top: '50%' }} />
                 </Button>
                 <Collapse isOpen={isOpen} className="pl-3 bg-darkblue-20">
                     <ul className="nav flex-column border-left ml-3 border-white-20">

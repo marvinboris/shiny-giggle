@@ -29,7 +29,16 @@ class Success extends Component {
         return <FrontEnd>
             <Col xs={7} className="mx-auto flex-fill d-flex flex-column justify-content-center align-items-center">
                 {redirect}
-                <Title check style={{ width: '85%' }}>Your account was created successfully. Please check your email <span className="text-yellow">{email}</span> to verify.</Title>
+                <Title check style={{ width: '85%' }}>
+                    Your account was created
+                    and activated
+                    successfully.
+                    You will receive a notification by mail to
+                    {/* Please check your email  */}
+                    <span className="text-yellow">{email}</span>
+                    . You may proceed to login.
+                    {/* to verify. */}
+                </Title>
 
                 <Col xs={5} className="pt-5"><FormButton onClick={this.clickHandler} icon={faAngleDoubleRight} color="yellow">Login now</FormButton></Col>
             </Col>

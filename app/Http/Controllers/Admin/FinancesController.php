@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\LimoPayment;
 use App\Method;
 use App\Notifications\Deposit as NotificationsDeposit;
+use App\Notifications\LimoPaymentStatus;
 use App\Transaction;
 use App\User;
 use Illuminate\Http\Request;
@@ -67,8 +68,15 @@ class FinancesController extends Controller
                 'content' => 'Payment not found.'
             ]
         ], 404);
-        // $limoPayment->feedback = $request->feedback;
-        $limoPayment->update(['status' => +$request->status]);
+        // $user = User::find($limoPayment->user_id);
+        $user = $limoPayment->user;
+        $initalStatus = $limoPayment->status;
+        $limoPayment->update([
+            'status' => +$request->status,
+            // 'feedback' => $request->feedback
+        ]);
+        if ($initalStatus === 0 && +$request->status === 1) $user->notify(new LimoPaymentStatus($limoPayment));
+
 
         return response()->json([
             'message' => [

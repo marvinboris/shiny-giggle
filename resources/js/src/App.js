@@ -27,7 +27,8 @@ import Mobile from './containers/Pages/Payment/Mobile';
 import PaymentSuccess from './containers/Pages/Payment/Success';
 
 // Backend pages
-import Notifications from './containers/Pages/Notifications/Notifications';
+import Notifications from './containers/Pages/Notifications';
+import Notification from './containers/Pages/Notifications/Show';
 
 import AdminDashboard from './containers/Pages/Admin/Dashboard/Dashboard';
 import AdminUsers from './containers/Pages/Admin/Users';
@@ -41,6 +42,7 @@ import AdminPlans from './containers/Pages/Admin/Plans';
 import AdminAddPlan from './containers/Pages/Admin/Plans/Add';
 import AdminPlanDeposit from './containers/Pages/Admin/Plans/Deposit';
 
+import UserContactUsAdd from './containers/Pages/User/ContactUs/Add';
 import UserDashboard from './containers/Pages/User/Dashboard/Dashboard';
 import Plans from './containers/Pages/User/Subscription/Plans/Plans';
 import Buy from './containers/Pages/User/Subscription/Buy/Buy';
@@ -91,11 +93,14 @@ class App extends Component {
     if (isAuthenticated) {
       routes = (
         <Switch>
+          <Route path="/notifications/:id" component={Notification} />
           <Route path="/notifications" component={Notifications} />
 
           <Route path="/dashboard" component={dashboard} />
           <Route path="/user/subscription/buy" component={Buy} />
           <Route path="/user/subscription/plans" component={Plans} />
+          <Route path="/user/calculate" component={Calculate} />
+          <Route path="/user/contact-us/add" component={UserContactUsAdd} />
 
 
 
@@ -112,7 +117,6 @@ class App extends Component {
           <Route path="/admin/finances/credits/add" component={AdminAddCredit} />
           <Route path="/admin/finances/credits" component={AdminCredits} />
 
-          <Route path="/user/calculate" component={Calculate} />
 
 
 

@@ -129,30 +129,66 @@ Route::middleware('auth:admin,api,outer')->group(function () {
         $role = $user->role();
 
         $data = array_merge($user->toArray(), [
-            'notifications' => $user->unreadNotifications()->orderBy('created_at', 'desc')->limit(5)->get(),
+            'notifications' => $user->unreadNotifications()->latest()->limit(5)->get(),
         ]);
         if ($role === 'user') $data = array_merge($data, ['plans' => $user->plans]);
         return response()->json(['data' => $data, 'role' => $role]);
     });
 
-    Route::get('notifications', function () {
-        $user = request()->user();
-        switch ($user->token()->name) {
-            case 'User Personal Access Token':
-                $user = User::find($user->id);
-                break;
-            case 'Admin Personal Access Token':
-                $user = Admin::find($user->id);
-                break;
-            case 'Guest Personal Access Token':
-                $user = Guest::find($user->id);
-                break;
-        }
+    Route::prefix('notifications')->name('notifications.')->group(function () {
+        Route::get('', function () {
+            $user = request()->user();
+            switch ($user->token()->name) {
+                case 'User Personal Access Token':
+                    $user = User::find($user->id);
+                    break;
+                case 'Admin Personal Access Token':
+                    $user = Admin::find($user->id);
+                    break;
+                case 'Guest Personal Access Token':
+                    $user = Guest::find($user->id);
+                    break;
+            }
 
-        return response()->json([
-            'notifications' => $user->notifications()->orderBy('created_at', 'desc')->get()
-        ]);
-    })->name('notifications');
+            $notifications = [];
+            foreach ($user->notifications()->latest()->get() as $notification) {
+                $notifications[] = array_merge($notification->toArray(), [
+                    'data' => $notification->data
+                ]);
+            }
+
+            return response()->json([
+                'notifications' => $notifications
+            ]);
+        })->name('index');
+
+        Route::get('{notification}', function ($id) {
+            $user = request()->user();
+            switch ($user->token()->name) {
+                case 'User Personal Access Token':
+                    $user = User::find($user->id);
+                    break;
+                case 'Admin Personal Access Token':
+                    $user = Admin::find($user->id);
+                    break;
+                case 'Guest Personal Access Token':
+                    $user = Guest::find($user->id);
+                    break;
+            }
+
+            $notification = $user->notifications()->find($id);
+            $notification->markAsRead();
+            return response()->json([
+                'notification' => $notification
+            ]);
+        })->name('show');
+    });
+
+    Route::name('export.')->prefix('export')->group(function () {
+        Route::name('xlsx')->post('xlsx', 'ExportController@xlsx');
+        Route::name('csv')->post('csv', 'ExportController@csv');
+        Route::name('pdf')->post('pdf', 'ExportController@pdf');
+    });
 
     Route::get('plans', 'PlansController@index');
     Route::get('plans/{plan}/payment', 'PlansController@payment')->name('plans.payment');

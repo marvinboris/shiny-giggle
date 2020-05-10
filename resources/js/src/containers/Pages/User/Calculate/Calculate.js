@@ -175,7 +175,7 @@ class Calculate extends Component {
 
             <Row>
                 <Col xs={12} className="p-0">
-                    <ReactOwlCarousel responsive={{ 0: { items: 1 }, 600: { items: 2 }, 1200: { items: 3 } }} loop nav>
+                    <ReactOwlCarousel responsive={{ 0: { items: 1 }, 1100: { items: 2 }, 1550: { items: 3 } }} loop nav>
                         {plans.map((plan, index) => <UserPlan key={index} onClick={() => this.clickHandler(plan.pivot.code)} hover selected={selectedPlan === plan.pivot.code} simulation={simulation} {...plan} />)}
                     </ReactOwlCarousel>
                 </Col>

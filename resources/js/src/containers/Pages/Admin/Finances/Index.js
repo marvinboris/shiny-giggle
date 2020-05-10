@@ -57,7 +57,7 @@ class Index extends Component {
                 content = (
                     <>
                         <Row>
-                            <List array={depositsData} dark bordered add="Add Credit" icon={faUserTie} title="Credit List" innerClassName="bg-darkblue" className="bg-darklight shadow-sm"
+                            <List array={depositsData} data={JSON.stringify(deposits)} dark bordered add="Add Credit" link="/admin/finances/credits/add" icon={faUserTie} title="Credit List" innerClassName="bg-darkblue" className="bg-darklight shadow-sm"
                                 fields={[
                                     { name: 'Full Name', key: 'name' },
                                     { name: 'User ID', key: 'ref' },

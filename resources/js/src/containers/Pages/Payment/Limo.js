@@ -55,7 +55,7 @@ class Limo extends Component {
             if (plan && methods) {
                 content = <Form onSubmit={this.onSubmitHandler} className="row">
                     <Col xs={12} className="text-white pb-4 text-justify">
-                        Transfer <span className="text-700 text-lightblue">${plan.price}</span> Limo to the <span className="text-700 text-orange">TTAGVP</span> Liyeplimal account and fill this form with that transfer's recipe information.
+                        Transfer <span className="text-700 text-lightblue">${plan.price}</span> Limo to the <span className="text-700 text-orange">TTAGVP</span> (Limo Calc - limocalc072@gmail.com) Liyeplimal account and fill this form with that transfer's recipe information.
                     </Col>
 
                     <Col xs={12} className={`d-${page === 1 ? 'block' : 'none'} d-sm-block`}>

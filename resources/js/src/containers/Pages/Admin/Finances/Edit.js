@@ -80,7 +80,7 @@ class Edit extends Component {
                 const { transfer_no, date, name, email, phone, limo_id, amount } = limoPayment;
                 content = (
                     <Row>
-                        <Form id="form" onSubmit={this.submitHandler} icon={faUserTie} title="Edit Limo Payment" innerClassName="row" className="bg-darklight shadow-sm">
+                        <Form id="form" onSubmit={this.submitHandler} icon={faUserTie} title="Edit Limo Payment" list="Limo Payments" link="/admin/finances/limo-payments" innerClassName="row" className="bg-darklight shadow-sm">
                             <Col xl={8}>
                                 <Feedback message={message} />
                                 <Row>

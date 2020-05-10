@@ -8,8 +8,11 @@ use App\LimoPayment;
 use App\Method;
 use App\Notifications\Deposit as NotificationsDeposit;
 use App\Notifications\LimoPaymentStatus;
+use App\Plan;
+use App\PlanUser;
 use App\Transaction;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class FinancesController extends Controller
@@ -75,7 +78,17 @@ class FinancesController extends Controller
             'status' => +$request->status,
             // 'feedback' => $request->feedback
         ]);
-        if ($initalStatus === 0 && +$request->status === 1) $user->notify(new LimoPaymentStatus($limoPayment));
+        if ($initalStatus === 0 && +$request->status === 1) {
+            $user->notify(new LimoPaymentStatus($limoPayment));
+            $plan = Plan::whereAmount($limoPayment->amount)->first();
+            PlanUser::create([
+                'user_id' => $user->id,
+                'plan_id' => $plan->id,
+                'points' => $plan->points,
+                'code' => Plan::code(),
+                'expiry_date' => Carbon::now()->addWeeks($plan->validity)
+            ]);
+        }
 
 
         return response()->json([

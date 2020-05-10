@@ -44,7 +44,7 @@ class LimoPayment extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->line('Limo Payment successfully submitted.');
+            ->line('Your plan deposit request was sent successfully and it is under process. You will be notified shortly.');
     }
 
     /**

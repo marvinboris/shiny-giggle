@@ -39,7 +39,7 @@ class UsersController extends Controller
             'country' => $request->country,
             'sponsor' => $request->sponsor ?? User::first()->ref,
             'ref' => User::ref(),
-            'email_verified_at' => now()
+            'email_verified_at' => time()
         ]);
         return response()->json([
             'message' => [

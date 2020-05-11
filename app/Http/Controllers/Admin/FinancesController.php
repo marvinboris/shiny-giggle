@@ -80,7 +80,7 @@ class FinancesController extends Controller
         ]);
         if ($initalStatus === 0 && +$request->status === 1) {
             $user->notify(new LimoPaymentStatus($limoPayment));
-            $plan = Plan::whereAmount($limoPayment->amount)->first();
+            $plan = Plan::wherePrice($limoPayment->amount)->first();
             PlanUser::create([
                 'user_id' => $user->id,
                 'plan_id' => $plan->id,
@@ -89,7 +89,6 @@ class FinancesController extends Controller
                 'expiry_date' => Carbon::now()->addWeeks($plan->validity)
             ]);
         }
-
 
         return response()->json([
             'message' => [

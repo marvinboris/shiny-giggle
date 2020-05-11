@@ -175,7 +175,7 @@ class Calculate extends Component {
 
                 <Row>
                     <Col xs={12} className="p-0">
-                        <OwlCarousel ref="Plans" options={{ responsive: { 0: { items: 1 }, 1100: { items: 2 }, 1550: { items: 3 } }, loop: true, dots: false }}>
+                        <OwlCarousel ref="Plans" options={{ responsive: { 0: { items: 1 }, 1100: { items: 2 }, 1550: { items: 3 } }, loop: false, dots: false }}>
                             {plansData}
                         </OwlCarousel>
                     </Col>

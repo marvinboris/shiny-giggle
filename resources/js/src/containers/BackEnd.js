@@ -15,7 +15,9 @@ class BackEnd extends Component {
         date: { weekDay: null, day: null, month: null, year: null },
         clock: { hours: null, minutes: null, seconds: null },
 
-        interval: null
+        interval: null,
+
+        selectedItem: ''
     }
 
     componentDidMount() {
@@ -41,6 +43,8 @@ class BackEnd extends Component {
         clearInterval(this.state.interval);
     }
 
+    selectItem = item => this.setState({ selectedItem: item });
+
     logoutHandler = () => {
         const { onAuthLogout } = this.props;
         onAuthLogout();
@@ -51,7 +55,7 @@ class BackEnd extends Component {
     }
 
     render() {
-        const { isOpen, date, clock } = this.state;
+        const { isOpen, date, clock, selectedItem } = this.state;
         const { auth: { loading, data: { notifications, first_name, last_name, name, role, photo, ref, sponsor, credits } }, onAuthLogout, children } = this.props;
         const isAuthenticated = localStorage.getItem('token') !== null;
 
@@ -59,7 +63,7 @@ class BackEnd extends Component {
 
         return <div className="BackEnd text-left">
             <Toolbar notifications={notifications} name={name || first_name + ' ' + last_name} role={role} toggle={this.toggle} logoutHandler={this.logoutHandler} date={date} clock={clock} />
-            <SideDrawer name={name || first_name + ' ' + last_name} isOpen={isOpen} photo={photo} role={role} id={ref} toggle={this.toggle} sponsor={sponsor} credits={credits} />
+            <SideDrawer name={name || first_name + ' ' + last_name} isOpen={isOpen} photo={photo} role={role} id={ref} toggle={this.toggle} sponsor={sponsor} credits={credits} selectItem={this.selectItem} selectedItem={selectedItem} />
 
             <main className="bg-darkblue full-height-user position-relative pb-5">
                 <div className="bg-darkblue mb-5 pb-5">

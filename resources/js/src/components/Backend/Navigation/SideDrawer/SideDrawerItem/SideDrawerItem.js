@@ -6,11 +6,14 @@ import { Collapse, Button } from 'reactstrap';
 
 import './SideDrawerItem.css';
 
-const SideDrawerItem = ({ children, dropdown, icon, href = '', items, path = '', sideDrawerToggle, exact = true }) => {
+const SideDrawerItem = ({ children, dropdown, icon, href = '', items, path = '', sideDrawerToggle, exact = true, select, selected, id }) => {
     const match = window.location.pathname.includes(path);
     const [isOpen, setIsOpen] = useState(match);
 
-    const toggle = () => setIsOpen(!isOpen);
+    const toggle = () => {
+        select(id);
+        setIsOpen(!isOpen)
+    };
 
     let content;
     if (!dropdown) content = <>
@@ -36,7 +39,7 @@ const SideDrawerItem = ({ children, dropdown, icon, href = '', items, path = '',
                     <span>{children}</span>
                     <FontAwesomeIcon fixedWidth icon={faAngleDown} className={`position-absolute angle-down ${isOpen ? 'open' : ''}`} style={{ right: 16, top: '50%' }} />
                 </Button>
-                <Collapse isOpen={isOpen} className="pl-3 bg-darkblue-20">
+                <Collapse isOpen={isOpen && selected === id} className="pl-3 bg-darkblue-20">
                     <ul className="nav flex-column border-left ml-3 border-white-20">
                         {itemEls}
                     </ul>

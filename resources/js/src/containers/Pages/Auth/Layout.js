@@ -15,7 +15,7 @@ const InactiveLink = ({ link, children }) => <div className="m-0 h6"><NavLink cl
 
 export default ({ getIn, signUp, guest, code, children }) => <>
     <div className="Layout">
-        <div className="title">
+        <div className="pt-md-5">
             <Title>Want to know what you will gain while investing in Liyeplimal ?</Title>
         </div>
 

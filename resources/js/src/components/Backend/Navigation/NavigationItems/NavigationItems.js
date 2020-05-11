@@ -13,15 +13,15 @@ export default ({ cartItemsNumber, name, sidedrawerToggle, logoutHandler, role, 
         let message, icon;
         switch (notification.type) {
             case 'App\\Notifications\\PlanUser':
-                message = <Link to={"/notifications/" + notification.id} className="text-reset text-truncate small"><FontAwesomeIcon className="text-success mr-1" size="lg" fixedWidth icon={faShoppingCart} />New plan bought.</Link>;
+                message = <Link to={"/notifications/" + notification.id} className="text-reset small"><FontAwesomeIcon className="text-success mr-1" size="lg" fixedWidth icon={faShoppingCart} />New plan bought.</Link>;
                 break;
 
             case 'App\\Notifications\\Deposit':
-                message = <Link to={"/notifications/" + notification.id} className="text-reset text-truncate small"><FontAwesomeIcon className="text-primary mr-1" size="lg" fixedWidth icon={faMoneyBillWaveAlt} />Deposit successfully made.</Link>;
+                message = <Link to={"/notifications/" + notification.id} className="text-reset small"><FontAwesomeIcon className="text-primary mr-1" size="lg" fixedWidth icon={faMoneyBillWaveAlt} />Deposit successfully made.</Link>;
                 break;
 
             case 'App\\Notifications\\LimoPayment':
-                message = <Link to={"/notifications/" + notification.id} className="text-reset text-truncate small"><FontAwesomeIcon className="text-yellow mr-1" size="lg" fixedWidth icon={faPaperPlane} />Limo Payment successfully submitted.</Link>;
+                message = <Link to={"/notifications/" + notification.id} className="text-reset small"><FontAwesomeIcon className="text-yellow mr-1" size="lg" fixedWidth icon={faPaperPlane} />Limo Payment successfully submitted.</Link>;
                 break;
 
             case 'App\\Notifications\\LimoPaymentStatus':
@@ -31,14 +31,14 @@ export default ({ cartItemsNumber, name, sidedrawerToggle, logoutHandler, role, 
                 } else if (status === 2) {
                     icon = <FontAwesomeIcon className="text-danger mr-1" size="lg" fixedWidth icon={faTimes} />;
                 }
-                message = <Link to={"/notifications/" + notification.id} className="text-reset text-truncate small">{icon}{notificationMessage}</Link>;
+                message = <Link to={"/notifications/" + notification.id} className="text-reset small">{icon}{notificationMessage}</Link>;
                 break;
 
             default:
                 break;
         }
 
-        return <DropdownItem key={'notification_' + notification.id} className="text-dark border-top">
+        return <DropdownItem key={'notification_' + notification.id} className="text-dark text-truncate border-top">
             {message}
         </DropdownItem>
     });
@@ -84,7 +84,7 @@ export default ({ cartItemsNumber, name, sidedrawerToggle, logoutHandler, role, 
                         <FontAwesomeIcon icon={faComments} className="text-light mr-3" size="lg" />
                         <Badge color="pink" className="position-absolute rounded-circle d-inline-flex justify-content-center align-items-center" style={{ width: 20, height: 20, transform: 'translate(-30px, -5px)', zIndex: 2 }}>{comments.length}</Badge>
                     </DropdownToggle>
-                    <DropdownMenu right>
+                    <DropdownMenu right style={{ width: '20rem' }}>
                         {comments.length === 0 ? <DropdownItem disabled className="bg-dark text-white">
                             <div className="py-2">No comment.</div>
                         </DropdownItem> : <>
@@ -104,7 +104,7 @@ export default ({ cartItemsNumber, name, sidedrawerToggle, logoutHandler, role, 
                         <FontAwesomeIcon icon={faEnvelope} className="text-light mr-3" size="lg" />
                         <Badge color="green" className="position-absolute rounded-circle d-inline-flex justify-content-center align-items-center" style={{ width: 20, height: 20, transform: 'translate(-30px, -5px)', zIndex: 2 }}>{messages.length}</Badge>
                     </DropdownToggle>
-                    <DropdownMenu right>
+                    <DropdownMenu right style={{ width: '20rem' }}>
                         {messages.length === 0 ? <DropdownItem disabled className="bg-dark text-white">
                             <div className="py-2">No message.</div>
                         </DropdownItem> : <>
@@ -124,7 +124,7 @@ export default ({ cartItemsNumber, name, sidedrawerToggle, logoutHandler, role, 
                         <FontAwesomeIcon icon={faBell} className="text-light mr-3" size="lg" />
                         <Badge color="yellow" className="position-absolute rounded-circle d-inline-flex justify-content-center align-items-center" style={{ width: 20, height: 20, transform: 'translate(-30px, -5px)', zIndex: 2 }}>{notifications.length}</Badge>
                     </DropdownToggle>
-                    <DropdownMenu right>
+                    <DropdownMenu right style={{ width: '20rem' }}>
                         {notifications.length === 0 ? <DropdownItem disabled className="bg-dark text-white">
                             <div className="py-2">No notification.</div>
                         </DropdownItem> : <>

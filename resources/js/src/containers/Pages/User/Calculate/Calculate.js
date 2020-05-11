@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReactOwlCarousel from 'react-owl-carousel';
+import OwlCarousel from 'react-owl-carousel2';
 
 import BackEnd from '../../../BackEnd';
 
@@ -21,8 +22,6 @@ import ResultCard from '../../../../components/UI/ResultCard';
 import * as actions from '../../../../store/actions';
 
 class Calculate extends Component {
-    divRef = React.createRef()
-
     state = {
         packs: [],
         periods: [],
@@ -98,7 +97,6 @@ class Calculate extends Component {
 
     submitHandler = e => {
         e.preventDefault();
-        this.divRef.current.scrollTo(0, 0);
         this.props.onPostUserCalculate(e.target);
     }
 
@@ -168,19 +166,22 @@ class Calculate extends Component {
         if (loading && !plans) plansContent = <Col xs={12}>
             <CustomSpinner />
         </Col>;
-        else if (plans) plansContent = <Col xs={12}>
-            {/* <Row className="d-none d-sm-flex">
+        else if (plans) {
+            const plansData = plans.map((plan, index) => <UserPlan key={index} onClick={() => this.clickHandler(plan.pivot.code)} hover selected={selectedPlan === plan.pivot.code} simulation={simulation} {...plan} />);
+            plansContent = <Col xs={12}>
+                {/* <Row className="d-none d-sm-flex">
                 {plans.map((plan, index) => <Col xs={4} className="p-0"><UserPlan key={index} onClick={() => this.clickHandler(plan.pivot.code)} hover selected={selectedPlan === plan.pivot.code} simulation={simulation} {...plan} /></Col>)}
             </Row> */}
 
-            <Row>
-                <Col xs={12} className="p-0">
-                    <ReactOwlCarousel responsive={{ 0: { items: 1 }, 1100: { items: 2 }, 1550: { items: 3 } }} loop nav>
-                        {plans.map((plan, index) => <UserPlan key={index} onClick={() => this.clickHandler(plan.pivot.code)} hover selected={selectedPlan === plan.pivot.code} simulation={simulation} {...plan} />)}
-                    </ReactOwlCarousel>
-                </Col>
-            </Row>
-        </Col>;
+                <Row>
+                    <Col xs={12} className="p-0">
+                        <OwlCarousel ref="Plans" options={{ responsive: { 0: { items: 1 }, 1100: { items: 2 }, 1550: { items: 3 } }, loop: true, dots: false }}>
+                            {plansData}
+                        </OwlCarousel>
+                    </Col>
+                </Row>
+            </Col>
+        };
 
         let formContent = null;
         if (selectedPlan) formContent = <Col xs={12} className="pb-3 pt-sm-3">
@@ -265,8 +266,8 @@ class Calculate extends Component {
                         </Row>
                     </div>
 
-                    <div className="flex-fill bg-white overflow-hidden d-flex flex-column rounded-lg px-5 pt-3">
-                        <div className="flex-fill" style={{ overflowY: 'auto', overflowX: 'hidden' }}>
+                    <div className="flex-fill bg-white overflow-hidden d-flex flex-column rounded-lg px-md-5 px-3 pt-3">
+                        <div className="d-none d-md-block flex-fill" style={{ overflowY: 'auto', overflowX: 'hidden' }}>
                             <Row
                             // style={{ transform: 'scale(.8)', transformOrigin: 'center', margin: '-5% -10% -5% -10%' }}
                             >
@@ -274,12 +275,18 @@ class Calculate extends Component {
                             </Row>
                         </div>
 
+                        <div className="d-md-none flex-fill">
+                            <OwlCarousel ref="Calculate" options={{ responsive: { 0: { items: 1 }, 600: { items: 2 } }, dots: false }}>
+                                {result}
+                            </OwlCarousel>
+                        </div>
+
                         <Row>
-                            <Col className="text-left mt-4" xs={12}>
+                            <Col className="text-md-left text-center mt-4" xs={12}>
                                 <div className="border-bottom pb-3 mb-3 text-bahnschrift">Balance after {simulation.leftPacksPerWeek.length < (8 * page) ? simulation.leftPacksPerWeek[simulation.leftPacksPerWeek.length - 1].week : simulation.leftPacksPerWeek[8 * page - 1].week} weeks of continuous investment : <strong className="text-green">${simulation.leftPacksPerWeek.length < (8 * page) ? simulation.leftPacksPerWeek[simulation.leftPacksPerWeek.length - 1].balance.toFixed(2) : simulation.leftPacksPerWeek[8 * page - 1].balance.toFixed(2)}</strong> approximately</div>
                             </Col>
-                            <Col xs={12} className="d-flex">
-                                <nav className="ml-auto">
+                            <Col xs={12} className="d-flex justify-content-center">
+                                <nav className="ml-md-auto">
                                     <ul className="pagination btn-group">
                                         <li className="btn btn-yellow" onClick={this.firstPageHandler}><FontAwesomeIcon icon={faAngleDoubleLeft} className="mr-2" />First</li>
                                         <li className="btn btn-link text-secondary" onClick={this.previousPageHandler}><FontAwesomeIcon icon={faChevronLeft} /></li>
@@ -294,10 +301,13 @@ class Calculate extends Component {
                         </Row>
                     </div>
                 </div>;
-            } else subContent = <div className="text-x-large text-darkblue text-center text-700">Your result will show in this area</div>;
+            } else subContent = <div className="text-x-large text-darkblue my-5 py-5 my-md-0 py-md-0 text-center text-700">Your result will show in this area</div>;
 
             simulationContent = <Col xs={12}>
-                <div ref={this.divRef} className="embed-responsive embed-responsive-16by9 bg-white rounded-4 d-flex justify-content-center align-items-center">
+                <div className="embed-responsive embed-responsive-16by9 bg-white rounded-4 d-none d-md-flex justify-content-center align-items-center">
+                    {subContent}
+                </div>
+                <div className="bg-white rounded-4 d-flex d-md-none justify-content-center align-items-center">
                     {subContent}
                 </div>
             </Col>;

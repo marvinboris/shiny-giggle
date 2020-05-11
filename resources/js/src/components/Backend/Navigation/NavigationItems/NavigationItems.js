@@ -62,11 +62,11 @@ export default ({ cartItemsNumber, name, sidedrawerToggle, logoutHandler, role, 
     return <div className="px-3 bg-darkblue flex-fill d-flex align-items-center text-light text-large" style={{ height: 101 }}>
         <Nav className="mr-auto d-flex align-items-center" navbar>
             <FontAwesomeIcon icon={faBars} className="mr-3 mr-md-5 ml-2 ml-md-4" style={{ cursor: 'pointer' }} onClick={sidedrawerToggle} size="2x" />
-            <div className="mr-4 d-none d-md-block">
+            <div className="mr-4 d-none d-lg-block">
                 <FontAwesomeIcon icon={faCalendar} className="mr-2" />
                 <span className="text-300">Today is</span> <strong>{weekDay} {day} {month} {year}</strong>
             </div>
-            <div className="d-none d-md-block">
+            <div className="d-none d-lg-block">
                 <FontAwesomeIcon icon={faClock} className="mr-2" />
                 <strong>TIME : {hours} : {minutes} : {seconds}</strong>
             </div>
@@ -75,7 +75,7 @@ export default ({ cartItemsNumber, name, sidedrawerToggle, logoutHandler, role, 
             <div className="py-3 d-flex justify-content-between align-items-center">
                 {role === 'user' ? <div className="pr-5">
                     <Link to='/user/calculate' className="text-decoration-none">
-                        <Button size="lg" className="rounded-2 d-none d-md-inline px-4" color="orange">Calculate Now</Button>
+                        <Button size="lg" className="rounded-2 d-none d-lg-inline px-4" color="orange">Calculate Now</Button>
                     </Link>
                 </div> : null}
 

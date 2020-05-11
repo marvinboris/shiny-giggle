@@ -3,7 +3,7 @@ import { faUserTie } from '@fortawesome/free-solid-svg-icons';
 import { Col, Row } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import ReactOwlCarousel from 'react-owl-carousel';
+import OwlCarousel from 'react-owl-carousel2';
 
 import Breadcrumb from '../../../../../components/Backend/UI/Breadcrumb/Breadcrumb';
 import SpecialTitle from '../../../../../components/UI/Titles/SpecialTitle/SpecialTitle';
@@ -58,9 +58,9 @@ class Buy extends Component {
                     </Row>
 
                     <div className="d-sm-none">
-                        <ReactOwlCarousel responsive={{ 0: { items: 1 }, 600: { items: 2 }, 1200: { items: 3 } }} center loop nav>
+                        <OwlCarousel options={{ responsive: { 0: { items: 1 }, 600: { items: 2 }, 1200: { items: 3 } }, center: true, loop: true, dots: false }}>
                             {subscriptionPlans}
-                        </ReactOwlCarousel>
+                        </OwlCarousel>
                     </div>
                 </>;
             } else content = <div className="py-5">

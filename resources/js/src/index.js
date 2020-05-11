@@ -14,8 +14,10 @@ import calculationReducer from './store/reducers/calculation';
 import paymentReducer from './store/reducers/payment';
 
 // import './index.scss';
-import 'owl.carousel/dist/assets/owl.carousel.css';
-import 'owl.carousel/dist/assets/owl.theme.default.css';
+// import 'owl.carousel/dist/assets/owl.carousel.css';
+// import 'owl.carousel/dist/assets/owl.theme.default.css';
+import 'react-owl-carousel2/src/owl.carousel.css';
+import 'react-owl-carousel2/src/owl.theme.default.css';
 
 // export const rootPath = 'http://invest-calc.test:3000';
 export const rootPath = '';

@@ -3,11 +3,9 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Col, Row } from 'reactstrap';
 import { faTachometerAlt, faWallet, faUserFriends, faEnvelope, faTicketAlt } from '@fortawesome/free-solid-svg-icons';
-import ReactOwlCarousel from 'react-owl-carousel';
+import OwlCarousel from 'react-owl-carousel2';
 
 // Components
-import BackEnd from '../../../BackEnd';
-
 import Breadcrumb from '../../../../components/Backend/UI/Breadcrumb/Breadcrumb';
 import SpecialTitle from '../../../../components/UI/Titles/SpecialTitle/SpecialTitle';
 import Subtitle from '../../../../components/UI/Titles/Subtitle/Subtitle';
@@ -119,9 +117,9 @@ class Dashboard extends Component {
 
                                 <Row>
                                     <Col xs={12} className="p-0">
-                                        <ReactOwlCarousel responsive={{ 0: { items: 1 }, 600: { items: 2 }, 1200: { items: 3 } }} loop nav>
+                                        <OwlCarousel ref="Purchased Plans" options={{ responsive: { 0: { items: 1 }, 1100: { items: 2 }, 1550: { items: 3 } }, loop: true, dots: false }}>
                                             {planCards}
-                                        </ReactOwlCarousel>
+                                        </OwlCarousel>
                                     </Col>
                                 </Row>
                             </Col>
@@ -140,9 +138,9 @@ class Dashboard extends Component {
                                 </Row>
 
                                 <div className="d-sm-none">
-                                    <ReactOwlCarousel responsive={{ 0: { items: 1 }, 600: { items: 2 }, 1200: { items: 3 } }} center loop nav>
+                                    <OwlCarousel options={{ responsive: { 0: { items: 1 }, 600: { items: 2 }, 1200: { items: 3 } }, center: true, loop: true, dots: false }}>
                                         {subscriptionPlans}
-                                    </ReactOwlCarousel>
+                                    </OwlCarousel>
                                 </div>
                             </Col>
                         </Row>

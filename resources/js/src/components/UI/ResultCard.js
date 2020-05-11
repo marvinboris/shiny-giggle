@@ -18,7 +18,7 @@ export default function ResultCard({ invest, payout, week, balPrevW, totPayout, 
     const payoutsToggle = () => setPayoutsTooltipOpen(!payoutsTooltipOpen);
     const packsToggle = () => setPacksTooltipOpen(!packsTooltipOpen);
 
-    return <Col className="mt-3" xs={3}>
+    return <Col className="mt-3" md={3}>
         <div style={{ backgroundColor: invest ? '#73EFC2' : '#EFECEC', fontFamily: 'Bahnschrift' }} className="h-100 text-left p-2 rounded-sm font-weight-lighter">
             <div style={{ backgroundColor: invest ? '#05C945' : '#F5A10E' }} className="py-1 pl-3 text-left w-100 rounded-sm d-flex align-items-center font-weight-bold"><FontAwesomeIcon size="2x" icon={faCalendar} className="pr-3" />Week {week}</div>
 

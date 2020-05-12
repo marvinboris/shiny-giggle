@@ -43,12 +43,12 @@ export default ({ name, photo = "https://placehold.it/100x100", role = '', credi
                     { link: '/user/subscription/buy', text: 'Buy Plan' },
                     { link: '/user/subscription/plans', text: 'My Plans' },
                 ]}>Subscription Plan</SideDrawerItem>
-                <SideDrawerItem sideDrawerToggle={toggle} icon={faCalendarAlt} href="/user/calculate">Calculate</SideDrawerItem>
+                <SideDrawerItem sideDrawerToggle={toggle} icon={faCalendarAlt} id="Calculate" select={selectItem} selected={selectedItem} href="/user/calculate">Calculate</SideDrawerItem>
                 {/* <SideDrawerItem sideDrawerToggle={toggle} icon={faMoneyBillWave} dropdown id="Finances" select={selectItem} selected={selectedItem} path="/user/finances" items={[
                     { link: '/user/finances/deposits/add', text: 'Deposit Credits' },
                     { link: '/user/finances/deposits/', text: 'Deposit List' },
                 ]}>Finances</SideDrawerItem> */}
-                <SideDrawerItem sideDrawerToggle={toggle} icon={faEnvelope} href="/user/contact-us/add">Contact us<Badge color="green" className="position-relative rounded-circle text-x-small text-700 d-inline-flex justify-content-center align-items-center" style={{ width: 18, height: 18, top: -7, transform: 'translateX(-40px)' }}><b className="text-white">12</b></Badge></SideDrawerItem>
+                <SideDrawerItem sideDrawerToggle={toggle} icon={faEnvelope} id="Contact us" select={selectItem} selected={selectedItem} href="/user/contact-us/add">Contact us<Badge color="green" className="position-relative rounded-circle text-x-small text-700 d-inline-flex justify-content-center align-items-center" style={{ width: 18, height: 18, top: -7, transform: 'translateX(-40px)' }}><b className="text-white">12</b></Badge></SideDrawerItem>
                 <SideDrawerItem sideDrawerToggle={toggle} icon={faCog} dropdown id="Options" select={selectItem} selected={selectedItem} path="/user/options" items={[
                     { link: '/user/options/terms-conditions', text: 'Terms & Conditions' },
                     { link: '/user/options/auto-reinvest', text: 'Auto Reinvest (Coming soon)' },
@@ -69,7 +69,7 @@ export default ({ name, photo = "https://placehold.it/100x100", role = '', credi
                     { link: '/admin/users/add', text: 'Add User' },
                     { link: '/admin/users', text: 'User List' },
                 ]}>Users</SideDrawerItem>
-                <SideDrawerItem sideDrawerToggle={toggle} icon={faEnvelope} href="/following">Contact us<Badge color="green" className="position-relative rounded-circle text-x-small text-700 d-inline-flex justify-content-center align-items-center" style={{ width: 18, height: 18, top: -7, transform: 'translateX(-40px)' }}><b className="text-white">12</b></Badge></SideDrawerItem>
+                <SideDrawerItem sideDrawerToggle={toggle} icon={faEnvelope} id="Contact us" select={selectItem} selected={selectedItem} href="/following">Contact us<Badge color="green" className="position-relative rounded-circle text-x-small text-700 d-inline-flex justify-content-center align-items-center" style={{ width: 18, height: 18, top: -7, transform: 'translateX(-40px)' }}><b className="text-white">12</b></Badge></SideDrawerItem>
                 <SideDrawerItem sideDrawerToggle={toggle} icon={faTasks} dropdown id="Subscription Plan" select={selectItem} selected={selectedItem} path="/admin/plans" items={[
                     { link: '/admin/plans/add', text: 'Add Plan' },
                     { link: '/admin/plans', text: 'Plan List' },
@@ -116,9 +116,9 @@ export default ({ name, photo = "https://placehold.it/100x100", role = '', credi
                 <nav className="navbar navbar-expand navbar-dark py-0 px-0 mt-5">
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav w-100 flex-column">
-                            <SideDrawerItem sideDrawerToggle={toggle} icon={faTachometerAlt} href="/dashboard">Dashboard</SideDrawerItem>
+                            <SideDrawerItem sideDrawerToggle={toggle} icon={faTachometerAlt} id="Dashboard" select={selectItem} selected={selectedItem} href="/dashboard">Dashboard</SideDrawerItem>
                             {sideDrawerItems}
-                            <SideDrawerItem sideDrawerToggle={toggle} icon={faBell} exact={false} href="/notifications">Notifications</SideDrawerItem>
+                            <SideDrawerItem sideDrawerToggle={toggle} icon={faBell} exact={false} id="Notifications" select={selectItem} selected={selectedItem} href="/notifications">Notifications</SideDrawerItem>
                         </ul>
                     </div>
                 </nav>

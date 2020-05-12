@@ -9,13 +9,14 @@ use Illuminate\Http\Request;
 class DashboardController extends Controller
 {
     //
-    public function index() {
+    public function index()
+    {
         $user = request()->user();
 
-        $purchasedPlans = $user->plans;
+        $purchasedPlans = $user->plans()->where('points', '>', 0)->get();
         $calculations = $user->calculations();
         $notifications = count($user->unreadNotifications);
-        
+
         $paidAmount = 0;
         foreach ($purchasedPlans as $plan) {
             $paidAmount += $plan->price;

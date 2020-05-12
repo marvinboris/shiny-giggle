@@ -45,28 +45,10 @@
 .UserPlan .Progress, .UserPlan .Info {
     top: calc(50% - 1rem);
     left: 50%;
-    transform: translate(-50%, calc(-50% + 5px)); 
-    scale: .8;
+    transform: translate(-50%, calc(-50% + 5px));
+    transform-origin: center;
 }
 
 .UserPlan .embed-responsive {
-    width: 60%;
-}
-
-@media (min-width: 400px) {
-    .UserPlan .embed-responsive {
-        width: 55%;
-    }
-    .UserPlan .Progress, .UserPlan .Info {
-        scale: .9;
-    }
-}
-
-@media (min-width: 600px) {
-    .UserPlan .embed-responsive {
-        width: 50%;
-    }
-    .UserPlan .Progress, .UserPlan .Info {
-        scale: 1;
-    }
+    width: 210px;
 }

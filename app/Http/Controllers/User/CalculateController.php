@@ -14,7 +14,7 @@ class CalculateController extends Controller
     public function userPlans()
     {
         return response()->json([
-            'plans' => request()->user()->plans
+            'plans' => request()->user()->plans()->where('points', '>', 0)->get()
         ]);
     }
 

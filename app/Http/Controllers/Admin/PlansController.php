@@ -63,4 +63,33 @@ class PlansController extends Controller
             ]
         ]);
     }
+
+    public function calculations(Request $request)
+    {
+        $request->validate([
+            'ref' => 'required|exists:users',
+            'id' => 'required|exists:plans',
+            'points' => 'required|numeric',
+        ]);
+
+        $user = User::whereRef($request->ref)->first();
+        $plan = Plan::whereId($request->id)->first();
+
+        $purchase = PlanUser::create([
+            'plan_id' => $plan->id,
+            'user_id' => $user->id,
+            'points' => $request->points,
+            'code' => Plan::code(),
+            'expiry_date' => Carbon::now()->addWeeks($plan->validity)
+        ]);
+
+        $user->notify(new NotificationsPlanUser($purchase));
+
+        return response()->json([
+            'message' => [
+                'type' => 'success',
+                'content' => 'Successful calculations deposit.'
+            ]
+        ]);
+    }
 }

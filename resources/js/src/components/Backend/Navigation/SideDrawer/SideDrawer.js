@@ -74,6 +74,7 @@ export default ({ name, photo = "https://placehold.it/100x100", role = '', credi
                     { link: '/admin/plans/add', text: 'Add Plan' },
                     { link: '/admin/plans', text: 'Plan List' },
                     { link: '/admin/plans/deposit', text: 'Plan Deposit' },
+                    { link: '/admin/plans/calculation', text: 'Calculations Deposit' },
                 ]}>Subscription Plan</SideDrawerItem>
             </>;
             break;

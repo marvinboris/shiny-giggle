@@ -299,6 +299,28 @@ export const getAdminUsers = () => async dispatch => {
     }
 };
 
+const getAdminUserStart = () => ({ type: actionTypes.GET_ADMIN_USER_START });
+const getAdminUserSuccess = data => ({ type: actionTypes.GET_ADMIN_USER_SUCCESS, ...data });
+const getAdminUserFail = error => ({ type: actionTypes.GET_ADMIN_USER_FAIL, error });
+export const getAdminUser = id => async dispatch => {
+    const token = localStorage.getItem('token');
+    dispatch(getAdminUserStart());
+
+    try {
+        const res = await fetch(rootPath + '/api/admin/users/' + id, {
+            method: 'GET',
+            headers: {
+                Authorization: token
+            }
+        });
+        const resData = await res.json();
+        dispatch(getAdminUserSuccess(resData));
+    } catch (err) {
+        console.log(err);
+        dispatch(getAdminUserFail(err));
+    }
+};
+
 const postAdminAddUserStart = () => ({ type: actionTypes.POST_ADMIN_ADD_USER_START });
 const postAdminAddUserSuccess = message => ({ type: actionTypes.POST_ADMIN_ADD_USER_SUCCESS, message });
 const postAdminAddUserFail = error => ({ type: actionTypes.POST_ADMIN_ADD_USER_FAIL, error });
@@ -324,6 +346,62 @@ export const postAdminAddUser = data => async dispatch => {
     } catch (err) {
         console.log(err);
         dispatch(postAdminAddUserFail(err));
+    }
+};
+
+const postAdminEditUserStart = () => ({ type: actionTypes.POST_ADMIN_EDIT_USER_START });
+const postAdminEditUserSuccess = message => ({ type: actionTypes.POST_ADMIN_EDIT_USER_SUCCESS, message });
+const postAdminEditUserFail = error => ({ type: actionTypes.POST_ADMIN_EDIT_USER_FAIL, error });
+export const postAdminEditUser = (id, data) => async dispatch => {
+    const token = localStorage.getItem('token');
+    dispatch(postAdminEditUserStart());
+
+    try {
+        const formData = new FormData(data);
+        const res = await fetch(rootPath + '/api/admin/users/' + id, {
+            method: 'POST',
+            mode: 'cors',
+            body: formData,
+            headers: {
+                Authorization: token
+            }
+        });
+
+        const resData = await res.json();
+        if (res.status === 422) throw new Error(Object.values(resData.errors).join('\n'));
+
+        dispatch(postAdminEditUserSuccess(resData.message));
+    } catch (err) {
+        console.log(err);
+        dispatch(postAdminEditUserFail(err));
+    }
+};
+
+const postAdminDeleteUserStart = () => ({ type: actionTypes.POST_ADMIN_DELETE_USER_START });
+const postAdminDeleteUserSuccess = data => ({ type: actionTypes.POST_ADMIN_DELETE_USER_SUCCESS, ...data });
+const postAdminDeleteUserFail = error => ({ type: actionTypes.POST_ADMIN_DELETE_USER_FAIL, error });
+export const postAdminDeleteUser = (id, data) => async dispatch => {
+    const token = localStorage.getItem('token');
+    dispatch(postAdminDeleteUserStart());
+
+    try {
+        const formData = new FormData(data);
+        const res = await fetch(rootPath + '/api/admin/users/' + id + '/delete', {
+            method: 'POST',
+            mode: 'cors',
+            body: formData,
+            headers: {
+                Authorization: token
+            }
+        });
+
+        const resData = await res.json();
+        if (res.status === 422) throw new Error(Object.values(resData.errors).join('\n'));
+
+        dispatch(postAdminDeleteUserSuccess(resData));
+    } catch (err) {
+        console.log(err);
+        dispatch(postAdminDeleteUserFail(err));
     }
 };
 
@@ -552,5 +630,33 @@ export const postAdminPlanDeposit = data => async dispatch => {
     } catch (err) {
         console.log(err);
         dispatch(postAdminPlanDepositFail(err));
+    }
+};
+
+const postAdminCalculationsDepositStart = () => ({ type: actionTypes.POST_ADMIN_CALCULATIONS_DEPOSIT_START });
+const postAdminCalculationsDepositSuccess = message => ({ type: actionTypes.POST_ADMIN_CALCULATIONS_DEPOSIT_SUCCESS, message });
+const postAdminCalculationsDepositFail = error => ({ type: actionTypes.POST_ADMIN_CALCULATIONS_DEPOSIT_FAIL, error });
+export const postAdminCalculationsDeposit = data => async dispatch => {
+    const token = localStorage.getItem('token');
+    dispatch(postAdminCalculationsDepositStart());
+
+    try {
+        const formData = new FormData(data);
+        const res = await fetch(rootPath + '/api/admin/plans/calculations', {
+            method: 'POST',
+            mode: 'cors',
+            body: formData,
+            headers: {
+                Authorization: token
+            }
+        });
+
+        const resData = await res.json();
+        if (res.status === 422) throw new Error(Object.values(resData.errors).join('\n'));
+
+        dispatch(postAdminCalculationsDepositSuccess(resData.message));
+    } catch (err) {
+        console.log(err);
+        dispatch(postAdminCalculationsDepositFail(err));
     }
 };

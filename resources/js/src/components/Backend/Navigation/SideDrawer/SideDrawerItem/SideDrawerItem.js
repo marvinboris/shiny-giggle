@@ -36,8 +36,8 @@ const SideDrawerItem = ({ children, dropdown, icon, href = '', items, path = '',
     else {
         const itemEls = items.map(({ link = '', text }) => (
             <li className="nav-item text-300" key={text}>
-                <NavLink onClick={onSideDrawerToggle} exact className="nav-link d-sm-none" to={link}><span className="position-relative" style={{ left: -8 }}>-</span> {text}</NavLink>
-                <NavLink onClick={onSelect} exact className="nav-link d-none d-sm-block" to={link}><span className="position-relative" style={{ left: -8 }}>-</span> {text}</NavLink>
+                <NavLink onClick={sideDrawerToggle} exact className="nav-link d-sm-none" to={link}><span className="position-relative" style={{ left: -8 }}>-</span> {text}</NavLink>
+                <NavLink exact className="nav-link d-none d-sm-block" to={link}><span className="position-relative" style={{ left: -8 }}>-</span> {text}</NavLink>
             </li>
         ));
 

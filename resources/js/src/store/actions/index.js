@@ -56,7 +56,10 @@ export {
 
     resetAdminUsers,
     getAdminUsers,
+    getAdminUser,
     postAdminAddUser,
+    postAdminEditUser,
+    postAdminDeleteUser,
 
     resetAdminFinances,
     getAdminSalesReport,
@@ -70,4 +73,5 @@ export {
     getAdminPlans,
     postAdminAddPlan,
     postAdminPlanDeposit,
+    postAdminCalculationsDeposit,
 } from './backend';

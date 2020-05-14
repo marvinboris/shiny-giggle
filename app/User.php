@@ -41,8 +41,14 @@ class User extends Authenticatable implements MustVerifyEmail
     public function paidAmount()
     {
         $paidAmount = 0;
-        foreach ($this->plans as $plan) {
-            $paidAmount += $plan->price;
+        foreach ($this->transactions as $transaction) {
+            if ($transaction->status === 'completed') $paidAmount += $transaction->amount;
+        }
+        foreach ($this->limo_payments as $transaction) {
+            if ($transaction->status === 1) $paidAmount += $transaction->amount;
+        }
+        foreach ($this->deposits as $deposit) {
+            if ($deposit->status === 1) $paidAmount += $deposit->amount;
         }
         return $paidAmount;
     }

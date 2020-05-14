@@ -83,9 +83,18 @@ const resetAdminUsers = (state, action) => updateObject(state, { users: initialS
 const getAdminUsersStart = (state, action) => updateObject(state, { users: updateObject(state.users, { loading: true }) });
 const getAdminUsersSuccess = (state, action) => updateObject(state, { users: updateObject(state.users, { loading: false, error: null, ...action }) });
 const getAdminUsersFail = (state, action) => updateObject(state, { users: updateObject(state.users, { loading: false, ...action }) });
+const getAdminUserStart = (state, action) => updateObject(state, { users: updateObject(state.users, { loading: true }) });
+const getAdminUserSuccess = (state, action) => updateObject(state, { users: updateObject(state.users, { loading: false, error: null, ...action }) });
+const getAdminUserFail = (state, action) => updateObject(state, { users: updateObject(state.users, { loading: false, ...action }) });
 const postAdminAddUserStart = (state, action) => updateObject(state, { users: updateObject(state.users, { loading: true, message: null }) });
 const postAdminAddUserSuccess = (state, action) => updateObject(state, { users: updateObject(state.users, { loading: false, error: null, ...action }) });
 const postAdminAddUserFail = (state, action) => updateObject(state, { users: updateObject(state.users, { loading: false, ...action }) });
+const postAdminEditUserStart = (state, action) => updateObject(state, { users: updateObject(state.users, { loading: true, message: null }) });
+const postAdminEditUserSuccess = (state, action) => updateObject(state, { users: updateObject(state.users, { loading: false, error: null, ...action }) });
+const postAdminEditUserFail = (state, action) => updateObject(state, { users: updateObject(state.users, { loading: false, ...action }) });
+const postAdminDeleteUserStart = (state, action) => updateObject(state, { users: updateObject(state.users, { loading: true, message: null }) });
+const postAdminDeleteUserSuccess = (state, action) => updateObject(state, { users: updateObject(state.users, { loading: false, error: null, ...action }) });
+const postAdminDeleteUserFail = (state, action) => updateObject(state, { users: updateObject(state.users, { loading: false, ...action }) });
 
 const resetAdminFinances = (state, action) => updateObject(state, { finances: initialState.finances });
 const getAdminSalesReportStart = (state, action) => updateObject(state, { finances: updateObject(state.finances, { loading: true }) });
@@ -117,6 +126,9 @@ const postAdminAddPlanFail = (state, action) => updateObject(state, { plans: upd
 const postAdminPlanDepositStart = (state, action) => updateObject(state, { plans: updateObject(state.plans, { loading: true, message: null }) });
 const postAdminPlanDepositSuccess = (state, action) => updateObject(state, { plans: updateObject(state.plans, { loading: false, error: null, ...action }) });
 const postAdminPlanDepositFail = (state, action) => updateObject(state, { plans: updateObject(state.plans, { loading: false, ...action }) });
+const postAdminCalculationsDepositStart = (state, action) => updateObject(state, { plans: updateObject(state.plans, { loading: true, message: null }) });
+const postAdminCalculationsDepositSuccess = (state, action) => updateObject(state, { plans: updateObject(state.plans, { loading: false, error: null, ...action }) });
+const postAdminCalculationsDepositFail = (state, action) => updateObject(state, { plans: updateObject(state.plans, { loading: false, ...action }) });
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
@@ -163,9 +175,18 @@ const reducer = (state = initialState, action) => {
         case actionTypes.GET_ADMIN_USERS_START: return getAdminUsersStart(state, action);
         case actionTypes.GET_ADMIN_USERS_FAIL: return getAdminUsersFail(state, action);
         case actionTypes.GET_ADMIN_USERS_SUCCESS: return getAdminUsersSuccess(state, action);
+        case actionTypes.GET_ADMIN_USER_START: return getAdminUserStart(state, action);
+        case actionTypes.GET_ADMIN_USER_FAIL: return getAdminUserFail(state, action);
+        case actionTypes.GET_ADMIN_USER_SUCCESS: return getAdminUserSuccess(state, action);
         case actionTypes.POST_ADMIN_ADD_USER_START: return postAdminAddUserStart(state, action);
         case actionTypes.POST_ADMIN_ADD_USER_FAIL: return postAdminAddUserFail(state, action);
         case actionTypes.POST_ADMIN_ADD_USER_SUCCESS: return postAdminAddUserSuccess(state, action);
+        case actionTypes.POST_ADMIN_EDIT_USER_START: return postAdminEditUserStart(state, action);
+        case actionTypes.POST_ADMIN_EDIT_USER_FAIL: return postAdminEditUserFail(state, action);
+        case actionTypes.POST_ADMIN_EDIT_USER_SUCCESS: return postAdminEditUserSuccess(state, action);
+        case actionTypes.POST_ADMIN_DELETE_USER_START: return postAdminDeleteUserStart(state, action);
+        case actionTypes.POST_ADMIN_DELETE_USER_FAIL: return postAdminDeleteUserFail(state, action);
+        case actionTypes.POST_ADMIN_DELETE_USER_SUCCESS: return postAdminDeleteUserSuccess(state, action);
 
         case actionTypes.RESET_ADMIN_FINANCES: return resetAdminFinances(state, action);
         case actionTypes.GET_ADMIN_SALES_REPORT_START: return getAdminSalesReportStart(state, action);
@@ -197,6 +218,9 @@ const reducer = (state = initialState, action) => {
         case actionTypes.POST_ADMIN_PLAN_DEPOSIT_START: return postAdminPlanDepositStart(state, action);
         case actionTypes.POST_ADMIN_PLAN_DEPOSIT_FAIL: return postAdminPlanDepositFail(state, action);
         case actionTypes.POST_ADMIN_PLAN_DEPOSIT_SUCCESS: return postAdminPlanDepositSuccess(state, action);
+        case actionTypes.POST_ADMIN_CALCULATIONS_DEPOSIT_START: return postAdminCalculationsDepositStart(state, action);
+        case actionTypes.POST_ADMIN_CALCULATIONS_DEPOSIT_FAIL: return postAdminCalculationsDepositFail(state, action);
+        case actionTypes.POST_ADMIN_CALCULATIONS_DEPOSIT_SUCCESS: return postAdminCalculationsDepositSuccess(state, action);
 
         default: return state;
     }

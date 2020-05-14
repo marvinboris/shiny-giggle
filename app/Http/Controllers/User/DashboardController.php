@@ -9,13 +9,18 @@ use Illuminate\Http\Request;
 class DashboardController extends Controller
 {
     //
-    public function index() {
+    public function index()
+    {
         $user = request()->user();
 
-        $purchasedPlans = $user->plans;
+        $purchasedPlans = [];
+        foreach ($user->plans as $plan) {
+            if ($plan->pivot->points > 0) $purchasedPlans[] = $plan;
+        }
+
         $calculations = $user->calculations();
         $notifications = count($user->unreadNotifications);
-        
+
         $paidAmount = 0;
         foreach ($purchasedPlans as $plan) {
             $paidAmount += $plan->price;

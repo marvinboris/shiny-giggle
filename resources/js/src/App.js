@@ -32,7 +32,9 @@ import Notification from './containers/Pages/Notifications/Show';
 
 import AdminDashboard from './containers/Pages/Admin/Dashboard/Dashboard';
 import AdminUsers from './containers/Pages/Admin/Users';
+import AdminShowUser from './containers/Pages/Admin/Users/Show';
 import AdminAddUser from './containers/Pages/Admin/Users/Add';
+import AdminEditUser from './containers/Pages/Admin/Users/Edit';
 import AdminSalesReport from './containers/Pages/Admin/Finances/SalesReport';
 import AdminLimoPaymentEdit from './containers/Pages/Admin/Finances/Edit';
 import AdminLimoPayments from './containers/Pages/Admin/Finances/LimoPayments';
@@ -41,6 +43,7 @@ import AdminAddCredit from './containers/Pages/Admin/Finances/Add';
 import AdminPlans from './containers/Pages/Admin/Plans';
 import AdminAddPlan from './containers/Pages/Admin/Plans/Add';
 import AdminPlanDeposit from './containers/Pages/Admin/Plans/Deposit';
+import AdminCalculationDeposit from './containers/Pages/Admin/Plans/Calculation';
 
 import UserContactUsAdd from './containers/Pages/User/ContactUs/Add';
 import UserDashboard from './containers/Pages/User/Dashboard/Dashboard';
@@ -104,9 +107,12 @@ class App extends Component {
 
 
 
+          <Route path="/admin/users/:id/edit" component={AdminEditUser} />
           <Route path="/admin/users/add" component={AdminAddUser} />
+          {/* <Route path="/admin/users/:id" component={AdminShowUser} /> */}
           <Route path="/admin/users" component={AdminUsers} />
 
+          <Route path="/admin/plans/calculation" component={AdminCalculationDeposit} />
           <Route path="/admin/plans/deposit" component={AdminPlanDeposit} />
           <Route path="/admin/plans/add" component={AdminAddPlan} />
           <Route path="/admin/plans" component={AdminPlans} />

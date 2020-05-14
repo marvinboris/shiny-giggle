@@ -62,7 +62,10 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
         Route::get('dashboard', 'DashboardController@index')->name('dashboard');
 
         Route::prefix('users')->name('users.')->group(function () {
+            Route::post('{id}/delete', 'UsersController@delete')->name('delete');
+            Route::post('{id}', 'UsersController@update')->name('update');
             Route::post('', 'UsersController@store')->name('store');
+            Route::get('{id}', 'UsersController@show')->name('show');
             Route::get('', 'UsersController@index')->name('index');
         });
 
@@ -82,6 +85,7 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
         });
 
         Route::prefix('plans')->name('plans.')->group(function () {
+            Route::post('calculations', 'PlansController@calculations')->name('calculations');
             Route::post('deposit', 'PlansController@deposit')->name('deposit');
             Route::post('', 'PlansController@store')->name('store');
             Route::get('', 'PlansController@index')->name('index');

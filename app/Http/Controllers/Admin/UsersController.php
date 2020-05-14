@@ -12,10 +12,15 @@ class UsersController extends Controller
     //
     public function  index()
     {
-        $users = User::get();
-
         return response()->json([
-            'totalUsers' => $users->toArray()
+            'totalUsers' => User::get()->toArray()
+        ]);
+    }
+
+    public function show($id)
+    {
+        return response()->json([
+            'user' => User::find($id)->toArray()
         ]);
     }
 
@@ -29,7 +34,7 @@ class UsersController extends Controller
             'password' => 'required|string|confirmed',
             'country' => 'required',
         ]);
-        User::create([
+        $user = User::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'username' => $request->username,
@@ -39,13 +44,62 @@ class UsersController extends Controller
             'country' => $request->country,
             'sponsor' => $request->sponsor ?? User::first()->ref,
             'ref' => User::ref(),
-            'email_verified_at' => time()
         ]);
+        $user->email_verified_at = time();
+        $user->save();
         return response()->json([
             'message' => [
                 'type' => 'success',
                 'content' => 'Successfully created user.'
             ],
+        ], 201);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $user = User::find($id);
+        $request->validate([
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
+            'username' => 'required|string|alpha_dash',
+            'email' => 'required|string|email',
+            'country' => 'required',
+        ]);
+        if (!$user) return response()->json([
+            'message' => [
+                'type' => 'danger',
+                'content' => 'User not found.'
+            ]
+        ], 404);
+        $input = $request->except(['sponsor', 'password', 'password_confirmation']);
+        if ($request->has('password')) {
+            if ($request->password === $request->password_confirmation) $input['password'] = Hash::make($request->password);
+            else return response()->json([
+                'message' => [
+                    'type' => 'danger',
+                    'content' => 'Wrong password confirmation.'
+                ]
+            ], 404);
+        }
+        $user->update($input);
+        return response()->json([
+            'message' => [
+                'type' => 'success',
+                'content' => 'Successfully updated user.'
+            ],
+        ], 201);
+    }
+
+    public function delete($id)
+    {
+        $user = User::find($id);
+        $user->delete();
+        return response()->json([
+            'message' => [
+                'type' => 'success',
+                'content' => 'Successfully deleted user.'
+            ],
+            'totalUsers' => User::get()->toArray()
         ], 201);
     }
 }

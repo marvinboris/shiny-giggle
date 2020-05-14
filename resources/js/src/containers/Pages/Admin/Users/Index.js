@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { Col, Row, Badge } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEdit, faTrash, faUsers, faThList, faTimesCircle, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
@@ -25,6 +25,7 @@ class Index extends Component {
 
     async componentDidMount() {
         const { onGetAdminUsers } = this.props;
+        onGetAdminUsers();
         const cors = 'https://cors-anywhere.herokuapp.com/';
 
         const phoneRes = await fetch(cors + 'http://country.io/phone.json', { method: 'GET', mode: 'cors' });
@@ -35,8 +36,7 @@ class Index extends Component {
 
         const countries = Object.keys(phone).map(key => ({ country: key, code: phone[key], name: names[key] })).sort((a, b) => a.country > b.country);
 
-        await this.setState({ countries });
-        onGetAdminUsers();
+        this.setState({ countries });
     }
 
     render() {
@@ -69,9 +69,9 @@ class Index extends Component {
                             <Badge color="success" className="badge-block position-static"><FontAwesomeIcon icon={faCheckCircle} className="mr-2" fixedWidth />Active</Badge> :
                             <Badge color="danger" className="badge-block position-static"><FontAwesomeIcon icon={faTimesCircle} className="mr-2" fixedWidth />Inactive</Badge>,
                         action: <div className="text-center">
-                            <FontAwesomeIcon icon={faEye} className="text-lightblue mr-2" fixedWidth />
-                            <FontAwesomeIcon icon={faEdit} className="text-green mr-2" fixedWidth />
-                            <FontAwesomeIcon icon={faTrash} className="text-red" fixedWidth />
+                            <Link className="text-lightblue mr-2" to={"/admin/users/" + user.id}><FontAwesomeIcon icon={faEye} fixedWidth /></Link>
+                            <Link className="text-green mr-2" to={"/admin/users/" + user.id + "/edit"}><FontAwesomeIcon icon={faEdit} fixedWidth /></Link>
+                            <a className="text-red" href="#" onClick={() => this.props.onPostAdminDeleteUser(user.id)}><FontAwesomeIcon icon={faTrash} fixedWidth /></a>
                         </div>
                     });
                 });
@@ -117,6 +117,7 @@ const mapStateToProps = state => ({ ...state });
 
 const mapDispatchToProps = dispatch => ({
     onGetAdminUsers: () => dispatch(actions.getAdminUsers()),
+    onPostAdminDeleteUser: id => dispatch(actions.postAdminDeleteUser(id))
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Index));

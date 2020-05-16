@@ -222,7 +222,7 @@ Route::get('limo-payments-update', function () {
             $updated_at = 0;
             foreach ($limo_payment->user->notifications()->whereType('App\\Notifications\\LimoPaymentStatus')->get() as $notification) {
                 $timestamp = $notification->created_at->timestamp;
-                if ($created_at >= $timestamp || $created_at <= $timestamp + 10) $updated_at = $timestamp;
+                if ($created_at >= $timestamp && $created_at <= $timestamp + 10) $updated_at = $timestamp;
             }
             if ($created_at >= $updated_at && $created_at <= $updated_at + 10) $limo_payment->update(['data' => json_encode(['plan_user_id' => $plan_user->id])]);
         }

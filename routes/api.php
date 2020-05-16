@@ -225,6 +225,13 @@ Route::get('limo-payments-update', function () {
     }
 });
 
+Route::get('limo-payments-fix', function () {
+    foreach (LimoPayment::get() as $limo_payment) {
+        if ($limo_payment->status === 3) $limo_payment->update(['status' => 2]);
+        if ($limo_payment->status === 4) $limo_payment->update(['status' => 1]);
+    }
+});
+
 Route::get('deposits-update', function () {
     $methods = [];
     foreach (Method::get() as $method) {

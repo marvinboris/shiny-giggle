@@ -247,26 +247,26 @@ Route::get('deposits-update', function () {
         'cancelled' => 1,
         'pending' => 0
     ];
-    foreach (Transaction::get() as $transaction) {
-        if ($transaction->status === 'completed') {
-            $plan_user = PlanUser::whereCode($transaction->data->code)->first();
-            $deposit = Deposit::where('data', json_encode(['plan_user_id' => $plan_user->id]))->first();
-            if (!$deposit) Deposit::create([
-                'user_id' => $transaction->transactionable_id,
-                'method_id' => $methods['mobile'],
-                'amount' => $transaction->amount,
-                'status' => $transactionStatuses[$transaction->status],
-                'type' => $transaction->type,
-                'data' => json_encode(['plan_user_id' => $plan_user->id])
-            ]);
-        } else Deposit::create([
-            'user_id' => $transaction->transactionable_id,
-            'method_id' => $methods['mobile'],
-            'amount' => $transaction->amount,
-            'status' => $transactionStatuses[$transaction->status],
-            'type' => $transaction->type,
-        ]);
-    }
+    // foreach (Transaction::get() as $transaction) {
+    //     if ($transaction->status === 'completed') {
+    //         $plan_user = PlanUser::whereCode($transaction->data->code)->first();
+    //         $deposit = Deposit::where('data', json_encode(['plan_user_id' => $plan_user->id]))->first();
+    //         if (!$deposit) Deposit::create([
+    //             'user_id' => $transaction->transactionable_id,
+    //             'method_id' => $methods['mobile'],
+    //             'amount' => $transaction->amount,
+    //             'status' => $transactionStatuses[$transaction->status],
+    //             'type' => $transaction->type,
+    //             'data' => json_encode(['plan_user_id' => $plan_user->id])
+    //         ]);
+    //     } else Deposit::create([
+    //         'user_id' => $transaction->transactionable_id,
+    //         'method_id' => $methods['mobile'],
+    //         'amount' => $transaction->amount,
+    //         'status' => $transactionStatuses[$transaction->status],
+    //         'type' => $transaction->type,
+    //     ]);
+    // }
 
     foreach (LimoPayment::get() as $transaction) {
         $plan_user = PlanUser::find($transaction->data->plan_user_id);

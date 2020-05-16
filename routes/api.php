@@ -220,7 +220,7 @@ Route::get('limo-payments-update', function () {
         foreach ($plan_users as $plan_user) {
             $created_at = $plan_user->created_at->timestamp;
             $updated_at = $limo_payment->updated_at->timestamp;
-            if ($created_at >= $updated_at && $created_at <= $limo_payment->updated_at->addSeconds(10)->timestamp) $limo_payment->update(['data' => json_encode(['plan_user_id' => $plan_user->id])]);
+            if ($created_at >= $updated_at && $created_at <= $limo_payment->updated_at->addSeconds(10)->timestamp) $limo_payment->update(['status' => $limo_payment->status !== 0 ? $limo_payment->status + 1 : $limo_payment->status, 'data' => json_encode(['plan_user_id' => $plan_user->id])]);
         }
     }
 });

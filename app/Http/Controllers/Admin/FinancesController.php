@@ -26,7 +26,7 @@ class FinancesController extends Controller
                 'user' => $transaction->user,
                 'method' => $transaction->method,
             ]);
-            if ($transaction->type === 'plan') {
+            if ($transaction->type === 'plan' && $transaction->status === 2) {
                 $plan_user = PlanUser::find($transaction->data->plan_user_id);
                 $object = array_merge($object, [
                     'plan' => $plan_user->plan,

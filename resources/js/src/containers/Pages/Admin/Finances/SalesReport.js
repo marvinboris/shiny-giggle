@@ -38,11 +38,31 @@ class SalesReport extends Component {
             </>;
             if (salesReport) {
                 const salesReportData = salesReport.map(transaction => {
+                    let plan_code, plan_name;
+                    if (transaction.status === 2) {
+                        if (transaction.type === 'plan') {
+                            plan_name = transaction.plan.name;
+                            plan_code = transaction.code;
+                        }
+                        else if (transaction.type === 'credits') {
+                            plan_name = 'Credits';
+                            plan_code = 'Credits';
+                        }
+                    } else {
+                        if (transaction.type === 'plan') {
+                            plan_name = 'Plan';
+                            plan_code = 'Not completed';
+                        }
+                        else if (transaction.type === 'credits') {
+                            plan_name = 'Credits';
+                            plan_code = 'Not completed';
+                        }
+                    }
                     return updateObject(transaction, {
                         name: transaction.user.name || transaction.user.first_name + ' ' + transaction.user.last_name,
                         ref: transaction.user.ref,
-                        plan_name: transaction.type === 'plan' ? transaction.plan.name : 'Credits',
-                        plan_code: transaction.status === 2 ? transaction.type === 'plan' ? transaction.code : 'Credits' : <span className="text-capitalize">Not completed</span>,
+                        plan_name,
+                        plan_code,
                         updated_at: convertDate(transaction.updated_at),
                         vendor: transaction.method.name,
                         status: transaction.status === 2 ?

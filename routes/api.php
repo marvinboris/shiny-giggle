@@ -269,15 +269,23 @@ Route::get('deposits-update', function () {
     // }
 
     foreach (LimoPayment::get() as $transaction) {
-        $plan_user = PlanUser::find($transaction->data->plan_user_id);
-        $deposit = Deposit::where('data', json_encode(['plan_user_id' => $plan_user->id]))->first();
-        if (!$deposit) Deposit::create([
+        if ($transaction->status === 2) {
+            $plan_user = PlanUser::find($transaction->data->plan_user_id);
+            $deposit = Deposit::where('data', json_encode(['plan_user_id' => $plan_user->id]))->first();
+            if (!$deposit) Deposit::create([
+                'user_id' => $transaction->user_id,
+                'method_id' => $methods['limo'],
+                'amount' => $transaction->amount,
+                'status' => $transaction->status,
+                'type' => $transaction->type,
+                'data' => json_encode(['plan_user_id' => $plan_user->id])
+            ]);
+        } else Deposit::create([
             'user_id' => $transaction->user_id,
             'method_id' => $methods['limo'],
             'amount' => $transaction->amount,
-            'status' => $transaction->status + 1,
+            'status' => $transaction->status,
             'type' => $transaction->type,
-            'data' => json_encode(['plan_user_id' => $plan_user->id])
         ]);
     }
 

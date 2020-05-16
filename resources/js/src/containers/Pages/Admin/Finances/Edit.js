@@ -40,7 +40,7 @@ class Edit extends Component {
     submitHandler = e => {
         e.preventDefault();
         e.persist();
-        this.setState({ status: 1 }, () => {
+        this.setState({ status: 2 }, () => {
             const { onPostAdminLimoPayment, match: { params: { id } } } = this.props;
             onPostAdminLimoPayment(id, e.target);
         });
@@ -48,7 +48,7 @@ class Edit extends Component {
 
     cancelHandler = () => {
         const form = document.getElementById('form');
-        this.setState({ status: 2 }, () => {
+        this.setState({ status: 1 }, () => {
             const { onPostAdminLimoPayment, match: { params: { id } } } = this.props;
             onPostAdminLimoPayment(id, form);
         });

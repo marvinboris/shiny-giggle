@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Method;
 
+use App\Deposit;
 use App\Guest;
 use App\User;
 use App\Transaction;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Method;
 use App\Notifications\PlanUser as NotificationsPlanUser;
 use App\Plan;
 use App\PlanUser;
@@ -99,6 +101,7 @@ class MonetbilController extends Controller
         }
 
         $transaction = Transaction::where("tx_id", $input['payment_ref'])->first();
+        $deposit = null;
 
         $plan = Plan::findOrFail(+$request->item_ref);
 
@@ -114,6 +117,14 @@ class MonetbilController extends Controller
                 'status' => 'pending',
                 'currency' => $request->currency ? $input['current'] : 'USD',
                 'address' => $request->phone
+            ]);
+            $deposit = Deposit::create([
+                'user_id' => $user->id,
+                'method_id' => Method::whereSlug('mobile')->first()->id,
+                'amount' => $plan->price,
+                'status' => 0,
+                'fees' => 0,
+                'type' => $transaction->type
             ]);
             $user->transactions()->save($transaction);
         }
@@ -139,6 +150,10 @@ class MonetbilController extends Controller
                     'expiry_date' => Carbon::now()->addWeeks($plan->validity)
                 ]);
                 $transaction->data = json_encode(['code' => $pivot->code]);
+                $deposit->update([
+                    'status' => 2,
+                    'data' => json_encode(['plan_user_id' => $pivot->id])
+                ]);
                 $user->notify(new NotificationsPlanUser($pivot));
             }
             $transaction->status = 'completed';

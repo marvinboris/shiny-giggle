@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Method;
 use App\Notifications\PlanUser as NotificationsPlanUser;
+use App\Deposit;
 use App\Plan;
 use App\PlanUser;
 use App\User;
@@ -53,6 +55,15 @@ class PlansController extends Controller
             'code' => Plan::code(),
             'expiry_date' => Carbon::now()->addWeeks($plan->validity)
         ]);
+        Deposit::create([
+            'user_id' => $user->id,
+            'method_id' => Method::whereSlug('admin')->first()->id,
+            'amount' => $plan->price,
+            'status' => 2,
+            'fees' => 0,
+            'type' => 'plan',
+            'data' => json_encode(['plan_user_id' => $purchase->id])
+        ]);
 
         $user->notify(new NotificationsPlanUser($purchase));
 
@@ -81,6 +92,15 @@ class PlansController extends Controller
             'points' => $request->points,
             'code' => Plan::code(),
             'expiry_date' => Carbon::now()->addWeeks($plan->validity)
+        ]);
+        Deposit::create([
+            'user_id' => $user->id,
+            'method_id' => Method::whereSlug('admin')->first()->id,
+            'amount' => $plan->price,
+            'status' => 2,
+            'fees' => 0,
+            'type' => 'plan',
+            'data' => json_encode(['plan_user_id' => $purchase->id])
         ]);
 
         $user->notify(new NotificationsPlanUser($purchase));

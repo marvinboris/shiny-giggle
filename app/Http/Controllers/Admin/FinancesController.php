@@ -21,11 +21,19 @@ class FinancesController extends Controller
     public function sales_report()
     {
         $salesReport = [];
-        foreach (Transaction::all() as $transaction) {
-            $salesReport[] = array_merge($transaction->toArray(), [
-                'transactionable' => $transaction->transactionable,
-                'plan' => $transaction->plan,
+        foreach (Deposit::all() as $transaction) {
+            $object = array_merge($transaction->toArray(), [
+                'user' => $transaction->user,
+                'method' => $transaction->method,
             ]);
+            if ($transaction->type === 'plan') {
+                $plan_user = PlanUser::find($transaction->data->plan_user_id);
+                $object = array_merge($object, [
+                    'plan' => $plan_user->plan,
+                    'code' => $plan_user->code
+                ]);
+            }
+            $salesReport[] = $object;
         }
 
         return response()->json([
@@ -78,16 +86,25 @@ class FinancesController extends Controller
             'status' => +$request->status,
             // 'feedback' => $request->feedback
         ]);
-        if ($initalStatus === 0 && +$request->status === 1) {
-            $user->notify(new LimoPaymentStatus($limoPayment));
+        if ($initalStatus === 0 && +$request->status === 2) {
             $plan = Plan::wherePrice($limoPayment->amount)->first();
-            PlanUser::create([
+            $pivot = PlanUser::create([
                 'user_id' => $user->id,
                 'plan_id' => $plan->id,
                 'points' => $plan->points,
                 'code' => Plan::code(),
                 'expiry_date' => Carbon::now()->addWeeks($plan->validity)
             ]);
+            Deposit::create([
+                'user_id' => $user->id,
+                'method_id' => Method::whereSlug('limo')->first()->id,
+                'amount' => $limoPayment->amount,
+                'status' => 2,
+                'fees' => 0,
+                'type' => 'plan',
+                'data' => json_encode(['plan_user_id' => $pivot->id])
+            ]);
+            $user->notify(new LimoPaymentStatus($limoPayment));
         }
 
         return response()->json([
@@ -101,7 +118,7 @@ class FinancesController extends Controller
     public function index()
     {
         $deposits = [];
-        foreach (Deposit::all() as $deposit) {
+        foreach (Deposit::whereType('credits')->get() as $deposit) {
             $deposits[] = array_merge($deposit->toArray(), [
                 'user' => $deposit->user,
                 'method' => $deposit->method,
@@ -130,11 +147,12 @@ class FinancesController extends Controller
         $user = User::where('ref', $request->ref)->first();
 
         $deposit = Deposit::create([
-            'method_id' => Method::where('name', 'Admin')->first()->id,
+            'method_id' => Method::whereName('Admin')->first()->id,
             'amount' => $request->amount,
             'user_id' => $user->id,
             'fees' => 0,
-            'status' => 2
+            'status' => 2,
+            'type' => 'credits'
         ]);
 
         $user->update(['credits' => $user->credits + $request->amount]);

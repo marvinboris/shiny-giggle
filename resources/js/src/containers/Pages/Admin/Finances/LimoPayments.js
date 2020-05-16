@@ -43,7 +43,7 @@ class LimoPayments extends Component {
                         ref: limoPayment.user.ref,
                         updated_at: convertDate(limoPayment.updated_at),
                         status: limoPayment.status === 0 ? <Badge color="orange" className="badge-block position-static"><FontAwesomeIcon icon={faSpinner} className="fa-spin" fixedWidth /><span className="ml-2">Pending</span></Badge> :
-                            limoPayment.status === 1 ? <Badge color="success" className="badge-block position-static"><FontAwesomeIcon icon={faCheckCircle} className="mr-2" fixedWidth />Success</Badge> :
+                            limoPayment.status === 2 ? <Badge color="success" className="badge-block position-static"><FontAwesomeIcon icon={faCheckCircle} className="mr-2" fixedWidth />Success</Badge> :
                                 <Badge color="danger" className="badge-block position-static"><FontAwesomeIcon icon={faTimesCircle} className="mr-2" fixedWidth />Failed</Badge>,
                         action: <div className="text-center">
                             <FontAwesomeIcon icon={faEye} className="text-lightblue mr-2" fixedWidth />

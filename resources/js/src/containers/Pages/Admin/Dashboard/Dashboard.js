@@ -154,9 +154,9 @@ class Dashboard extends Component {
                             {country ? country.name : null}
                         </div>,
                         action: <div className="text-center">
-                            <FontAwesomeIcon icon={faEye} className="text-lightblue mr-2" fixedWidth />
-                            <FontAwesomeIcon icon={faEdit} className="text-green mr-2" fixedWidth />
-                            <FontAwesomeIcon icon={faTrash} className="text-red" fixedWidth />
+                        <Link className="text-lightblue mr-2" to={"/admin/users/" + user.id}><FontAwesomeIcon icon={faEye} fixedWidth /></Link>
+                        <Link className="text-green mr-2" to={"/admin/users/" + user.id + "/edit"}><FontAwesomeIcon icon={faEdit} fixedWidth /></Link>
+                        <a className="text-red" href="#" onClick={() => this.props.onPostAdminDeleteUser(user.id)}><FontAwesomeIcon icon={faTrash} fixedWidth /></a>
                         </div>
                     });
                 });
@@ -309,6 +309,7 @@ const mapStateToProps = state => ({ ...state });
 const mapDispatchToProps = dispatch => ({
     onGetAdminDashboard: () => dispatch(actions.getAdminDashboard()),
     onResetAdminDashboard: () => dispatch(actions.resetAdminDashboard()),
+    onPostAdminDeleteUser: id => dispatch(actions.postAdminDeleteUser(id)),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Dashboard));

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Deposit;
 use App\Guest;
 use App\Http\Controllers\Controller;
+use App\LimoPayment;
+use App\Transaction;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -18,11 +21,8 @@ class DashboardController extends Controller
         $guests = Guest::get();
 
         $paidAmount = 0;
-        foreach ($users as $user) {
-            $paidAmount += $user->paidAmount();
-        }
-        foreach ($guests as $guest) {
-            $paidAmount += $guest->plan->price;
+        foreach (Deposit::get() as $deposit) {
+            if ($deposit->status === 2) $paidAmount += $deposit->amount;
         }
 
         $subscribers = count($users) + count($guests);

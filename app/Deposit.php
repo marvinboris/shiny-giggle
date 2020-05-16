@@ -8,7 +8,7 @@ class Deposit extends Model
 {
     //
     protected $fillable = [
-        'user_id', 'method_id', 'amount', 'fees', 'comments', 'status'
+        'user_id', 'method_id', 'amount', 'fees', 'comments', 'status', 'type', 'data'
     ];
 
     public function user()
@@ -19,5 +19,10 @@ class Deposit extends Model
     public function method()
     {
         return $this->belongsTo('App\Method');
+    }
+
+    public function getDataAttribute($value)
+    {
+        return json_decode($value);
     }
 }

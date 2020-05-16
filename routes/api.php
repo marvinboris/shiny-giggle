@@ -1,7 +1,12 @@
 <?php
 
 use App\Admin;
+use App\Deposit;
 use App\Guest;
+use App\LimoPayment;
+use App\Method;
+use App\PlanUser;
+use App\Transaction;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -206,3 +211,72 @@ Route::namespace('Method')->group(function () {
     Route::get('monetbil/notify', 'MonetbilController@notify')->name('monetbil.notify.get');
     Route::post('monetbil/notify', 'MonetbilController@notify')->name('monetbil.notify.post');
 });
+
+
+
+Route::get('limo-payments-update', function () {
+    $plan_users = PlanUser::get();
+    foreach (LimoPayment::get() as $limo_payment) {
+        foreach ($plan_users as $plan_user) {
+            $created_at = $plan_user->created_at->timestamp;
+            $updated_at = $limo_payment->updated_at->timestamp;
+            if ($created_at >= $updated_at && $created_at <= $limo_payment->updated_at->addSeconds(10)->timestamp) $limo_payment->update(['data' => json_encode(['plan_user_id' => $plan_user->id])]);
+        }
+    }
+});
+
+Route::get('deposits-update', function () {
+    $methods = [];
+    foreach (Method::get() as $method) {
+        $methods[$method->slug] = $method->id;
+    }
+
+    $transactionStatuses = [
+        'completed' => 2,
+        'failure' => 1,
+        'pending' => 0
+    ];
+    foreach (Transaction::get() as $transaction) {
+        $plan_user = PlanUser::whereCode($transaction->data->code)->first();
+        $deposit = Deposit::where('data', json_encode(['plan_user_id' => $plan_user->id]))->first();
+        if (!$deposit) Deposit::create([
+            'user_id' => $transaction->transactionable_id,
+            'method_id' => $methods['mobile'],
+            'amount' => $transaction->amount,
+            'status' => $transactionStatuses[$transaction->status],
+            'type' => $transaction->type,
+            'data' => json_encode(['plan_user_id' => $plan_user->id])
+        ]);
+    }
+
+    foreach (LimoPayment::get() as $transaction) {
+        $plan_user = PlanUser::find($transaction->data->plan_user_id);
+        $deposit = Deposit::where('data', json_encode(['plan_user_id' => $plan_user->id]))->first();
+        if (!$deposit) Deposit::create([
+            'user_id' => $transaction->user_id,
+            'method_id' => $methods['limo'],
+            'amount' => $transaction->amount,
+            'status' => $transaction->status + 1,
+            'type' => $transaction->type,
+            'data' => json_encode(['plan_user_id' => $plan_user->id])
+        ]);
+    }
+
+    foreach (PlanUser::get() as $plan_user) {
+        $deposit = Deposit::where('data', json_encode(['plan_user_id' => $plan_user->id]))->first();
+        if (!$deposit) Deposit::create([
+            'user_id' => $plan_user->user_id,
+            'method_id' => $methods['admin'],
+            'amount' => $plan_user->plan->price,
+            'status' => 2,
+            'type' => 'plan',
+            'data' => json_encode(['plan_user_id' => $plan_user->id])
+        ]);
+    }
+    dd([
+        'plan_user' => count(PlanUser::get()),
+        'deposit' => count(Deposit::get()),
+    ]);
+});
+
+Route::get('test', 'Admin\FinancesController@sales_report');

@@ -37,19 +37,15 @@ class SalesReport extends Component {
                 <Error err={error} />
             </>;
             if (salesReport) {
-                const vendors = {
-                    monetbil: 'Mobile'
-                };
                 const salesReportData = salesReport.map(transaction => {
                     return updateObject(transaction, {
-                        name: transaction.transactionable.name || transaction.transactionable.first_name + ' ' + transaction.transactionable.last_name,
-                        ref: transaction.transactionable.ref,
-                        plan_name: transaction.plan.name,
-                        plan_price: transaction.plan.price,
-                        plan_code: transaction.status === 'completed' ? transaction.data.code : <span className="text-capitalize">{transaction.status}</span>,
+                        name: transaction.user.name || transaction.user.first_name + ' ' + transaction.user.last_name,
+                        ref: transaction.user.ref,
+                        plan_name: transaction.type === 'plan' ? transaction.plan.name : 'Credits',
+                        plan_code: transaction.status === 2 ? transaction.type === 'plan' ? transaction.code : 'Credits' : <span className="text-capitalize">Not completed</span>,
                         updated_at: convertDate(transaction.updated_at),
-                        vendor: vendors[transaction.vendor],
-                        status: transaction.status === 'completed' ?
+                        vendor: transaction.method.name,
+                        status: transaction.status === 2 ?
                             <Badge color="success" className="badge-block position-static"><FontAwesomeIcon icon={faCheckCircle} className="mr-2" fixedWidth />Paid</Badge> :
                             <Badge color="danger" className="badge-block position-static"><FontAwesomeIcon icon={faTimesCircle} className="mr-2" fixedWidth />Cancelled</Badge>,
                         action: <div className="text-center">
@@ -67,7 +63,7 @@ class SalesReport extends Component {
                                     { name: 'Full Name', key: 'name' },
                                     { name: 'User ID', key: 'ref' },
                                     { name: 'Purchased plan', key: 'plan_name' },
-                                    { name: 'Amount', key: 'plan_price' },
+                                    { name: 'Amount', key: 'amount' },
                                     { name: 'Plan ID', key: 'plan_code' },
                                     { name: 'Purchased Date & Time', key: 'updated_at' },
                                     { name: 'Payment Method', key: 'vendor' },

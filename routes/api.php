@@ -219,8 +219,12 @@ Route::get('limo-payments-update', function () {
     foreach (LimoPayment::get() as $limo_payment) {
         foreach ($plan_users as $plan_user) {
             $created_at = $plan_user->created_at->timestamp;
-            $updated_at = $limo_payment->updated_at->timestamp;
-            if ($created_at >= $updated_at && $created_at <= $limo_payment->updated_at->addSeconds(10)->timestamp) $limo_payment->update(['data' => json_encode(['plan_user_id' => $plan_user->id])]);
+            $updated_at = 0;
+            foreach ($limo_payment->user->notifications()->whereType('App\\Notifications\\LimoPaymentStatus')->get() as $notification) {
+                $timestamp = $notification->created_at->timestamp;
+                if ($created_at >= $timestamp || $created_at <= $timestamp + 10) $updated_at = $timestamp;
+            }
+            if ($created_at >= $updated_at && $created_at <= $updated_at + 10) $limo_payment->update(['data' => json_encode(['plan_user_id' => $plan_user->id])]);
         }
     }
 });

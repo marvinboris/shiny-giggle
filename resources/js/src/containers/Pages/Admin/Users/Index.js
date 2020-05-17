@@ -88,7 +88,7 @@ class Index extends Component {
                                     { name: 'Phone', key: 'phone' },
                                     { name: 'Country', key: 'country' },
                                     { name: 'Creation date', key: 'created_at' },
-                                    { name: 'Status', key: 'status' },
+                                    { name: 'Status', key: 'status', minWidth: 125 },
                                     { name: 'Action', key: 'action' }
                                 ]} />
                         </Row>

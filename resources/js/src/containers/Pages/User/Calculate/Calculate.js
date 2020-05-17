@@ -97,7 +97,8 @@ class Calculate extends Component {
 
     submitHandler = e => {
         e.preventDefault();
-        $(window).scroll($('#simulation-container').scrollTop());
+        const scrollTop = document.getElementById('simulation-container').offsetTop;
+        window.scroll(0, scrollTop);
         this.props.onPostUserCalculate(e.target);
     }
 

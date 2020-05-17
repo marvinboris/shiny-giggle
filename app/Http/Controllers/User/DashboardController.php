@@ -17,7 +17,7 @@ class DashboardController extends Controller
         $purchasedPlans = [];
         foreach ($user->plans as $plan) {
             if ($plan->pivot->points > 0 && time() < Carbon::createFromDate($plan->pivot->expiry_date)->timestamp)
-                $plans[] = $plan;
+                $purchasedPlans[] = $plan;
         }
 
         $calculations = $user->calculations();

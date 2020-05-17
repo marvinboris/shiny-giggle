@@ -16,7 +16,7 @@ export default ({ onSubmit, xs = 12, sm = 12, md = 12, lg = 12, xl = 12, icon, t
             <div className={"d-flex flex-column " + (dark ? "text-light " : " ") + className} style={style}>
                 <div className={"flex-fill d-flex flex-column " + (!p0 ? "p-4" : "p-0")}>
                     <div className="flex-fill">
-                        <Form onSubmit={onSubmit} id={id} className={innerClassName}>
+                        <Form onSubmit={onSubmit} id={id} className={innerClassName} encType="multipart/form-data">
                             {children}
                         </Form>
                     </div>

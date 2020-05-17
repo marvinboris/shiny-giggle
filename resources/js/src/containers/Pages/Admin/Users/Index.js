@@ -58,6 +58,7 @@ class Index extends Component {
                     return updateObject(user, {
                         name: user.first_name + ' ' + user.last_name,
                         created_at: convertDate(user.created_at),
+                        last_login: convertDate(new Date(user.last_login)),
                         country: <div className="d-flex align-items-center">
                             <div className="border border-1 border-white rounded-circle overflow-hidden position-relative d-flex justify-content-center align-items-center mr-2" style={{ width: 20, height: 20 }}>
                                 <span className={`flag-icon text-large position-absolute flag-icon-${user.country.toLowerCase()}`} />
@@ -87,7 +88,9 @@ class Index extends Component {
                                     { name: 'Email', key: 'email' },
                                     { name: 'Phone', key: 'phone' },
                                     { name: 'Country', key: 'country' },
-                                    { name: 'Creation date', key: 'created_at' },
+                                    { name: 'IP Address', key: 'ip' },
+                                    { name: 'Creation Date', key: 'created_at' },
+                                    { name: 'Last Login', key: 'last_login' },
                                     { name: 'Status', key: 'status', minWidth: 125 },
                                     { name: 'Action', key: 'action' }
                                 ]} />

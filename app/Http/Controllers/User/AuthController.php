@@ -44,6 +44,7 @@ class AuthController extends Controller
             'country' => $request->country,
             'sponsor' => $request->sponsor ?? User::first()->ref,
             'ref' => User::ref(),
+            'ip' => $request->ip()
         ]);
         $user->email_verified_at = time();
         $user->save();
@@ -84,6 +85,13 @@ class AuthController extends Controller
                 'content' => 'Please, check your mailbox and click on the activation link.'
             ]
         ], 403);
+        if ($user->is_active === 0) return response()->json([
+            'message' => [
+                'type' => 'danger',
+                'content' => 'Your account is not active. Please, contact the administrator.'
+            ]
+        ], 403);
+
         if (!Auth::attempt($credentials))
             return response()->json([
                 'message' => [
@@ -92,6 +100,10 @@ class AuthController extends Controller
                 ]
             ], 401);
 
+        $user->update([
+            'ip' => $request->ip(),
+            'last_login' => now()
+        ]);
         $tokenResult = $user->createToken('User Personal Access Token');
         $token = $tokenResult->token;
         if ($request->remember_me)

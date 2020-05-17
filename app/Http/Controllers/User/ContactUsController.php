@@ -23,12 +23,25 @@ class ContactUsController extends Controller
             'subject' => 'required|string',
             'message' => 'required|string',
         ]);
+        return response()->json([
+            'message' => [
+                'type' => 'success',
+                'content' => json_encode($request->all())
+            ],
+        ], 201);
+        $input = null;
+        if ($file = $request->file('file')) {
+            $fileName = time() . $file->getClientOriginalName();
+            $file->move('contact-us', $fileName);
+            $input = htmlspecialchars($fileName);
+        }
         ContactUs::create([
             'user_id' => $request->user()->id,
             'title' => $request->title,
             'subject' => $request->subject,
             'message' => $request->message,
-            'feedback' => ''
+            'feedback' => '',
+            'file' => $input
         ]);
         return response()->json([
             'message' => [

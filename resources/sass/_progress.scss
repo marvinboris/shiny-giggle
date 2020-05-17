@@ -1,7 +1,7 @@
 .Progress {
     // -- vars
     $bg-color: #34495e;
-    $default-size: .25em;
+    $default-size: 0.25em;
     $label-font-size: $default-size / 4;
     $label-font-size-redo: $default-size * 4;
 
@@ -19,16 +19,24 @@
 
             .left-side {
                 transform: rotate($progress * 3.6deg);
+                transition: transform 1s;
+            }
+
+            .right-side {
+                transform: rotate(0deg);
+                transition: transform 1s;
             }
 
             @if $progress <= 50 {
                 .right-side {
-                    display: none;
+                    // display: none;
+                    opacity: 0;
                 }
             } @else {
                 clip: rect(auto, auto, auto, auto);
 
                 .right-side {
+                    opacity: 1;
                     transform: rotate(180deg);
                 }
             }

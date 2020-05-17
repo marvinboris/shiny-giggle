@@ -19,9 +19,15 @@ export default class UserPlan extends Component {
 
         const duration = 500;
 
+        this.setState({ animatedPercentage: 0 }, () => setTimeout(() => {
+            this.setState({ animatedPercentage: Math.floor(percentage) });
+        }, 1));
         for (let index = 0; index <= duration; index += 20) {
             setTimeout(() => {
-                this.setState({ animatedUsed: Math.floor(used * index / duration), animatedPercentage: Math.floor(percentage * index / duration) });
+                this.setState({
+                    animatedUsed: Math.floor(used * index / duration),
+                    // animatedPercentage: Math.floor(percentage * index / duration)
+                });
             }, index);
         }
     }

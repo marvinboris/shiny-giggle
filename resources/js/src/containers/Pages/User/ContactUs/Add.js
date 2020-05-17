@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Col, Row } from 'reactstrap';
-import { faUserTie, faUser, faMoneyBillWave, faPlusCircle, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { faUserTie, faUser, faMoneyBillWave, faPlusCircle, faPaperPlane, faPaperclip } from '@fortawesome/free-solid-svg-icons';
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
 
 // Components
@@ -23,6 +23,7 @@ class Add extends Component {
         title: '',
         subject: '',
         message: '',
+        file: '',
     }
 
     componentDidMount() {
@@ -40,8 +41,13 @@ class Add extends Component {
         await this.props.onPostUserContactUs(e.target);
     }
 
+    fileButtonClickedHandler = () => {
+        document.getElementById('file').click();
+    }
+
     inputChangeHandler = (e, name) => {
-        this.setState({ [name]: e.target.value });
+        if (name === 'file') this.setState({ [name]: e.target.files[0] });
+        else this.setState({ [name]: e.target.value });
     }
 
     render() {
@@ -60,7 +66,7 @@ class Add extends Component {
                 <>
                     <Row>
                         <Form onSubmit={this.submitHandler} icon={faEnvelope} title="Contact Us" list="Contact Us List" link="/contact-us" innerClassName="row align-items-center" className="bg-darklight shadow-sm">
-                            <Col xl={6} className="border-right border-border">
+                            <Col xl={6} className="border-right border-border pr-lg-5">
                                 <Feedback message={message} />
                                 <Row>
                                     <Col md={6}>
@@ -75,6 +81,15 @@ class Add extends Component {
                                         <FormInput type="textarea" icon={faMoneyBillWave} onChange={(e) => this.inputChangeHandler(e, "message")} value={this.state.message} name="message" required placeholder="Type your message here" />
                                     </Col>
 
+                                    <Col lg={4}>
+                                        <FormButton type="button" color="secondary" before onClick={this.fileButtonClickedHandler} icon={faPaperclip}>Attach a file</FormButton>
+                                        <input id="file" type="file" className="d-none" name="file" onChange={(e) => this.inputChangeHandler(e, "file")} value={this.state.file} />
+                                    </Col>
+
+                                    <Col lg={8} className="text-light d-flex align-items-center">
+                                        <p>Only PDF, JPG, JPEG, PNG files are allowed</p>
+                                    </Col>
+
                                     <Col md={6} className="mt-5">
                                         <FormButton color="green" icon={faPaperPlane}>Send</FormButton>
                                     </Col>
@@ -84,7 +99,7 @@ class Add extends Component {
                                 </Row>
                             </Col>
 
-                            <Col xl={6} className="text-center text-light text-x-large">
+                            <Col xl={6} className="text-center text-light text-x-large py-5 py-lg-0">
                                 <div><span className="text-700">E-Mail</span>: support@limocalc.com</div>
                                 <div><span className="text-700">Phone No</span>: 237655287531</div>
                             </Col>

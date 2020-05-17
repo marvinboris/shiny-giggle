@@ -108,6 +108,7 @@ Route::namespace('User')->prefix('user')->name('user.')->group(function () {
 
         Route::prefix('calculate')->name('calculate.')->group(function () {
             Route::get('plans', 'CalculateController@userPlans')->name('plans');
+            Route::get('deposit-plans', 'CalculateController@depositPlan')->name('deposit-plans');
             Route::get('{code}', 'CalculateController@getCalculateFromCode')->name('get');
             Route::post('', 'CalculateController@makeCalculation')->name('post');
         });

@@ -106,6 +106,7 @@ class AuthController extends Controller
             $admin = Admin::findOrFail($data->id);
             $tokenResult = $admin->createToken('Admin Personal Access Token');
             $token = $tokenResult->token;
+            $token->expires_at = Carbon::now()->addMinutes(15);
             $token->save();
             return response()->json([
                 'access_token' => $tokenResult->accessToken,

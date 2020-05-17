@@ -28,6 +28,8 @@ export default ({ fields, array, data, limit, bordered, xs = 12, sm = 12, md = 1
     });
     const limitedArray = show === 'All' ? filteredArray : filteredArray.filter((item, i) => (i >= (page - 1) * show) && (i < page * show));
 
+    const pageNumber = Math.ceil(filteredArray.length / show);
+
     const content = limitedArray.map((item, index) => {
         if (limit && index >= limit) return null;
         let inside = [<th className="text-center align-middle" key={'primary' + index}>{index + 1}</th>];
@@ -51,19 +53,27 @@ export default ({ fields, array, data, limit, bordered, xs = 12, sm = 12, md = 1
     }
 
     const previousPageHandler = () => {
+        const lastPage = pageNumber;
         if (page <= 1) return;
-        setPage(page - 1);
-        setPageFirst(pageFirst - 1);
-        setPageSecond(pageSecond - 1);
-        setPageLast(pageLast - 1);
+        if (page === 2) firstPageHandler();
+        else if (page === lastPage) setPage(page - 1);
+        else {
+            setPage(page - 1);
+            setPageFirst(pageFirst - 1);
+            setPageSecond(pageSecond - 1);
+            setPageLast(pageLast - 1);
+        }
     }
 
     const nextPageHandler = () => {
-        if (page >= Math.ceil(limitedArray.length / show)) return;
+        const lastPage = pageNumber;
+        if (page >= lastPage) return;
         setPage(page + 1);
-        setPageFirst(pageFirst + 1);
-        setPageSecond(pageSecond + 1);
-        setPageLast(pageLast + 1);
+        if (page > 2) {
+            setPageFirst(pageFirst + 1);
+            setPageSecond(pageSecond + 1);
+            setPageLast(pageLast + 1);
+        }
     }
 
     const firstPageHandler = () => {
@@ -75,7 +85,7 @@ export default ({ fields, array, data, limit, bordered, xs = 12, sm = 12, md = 1
     }
 
     const lastPageHandler = () => {
-        const lastPage = Math.ceil(limitedArray.length / show);
+        const lastPage = pageNumber;
         if (page >= lastPage) return;
         setPage(lastPage);
         setPageFirst(lastPage - 2);
@@ -84,7 +94,7 @@ export default ({ fields, array, data, limit, bordered, xs = 12, sm = 12, md = 1
     }
 
     const pageChangeHandler = page => {
-        const lastPage = Math.ceil(limitedArray.length / show);
+        const lastPage = pageNumber;
         let pageFirst;
         if (page === 1) pageFirst = 1;
         else if (page === lastPage) pageFirst = lastPage - 2;
@@ -209,18 +219,20 @@ export default ({ fields, array, data, limit, bordered, xs = 12, sm = 12, md = 1
                                     </>
                                 }
                                 <li className={"btn btn-darkblue " + (page === pageFirst ? 'text-700 active' : 'secondary')} onClick={() => pageChangeHandler(pageFirst)}>{pageFirst}</li>
-                                {Math.ceil(filteredArray.length / show) > 1 ?
+                                {pageNumber > 1 ?
                                     <>
                                         <li className={"btn btn-darkblue " + (page === pageSecond ? 'text-700 active' : 'secondary')} onClick={() => pageChangeHandler(pageSecond)}>{pageSecond}</li>
+                                        {pageNumber > 2 ?
+                                            <li className={"btn btn-darkblue " + (page === pageLast ? 'text-700 active' : 'secondary')} onClick={() => pageChangeHandler(pageLast)}>{pageLast}</li>
+                                            : null}
+                                        {page === pageNumber ? null :
+                                            <>
+                                                <li className="btn btn-darkblue text-secondary" onClick={nextPageHandler}><FontAwesomeIcon icon={faChevronRight} /></li>
+                                                <li className="btn btn-lightblue" onClick={lastPageHandler}>Last<FontAwesomeIcon icon={faAngleDoubleRight} className="ml-2" /></li>
+                                            </>
+                                        }
                                     </>
                                     : null}
-                                {page === Math.ceil(filteredArray.length / show) ? null :
-                                    <>
-                                        <li className={"btn btn-darkblue " + (page === pageLast ? 'text-700 active' : 'secondary')} onClick={() => pageChangeHandler(pageLast)}>{pageLast}</li>
-                                        <li className="btn btn-darkblue text-secondary" onClick={nextPageHandler}><FontAwesomeIcon icon={faChevronRight} /></li>
-                                        <li className="btn btn-lightblue" onClick={lastPageHandler}>Last<FontAwesomeIcon icon={faAngleDoubleRight} className="ml-2" /></li>
-                                    </>
-                                }
                             </ul>}
                         </div>
                     </div>

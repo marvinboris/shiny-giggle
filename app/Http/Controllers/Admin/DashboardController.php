@@ -25,7 +25,7 @@ class DashboardController extends Controller
             if ($deposit->status === 2) $paidAmount += $deposit->amount;
         }
 
-        $subscribers = count($users) + count($guests);
+        $subscribers = count(User::get()) + count($guests);
         $notifications = count($user->unreadNotifications);
         $paidPoints = 0;
 

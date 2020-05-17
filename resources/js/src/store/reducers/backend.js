@@ -120,6 +120,9 @@ const resetAdminPlans = (state, action) => updateObject(state, { plans: initialS
 const getAdminPlansStart = (state, action) => updateObject(state, { plans: updateObject(state.plans, { loading: true }) });
 const getAdminPlansSuccess = (state, action) => updateObject(state, { plans: updateObject(state.plans, { loading: false, error: null, ...action }) });
 const getAdminPlansFail = (state, action) => updateObject(state, { plans: updateObject(state.plans, { loading: false, ...action }) });
+const getAdminPlanDetailsStart = (state, action) => updateObject(state, { plans: updateObject(state.plans, { loading: true }) });
+const getAdminPlanDetailsSuccess = (state, action) => updateObject(state, { plans: updateObject(state.plans, { loading: false, error: null, ...action }) });
+const getAdminPlanDetailsFail = (state, action) => updateObject(state, { plans: updateObject(state.plans, { loading: false, ...action }) });
 const postAdminAddPlanStart = (state, action) => updateObject(state, { plans: updateObject(state.plans, { loading: true, message: null }) });
 const postAdminAddPlanSuccess = (state, action) => updateObject(state, { plans: updateObject(state.plans, { loading: false, error: null, ...action }) });
 const postAdminAddPlanFail = (state, action) => updateObject(state, { plans: updateObject(state.plans, { loading: false, ...action }) });
@@ -212,6 +215,9 @@ const reducer = (state = initialState, action) => {
         case actionTypes.GET_ADMIN_PLANS_START: return getAdminPlansStart(state, action);
         case actionTypes.GET_ADMIN_PLANS_FAIL: return getAdminPlansFail(state, action);
         case actionTypes.GET_ADMIN_PLANS_SUCCESS: return getAdminPlansSuccess(state, action);
+        case actionTypes.GET_ADMIN_PLAN_DETAILS_START: return getAdminPlanDetailsStart(state, action);
+        case actionTypes.GET_ADMIN_PLAN_DETAILS_FAIL: return getAdminPlanDetailsFail(state, action);
+        case actionTypes.GET_ADMIN_PLAN_DETAILS_SUCCESS: return getAdminPlanDetailsSuccess(state, action);
         case actionTypes.POST_ADMIN_ADD_PLAN_START: return postAdminAddPlanStart(state, action);
         case actionTypes.POST_ADMIN_ADD_PLAN_FAIL: return postAdminAddPlanFail(state, action);
         case actionTypes.POST_ADMIN_ADD_PLAN_SUCCESS: return postAdminAddPlanSuccess(state, action);

@@ -43,7 +43,10 @@ export default ({ fields, array, data, limit, bordered, xs = 12, sm = 12, md = 1
 
     const inputChangedHandler = e => {
         const { name, value } = e.target;
-        if (name === 'show') return setShow(value);
+        if (name === 'show') {
+            firstPageHandler();
+            return setShow(value);
+        }
         if (name === 'search') return setSearch(value);
     }
 

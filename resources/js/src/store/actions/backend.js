@@ -577,6 +577,28 @@ export const getAdminPlans = () => async dispatch => {
     }
 };
 
+const getAdminPlanDetailsStart = () => ({ type: actionTypes.GET_ADMIN_PLAN_DETAILS_START });
+const getAdminPlanDetailsSuccess = data => ({ type: actionTypes.GET_ADMIN_PLAN_DETAILS_SUCCESS, ...data });
+const getAdminPlanDetailsFail = error => ({ type: actionTypes.GET_ADMIN_PLAN_DETAILS_FAIL, error });
+export const getAdminPlanDetails = () => async dispatch => {
+    const token = localStorage.getItem('token');
+    dispatch(getAdminPlanDetailsStart());
+
+    try {
+        const res = await fetch(rootPath + '/api/admin/plans/details', {
+            method: 'GET',
+            headers: {
+                Authorization: token
+            }
+        });
+        const resData = await res.json();
+        dispatch(getAdminPlanDetailsSuccess(resData));
+    } catch (err) {
+        console.log(err);
+        dispatch(getAdminPlanDetailsFail(err));
+    }
+};
+
 const postAdminAddPlanStart = () => ({ type: actionTypes.POST_ADMIN_ADD_PLAN_START });
 const postAdminAddPlanSuccess = message => ({ type: actionTypes.POST_ADMIN_ADD_PLAN_SUCCESS, message });
 const postAdminAddPlanFail = error => ({ type: actionTypes.POST_ADMIN_ADD_PLAN_FAIL, error });

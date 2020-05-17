@@ -71,6 +71,7 @@ export {
 
     resetAdminPlans,
     getAdminPlans,
+    getAdminPlanDetails,
     postAdminAddPlan,
     postAdminPlanDeposit,
     postAdminCalculationsDeposit,

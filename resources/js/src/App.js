@@ -41,6 +41,7 @@ import AdminLimoPayments from './containers/Pages/Admin/Finances/LimoPayments';
 import AdminCredits from './containers/Pages/Admin/Finances';
 import AdminAddCredit from './containers/Pages/Admin/Finances/Add';
 import AdminPlans from './containers/Pages/Admin/Plans';
+import AdminPlanDetails from './containers/Pages/Admin/Plans/Details';
 import AdminAddPlan from './containers/Pages/Admin/Plans/Add';
 import AdminPlanDeposit from './containers/Pages/Admin/Plans/Deposit';
 import AdminCalculationDeposit from './containers/Pages/Admin/Plans/Calculation';
@@ -115,6 +116,7 @@ class App extends Component {
           <Route path="/admin/plans/calculation" component={AdminCalculationDeposit} />
           <Route path="/admin/plans/deposit" component={AdminPlanDeposit} />
           <Route path="/admin/plans/add" component={AdminAddPlan} />
+          <Route path="/admin/plans/details" component={AdminPlanDetails} />
           <Route path="/admin/plans" component={AdminPlans} />
 
           <Route path="/admin/finances/sales-report" component={AdminSalesReport} />

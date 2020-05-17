@@ -22,6 +22,20 @@ class PlansController extends Controller
         ]);
     }
 
+    public function details()
+    {
+        $plan_users = [];
+        foreach (PlanUser::get() as $plan_user) {
+            $plan_users[] = array_merge($plan_user->toArray(), [
+                'user' => $plan_user->user,
+                'plan' => $plan_user->plan,
+            ]);
+        }
+        return response()->json([
+            'plans' => $plan_users
+        ]);
+    }
+
     public function store(Request $request)
     {
         Plan::create([

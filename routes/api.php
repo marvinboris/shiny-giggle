@@ -93,6 +93,7 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
             Route::post('calculations', 'PlansController@calculations')->name('calculations');
             Route::post('deposit', 'PlansController@deposit')->name('deposit');
             Route::post('', 'PlansController@store')->name('store');
+            Route::get('details', 'PlansController@details')->name('details');
             Route::get('', 'PlansController@index')->name('index');
         });
     });
@@ -229,4 +230,4 @@ Route::get('limo-payments-update', function () {
     }
 });
 
-Route::get('test', 'Admin\FinancesController@sales_report');
+Route::get('test', 'Admin\PlansController@details');

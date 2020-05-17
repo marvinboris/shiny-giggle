@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Method;
 use App\Pack;
 use App\Plan;
 use App\PlanUser;
@@ -18,6 +19,20 @@ class CalculateController extends Controller
         foreach (request()->user()->plans as $plan) {
             if ($plan->pivot->points > 0 && time() < Carbon::createFromDate($plan->pivot->expiry_date)->timestamp)
                 $plans[] = $plan;
+        }
+        return response()->json([
+            'plans' => $plans
+        ]);
+    }
+
+    public function depositPlan()
+    {
+        $deposits = request()->user()->deposits;
+        $method_id = Method::whereSlug('admin')->first()->id;
+        $plans = [];
+        foreach ($deposits as $deposit) {
+            if ($deposit->type === 'plan' && $deposit->status === 2 && $deposit->method_id === $method_id)
+                $plans[] = PlanUser::find($deposit->data->plan_user_id)->plan;
         }
         return response()->json([
             'plans' => $plans

@@ -97,6 +97,7 @@ class Calculate extends Component {
 
     submitHandler = e => {
         e.preventDefault();
+        $(window).scroll($('#simulation-container').scrollTop());
         this.props.onPostUserCalculate(e.target);
     }
 
@@ -303,7 +304,7 @@ class Calculate extends Component {
                 </div>;
             } else subContent = <div className="text-x-large text-darkblue my-5 py-5 my-md-0 py-md-0 text-center text-700">Your result will show in this area</div>;
 
-            simulationContent = <Col xs={12}>
+            simulationContent = <Col id="simulation-container" xs={12}>
                 <div className="embed-responsive embed-responsive-16by9 bg-white rounded-4 d-none d-md-flex justify-content-center align-items-center">
                     {subContent}
                 </div>

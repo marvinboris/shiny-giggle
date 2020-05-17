@@ -231,3 +231,7 @@ Route::get('limo-payments-update', function () {
 });
 
 Route::get('test', 'User\CalculateController@userPlans');
+
+Route::get('ip', function () {
+    dd(request()->ip());
+});

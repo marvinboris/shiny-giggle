@@ -230,4 +230,4 @@ Route::get('limo-payments-update', function () {
     }
 });
 
-Route::get('test', 'Admin\PlansController@details');
+Route::get('test', 'User\CalculateController@userPlans');

@@ -55,7 +55,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function plans()
     {
-        return $this->belongsToMany('App\Plan', 'plan_user')->withPivot(['points', 'code', 'calculations']);
+        return $this->belongsToMany('App\Plan', 'plan_user')->withPivot(['points', 'code', 'calculations', 'expiry_date']);
     }
 
     public function limo_payments()

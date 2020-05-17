@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Pack;
 use App\Plan;
 use App\PlanUser;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class CalculateController extends Controller
@@ -13,8 +14,13 @@ class CalculateController extends Controller
     //
     public function userPlans()
     {
+        $plans = [];
+        foreach (request()->user()->plans as $plan) {
+            if ($plan->pivot->points > 0 && time() < Carbon::createFromDate($plan->pivot->expiry_date)->timestamp)
+                $plans[] = $plan;
+        }
         return response()->json([
-            'plans' => request()->user()->plans
+            'plans' => $plans
         ]);
     }
 

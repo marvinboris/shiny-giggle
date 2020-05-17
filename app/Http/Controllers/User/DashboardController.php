@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Plan;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -15,7 +16,8 @@ class DashboardController extends Controller
 
         $purchasedPlans = [];
         foreach ($user->plans as $plan) {
-            if ($plan->pivot->points > 0) $purchasedPlans[] = $plan;
+            if ($plan->pivot->points > 0 && time() < Carbon::createFromDate($plan->pivot->expiry_date)->timestamp)
+                $plans[] = $plan;
         }
 
         $calculations = $user->calculations();

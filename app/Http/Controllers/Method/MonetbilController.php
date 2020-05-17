@@ -142,13 +142,14 @@ class MonetbilController extends Controller
         if ('success' === $input['status']) {
             if ($role === 'guest') $user->update(['plan_id' => $plan->id, 'plan_code' => $code, 'points' => $plan->points]);
             else {
-                $pivot = PlanUser::create([
+                PlanUser::create([
                     'plan_id' => $plan->id,
                     'user_id' => $user->id,
                     'points' => $plan->points,
                     'code' => $code,
                     'expiry_date' => Carbon::now()->addWeeks($plan->validity)
                 ]);
+                $pivot = PlanUser::whereCode($code)->first();
                 $transaction->data = json_encode(['code' => $pivot->code]);
                 $deposit->update([
                     'status' => 2,

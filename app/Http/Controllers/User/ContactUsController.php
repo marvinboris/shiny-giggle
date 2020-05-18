@@ -23,14 +23,9 @@ class ContactUsController extends Controller
             'subject' => 'required|string',
             'message' => 'required|string',
         ]);
-        return response()->json([
-            'message' => [
-                'type' => 'success',
-                'content' => json_encode($request->all())
-            ],
-        ], 201);
+        $file = $request->file('file');
         $input = null;
-        if ($file = $request->file('file')) {
+        if ($file) {
             $fileName = time() . $file->getClientOriginalName();
             $file->move('contact-us', $fileName);
             $input = htmlspecialchars($fileName);

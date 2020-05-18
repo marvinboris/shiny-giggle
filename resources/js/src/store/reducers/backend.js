@@ -116,6 +116,11 @@ const postAdminAddCreditStart = (state, action) => updateObject(state, { finance
 const postAdminAddCreditSuccess = (state, action) => updateObject(state, { finances: updateObject(state.finances, { loading: false, error: null, ...action }) });
 const postAdminAddCreditFail = (state, action) => updateObject(state, { finances: updateObject(state.finances, { loading: false, ...action }) });
 
+const resetAdminContactUs = (state, action) => updateObject(state, { contactUs: initialState.contactUs });
+const getAdminContactUsListStart = (state, action) => updateObject(state, { contactUs: updateObject(state.contactUs, { loading: true }) });
+const getAdminContactUsListSuccess = (state, action) => updateObject(state, { contactUs: updateObject(state.contactUs, { loading: false, error: null, ...action }) });
+const getAdminContactUsListFail = (state, action) => updateObject(state, { contactUs: updateObject(state.contactUs, { loading: false, ...action }) });
+
 const resetAdminPlans = (state, action) => updateObject(state, { plans: initialState.plans });
 const getAdminPlansStart = (state, action) => updateObject(state, { plans: updateObject(state.plans, { loading: true }) });
 const getAdminPlansSuccess = (state, action) => updateObject(state, { plans: updateObject(state.plans, { loading: false, error: null, ...action }) });
@@ -210,6 +215,11 @@ const reducer = (state = initialState, action) => {
         case actionTypes.POST_ADMIN_ADD_CREDIT_START: return postAdminAddCreditStart(state, action);
         case actionTypes.POST_ADMIN_ADD_CREDIT_FAIL: return postAdminAddCreditFail(state, action);
         case actionTypes.POST_ADMIN_ADD_CREDIT_SUCCESS: return postAdminAddCreditSuccess(state, action);
+
+        case actionTypes.RESET_ADMIN_CONTACT_US: return resetAdminContactUs(state, action);
+        case actionTypes.GET_ADMIN_CONTACT_US_LIST_START: return getAdminContactUsListStart(state, action);
+        case actionTypes.GET_ADMIN_CONTACT_US_LIST_FAIL: return getAdminContactUsListFail(state, action);
+        case actionTypes.GET_ADMIN_CONTACT_US_LIST_SUCCESS: return getAdminContactUsListSuccess(state, action);
 
         case actionTypes.RESET_ADMIN_PLANS: return resetAdminPlans(state, action);
         case actionTypes.GET_ADMIN_PLANS_START: return getAdminPlansStart(state, action);

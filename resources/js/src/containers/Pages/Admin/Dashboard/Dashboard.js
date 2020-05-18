@@ -28,6 +28,7 @@ class Dashboard extends Component {
 
     async componentDidMount() {
         const { onGetAdminDashboard } = this.props;
+        onGetAdminDashboard();
         const cors = 'https://cors-anywhere.herokuapp.com/';
 
         const phoneRes = await fetch(cors + 'http://country.io/phone.json', { method: 'GET', mode: 'cors' });
@@ -38,8 +39,7 @@ class Dashboard extends Component {
 
         const countries = Object.keys(phone).map(key => ({ country: key, code: phone[key], name: names[key] })).sort((a, b) => a.country > b.country);
 
-        await this.setState({ countries });
-        onGetAdminDashboard();
+        this.setState({ countries });
     }
 
     componentWillUnmount() {

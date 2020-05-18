@@ -89,6 +89,10 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
             });
         });
 
+        Route::prefix('contact-us')->name('contact-us.')->group(function() {
+            Route::get('', 'ContactUsController@index')->name('index');
+        });
+
         Route::prefix('plans')->name('plans.')->group(function () {
             Route::post('calculations', 'PlansController@calculations')->name('calculations');
             Route::post('deposit', 'PlansController@deposit')->name('deposit');
@@ -111,6 +115,10 @@ Route::namespace('User')->prefix('user')->name('user.')->group(function () {
             Route::get('deposit-plans', 'CalculateController@depositPlan')->name('deposit-plans');
             Route::get('{code}', 'CalculateController@getCalculateFromCode')->name('get');
             Route::post('', 'CalculateController@makeCalculation')->name('post');
+        });
+
+        Route::prefix('contact-us')->name('contact-us.')->group(function() {
+            Route::post('', 'ContactUsController@store')->name('store');
         });
     });
 });
@@ -235,4 +243,8 @@ Route::get('test', 'User\CalculateController@userPlans');
 
 Route::get('ip', function () {
     dd(request()->ip());
+});
+
+Route::get('time', function () {
+    dd(request()->timezone());
 });

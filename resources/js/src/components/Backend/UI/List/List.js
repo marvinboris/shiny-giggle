@@ -32,7 +32,7 @@ export default ({ fields, array, data, limit, bordered, xs = 12, sm = 12, md = 1
 
     const content = limitedArray.map((item, index) => {
         if (limit && index >= limit) return null;
-        let inside = [<th className="text-center align-middle" key={'primary' + index}>{index + 1}</th>];
+        let inside = [<th className="text-center align-middle" key={'primary' + index}>{(page - 1) * show + index + 1}</th>];
         if (select) inside.unshift(<th className="text-center align-middle" key={'secondary' + index}>
             <input type="checkbox" value={item._id} />
         </th>);
@@ -45,10 +45,8 @@ export default ({ fields, array, data, limit, bordered, xs = 12, sm = 12, md = 1
 
     const inputChangedHandler = e => {
         const { name, value } = e.target;
-        if (name === 'show') {
-            firstPageHandler();
-            return setShow(value);
-        }
+        firstPageHandler();
+        if (name === 'show') return setShow(value);
         if (name === 'search') return setSearch(value);
     }
 

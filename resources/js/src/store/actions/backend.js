@@ -64,7 +64,7 @@ export const postUserContactUs = data => async dispatch => {
             mode: 'cors',
             body: form,
             headers: {
-                Authorization: token
+                Authorization: token,
             }
         });
         const resData = await res.json();
@@ -549,6 +549,31 @@ export const postAdminAddCredit = data => async dispatch => {
     } catch (err) {
         console.log(err);
         dispatch(postAdminAddCreditFail(err));
+    }
+};
+
+
+
+export const resetAdminContactUs = () => ({ type: actionTypes.RESET_ADMIN_CONTACT_US });
+const getAdminContactUsListStart = () => ({ type: actionTypes.GET_ADMIN_CONTACT_US_LIST_START });
+const getAdminContactUsListSuccess = data => ({ type: actionTypes.GET_ADMIN_CONTACT_US_LIST_SUCCESS, ...data });
+const getAdminContactUsListFail = error => ({ type: actionTypes.GET_ADMIN_CONTACT_US_LIST_FAIL, error });
+export const getAdminContactUsList = () => async dispatch => {
+    const token = localStorage.getItem('token');
+    dispatch(getAdminContactUsListStart());
+
+    try {
+        const res = await fetch(rootPath + '/api/admin/contact-us', {
+            method: 'GET',
+            headers: {
+                Authorization: token
+            }
+        });
+        const resData = await res.json();
+        dispatch(getAdminContactUsListSuccess(resData));
+    } catch (err) {
+        console.log(err);
+        dispatch(getAdminContactUsListFail(err));
     }
 };
 

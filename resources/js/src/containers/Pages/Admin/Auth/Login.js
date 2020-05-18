@@ -33,8 +33,9 @@ export class Login extends Component {
         this.props.onAuth(e.target);
     }
 
-    inputChangeHandler = (e, name) => {
-        this.setState({ [name]: e.target.value });
+    inputChangeHandler = e => {
+        const { name, value } = e.target;
+        this.setState({ [name]: value });
     }
 
     render() {
@@ -49,16 +50,16 @@ export class Login extends Component {
             {errors}
             {feedback}
             <Form onSubmit={this.submitHandler}>
-                <FormInput type="text" icon={faUser} onChange={(e) => this.inputChangeHandler(e, "email")} value={this.state.email} name="email" required placeholder="E-mail address" />
-                <FormInput type="password" icon={faLock} onChange={(e) => this.inputChangeHandler(e, "password")} value={this.state.password} name="password" required placeholder="Password" />
+                <FormInput type="text" icon={faUser} onChange={this.inputChangeHandler} value={this.state.email} name="email" required placeholder="E-mail address" />
+                <FormInput type="password" icon={faLock} onChange={this.inputChangeHandler} value={this.state.password} name="password" required placeholder="Password" />
 
                 <FormGroup className="ml-2 mt-4 mb-5 d-flex align-items-center text-light">
                     <div className='text-700 pr-4'>OTP Method</div>
                     <Label check>
-                        <CustomInput type="radio" id="sms" checked={this.state.otp} name="otp" value="sms" label="SMS" inline />
+                        <CustomInput type="radio" id="sms" name="otp" value="sms" label="SMS" inline />
                     </Label>
                     <Label check>
-                        <CustomInput type="radio" id="email" checked={this.state.otp} defaultChecked name="otp" value="email" label="Email" inline />
+                        <CustomInput type="radio" id="email" defaultChecked name="otp" value="email" label="Email" inline />
                     </Label>
                 </FormGroup>
 

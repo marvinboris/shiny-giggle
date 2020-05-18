@@ -23,7 +23,7 @@ class Add extends Component {
         title: '',
         subject: '',
         message: '',
-        file: '',
+        file: null,
     }
 
     componentDidMount() {
@@ -45,9 +45,9 @@ class Add extends Component {
         document.getElementById('file').click();
     }
 
-    inputChangeHandler = (e, name) => {
-        if (name === 'file') this.setState({ [name]: e.target.files[0] });
-        else this.setState({ [name]: e.target.value });
+    inputChangeHandler = e => {
+        const { value, files, name } = e.target;
+        this.setState({ [name]: files ? files[0] : value });
     }
 
     render() {
@@ -70,20 +70,20 @@ class Add extends Component {
                                 <Feedback message={message} />
                                 <Row>
                                     <Col md={6}>
-                                        <FormInput type="text" icon={faUser} onChange={(e) => this.inputChangeHandler(e, "title")} value={this.state.title} name="title" required placeholder="Title" />
+                                        <FormInput type="text" icon={faUser} onChange={this.inputChangeHandler} value={this.state.title} name="title" required placeholder="Title" />
                                     </Col>
 
                                     <Col md={6}>
-                                        <FormInput type="text" icon={faUser} onChange={(e) => this.inputChangeHandler(e, "subject")} value={this.state.subject} name="subject" required placeholder="Subject" />
+                                        <FormInput type="text" icon={faUser} onChange={this.inputChangeHandler} value={this.state.subject} name="subject" required placeholder="Subject" />
                                     </Col>
 
                                     <Col xs={12}>
-                                        <FormInput type="textarea" icon={faMoneyBillWave} onChange={(e) => this.inputChangeHandler(e, "message")} value={this.state.message} name="message" required placeholder="Type your message here" />
+                                        <FormInput type="textarea" icon={faMoneyBillWave} onChange={this.inputChangeHandler} value={this.state.message} name="message" required placeholder="Type your message here" />
                                     </Col>
 
                                     <Col lg={4}>
                                         <FormButton type="button" color="secondary" before onClick={this.fileButtonClickedHandler} icon={faPaperclip}>Attach a file</FormButton>
-                                        <input id="file" type="file" className="d-none" name="file" onChange={(e) => this.inputChangeHandler(e, "file")} value={this.state.file} />
+                                        <input id="file" type="file" className="d-none" name="file" />
                                     </Col>
 
                                     <Col lg={8} className="text-light d-flex align-items-center">

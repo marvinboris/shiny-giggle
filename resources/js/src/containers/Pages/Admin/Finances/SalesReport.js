@@ -63,6 +63,7 @@ class SalesReport extends Component {
                         ref: transaction.user.ref,
                         plan_name,
                         plan_code,
+                        amount: transaction.amount.toString(),
                         updated_at: convertDate(transaction.updated_at),
                         vendor: transaction.method.name,
                         status: transaction.status === 2 ?

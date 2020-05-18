@@ -97,7 +97,7 @@ class Calculate extends Component {
 
     submitHandler = e => {
         e.preventDefault();
-        const scrollTop = document.getElementById('simulation-container').offsetTop;
+        const scrollTop = document.getElementById('scroll-target').offsetTop;
         window.scroll(0, scrollTop);
         this.props.onPostUserCalculate(e.target);
     }
@@ -187,7 +187,7 @@ class Calculate extends Component {
 
         let formContent = null;
         if (selectedPlan) formContent = <Col xs={12} className="pb-3 pt-sm-3">
-            <Form onSubmit={this.submitHandler}>
+            <Form id="scroll-target" onSubmit={this.submitHandler}>
                 <Row className="align-items-center">
                     <FormInput type="select" className="col-xl-3" icon={faWallet} onChange={e => this.inputChangeHandler(e, "pack")} value={pack} name="pack" required>
                         <option>Select a package</option>
@@ -305,7 +305,7 @@ class Calculate extends Component {
                 </div>;
             } else subContent = <div className="text-x-large text-darkblue my-5 py-5 my-md-0 py-md-0 text-center text-700">Your result will show in this area</div>;
 
-            simulationContent = <Col id="simulation-container" xs={12}>
+            simulationContent = <Col xs={12}>
                 <div className="embed-responsive embed-responsive-16by9 bg-white rounded-4 d-none d-md-flex justify-content-center align-items-center">
                     {subContent}
                 </div>

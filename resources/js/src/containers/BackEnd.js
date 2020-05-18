@@ -56,10 +56,7 @@ class BackEnd extends Component {
 
     render() {
         const { isOpen, date, clock, selectedItem } = this.state;
-        const { auth: { loading, data: { notifications, first_name, last_name, name, role, photo, ref, sponsor, credits } }, onAuthLogout, children } = this.props;
-        const isAuthenticated = localStorage.getItem('token') !== null;
-
-        if (!isAuthenticated) onAuthLogout();
+        const { auth: { loading, data: { notifications, first_name, last_name, name, role, photo, ref, sponsor, credits } }, children } = this.props;
 
         return <div className="BackEnd text-left">
             <Toolbar notifications={notifications} name={name || first_name + ' ' + last_name} role={role} toggle={this.toggle} logoutHandler={this.logoutHandler} date={date} clock={clock} />

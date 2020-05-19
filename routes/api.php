@@ -243,7 +243,7 @@ Route::get('limo-payments-update', function () {
     }
 });
 
-Route::get('test', 'Admin\ContactUsController@index');
+Route::get('test', 'Admin\FinancesController@sales_report');
 
 Route::get('ip', function () {
     dd(request()->ip());

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { Col, Row, Badge } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faUsers, faUserTie, faTimesCircle, faCheckCircle, faPrint, faEdit, faTrash, faSpinner, faFileArchive } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faUsers, faUserTie, faTimesCircle, faCheckCircle, faPrint, faEdit, faTrash, faSpinner, faFileArchive, faReply } from '@fortawesome/free-solid-svg-icons';
 
 // Components
 import BackEnd from '../../../BackEnd';
@@ -17,6 +17,8 @@ import List from '../../../../components/Backend/UI/List/List';
 
 import * as actions from '../../../../store/actions';
 import { updateObject, convertDate } from '../../../../shared/utility';
+import Delete from '../../../../components/Backend/UI/Delete/Delete';
+import Download from '../../../../components/Backend/UI/Download/Download';
 
 class Index extends Component {
     componentDidMount() {
@@ -41,19 +43,22 @@ class Index extends Component {
                     const colors = ['yellow', 'success'];
                     const texts = ['Pending', 'Replied'];
                     const icons = [faSpinner, faCheckCircle];
-                    const message = contact.message.length > 43 ? contact.message.substr(0, 40) + '...' : contact.message;
-                    if (!contact.status) contact.status = 0;
+                    const message = contact.message.length > 13 ? contact.message.substr(0, 10) + '...' : contact.message;
+                    const fileName = contact.file ? contact.file.split('/')[contact.file.split('/').length - 1] : '';
                     return updateObject(contact, {
                         name: contact.user.first_name + ' ' + contact.user.last_name,
                         ref: contact.user.ref,
                         phone: contact.user.phone,
-                        documents: <Badge color="primary" className="badge-block position-static"><FontAwesomeIcon icon={faFileArchive} className="text-orange mr-2" fixedWidth /> {contact.file ? 1 : 0} Document</Badge>,
+                        documents: contact.file ?
+                            <Download link={contact.file} name={fileName}><Badge color="primary" className="badge-block position-static"><FontAwesomeIcon icon={faFileArchive} className="text-orange mr-2" fixedWidth /> 1 Document</Badge></Download>
+                            : <Badge color="primary" className="badge-block position-static"><FontAwesomeIcon icon={faFileArchive} className="text-orange mr-2" fixedWidth /> No Document</Badge>,
                         created_at: convertDate(contact.created_at),
                         message,
                         status: <Badge color={colors[contact.status]} className="badge-block position-static"><FontAwesomeIcon icon={icons[contact.status]} className={contact.status === 0 ? 'fa-spin' : ''} fixedWidth /><span className="ml-2">{texts[contact.status]}</span></Badge>,
                         action: <div className="text-center">
-                            <FontAwesomeIcon icon={faEye} className="text-lightblue mr-2" fixedWidth />
-                            <FontAwesomeIcon icon={faPrint} className="text-green mr-2" fixedWidth />
+                            <Link className="mr-2" to={'/admin/contact-us/' + contact.id}><FontAwesomeIcon icon={faEye} className="text-primary" fixedWidth /></Link>
+                            <Link className="mr-2" to={'/admin/contact-us/' + contact.id + '/edit'}><FontAwesomeIcon icon={faReply} className="text-green" fixedWidth /></Link>
+                            <Delete deleteAction={() => this.props.onPostAdminDeleteContactUs(contact.id)}><FontAwesomeIcon icon={faTrash} className="text-red" fixedWidth /></Delete>
                         </div>
                     });
                 });
@@ -100,6 +105,7 @@ const mapStateToProps = state => ({ ...state });
 
 const mapDispatchToProps = dispatch => ({
     onGetAdminContactUsList: () => dispatch(actions.getAdminContactUsList()),
+    onPostAdminDeleteContactUs: id => dispatch(actions.postAdminDeleteContactUs(id))
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Index));

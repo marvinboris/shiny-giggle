@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invest Calc</title>
+</head>
+
+<body>
+    <script>
+        CalculGain = (Pa, P, D) => {
+            const packs = [
+                { value: 100, percentage: 1.6 },
+                { value: 200, percentage: 1.7 },
+                { value: 400, percentage: 1.8 },
+                { value: 800, percentage: 1.9 },
+                { value: 1600, percentage: 2 },
+                { value: 3200, percentage: 2.05 },
+                { value: 6400, percentage: 2.1 },
+                { value: 12800, percentage: 2.15 },
+                { value: 25600, percentage: 2.2 },
+                { value: 51200, percentage: 2.24 },
+                { value: 100000, percentage: 2.25 },
+            ];
+
+            const initialPack = packs[Pa];
+
+            const totalPeriods = Math.floor(D / P);
+            const packPeriod = Math.floor(52 / P);
+            const floatingPackPeriod = (52 / P) - packPeriod;
+
+            let balance = 0;
+            const balances = [];
+            let totalInvestment = initialPack.value;
+            const ownedPacks = [];
+            const leftPacks = [];
+            const leftPacksPerWeek = [];
+
+            const Rpa = pack => pack.value * pack.percentage * P / 52;
+            const payout = pack => pack.value * pack.percentage / 52;
+            const round = nbr => (Math.abs(Math.round(nbr) - nbr) < 0.0001) ? Math.round(nbr) : nbr;
+
+            ownedPacks.push([initialPack]);
+            leftPacks.push([{ pack: initialPack, leftWeeks: 52 }]);
+
+            for (let currentPeriod = 0; currentPeriod <= totalPeriods; currentPeriod++) {
+                const leftPeriodPacks = [];
+                balances.push(balance);
+
+                for (let period = 0; period < ownedPacks.length; period++) {
+                    const ownedPeriodPacks = ownedPacks[period];
+
+                    if (currentPeriod - period < packPeriod) {
+                        for (let index = 0; index < ownedPeriodPacks.length; index++) {
+                            const ownedPack = ownedPeriodPacks[index];
+
+                            const leftWeeks = 52 - (currentPeriod - period + 1) * P;
+                            balance += Rpa(ownedPack);
+                            if (leftWeeks > 0) leftPeriodPacks.push({ pack: ownedPack, leftWeeks });
+                        }
+                    } else if (currentPeriod - period === packPeriod + 1 && floatingPackPeriod > 0) {
+                        for (let index = 0; index < ownedPeriodPacks.length; index++) {
+                            const ownedPack = ownedPeriodPacks[index];
+
+                            const leftWeeks = Math.round(floatingPackPeriod * P);
+                            balance += floatingPackPeriod * Rpa(ownedPack);
+                            if (leftWeeks > 0) leftPeriodPacks.push({ pack: ownedPack, leftWeeks });
+                        }
+                    }
+                }
+                balance = round(balance);
+
+                if (totalPeriods - currentPeriod > packPeriod) {
+                    const selectedPacks = [];
+                    while (balance >= 100) {
+                        const availablePacks = packs.filter(({ value }) => value <= balance);
+                        const selectedPack = availablePacks[availablePacks.length - 1];
+                        selectedPacks.push(selectedPack);
+                        totalInvestment += +selectedPack.value;
+                        balance -= selectedPack.value;
+                        leftPeriodPacks.push({ pack: selectedPack, leftWeeks: 52 });
+                    }
+                    ownedPacks.push(selectedPacks);
+                }
+                if (leftPeriodPacks.length > 0) leftPacks.push(leftPeriodPacks);
+            }
+
+            leftPacks.forEach((leftPeriodPacks, currentPeriod) => {
+                const balanceBeforePeriod = balances[currentPeriod];
+
+                const nextPeriod = currentPeriod + 1;
+                let invest = 0;
+                if (ownedPacks.hasOwnProperty(nextPeriod)) invest = ownedPacks[nextPeriod].reduce((acc, { value }) => acc + value, 0);
+
+                for (let index = 0; index < P; index++) {
+                    const finalInvest = index === P - 1 ? +invest : 0;
+                    const packs = leftPeriodPacks.map(({ pack, leftWeeks }) => ({ pack, leftWeeks: leftWeeks - index }));
+                    const payoutsAmount = leftPeriodPacks.reduce((acc, { pack }) => acc + (index + 1) * payout(pack), 0);
+                    const payouts = leftPeriodPacks.map(({ pack }) => payout(pack));
+                    const balance = round(balanceBeforePeriod + payoutsAmount) - finalInvest;
+
+                    leftPacksPerWeek.push({ week: currentPeriod * P + index + 1, packs, balance, payouts, invest: finalInvest });
+                }
+            });
+
+            return { balance, leftPacks, leftPacksPerWeek, ownedPacks, totalInvestment };
+        };
+
+        const { balance, leftPacks, leftPacksPerWeek, ownedPacks, totalInvestment } = CalculGain(10, 1, 208);
+        console.log({ balance, leftPacks, leftPacksPerWeek, ownedPacks, totalInvestment });
+
+        // const array = [];
+        // for (let period = 1; period <= 52; period++) {
+        //     const { balance, totalInvestment, leftPacks, ownedPacks } = CalculGain(5, period, 416);
+        //     array.push({ period, balance, totalInvestment, commissions: totalInvestment * .06, leftPacks, ownedPacks });
+        // }
+        // console.log(array.sort((a, b) => b.balance - a.balance));
+    </script>
+</body>
+
+</html>

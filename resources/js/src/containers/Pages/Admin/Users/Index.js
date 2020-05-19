@@ -6,14 +6,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEdit, faTrash, faUsers, faThList, faTimesCircle, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 
 // Components
-import BackEnd from '../../../BackEnd';
-
 import Breadcrumb from '../../../../components/Backend/UI/Breadcrumb/Breadcrumb';
 import SpecialTitle from '../../../../components/UI/Titles/SpecialTitle/SpecialTitle';
 import Subtitle from '../../../../components/UI/Titles/Subtitle/Subtitle';
 import Error from '../../../../components/Error/Error';
 import CustomSpinner from '../../../../components/UI/CustomSpinner/CustomSpinner';
 import List from '../../../../components/Backend/UI/List/List';
+import Delete from '../../../../components/Backend/UI/Delete/Delete';
 
 import * as actions from '../../../../store/actions';
 import { updateObject, convertDate } from '../../../../shared/utility';
@@ -72,7 +71,7 @@ class Index extends Component {
                         action: <div className="text-center">
                             <Link className="text-lightblue mr-2" to={"/admin/users/" + user.id}><FontAwesomeIcon icon={faEye} fixedWidth /></Link>
                             <Link className="text-green mr-2" to={"/admin/users/" + user.id + "/edit"}><FontAwesomeIcon icon={faEdit} fixedWidth /></Link>
-                            <a className="text-red" href="#" onClick={() => this.props.onPostAdminDeleteUser(user.id)}><FontAwesomeIcon icon={faTrash} fixedWidth /></a>
+                            <Delete deleteAction={() => this.props.onPostAdminDeleteUser(user.id)}><FontAwesomeIcon icon={faTrash} className="text-red" fixedWidth /></Delete>
                         </div>
                     });
                 });

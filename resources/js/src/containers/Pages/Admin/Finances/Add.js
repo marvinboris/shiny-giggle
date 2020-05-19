@@ -26,13 +26,13 @@ class Add extends Component {
     }
 
     componentDidMount() {
-        const { onResetAdminFinances } = this.props;
-        onResetAdminFinances();
+        const { onResetFinances } = this.props;
+        onResetFinances();
     }
 
     componentWillUnmount() {
-        const { onResetAdminFinances } = this.props;
-        onResetAdminFinances();
+        const { onResetFinances } = this.props;
+        onResetFinances();
     }
 
     submitHandler = async e => {
@@ -93,7 +93,7 @@ const mapStateToProps = state => ({ ...state });
 
 const mapDispatchToProps = dispatch => ({
     onPostAdminAddCredit: data => dispatch(actions.postAdminAddCredit(data)),
-    onResetAdminFinances: () => dispatch(actions.resetAdminFinances()),
+    onResetFinances: () => dispatch(actions.resetFinances()),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Add));

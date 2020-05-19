@@ -42,8 +42,8 @@ class Edit extends Component {
     }
 
     async componentDidMount() {
-        const { onResetAdminUsers, onGetAdminUser, match: { params: { id } }, backend: { users: { user } } } = this.props;
-        onResetAdminUsers();
+        const { onResetUsers, onGetAdminUser, match: { params: { id } } } = this.props;
+        onResetUsers();
         onGetAdminUser(id);
         const cors = 'https://cors-anywhere.herokuapp.com/';
 
@@ -59,8 +59,8 @@ class Edit extends Component {
     }
 
     componentWillUnmount() {
-        const { onResetAdminUsers } = this.props;
-        onResetAdminUsers();
+        const { onResetUsers } = this.props;
+        onResetUsers();
     }
 
     submitHandler = async e => {
@@ -155,7 +155,7 @@ const mapStateToProps = state => ({ ...state });
 const mapDispatchToProps = dispatch => ({
     onPostAdminEditUser: (id, data) => dispatch(actions.postAdminEditUser(id, data)),
     onGetAdminUser: id => dispatch(actions.getAdminUser(id)),
-    onResetAdminUsers: () => dispatch(actions.resetAdminUsers()),
+    onResetUsers: () => dispatch(actions.resetUsers()),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Edit));

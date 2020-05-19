@@ -29,39 +29,38 @@ export {
 } from './calculation';
 
 export {
+    resetNotifications,
     getNotifications,
     getNotification,
 
-    resetUserContactUs,
-    postUserContactUs,
+    resetContactUs,
+    resetDashboard,
 
-    resetUserDashboard,
+    getUserContactUsList,
+    postUserContactUs,
+    resetSimulation,
+
     getUserDashboard,
 
     resetUserPackages,
 
-    resetUserCalculate,
+    resetCalculate,
     getUserCalculatePlans,
     getUserCalculatePlan,
-    postUserCalculateStart,
     postUserCalculate,
-    resetSimulation,
-
-    resetUserNotifications,
 
 
 
-    resetAdminDashboard,
     getAdminDashboard,
 
-    resetAdminUsers,
+    resetUsers,
     getAdminUsers,
     getAdminUser,
     postAdminAddUser,
     postAdminEditUser,
     postAdminDeleteUser,
 
-    resetAdminFinances,
+    resetFinances,
     getAdminSalesReport,
     getAdminLimoPayments,
     getAdminLimoPayment,
@@ -69,10 +68,12 @@ export {
     getAdminCreditsList,
     postAdminAddCredit,
 
-    resetAdminContactUs,
     getAdminContactUsList,
+    getAdminContactUs,
+    postAdminEditContactUs,
+    postAdminDeleteContactUs,
 
-    resetAdminPlans,
+    resetPlans,
     getAdminPlans,
     getAdminPlanDetails,
     postAdminAddPlan,

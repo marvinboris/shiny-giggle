@@ -35,8 +35,8 @@ class Add extends Component {
     }
 
     async componentDidMount() {
-        const { onResetAdminUsers } = this.props;
-        onResetAdminUsers();
+        const { onResetUsers } = this.props;
+        onResetUsers();
         const cors = 'https://cors-anywhere.herokuapp.com/';
 
         const phoneRes = await fetch(cors + 'http://country.io/phone.json', { method: 'GET', mode: 'cors' });
@@ -51,8 +51,8 @@ class Add extends Component {
     }
 
     componentWillUnmount() {
-        const { onResetAdminUsers } = this.props;
-        onResetAdminUsers();
+        const { onResetUsers } = this.props;
+        onResetUsers();
     }
 
     submitHandler = async e => {
@@ -138,7 +138,7 @@ const mapStateToProps = state => ({ ...state });
 
 const mapDispatchToProps = dispatch => ({
     onPostAdminAddUser: data => dispatch(actions.postAdminAddUser(data)),
-    onResetAdminUsers: () => dispatch(actions.resetAdminUsers()),
+    onResetUsers: () => dispatch(actions.resetUsers()),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Add));

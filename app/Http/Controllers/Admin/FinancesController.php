@@ -22,18 +22,20 @@ class FinancesController extends Controller
     {
         $salesReport = [];
         foreach (Deposit::all() as $transaction) {
-            $object = array_merge($transaction->toArray(), [
-                'user' => $transaction->user,
-                'method' => $transaction->method,
-            ]);
-            if ($transaction->type === 'plan' && $transaction->status === 2) {
-                $plan_user = PlanUser::find($transaction->data->plan_user_id);
-                $object = array_merge($object, [
-                    'plan' => $plan_user->plan,
-                    'code' => $plan_user->code
+            if ($transaction->user) {
+                $object = array_merge($transaction->toArray(), [
+                    'user' => $transaction->user,
+                    'method' => $transaction->method,
                 ]);
+                if ($transaction->type === 'plan' && $transaction->status === 2) {
+                    $plan_user = PlanUser::find($transaction->data->plan_user_id);
+                    $object = array_merge($object, [
+                        'plan' => $plan_user->plan,
+                        'code' => $plan_user->code
+                    ]);
+                }
+                $salesReport[] = $object;
             }
-            $salesReport[] = $object;
         }
 
         return response()->json([

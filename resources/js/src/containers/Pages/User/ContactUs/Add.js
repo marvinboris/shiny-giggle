@@ -27,13 +27,13 @@ class Add extends Component {
     }
 
     componentDidMount() {
-        const { onResetUserContactUs } = this.props;
-        onResetUserContactUs();
+        const { onResetContactUs } = this.props;
+        onResetContactUs();
     }
 
     componentWillUnmount() {
-        const { onResetUserContactUs } = this.props;
-        onResetUserContactUs();
+        const { onResetContactUs } = this.props;
+        onResetContactUs();
     }
 
     submitHandler = async e => {
@@ -65,7 +65,7 @@ class Add extends Component {
             content = (
                 <>
                     <Row>
-                        <Form onSubmit={this.submitHandler} icon={faEnvelope} title="Contact Us" list="Contact Us List" link="/contact-us" innerClassName="row align-items-center" className="bg-darklight shadow-sm">
+                        <Form onSubmit={this.submitHandler} icon={faEnvelope} title="Contact Us" list="Contact Us List" link="/user/contact-us" innerClassName="row align-items-center" className="bg-darklight shadow-sm">
                             <Col xl={6} className="border-right border-border pr-lg-5">
                                 <Feedback message={message} />
                                 <Row>
@@ -129,7 +129,7 @@ const mapStateToProps = state => ({ ...state });
 
 const mapDispatchToProps = dispatch => ({
     onPostUserContactUs: data => dispatch(actions.postUserContactUs(data)),
-    onResetUserContactUs: () => dispatch(actions.resetUserContactUs()),
+    onResetContactUs: () => dispatch(actions.resetContactUs()),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Add));

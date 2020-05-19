@@ -2,13 +2,17 @@ import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../../shared/utility';
 
 const initialState = {
-    dashboard: {
-        loading: false,
-        error: null,
-    },
     notifications: {
         loading: false,
         error: null
+    },
+    contactUs: {
+        loading: false,
+        error: null
+    },
+    dashboard: {
+        loading: false,
+        error: null,
     },
 
     users: {
@@ -28,10 +32,6 @@ const initialState = {
         loading: false,
         error: null
     },
-    contactUs: {
-        loading: false,
-        error: null
-    },
     subscriptionPlan: {
         loading: false,
         error: null
@@ -42,201 +42,91 @@ const initialState = {
     },
 };
 
-const getNotificationsStart = (state, action) => updateObject(state, { notifications: updateObject(state.notifications, { loading: true }) });
-const getNotificationsSuccess = (state, action) => updateObject(state, { notifications: updateObject(state.notifications, { loading: false, error: null, ...action }) });
-const getNotificationsFail = (state, action) => updateObject(state, { notifications: updateObject(state.notifications, { loading: false, ...action }) });
-const getNotificationStart = (state, action) => updateObject(state, { notifications: updateObject(state.notifications, { loading: true }) });
-const getNotificationSuccess = (state, action) => updateObject(state, { notifications: updateObject(state.notifications, { loading: false, error: null, ...action }) });
-const getNotificationFail = (state, action) => updateObject(state, { notifications: updateObject(state.notifications, { loading: false, ...action }) });
 
-const resetUserContactUs = (state, action) => updateObject(state, { contactUs: initialState.contactUs });
-const postUserContactUsStart = (state, action) => updateObject(state, { contactUs: updateObject(state.contactUs, { loading: true }) });
-const postUserContactUsSuccess = (state, action) => updateObject(state, { contactUs: updateObject(state.contactUs, { loading: false, error: null, ...action }) });
-const postUserContactUsFail = (state, action) => updateObject(state, { contactUs: updateObject(state.contactUs, { loading: false, ...action }) });
 
-const resetUserDashboard = (state, action) => updateObject(state, { dashboard: initialState.dashboard });
-const getUserDashboardStart = (state, action) => updateObject(state, { dashboard: updateObject(state.dashboard, { loading: true }) });
-const getUserDashboardSuccess = (state, action) => updateObject(state, { dashboard: updateObject(state.dashboard, { loading: false, error: null, ...action }) });
-const getUserDashboardFail = (state, action) => updateObject(state, { dashboard: updateObject(state.dashboard, { loading: false, ...action }) });
+const resetNotifications = (state, action) => updateObject(state, { notifications: initialState.notifications });
+const notificationsStart = (state, action) => updateObject(state, { notifications: updateObject(state.notifications, { loading: true, message: null }) });
+const notificationsSuccess = (state, action) => updateObject(state, { notifications: updateObject(state.notifications, { loading: false, error: null, ...action }) });
+const notificationsFail = (state, action) => updateObject(state, { notifications: updateObject(state.notifications, { loading: false, ...action }) });
 
-const resetUserCalculate = (state, action) => updateObject(state, { calculate: initialState.calculate });
-const getUserCalculatePlansStart = (state, action) => updateObject(state, { calculate: updateObject(state.calculate, { loading: true }) });
-const getUserCalculatePlansSuccess = (state, action) => updateObject(state, { calculate: updateObject(state.calculate, { loading: false, error: null, ...action }) });
-const getUserCalculatePlansFail = (state, action) => updateObject(state, { calculate: updateObject(state.calculate, { loading: false, ...action }) });
-const getUserCalculatePlanStart = (state, action) => updateObject(state, { calculate: updateObject(state.calculate, { loading: true }) });
-const getUserCalculatePlanSuccess = (state, action) => updateObject(state, { calculate: updateObject(state.calculate, { loading: false, error: null, ...action }) });
-const getUserCalculatePlanFail = (state, action) => updateObject(state, { calculate: updateObject(state.calculate, { loading: false, ...action }) });
-const postUserCalculateStart = (state, action) => updateObject(state, { calculate: updateObject(state.calculate, { loading: true }) });
-const postUserCalculateSuccess = (state, action) => updateObject(state, { calculate: updateObject(state.calculate, { loading: false, error: null, ...action }) });
-const postUserCalculateFail = (state, action) => updateObject(state, { calculate: updateObject(state.calculate, { loading: false, ...action }) });
+const resetContactUs = (state, action) => updateObject(state, { contactUs: initialState.contactUs });
+const contactUsStart = (state, action) => updateObject(state, { contactUs: updateObject(state.contactUs, { loading: true, message: null }) });
+const contactUsSuccess = (state, action) => updateObject(state, { contactUs: updateObject(state.contactUs, { loading: false, error: null, ...action }) });
+const contactUsFail = (state, action) => updateObject(state, { contactUs: updateObject(state.contactUs, { loading: false, ...action }) });
+
+const resetDashboard = (state, action) => updateObject(state, { dashboard: initialState.dashboard });
+const dashboardStart = (state, action) => updateObject(state, { dashboard: updateObject(state.dashboard, { loading: true, message: null }) });
+const dashboardSuccess = (state, action) => updateObject(state, { dashboard: updateObject(state.dashboard, { loading: false, error: null, ...action }) });
+const dashboardFail = (state, action) => updateObject(state, { dashboard: updateObject(state.dashboard, { loading: false, ...action }) });
+
+
+
 const resetSimulation = (state, action) => updateObject(state, { calculate: updateObject(state.calculate, { simulation: null }) });
+const resetCalculate = (state, action) => updateObject(state, { calculate: initialState.calculate });
+const calculateStart = (state, action) => updateObject(state, { calculate: updateObject(state.calculate, { loading: true, message: null }) });
+const calculateSuccess = (state, action) => updateObject(state, { calculate: updateObject(state.calculate, { loading: false, error: null, ...action }) });
+const calculateFail = (state, action) => updateObject(state, { calculate: updateObject(state.calculate, { loading: false, ...action }) });
 
 
 
+const resetUsers = (state, action) => updateObject(state, { users: initialState.users });
+const usersStart = (state, action) => updateObject(state, { users: updateObject(state.users, { loading: true, message: null }) });
+const usersSuccess = (state, action) => updateObject(state, { users: updateObject(state.users, { loading: false, error: null, ...action }) });
+const usersFail = (state, action) => updateObject(state, { users: updateObject(state.users, { loading: false, ...action }) });
 
-const resetAdminDashboard = (state, action) => updateObject(state, { dashboard: initialState.dashboard });
-const getAdminDashboardStart = (state, action) => updateObject(state, { dashboard: updateObject(state.dashboard, { loading: true }) });
-const getAdminDashboardSuccess = (state, action) => updateObject(state, { dashboard: updateObject(state.dashboard, { loading: false, error: null, ...action }) });
-const getAdminDashboardFail = (state, action) => updateObject(state, { dashboard: updateObject(state.dashboard, { loading: false, ...action }) });
+const resetFinances = (state, action) => updateObject(state, { finances: initialState.finances });
+const financesStart = (state, action) => updateObject(state, { finances: updateObject(state.finances, { loading: true, message: null }) });
+const financesSuccess = (state, action) => updateObject(state, { finances: updateObject(state.finances, { loading: false, error: null, ...action }) });
+const financesFail = (state, action) => updateObject(state, { finances: updateObject(state.finances, { loading: false, ...action }) });
 
-const resetAdminUsers = (state, action) => updateObject(state, { users: initialState.users });
-const getAdminUsersStart = (state, action) => updateObject(state, { users: updateObject(state.users, { loading: true }) });
-const getAdminUsersSuccess = (state, action) => updateObject(state, { users: updateObject(state.users, { loading: false, error: null, ...action }) });
-const getAdminUsersFail = (state, action) => updateObject(state, { users: updateObject(state.users, { loading: false, ...action }) });
-const getAdminUserStart = (state, action) => updateObject(state, { users: updateObject(state.users, { loading: true }) });
-const getAdminUserSuccess = (state, action) => updateObject(state, { users: updateObject(state.users, { loading: false, error: null, ...action }) });
-const getAdminUserFail = (state, action) => updateObject(state, { users: updateObject(state.users, { loading: false, ...action }) });
-const postAdminAddUserStart = (state, action) => updateObject(state, { users: updateObject(state.users, { loading: true, message: null }) });
-const postAdminAddUserSuccess = (state, action) => updateObject(state, { users: updateObject(state.users, { loading: false, error: null, ...action }) });
-const postAdminAddUserFail = (state, action) => updateObject(state, { users: updateObject(state.users, { loading: false, ...action }) });
-const postAdminEditUserStart = (state, action) => updateObject(state, { users: updateObject(state.users, { loading: true, message: null }) });
-const postAdminEditUserSuccess = (state, action) => updateObject(state, { users: updateObject(state.users, { loading: false, error: null, ...action }) });
-const postAdminEditUserFail = (state, action) => updateObject(state, { users: updateObject(state.users, { loading: false, ...action }) });
-const postAdminDeleteUserStart = (state, action) => updateObject(state, { users: updateObject(state.users, { loading: true, message: null }) });
-const postAdminDeleteUserSuccess = (state, action) => updateObject(state, { users: updateObject(state.users, { loading: false, error: null, ...action }) });
-const postAdminDeleteUserFail = (state, action) => updateObject(state, { users: updateObject(state.users, { loading: false, ...action }) });
+const resetPlans = (state, action) => updateObject(state, { plans: initialState.plans });
+const plansStart = (state, action) => updateObject(state, { plans: updateObject(state.plans, { loading: true, message: null }) });
+const plansSuccess = (state, action) => updateObject(state, { plans: updateObject(state.plans, { loading: false, error: null, ...action }) });
+const plansFail = (state, action) => updateObject(state, { plans: updateObject(state.plans, { loading: false, ...action }) });
 
-const resetAdminFinances = (state, action) => updateObject(state, { finances: initialState.finances });
-const getAdminSalesReportStart = (state, action) => updateObject(state, { finances: updateObject(state.finances, { loading: true }) });
-const getAdminSalesReportSuccess = (state, action) => updateObject(state, { finances: updateObject(state.finances, { loading: false, error: null, ...action }) });
-const getAdminSalesReportFail = (state, action) => updateObject(state, { finances: updateObject(state.finances, { loading: false, ...action }) });
-const getAdminLimoPaymentsStart = (state, action) => updateObject(state, { finances: updateObject(state.finances, { loading: true }) });
-const getAdminLimoPaymentsSuccess = (state, action) => updateObject(state, { finances: updateObject(state.finances, { loading: false, error: null, ...action }) });
-const getAdminLimoPaymentsFail = (state, action) => updateObject(state, { finances: updateObject(state.finances, { loading: false, ...action }) });
-const getAdminLimoPaymentStart = (state, action) => updateObject(state, { finances: updateObject(state.finances, { loading: true }) });
-const getAdminLimoPaymentSuccess = (state, action) => updateObject(state, { finances: updateObject(state.finances, { loading: false, error: null, ...action }) });
-const getAdminLimoPaymentFail = (state, action) => updateObject(state, { finances: updateObject(state.finances, { loading: false, ...action }) });
-const postAdminLimoPaymentStart = (state, action) => updateObject(state, { finances: updateObject(state.finances, { loading: true }) });
-const postAdminLimoPaymentSuccess = (state, action) => updateObject(state, { finances: updateObject(state.finances, { loading: false, error: null, ...action }) });
-const postAdminLimoPaymentFail = (state, action) => updateObject(state, { finances: updateObject(state.finances, { loading: false, ...action }) });
-const getAdminCreditsListStart = (state, action) => updateObject(state, { finances: updateObject(state.finances, { loading: true }) });
-const getAdminCreditsListSuccess = (state, action) => updateObject(state, { finances: updateObject(state.finances, { loading: false, error: null, ...action }) });
-const getAdminCreditsListFail = (state, action) => updateObject(state, { finances: updateObject(state.finances, { loading: false, ...action }) });
-const postAdminAddCreditStart = (state, action) => updateObject(state, { finances: updateObject(state.finances, { loading: true, message: null }) });
-const postAdminAddCreditSuccess = (state, action) => updateObject(state, { finances: updateObject(state.finances, { loading: false, error: null, ...action }) });
-const postAdminAddCreditFail = (state, action) => updateObject(state, { finances: updateObject(state.finances, { loading: false, ...action }) });
 
-const resetAdminContactUs = (state, action) => updateObject(state, { contactUs: initialState.contactUs });
-const getAdminContactUsListStart = (state, action) => updateObject(state, { contactUs: updateObject(state.contactUs, { loading: true }) });
-const getAdminContactUsListSuccess = (state, action) => updateObject(state, { contactUs: updateObject(state.contactUs, { loading: false, error: null, ...action }) });
-const getAdminContactUsListFail = (state, action) => updateObject(state, { contactUs: updateObject(state.contactUs, { loading: false, ...action }) });
-
-const resetAdminPlans = (state, action) => updateObject(state, { plans: initialState.plans });
-const getAdminPlansStart = (state, action) => updateObject(state, { plans: updateObject(state.plans, { loading: true }) });
-const getAdminPlansSuccess = (state, action) => updateObject(state, { plans: updateObject(state.plans, { loading: false, error: null, ...action }) });
-const getAdminPlansFail = (state, action) => updateObject(state, { plans: updateObject(state.plans, { loading: false, ...action }) });
-const getAdminPlanDetailsStart = (state, action) => updateObject(state, { plans: updateObject(state.plans, { loading: true }) });
-const getAdminPlanDetailsSuccess = (state, action) => updateObject(state, { plans: updateObject(state.plans, { loading: false, error: null, ...action }) });
-const getAdminPlanDetailsFail = (state, action) => updateObject(state, { plans: updateObject(state.plans, { loading: false, ...action }) });
-const postAdminAddPlanStart = (state, action) => updateObject(state, { plans: updateObject(state.plans, { loading: true, message: null }) });
-const postAdminAddPlanSuccess = (state, action) => updateObject(state, { plans: updateObject(state.plans, { loading: false, error: null, ...action }) });
-const postAdminAddPlanFail = (state, action) => updateObject(state, { plans: updateObject(state.plans, { loading: false, ...action }) });
-const postAdminPlanDepositStart = (state, action) => updateObject(state, { plans: updateObject(state.plans, { loading: true, message: null }) });
-const postAdminPlanDepositSuccess = (state, action) => updateObject(state, { plans: updateObject(state.plans, { loading: false, error: null, ...action }) });
-const postAdminPlanDepositFail = (state, action) => updateObject(state, { plans: updateObject(state.plans, { loading: false, ...action }) });
-const postAdminCalculationsDepositStart = (state, action) => updateObject(state, { plans: updateObject(state.plans, { loading: true, message: null }) });
-const postAdminCalculationsDepositSuccess = (state, action) => updateObject(state, { plans: updateObject(state.plans, { loading: false, error: null, ...action }) });
-const postAdminCalculationsDepositFail = (state, action) => updateObject(state, { plans: updateObject(state.plans, { loading: false, ...action }) });
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.GET_NOTIFICATIONS_START: return getNotificationsStart(state, action);
-        case actionTypes.GET_NOTIFICATIONS_FAIL: return getNotificationsFail(state, action);
-        case actionTypes.GET_NOTIFICATIONS_SUCCESS: return getNotificationsSuccess(state, action);
-        case actionTypes.GET_NOTIFICATION_START: return getNotificationStart(state, action);
-        case actionTypes.GET_NOTIFICATION_FAIL: return getNotificationFail(state, action);
-        case actionTypes.GET_NOTIFICATION_SUCCESS: return getNotificationSuccess(state, action);
+        case actionTypes.RESET_NOTIFICATIONS: return resetNotifications(state, action);
+        case actionTypes.NOTIFICATIONS_START: return notificationsStart(state, action);
+        case actionTypes.NOTIFICATIONS_FAIL: return notificationsFail(state, action);
+        case actionTypes.NOTIFICATIONS_SUCCESS: return notificationsSuccess(state, action);
+
+        case actionTypes.RESET_CONTACT_US: return resetContactUs(state, action);
+        case actionTypes.CONTACT_US_START: return contactUsStart(state, action);
+        case actionTypes.CONTACT_US_FAIL: return contactUsFail(state, action);
+        case actionTypes.CONTACT_US_SUCCESS: return contactUsSuccess(state, action);
+
+        case actionTypes.RESET_DASHBOARD: return resetDashboard(state, action);
+        case actionTypes.DASHBOARD_START: return dashboardStart(state, action);
+        case actionTypes.DASHBOARD_FAIL: return dashboardFail(state, action);
+        case actionTypes.DASHBOARD_SUCCESS: return dashboardSuccess(state, action);
 
 
 
-        case actionTypes.RESET_USER_CONTACT_US: return resetUserContactUs(state, action);
-        case actionTypes.POST_USER_CONTACT_US_START: return postUserContactUsStart(state, action);
-        case actionTypes.POST_USER_CONTACT_US_FAIL: return postUserContactUsFail(state, action);
-        case actionTypes.POST_USER_CONTACT_US_SUCCESS: return postUserContactUsSuccess(state, action);
+        case actionTypes.RESET_SIMULATION: return resetSimulation(state, action);
+        case actionTypes.RESET_CALCULATE: return resetCalculate(state, action);
+        case actionTypes.CALCULATE_START: return calculateStart(state, action);
+        case actionTypes.CALCULATE_FAIL: return calculateFail(state, action);
+        case actionTypes.CALCULATE_SUCCESS: return calculateSuccess(state, action);
 
 
 
-        case actionTypes.RESET_USER_DASHBOARD: return resetUserDashboard(state, action);
-        case actionTypes.GET_USER_DASHBOARD_START: return getUserDashboardStart(state, action);
-        case actionTypes.GET_USER_DASHBOARD_FAIL: return getUserDashboardFail(state, action);
-        case actionTypes.GET_USER_DASHBOARD_SUCCESS: return getUserDashboardSuccess(state, action);
+        case actionTypes.RESET_USERS: return resetUsers(state, action);
+        case actionTypes.USERS_START: return usersStart(state, action);
+        case actionTypes.USERS_FAIL: return usersFail(state, action);
+        case actionTypes.USERS_SUCCESS: return usersSuccess(state, action);
 
-        case actionTypes.RESET_USER_CALCULATE: return resetUserCalculate(state, action);
-        case actionTypes.GET_USER_CALCULATE_PLANS_START: return getUserCalculatePlansStart(state, action);
-        case actionTypes.GET_USER_CALCULATE_PLANS_FAIL: return getUserCalculatePlansFail(state, action);
-        case actionTypes.GET_USER_CALCULATE_PLANS_SUCCESS: return getUserCalculatePlansSuccess(state, action);
-        case actionTypes.GET_USER_CALCULATE_PLAN_START: return getUserCalculatePlanStart(state, action);
-        case actionTypes.GET_USER_CALCULATE_PLAN_FAIL: return getUserCalculatePlanFail(state, action);
-        case actionTypes.GET_USER_CALCULATE_PLAN_SUCCESS: return getUserCalculatePlanSuccess(state, action);
-        case actionTypes.POST_USER_CALCULATE_START: return postUserCalculateStart(state, action);
-        case actionTypes.POST_USER_CALCULATE_FAIL: return postUserCalculateFail(state, action);
-        case actionTypes.POST_USER_CALCULATE_SUCCESS: return postUserCalculateSuccess(state, action);
+        case actionTypes.RESET_FINANCES: return resetFinances(state, action);
+        case actionTypes.FINANCES_START: return financesStart(state, action);
+        case actionTypes.FINANCES_FAIL: return financesFail(state, action);
+        case actionTypes.FINANCES_SUCCESS: return financesSuccess(state, action);
 
-
-
-        case actionTypes.RESET_ADMIN_DASHBOARD: return resetAdminDashboard(state, action);
-        case actionTypes.GET_ADMIN_DASHBOARD_START: return getAdminDashboardStart(state, action);
-        case actionTypes.GET_ADMIN_DASHBOARD_FAIL: return getAdminDashboardFail(state, action);
-        case actionTypes.GET_ADMIN_DASHBOARD_SUCCESS: return getAdminDashboardSuccess(state, action);
-
-        case actionTypes.RESET_ADMIN_USERS: return resetAdminUsers(state, action);
-        case actionTypes.GET_ADMIN_USERS_START: return getAdminUsersStart(state, action);
-        case actionTypes.GET_ADMIN_USERS_FAIL: return getAdminUsersFail(state, action);
-        case actionTypes.GET_ADMIN_USERS_SUCCESS: return getAdminUsersSuccess(state, action);
-        case actionTypes.GET_ADMIN_USER_START: return getAdminUserStart(state, action);
-        case actionTypes.GET_ADMIN_USER_FAIL: return getAdminUserFail(state, action);
-        case actionTypes.GET_ADMIN_USER_SUCCESS: return getAdminUserSuccess(state, action);
-        case actionTypes.POST_ADMIN_ADD_USER_START: return postAdminAddUserStart(state, action);
-        case actionTypes.POST_ADMIN_ADD_USER_FAIL: return postAdminAddUserFail(state, action);
-        case actionTypes.POST_ADMIN_ADD_USER_SUCCESS: return postAdminAddUserSuccess(state, action);
-        case actionTypes.POST_ADMIN_EDIT_USER_START: return postAdminEditUserStart(state, action);
-        case actionTypes.POST_ADMIN_EDIT_USER_FAIL: return postAdminEditUserFail(state, action);
-        case actionTypes.POST_ADMIN_EDIT_USER_SUCCESS: return postAdminEditUserSuccess(state, action);
-        case actionTypes.POST_ADMIN_DELETE_USER_START: return postAdminDeleteUserStart(state, action);
-        case actionTypes.POST_ADMIN_DELETE_USER_FAIL: return postAdminDeleteUserFail(state, action);
-        case actionTypes.POST_ADMIN_DELETE_USER_SUCCESS: return postAdminDeleteUserSuccess(state, action);
-
-        case actionTypes.RESET_ADMIN_FINANCES: return resetAdminFinances(state, action);
-        case actionTypes.GET_ADMIN_SALES_REPORT_START: return getAdminSalesReportStart(state, action);
-        case actionTypes.GET_ADMIN_SALES_REPORT_FAIL: return getAdminSalesReportFail(state, action);
-        case actionTypes.GET_ADMIN_SALES_REPORT_SUCCESS: return getAdminSalesReportSuccess(state, action);
-        case actionTypes.GET_ADMIN_LIMO_PAYMENTS_START: return getAdminLimoPaymentsStart(state, action);
-        case actionTypes.GET_ADMIN_LIMO_PAYMENTS_FAIL: return getAdminLimoPaymentsFail(state, action);
-        case actionTypes.GET_ADMIN_LIMO_PAYMENTS_SUCCESS: return getAdminLimoPaymentsSuccess(state, action);
-        case actionTypes.GET_ADMIN_LIMO_PAYMENT_START: return getAdminLimoPaymentStart(state, action);
-        case actionTypes.GET_ADMIN_LIMO_PAYMENT_FAIL: return getAdminLimoPaymentFail(state, action);
-        case actionTypes.GET_ADMIN_LIMO_PAYMENT_SUCCESS: return getAdminLimoPaymentSuccess(state, action);
-        case actionTypes.POST_ADMIN_LIMO_PAYMENT_START: return postAdminLimoPaymentStart(state, action);
-        case actionTypes.POST_ADMIN_LIMO_PAYMENT_FAIL: return postAdminLimoPaymentFail(state, action);
-        case actionTypes.POST_ADMIN_LIMO_PAYMENT_SUCCESS: return postAdminLimoPaymentSuccess(state, action);
-        case actionTypes.GET_ADMIN_CREDITS_LIST_START: return getAdminCreditsListStart(state, action);
-        case actionTypes.GET_ADMIN_CREDITS_LIST_FAIL: return getAdminCreditsListFail(state, action);
-        case actionTypes.GET_ADMIN_CREDITS_LIST_SUCCESS: return getAdminCreditsListSuccess(state, action);
-        case actionTypes.POST_ADMIN_ADD_CREDIT_START: return postAdminAddCreditStart(state, action);
-        case actionTypes.POST_ADMIN_ADD_CREDIT_FAIL: return postAdminAddCreditFail(state, action);
-        case actionTypes.POST_ADMIN_ADD_CREDIT_SUCCESS: return postAdminAddCreditSuccess(state, action);
-
-        case actionTypes.RESET_ADMIN_CONTACT_US: return resetAdminContactUs(state, action);
-        case actionTypes.GET_ADMIN_CONTACT_US_LIST_START: return getAdminContactUsListStart(state, action);
-        case actionTypes.GET_ADMIN_CONTACT_US_LIST_FAIL: return getAdminContactUsListFail(state, action);
-        case actionTypes.GET_ADMIN_CONTACT_US_LIST_SUCCESS: return getAdminContactUsListSuccess(state, action);
-
-        case actionTypes.RESET_ADMIN_PLANS: return resetAdminPlans(state, action);
-        case actionTypes.GET_ADMIN_PLANS_START: return getAdminPlansStart(state, action);
-        case actionTypes.GET_ADMIN_PLANS_FAIL: return getAdminPlansFail(state, action);
-        case actionTypes.GET_ADMIN_PLANS_SUCCESS: return getAdminPlansSuccess(state, action);
-        case actionTypes.GET_ADMIN_PLAN_DETAILS_START: return getAdminPlanDetailsStart(state, action);
-        case actionTypes.GET_ADMIN_PLAN_DETAILS_FAIL: return getAdminPlanDetailsFail(state, action);
-        case actionTypes.GET_ADMIN_PLAN_DETAILS_SUCCESS: return getAdminPlanDetailsSuccess(state, action);
-        case actionTypes.POST_ADMIN_ADD_PLAN_START: return postAdminAddPlanStart(state, action);
-        case actionTypes.POST_ADMIN_ADD_PLAN_FAIL: return postAdminAddPlanFail(state, action);
-        case actionTypes.POST_ADMIN_ADD_PLAN_SUCCESS: return postAdminAddPlanSuccess(state, action);
-        case actionTypes.POST_ADMIN_PLAN_DEPOSIT_START: return postAdminPlanDepositStart(state, action);
-        case actionTypes.POST_ADMIN_PLAN_DEPOSIT_FAIL: return postAdminPlanDepositFail(state, action);
-        case actionTypes.POST_ADMIN_PLAN_DEPOSIT_SUCCESS: return postAdminPlanDepositSuccess(state, action);
-        case actionTypes.POST_ADMIN_CALCULATIONS_DEPOSIT_START: return postAdminCalculationsDepositStart(state, action);
-        case actionTypes.POST_ADMIN_CALCULATIONS_DEPOSIT_FAIL: return postAdminCalculationsDepositFail(state, action);
-        case actionTypes.POST_ADMIN_CALCULATIONS_DEPOSIT_SUCCESS: return postAdminCalculationsDepositSuccess(state, action);
+        case actionTypes.RESET_PLANS: return resetPlans(state, action);
+        case actionTypes.PLANS_START: return plansStart(state, action);
+        case actionTypes.PLANS_FAIL: return plansFail(state, action);
+        case actionTypes.PLANS_SUCCESS: return plansSuccess(state, action);
 
         default: return state;
     }

@@ -25,8 +25,8 @@ class Index extends Component {
     }
 
     componentWillUnmount() {
-        const { onResetAdminPlans } = this.props;
-        onResetAdminPlans();
+        const { onResetPlans } = this.props;
+        onResetPlans();
     }
 
     render() {
@@ -92,7 +92,7 @@ const mapStateToProps = state => ({ ...state });
 
 const mapDispatchToProps = dispatch => ({
     onGetAdminPlans: () => dispatch(actions.getAdminPlans()),
-    onResetAdminPlans: () => dispatch(actions.resetAdminPlans()),
+    onResetPlans: () => dispatch(actions.resetPlans()),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Index));

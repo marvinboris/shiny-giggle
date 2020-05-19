@@ -89,7 +89,10 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
             });
         });
 
-        Route::prefix('contact-us')->name('contact-us.')->group(function() {
+        Route::prefix('contact-us')->name('contact-us.')->group(function () {
+            Route::post('{id}/delete', 'ContactUsController@delete')->name('delete');
+            Route::post('{id}', 'ContactUsController@update')->name('update');
+            Route::get('{id}', 'ContactUsController@show')->name('show');
             Route::get('', 'ContactUsController@index')->name('index');
         });
 
@@ -117,8 +120,9 @@ Route::namespace('User')->prefix('user')->name('user.')->group(function () {
             Route::post('', 'CalculateController@makeCalculation')->name('post');
         });
 
-        Route::prefix('contact-us')->name('contact-us.')->group(function() {
+        Route::prefix('contact-us')->name('contact-us.')->group(function () {
             Route::post('', 'ContactUsController@store')->name('store');
+            Route::get('', 'ContactUsController@index')->name('index');
         });
     });
 });
@@ -239,12 +243,8 @@ Route::get('limo-payments-update', function () {
     }
 });
 
-Route::get('test', 'User\CalculateController@userPlans');
+Route::get('test', 'Admin\ContactUsController@index');
 
 Route::get('ip', function () {
     dd(request()->ip());
-});
-
-Route::get('time', function () {
-    dd(request()->timezone());
 });

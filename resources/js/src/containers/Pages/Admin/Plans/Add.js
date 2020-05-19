@@ -28,13 +28,13 @@ class Add extends Component {
     }
 
     componentDidMount() {
-        const { onResetAdminPlans } = this.props;
-        onResetAdminPlans();
+        const { onResetPlans } = this.props;
+        onResetPlans();
     }
 
     componentWillUnmount() {
-        const { onResetAdminPlans } = this.props;
-        onResetAdminPlans();
+        const { onResetPlans } = this.props;
+        onResetPlans();
     }
 
     submitHandler = async e => {
@@ -103,7 +103,7 @@ const mapStateToProps = state => ({ ...state });
 
 const mapDispatchToProps = dispatch => ({
     onPostAdminAddPlan: data => dispatch(actions.postAdminAddPlan(data)),
-    onResetAdminPlans: () => dispatch(actions.resetAdminPlans()),
+    onResetPlans: () => dispatch(actions.resetPlans()),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Add));

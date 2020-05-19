@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\ContactUs;
 use App\Deposit;
 use App\Guest;
 use App\Http\Controllers\Controller;
@@ -29,6 +30,13 @@ class DashboardController extends Controller
         $notifications = count($user->unreadNotifications);
         $paidPoints = 0;
 
+        $contacts = [];
+        foreach (ContactUs::latest()->limit(5)->get() as $contact) {
+            $contacts[] = array_merge($contact->toArray(), [
+                'user' => $contact->user
+            ]);
+        }
+
         return response()->json([
             'blocksData' => [
                 'paidAmount' => $paidAmount,
@@ -36,7 +44,8 @@ class DashboardController extends Controller
                 'notifications' => $notifications,
                 'paidPoints' => $paidPoints,
             ],
-            'totalUsers' => $users->toArray()
+            'totalUsers' => $users->toArray(),
+            'contacts' => $contacts
         ]);
     }
 }

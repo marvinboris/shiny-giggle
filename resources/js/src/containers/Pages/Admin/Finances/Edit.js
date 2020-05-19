@@ -34,7 +34,7 @@ class Edit extends Component {
     }
 
     componentWillUnmount() {
-        this.props.onResetAdminFinances();
+        this.props.onResetFinances();
     }
 
     submitHandler = e => {
@@ -170,7 +170,7 @@ const mapStateToProps = state => ({ ...state });
 const mapDispatchToProps = dispatch => ({
     onGetAdminLimoPayment: id => dispatch(actions.getAdminLimoPayment(id)),
     onPostAdminLimoPayment: (id, data) => dispatch(actions.postAdminLimoPayment(id, data)),
-    onResetAdminFinances: () => dispatch(actions.resetAdminFinances()),
+    onResetFinances: () => dispatch(actions.resetFinances()),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Edit));

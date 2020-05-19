@@ -16,7 +16,7 @@ import Error from '../../../../components/Error/Error';
 import CustomSpinner from '../../../../components/UI/CustomSpinner/CustomSpinner';
 
 import * as actions from '../../../../store/actions';
-import { updateObject } from '../../../../shared/utility';
+import { updateObject, convertDate } from '../../../../shared/utility';
 
 // Images
 import FinanceTracker from '../../../../assets/images/Group 166@2x.png';
@@ -43,11 +43,11 @@ class Dashboard extends Component {
     }
 
     componentWillUnmount() {
-        this.props.onResetAdminDashboard();
+        this.props.onResetDashboard();
     }
 
     render() {
-        let { backend: { dashboard: { loading, error, blocksData, totalUsers } } } = this.props;
+        let { backend: { dashboard: { loading, error, blocksData, totalUsers, contacts } } } = this.props;
         const { countries } = this.state;
         let content = null;
         let errors = null;
@@ -154,13 +154,15 @@ class Dashboard extends Component {
                             {country ? country.name : null}
                         </div>,
                         action: <div className="text-center">
-                        <Link className="text-lightblue mr-2" to={"/admin/users/" + user.id}><FontAwesomeIcon icon={faEye} fixedWidth /></Link>
-                        <Link className="text-green mr-2" to={"/admin/users/" + user.id + "/edit"}><FontAwesomeIcon icon={faEdit} fixedWidth /></Link>
-                        <a className="text-red" href="#" onClick={() => this.props.onPostAdminDeleteUser(user.id)}><FontAwesomeIcon icon={faTrash} fixedWidth /></a>
+                            <Link className="text-lightblue mr-2" to={"/admin/users/" + user.id}><FontAwesomeIcon icon={faEye} fixedWidth /></Link>
+                            <Link className="text-green mr-2" to={"/admin/users/" + user.id + "/edit"}><FontAwesomeIcon icon={faEdit} fixedWidth /></Link>
+                            <a className="text-red" href="#" onClick={() => this.props.onPostAdminDeleteUser(user.id)}><FontAwesomeIcon icon={faTrash} fixedWidth /></a>
                         </div>
                     });
                 });
-                const messagesData = messages.map(message => updateObject(message, {
+                const contactsData = contacts.map(message => updateObject(message, {
+                    user_name: message.user.first_name + ' ' + message.user.last_name,
+                    created_at: convertDate(message.created_at),
                     action: <div className="text-center">
                         <Button size="sm" color="orange" className="mr-2">
                             <FontAwesomeIcon icon={faEye} className="mr-2" fixedWidth />
@@ -190,7 +192,7 @@ class Dashboard extends Component {
                                     { name: 'Country', key: 'country' },
                                     { name: 'Action', key: 'action' }
                                 ]}>
-                                <Link to="/admin/users" className="text-white">View full task list | ></Link>
+                                <Link to="/admin/users" className="text-white">View full user list | ></Link>
                             </Table>
 
                             <Col lg={6} className="pt-3 pt-sm-0">
@@ -213,15 +215,15 @@ class Dashboard extends Component {
                                 </div>
                             </Col>
 
-                            <Table array={messagesData} searchable draggable closable title="Recent Messages" dark icon={faEnvelope} bordered limit={5} lg={8} innerClassName="bg-darkblue" className="bg-darklight shadow-sm" outerClassName="pt-4"
+                            <Table array={contactsData} searchable draggable closable title="Recent Messages" dark icon={faEnvelope} bordered limit={5} lg={8} innerClassName="bg-darkblue" className="bg-darklight shadow-sm" outerClassName="pt-4"
                                 fields={[
-                                    { name: 'Received Date', key: 'received_date' },
-                                    { name: 'Sender Name', key: 'sender_name' },
-                                    { name: 'Object', key: 'object' },
-                                    { name: 'Content', key: 'content' },
+                                    { name: 'Received Date', key: 'created_at' },
+                                    { name: 'Sender Name', key: 'user_name' },
+                                    { name: 'Object', key: 'subject' },
+                                    { name: 'Content', key: 'message' },
                                     { name: 'Action', key: 'action' }
                                 ]}>
-                                <Link to="/admin/messages" className="text-white">View full list | ></Link>
+                                <Link to="/admin/contact-us" className="text-white">View full message list | ></Link>
                             </Table>
 
                             <Col lg={4} className="pt-4">
@@ -308,7 +310,7 @@ const mapStateToProps = state => ({ ...state });
 
 const mapDispatchToProps = dispatch => ({
     onGetAdminDashboard: () => dispatch(actions.getAdminDashboard()),
-    onResetAdminDashboard: () => dispatch(actions.resetAdminDashboard()),
+    onResetDashboard: () => dispatch(actions.resetDashboard()),
     onPostAdminDeleteUser: id => dispatch(actions.postAdminDeleteUser(id)),
 });
 

@@ -180,15 +180,17 @@ class CalculateController extends Controller
         }
 
         return response()->json([
-            'pack' => $pack,
-            'plan' => $plan,
-            'period' => $period,
-            'balance' => $balance,
-            'points' => $points - 1,
-            'duration' => $duration,
-            'leftPacks' => $leftPacks,
-            'leftPacksPerWeek' => $leftPacksPerWeek,
-            'ownedPacks' => $ownedPacks,
+            'simulation' => [
+                'pack' => $pack,
+                'plan' => $plan,
+                'period' => $period,
+                'balance' => $balance,
+                'points' => $points - 1,
+                'duration' => $duration,
+                'leftPacks' => $leftPacks,
+                'leftPacksPerWeek' => $leftPacksPerWeek,
+                'ownedPacks' => $ownedPacks,
+            ]
         ]);
     }
 }

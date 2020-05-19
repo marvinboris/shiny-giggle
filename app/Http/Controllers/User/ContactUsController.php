@@ -12,7 +12,7 @@ class ContactUsController extends Controller
     public function index()
     {
         return response()->json([
-            'messages' => request()->user()->contact_us
+            'contacts' => request()->user()->contact_us
         ]);
     }
 

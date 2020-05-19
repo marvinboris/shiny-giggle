@@ -58,9 +58,9 @@ class Calculate extends Component {
     }
 
     componentWillUnmount() {
-        const { setSelectedPlan, exit } = this.props;
+        const { setSelectedPlan, onResetSimulation } = this.props;
         setSelectedPlan(null);
-        exit();
+        onResetSimulation();
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -92,7 +92,6 @@ class Calculate extends Component {
                 break;
             default: break;
         }
-        this.props.onResetSimulation();
     }
 
     submitHandler = e => {
@@ -352,9 +351,7 @@ const mapDispatchToProps = dispatch => ({
     onGetUserCalculatePlans: () => dispatch(actions.getUserCalculatePlans()),
     onGetUserCalculatePlan: code => dispatch(actions.getUserCalculatePlan(code)),
     onPostUserCalculate: data => dispatch(actions.postUserCalculate(data)),
-    exit: () => dispatch(actions.postUserCalculateStart()),
     onResetSimulation: () => dispatch(actions.resetSimulation()),
-    logout: () => dispatch(actions.authLogout()),
     setSelectedPlan: code => dispatch(actions.setSelectedPlan(code)),
 });
 

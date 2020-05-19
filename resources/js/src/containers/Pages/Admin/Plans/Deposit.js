@@ -31,8 +31,8 @@ class Deposit extends Component {
     }
 
     componentWillUnmount() {
-        const { onResetAdminPlans } = this.props;
-        onResetAdminPlans();
+        const { onResetPlans } = this.props;
+        onResetPlans();
     }
 
     submitHandler = async e => {
@@ -100,7 +100,7 @@ const mapStateToProps = state => ({ ...state });
 const mapDispatchToProps = dispatch => ({
     onPostAdminPlanDeposit: data => dispatch(actions.postAdminPlanDeposit(data)),
     onGetAdminPlans: () => dispatch(actions.getAdminPlans()),
-    onResetAdminPlans: () => dispatch(actions.resetAdminPlans()),
+    onResetPlans: () => dispatch(actions.resetPlans()),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Deposit));

@@ -70,7 +70,8 @@ class PlansController extends Controller
             'code' => $code,
             'expiry_date' => Carbon::now()->addWeeks($plan->validity)
         ]);
-        $plan_user = PlanUser::whereCode($code)->first();
+        $plan_user_id = PlanUser::whereCode($code)->first()->toArray()['id'];
+        
         Deposit::create([
             'user_id' => $user->id,
             'method_id' => Method::whereSlug('admin')->first()->id,
@@ -78,7 +79,7 @@ class PlansController extends Controller
             'status' => 2,
             'fees' => 0,
             'type' => 'plan',
-            'data' => json_encode(['plan_user_id' => $plan_user->id])
+            'data' => json_encode(['plan_user_id' => $plan_user_id])
         ]);
 
         $user->notify(new NotificationsPlanUser($purchase));

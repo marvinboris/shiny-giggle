@@ -93,14 +93,14 @@ class FinancesController extends Controller
             $plan = Plan::wherePrice($limoPayment->amount)->first();
 
             $code = Plan::code();
-            $pivot = PlanUser::create([
+            PlanUser::create([
                 'user_id' => $user->id,
                 'plan_id' => $plan->id,
                 'points' => $plan->points,
                 'code' => $code,
                 'expiry_date' => Carbon::now()->addWeeks($plan->validity)
             ]);
-            $plan_user = PlanUser::whereCode($code)->first();
+            $plan_user_id = PlanUser::whereCode($code)->first()->toArray()['id'];
             Deposit::create([
                 'user_id' => $user->id,
                 'method_id' => Method::whereSlug('limo')->first()->id,
@@ -108,7 +108,7 @@ class FinancesController extends Controller
                 'status' => 2,
                 'fees' => 0,
                 'type' => 'plan',
-                'data' => json_encode(['plan_user_id' => $plan_user->id])
+                'data' => json_encode(['plan_user_id' => $plan_user_id])
             ]);
             $user->notify(new LimoPaymentStatus($limoPayment));
         }

@@ -318,7 +318,7 @@ export const postAdminAddUser = data => async dispatch => {
         const resData = await res.json();
         if (res.status === 422) throw new Error(Object.values(resData.errors).join('\n'));
 
-        dispatch(usersSuccess(resData.message));
+        dispatch(usersSuccess(resData));
     } catch (err) {
         console.log(err);
         dispatch(usersFail(err));
@@ -343,7 +343,7 @@ export const postAdminEditUser = (id, data) => async dispatch => {
         const resData = await res.json();
         if (res.status === 422) throw new Error(Object.values(resData.errors).join('\n'));
 
-        dispatch(usersSuccess(resData.message));
+        dispatch(usersSuccess(resData));
     } catch (err) {
         console.log(err);
         dispatch(usersFail(err));
@@ -456,7 +456,7 @@ export const postAdminLimoPayment = (id, data) => async dispatch => {
         const resData = await res.json();
         if (res.status === 422) throw new Error(Object.values(resData.errors).join('\n'));
 
-        dispatch(financesSuccess(resData.message));
+        dispatch(financesSuccess(resData));
     } catch (err) {
         console.log(err);
         dispatch(financesFail(err));
@@ -500,7 +500,7 @@ export const postAdminAddCredit = data => async dispatch => {
         const resData = await res.json();
         if (res.status === 422) throw new Error(Object.values(resData.errors).join('\n'));
 
-        dispatch(financesSuccess(resData.message));
+        dispatch(financesSuccess(resData));
     } catch (err) {
         console.log(err);
         dispatch(financesFail(err));
@@ -684,7 +684,7 @@ export const postAdminPlanDeposit = data => async dispatch => {
         const resData = await res.json();
         if (res.status === 422) throw new Error(Object.values(resData.errors).join('\n'));
 
-        dispatch(plansSuccess(resData.message));
+        dispatch(plansSuccess(resData));
     } catch (err) {
         console.log(err);
         dispatch(plansFail(err));
@@ -709,7 +709,7 @@ export const postAdminCalculationsDeposit = data => async dispatch => {
         const resData = await res.json();
         if (res.status === 422) throw new Error(Object.values(resData.errors).join('\n'));
 
-        dispatch(plansSuccess(resData.message));
+        dispatch(plansSuccess(resData));
     } catch (err) {
         console.log(err);
         dispatch(plansFail(err));

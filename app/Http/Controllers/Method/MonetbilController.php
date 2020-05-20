@@ -150,10 +150,11 @@ class MonetbilController extends Controller
                     'expiry_date' => Carbon::now()->addWeeks($plan->validity)
                 ]);
                 $pivot = PlanUser::whereCode($code)->first();
+                $plan_user_id = $pivot->toArray()['id'];
                 $transaction->data = json_encode(['code' => $pivot->code]);
                 $deposit->update([
                     'status' => 2,
-                    'data' => json_encode(['plan_user_id' => $pivot->id])
+                    'data' => json_encode(['plan_user_id' => $plan_user_id])
                 ]);
                 $user->notify(new NotificationsPlanUser($pivot));
             }

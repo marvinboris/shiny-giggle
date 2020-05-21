@@ -109,6 +109,8 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
 Route::namespace('User')->prefix('user')->name('user.')->group(function () {
     Route::post('login', 'AuthController@login')->name('login');
     Route::post('signup', 'AuthController@signup')->name('signup');
+    Route::post('forgot', 'AuthController@forgot')->name('forgot');
+    Route::post('reset/{id}/{code}', 'AuthController@reset')->name('reset');
 
     Route::middleware('auth:api')->group(function () {
         Route::get('dashboard', 'DashboardController@index')->name('dashboard');
@@ -243,7 +245,7 @@ Route::get('limo-payments-update', function () {
     }
 });
 
-Route::get('test', 'Admin\FinancesController@sales_report');
+Route::get('test', 'Admin\DashboardController@index');
 
 Route::get('ip', function () {
     dd(request()->ip());

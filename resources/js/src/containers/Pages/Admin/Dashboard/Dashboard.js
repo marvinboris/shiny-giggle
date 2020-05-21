@@ -5,6 +5,7 @@ import { Col, Row, Spinner, Label, Input, Button } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTachometerAlt, faWallet, faUserFriends, faEnvelope, faTicketAlt, faTasks, faArrowsAlt, faTimes, faMedal, faEye, faEdit, faTrash, faReply } from '@fortawesome/free-solid-svg-icons';
 import { faArrowAltCircleLeft, faArrowAltCircleRight } from '@fortawesome/free-regular-svg-icons';
+import OwlCarousel from 'react-owl-carousel2';
 
 // Components
 import Breadcrumb from '../../../../components/Backend/UI/Breadcrumb/Breadcrumb';
@@ -23,7 +24,9 @@ import FinanceTracker from '../../../../assets/images/Group 166@2x.png';
 
 class Dashboard extends Component {
     state = {
-        countries: []
+        countries: [],
+        period: 'today',
+        index: 0
     }
 
     async componentDidMount() {
@@ -42,48 +45,25 @@ class Dashboard extends Component {
         this.setState({ countries });
     }
 
+    inputChangedHandler = e => {
+        const { name, value } = e.target;
+        this.setState({ [name]: value });
+    }
+
+    carouselChanged = e => {
+        const { index } = e.item;
+        this.setState({ index });
+    }
+
     componentWillUnmount() {
         this.props.onResetDashboard();
     }
 
     render() {
-        let { backend: { dashboard: { loading, error, blocksData, totalUsers, contacts } } } = this.props;
+        let { backend: { dashboard: { loading, error, blocksData, totalUsers, contacts, packages, plans } } } = this.props;
         const { countries } = this.state;
         let content = null;
         let errors = null;
-
-        const messages = [
-            {
-                received_date: new Date().getDate(),
-                sender_name: 'John Mc Doe',
-                object: 'Kindly send report...',
-                content: 'Hello, you are invited...'
-            },
-            {
-                received_date: new Date().getDate(),
-                sender_name: 'Messila Marinera',
-                object: 'Validate our meeting...',
-                content: 'Checking operating...'
-            },
-            {
-                received_date: new Date().getDate(),
-                sender_name: 'John DOE',
-                object: 'Call Client John Olie...',
-                content: 'Good morning sir...'
-            },
-            {
-                received_date: new Date().getDate(),
-                sender_name: 'Mark Labilo',
-                object: 'Schedule a meeting...',
-                content: 'You are excepted to...'
-            },
-            {
-                received_date: new Date().getDate(),
-                sender_name: 'June de Jules',
-                object: 'Make payment of...',
-                content: 'Users are always...'
-            },
-        ];
 
         if (loading) content = <Col xs={12}>
             <CustomSpinner />
@@ -176,6 +156,8 @@ class Dashboard extends Component {
                     </div>
                 }));
 
+                const periodPackages = packages[this.state.period];
+
                 content = (
                     <>
                         <Row>
@@ -232,54 +214,53 @@ class Dashboard extends Component {
                                         <span className="d-inline-flex align-items-center"><FontAwesomeIcon size="lg" className="mr-2" fixedWidth icon={faTasks} />All Packages</span>
                                     </div>
                                     <Col xs={12} className="py-3 d-flex flex-column px-3 flex-fill pb-5">
-                                        <div className="d-flex justify-content-around mb-3">
+                                        <div className="d-flex justify-content-around">
                                             <Label check>
-                                                <Input type="radio" name="radio1" />{' '}
+                                                <Input type="radio" name="period" onChange={this.inputChangedHandler} value="today" defaultChecked />{' '}
                                                 Today
                                             </Label>
 
                                             <Label check>
-                                                <Input type="radio" name="radio1" />{' '}
+                                                <Input type="radio" name="period" onChange={this.inputChangedHandler} value="weekly" />{' '}
                                                 Weekly
                                             </Label>
 
                                             <Label check>
-                                                <Input type="radio" name="radio1" />{' '}
+                                                <Input type="radio" name="period" onChange={this.inputChangedHandler} value="monthly" />{' '}
                                                 Monthly
                                             </Label>
 
                                             <Label check>
-                                                <Input type="radio" name="radio1" />{' '}
+                                                <Input type="radio" name="period" onChange={this.inputChangedHandler} value="yearly" />{' '}
                                                 Yearly
                                             </Label>
                                         </div>
 
-                                        <div className="d-flex justify-content-center align-items-center flex-fill py-5 mb-5 py-lg-0 mb-lg-0 position-relative">
-                                            <FontAwesomeIcon icon={faArrowAltCircleLeft} size="2x" className="position-absolute text-light" style={{ top: '50%', transform: 'translateY(-50%)', left: 0 }} />
-                                            <FontAwesomeIcon icon={faArrowAltCircleRight} size="2x" className="position-absolute text-light" style={{ top: '50%', transform: 'translateY(-50%)', right: 0 }} />
+                                        <div className="d-flex justify-content-center align-items-center flex-fill py-5 mb-5 embed-responsive embed-responsive-16by9 py-lg-0 mb-lg-0 position-relative">
+                                            {/* <FontAwesomeIcon icon={faArrowAltCircleLeft} size="2x" className="position-absolute text-light" style={{ top: '50%', transform: 'translateY(-50%)', left: 0 }} />
+                                            <FontAwesomeIcon icon={faArrowAltCircleRight} size="2x" className="position-absolute text-light" style={{ top: '50%', transform: 'translateY(-50%)', right: 0 }} /> */}
 
-                                            <strong className="text-center text-x-large">
-                                                <div className="pb-2 mb-2 px-5 border-bottom border-border">
-                                                    <FontAwesomeIcon fixedWidth icon={faMedal} />
-
-                                                    Silver Plan
-                                                </div>
-
-                                                <div className="text-orange">
-                                                    $ 5 Limo
-                                                </div>
-                                            </strong>
+                                            <OwlCarousel ref="All Packages" options={{ responsive: { 0: { items: 1 } }, loop: false, dots: false }} events={{ onDragged: this.carouselChanged }}>
+                                                {plans.map(({ price, name }) => <div key={name + ' ' + price}>
+                                                    <Col xs={9} className="text-center text-700 mx-auto text-x-large">
+                                                        <div className="pb-2 mb-2 px-5 border-bottom border-border">
+                                                            <FontAwesomeIcon fixedWidth icon={faMedal} />{name}
+                                                        </div>
+                                                        <div className="text-orange">$ {price} Limo</div>
+                                                    </Col>
+                                                </div>)}
+                                            </OwlCarousel>
                                         </div>
                                     </Col>
                                     <div className="p-3 d-flex justify-content-between border-top border-border position-absolute w-100" style={{ bottom: 0 }}>
-                                        <div className="d-flex align-items-center">
+                                        <div>
                                             Purchased Times:
-                                            <strong className="text-x-large text-montserrat ml-2">120</strong>
+                                            <strong className="text-x-large text-montserrat ml-2">{periodPackages[plans[this.state.index].slug].length}</strong>
                                         </div>
 
-                                        <div className="d-flex align-items-center">
+                                        <div>
                                             Total Amount:
-                                            <strong className="text-x-large text-montserrat ml-2">$ 600</strong>
+                                            <strong className="text-x-large text-montserrat ml-2">$ {periodPackages[plans[this.state.index].slug].reduce((acc, { amount }) => acc + amount, 0)}</strong>
                                         </div>
                                     </div>
                                 </div>

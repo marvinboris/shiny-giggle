@@ -1,6 +1,8 @@
 export {
     authLogin,
     authSignup,
+    forgotPassword,
+    resetPassword,
     authGuest,
     authCode,
     authAdmin,

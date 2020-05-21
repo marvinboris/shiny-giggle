@@ -15,6 +15,7 @@ import CalculationPage from './containers/Pages/CalculationPage/CalculationPage'
 import Login from './containers/Pages/Auth/Login';
 import SignUp from './containers/Pages/Auth/SignUp';
 import SignUpSuccess from './containers/Pages/Auth/Success';
+import Reset from './containers/Pages/Auth/Reset';
 import Guest from './containers/Pages/Auth/Guest';
 import Code from './containers/Pages/Auth/Code';
 import Admin from './containers/Pages/Admin/Auth/Login';
@@ -90,6 +91,7 @@ class App extends Component {
         <Route path="/auth/code" component={Code} />
 
         <Route path="/auth/register/success" component={SignUpSuccess} />
+        <Route path="/auth/reset/:id/:code" component={Reset} />
         <Route path="/auth/register" component={SignUp} />
         <Route path="/auth/login" component={Login} />
 

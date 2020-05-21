@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Mail\ResetLink;
 use App\Mail\VerificationLink;
 use App\User;
 use Carbon\Carbon;
@@ -119,6 +120,51 @@ class AuthController extends Controller
                 'notifications' => $user->unreadNotifications()->orderBy('created_at', 'desc')->limit(5)->get(),
                 'plans' => $user->plans
             ])
+        ]);
+    }
+
+    public function forgot(Request $request)
+    {
+        $request->validate([
+            'email' => 'exists:users'
+        ]);
+
+        $user = User::whereEmail($request->email)->first();
+        $link = url('/auth/reset/' . $user->id) . '/' . Crypt::encryptString($user->toJson());
+        Mail::to($request->email)->send(new ResetLink($link));
+
+        return response()->json([
+            'message' => [
+                'type' => 'success',
+                'content' => 'Reset password link successfully sent.'
+            ]
+        ]);
+    }
+
+    public function reset(Request $request, $id, $code)
+    {
+        $request->validate([
+            'password' => 'required|confirmed'
+        ]);
+
+        $user = User::find($id);
+        if (Crypt::decryptString($code) === $user->toJson()) {
+            $user->password = Hash::make($request->password);
+            $user->save();
+
+            return response()->json([
+                'message' => [
+                    'type' => 'success',
+                    'content' => 'Your password has been successfully reset.'
+                ]
+            ]);
+        }
+
+        return response()->json([
+            'message' => [
+                'type' => 'danger',
+                'content' => 'Failure.'
+            ]
         ]);
     }
 }

@@ -87,6 +87,54 @@ export const authSignup = data => async dispatch => {
     }
 };
 
+export const forgotPassword = data => async dispatch => {
+    dispatch(authStart());
+
+    try {
+        const form = new FormData(data);
+
+        const res = await fetch(rootPath + '/api/user/forgot', {
+            method: 'POST',
+            mode: 'cors',
+            body: form,
+        });
+
+        const resData = await res.json();
+
+        if (res.status === 422) throw new Error(Object.values(resData.errors).join('\n'));
+        else if (res.status === 403 || res.status === 401) return dispatch(authMessage(resData.message));
+        else if (res.status !== 200 && res.status !== 201) throw new Error(resData);
+
+        dispatch(authMessage(resData.message));
+    } catch (err) {
+        dispatch(authFail(err));
+    }
+};
+
+export const resetPassword = (id, code, data) => async dispatch => {
+    dispatch(authStart());
+
+    try {
+        const form = new FormData(data);
+
+        const res = await fetch(rootPath + '/api/user/reset/' + id + '/' + code, {
+            method: 'POST',
+            mode: 'cors',
+            body: form,
+        });
+
+        const resData = await res.json();
+
+        if (res.status === 422) throw new Error(Object.values(resData.errors).join('\n'));
+        else if (res.status === 403 || res.status === 401) return dispatch(authMessage(resData.message));
+        else if (res.status !== 200 && res.status !== 201) throw new Error(resData);
+
+        dispatch(authMessage(resData.message));
+    } catch (err) {
+        dispatch(authFail(err));
+    }
+};
+
 export const authCode = data => async dispatch => {
     dispatch(authStart());
 

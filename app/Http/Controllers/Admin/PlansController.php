@@ -103,13 +103,15 @@ class PlansController extends Controller
         $user = User::whereRef($request->ref)->first();
         $plan = Plan::whereId($request->id)->first();
 
+        $code = Plan::code();
         $purchase = PlanUser::create([
             'plan_id' => $plan->id,
             'user_id' => $user->id,
             'points' => $request->points,
-            'code' => Plan::code(),
+            'code' => $code,
             'expiry_date' => Carbon::now()->addWeeks($plan->validity)
         ]);
+        $plan_user_id = PlanUser::whereCode($code)->first()->toArray()['id'];
         Deposit::create([
             'user_id' => $user->id,
             'method_id' => Method::whereSlug('admin')->first()->id,
@@ -117,7 +119,7 @@ class PlansController extends Controller
             'status' => 2,
             'fees' => 0,
             'type' => 'plan',
-            'data' => json_encode(['plan_user_id' => $purchase->id])
+            'data' => json_encode(['plan_user_id' => $plan_user_id])
         ]);
 
         $user->notify(new NotificationsPlanUser($purchase));

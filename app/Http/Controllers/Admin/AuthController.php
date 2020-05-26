@@ -66,7 +66,7 @@ class AuthController extends Controller
                         'from' => env('APP_NAME'),
                     ]);
 
-                    $budget->send('+' . $admin->phone, 'Your Verification Code is ' . $code);
+                    $budget->send('+' . $admin->phone, 'Your Admin Login Code is ' . $code);
                 } else if ($request->otp === 'email') Mail::to($admin->email)->send(new VerificationCode($code));
                 $hash = Crypt::encryptString(json_encode([
                     'id' => $admin->id,

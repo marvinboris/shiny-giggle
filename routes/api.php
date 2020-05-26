@@ -257,7 +257,9 @@ Route::get('limo-payments-update', function () {
     }
 });
 
-Route::get('test', 'Admin\ContactUsController@index');
+Route::get('user/test', 'User\ContactUsController@index');
+
+Route::get('admin/test', 'Admin\ContactUsController@index');
 
 Route::get('ip', function () {
     dd(request()->ip());

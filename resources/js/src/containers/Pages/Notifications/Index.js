@@ -85,13 +85,9 @@ class Notifications extends Component {
                     </ListGroupItem>;
                 });
 
-                content = (
-                    <>
-                        <ListGroup>
-                            {notificationsData}
-                        </ListGroup>
-                    </>
-                );
+                content = notifications ? <h1 className="text-center text-light">You have no notification.</h1> : <ListGroup>
+                    {notificationsData}
+                </ListGroup>;
             }
         }
 

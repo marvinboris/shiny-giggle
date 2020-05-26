@@ -1,13 +1,17 @@
 <?php
 
 use App\Admin;
+use App\ContactUs;
 use App\Deposit;
+use App\Events\MyEvent;
+use App\Events\MyNotifications;
 use App\Guest;
 use App\LimoPayment;
 use App\Method;
 use App\PlanUser;
 use App\Transaction;
 use App\User;
+use buibr\Budget\BudgetSMS;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Route;
@@ -130,6 +134,8 @@ Route::namespace('User')->prefix('user')->name('user.')->group(function () {
 });
 
 Route::middleware('auth:admin,api,outer')->group(function () {
+    Route::any('broadcast/auth', 'Api\BroadcastAuthController@auth');
+
     Route::get('logout', function () {
         request()->user()->token()->revoke();
         return response()->json([
@@ -156,7 +162,13 @@ Route::middleware('auth:admin,api,outer')->group(function () {
         $data = array_merge($user->toArray(), [
             'notifications' => $user->unreadNotifications()->latest()->limit(5)->get(),
         ]);
-        if ($role === 'user') $data = array_merge($data, ['plans' => $user->plans]);
+        if ($role === 'user') $data = array_merge($data, [
+            'plans' => $user->plans,
+            'messages' => $user->contact_us()->whereStatus(0)->latest()->limit(5)->get()
+        ]);
+        else if ($role === 'admin') $data = array_merge($data, [
+            'messages' => ContactUs::whereStatus(0)->latest()->limit(5)->get()
+        ]);
         return response()->json(['data' => $data, 'role' => $role]);
     });
 
@@ -249,4 +261,23 @@ Route::get('test', 'Admin\DashboardController@index');
 
 Route::get('ip', function () {
     dd(request()->ip());
+});
+
+Route::get('sms', function () {
+    $budget = new BudgetSMS([
+        'username' => env('BUDGET_USERNAME'),
+        'userid' => env('BUDGET_USER_ID'),
+        'handle' => env('BUDGET_HANDLE'),
+        'from' => env('APP_NAME'),
+    ]);
+
+    $send = $budget->send('+237655588688', 'Testing the provider');
+
+    dd($send);
+});
+
+Route::get('ws', function () {
+    event(new MyNotifications(Admin::first(), User::find(2)->notifications()->first(), User::find(2)->notifications()->get()->toArray()));
+    // event(new MyEvent('hello'));
+    return "Event has been sent";
 });

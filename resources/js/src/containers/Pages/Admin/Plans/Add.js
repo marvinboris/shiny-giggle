@@ -67,12 +67,12 @@ class Add extends Component {
                             <Col lg={8}>
                                 <Feedback message={message} />
                                 <Row>
-                                    <FormInput type="text" className="col-6" icon={faUser} onChange={this.inputChangeHandler} value={name} name="name" required placeholder="Name" />
-                                    <FormInput type="text" className="col-6" icon={faUser} onChange={this.inputChangeHandler} value={points} name="points" required placeholder="Points" />
-                                    <FormInput type="text" className="col-6" icon={faUser} onChange={this.inputChangeHandler} value={validity} name="validity" required placeholder="Validity (weeks)" />
-                                    <FormInput type="text" className="col-6" icon={faUser} onChange={this.inputChangeHandler} value={price} name="price" required placeholder="Price" />
+                                    <FormInput type="text" className="col-md-6" icon={faUser} onChange={this.inputChangeHandler} value={name} name="name" required placeholder="Name" />
+                                    <FormInput type="text" className="col-md-6" icon={faUser} onChange={this.inputChangeHandler} value={points} name="points" required placeholder="Points" />
+                                    <FormInput type="text" className="col-md-6" icon={faUser} onChange={this.inputChangeHandler} value={validity} name="validity" required placeholder="Validity (weeks)" />
+                                    <FormInput type="text" className="col-md-6" icon={faUser} onChange={this.inputChangeHandler} value={price} name="price" required placeholder="Price" />
 
-                                    <div className="col-6">
+                                    <div className="col-md-6">
                                         <FormButton color="green" icon={faPlusCircle}>Add Plan</FormButton>
                                     </div>
                                 </Row>

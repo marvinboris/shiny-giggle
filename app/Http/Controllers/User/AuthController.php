@@ -117,8 +117,9 @@ class AuthController extends Controller
                 $tokenResult->token->expires_at
             )->toDateTimeString(),
             'userData' => array_merge($user->toArray(), [
-                'notifications' => $user->unreadNotifications()->orderBy('created_at', 'desc')->limit(5)->get(),
-                'plans' => $user->plans
+                'notifications' => $user->unreadNotifications()->latest()->limit(5)->get(),
+                'plans' => $user->plans,
+                'messages' => $user->contact_us()->whereStatus(0)->latest()->limit(5)->get()
             ])
         ]);
     }

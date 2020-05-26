@@ -44,7 +44,7 @@ export default ({ cartItemsNumber, name, sidedrawerToggle, logoutHandler, role, 
     });
 
     const messageItems = messages.map(message => {
-        return <DropdownItem key={'message_' + message.id} className="text-dark border-top">
+        return <DropdownItem key={'message_' + message.id} className="text-dark text-truncate border-top">
             {message.content}
         </DropdownItem>
     });

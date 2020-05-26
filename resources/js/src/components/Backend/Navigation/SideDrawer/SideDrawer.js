@@ -13,7 +13,7 @@ const roles = {
     admin: 'Administrator'
 };
 
-export default ({ name, photo = "https://placehold.it/100x100", role = '', credits = 0, id, sponsor, toggle, isOpen, selectItem, selectedItem }) => {
+export default ({ name, messages = [], photo = "https://placehold.it/100x100", role = '', credits = 0, id, sponsor, toggle, isOpen, selectItem, selectedItem }) => {
     let addOns = null;
     let sideDrawerItems = null;
     switch (role) {
@@ -48,7 +48,7 @@ export default ({ name, photo = "https://placehold.it/100x100", role = '', credi
                     { link: '/user/finances/deposits/add', text: 'Deposit Credits' },
                     { link: '/user/finances/deposits/', text: 'Deposit List' },
                 ]}>Finances</SideDrawerItem> */}
-                <SideDrawerItem sideDrawerToggle={toggle} icon={faEnvelope} id="Contact us" select={selectItem} selected={selectedItem} href="/user/contact-us/add">Contact us<Badge color="green" className="position-relative rounded-circle text-x-small text-700 d-inline-flex justify-content-center align-items-center" style={{ width: 18, height: 18, top: -7, transform: 'translateX(-40px)' }}><b className="text-white">12</b></Badge></SideDrawerItem>
+                <SideDrawerItem sideDrawerToggle={toggle} icon={faEnvelope} id="Contact us" select={selectItem} selected={selectedItem} href="/user/contact-us/add">Contact us<Badge color="green" className="position-relative rounded-circle text-x-small text-700 d-inline-flex justify-content-center align-items-center" style={{ width: 18, height: 18, top: -7, transform: 'translateX(-40px)' }}><b className="text-white">{messages.length}</b></Badge></SideDrawerItem>
                 <SideDrawerItem sideDrawerToggle={toggle} icon={faCog} dropdown id="Options" select={selectItem} selected={selectedItem} path="/user/options" items={[
                     { link: '/user/options/terms-conditions', text: 'Terms & Conditions' },
                     { link: '/user/options/auto-reinvest', text: 'Auto Reinvest (Coming soon)' },
@@ -69,7 +69,7 @@ export default ({ name, photo = "https://placehold.it/100x100", role = '', credi
                     { link: '/admin/users/add', text: 'Add User' },
                     { link: '/admin/users', text: 'User List' },
                 ]}>Users</SideDrawerItem>
-                <SideDrawerItem sideDrawerToggle={toggle} icon={faEnvelope} id="Contact us" select={selectItem} selected={selectedItem} href="/admin/contact-us">Contact us<Badge color="green" className="position-relative rounded-circle text-x-small text-700 d-inline-flex justify-content-center align-items-center" style={{ width: 18, height: 18, top: -7, transform: 'translateX(-40px)' }}><b className="text-white">12</b></Badge></SideDrawerItem>
+                <SideDrawerItem sideDrawerToggle={toggle} icon={faEnvelope} id="Contact us" select={selectItem} selected={selectedItem} href="/admin/contact-us">Contact us<Badge color="green" className="position-relative rounded-circle text-x-small text-700 d-inline-flex justify-content-center align-items-center" style={{ width: 18, height: 18, top: -7, transform: 'translateX(-40px)' }}><b className="text-white">{messages.length}</b></Badge></SideDrawerItem>
                 <SideDrawerItem sideDrawerToggle={toggle} icon={faTasks} dropdown id="Subscription Plan" select={selectItem} selected={selectedItem} path="/admin/plans" items={[
                     { link: '/admin/plans/add', text: 'Add Plan' },
                     { link: '/admin/plans', text: 'Plan List' },

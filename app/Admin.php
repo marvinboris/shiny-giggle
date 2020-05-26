@@ -11,6 +11,11 @@ class Admin extends Authenticatable
     //
     use Notifiable, HasApiTokens;
 
+    public function receivesBroadcastNotificationsOn()
+    {
+        return 'user.' . $this->role() . '.' . $this->id;
+    }
+
     //
     protected $fillable = [
         'name', 'email', 'password', 'is_active', 'phone', 'lang'

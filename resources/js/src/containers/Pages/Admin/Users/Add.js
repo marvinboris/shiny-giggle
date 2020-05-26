@@ -88,11 +88,11 @@ class Add extends Component {
                             <Col lg={8}>
                                 <Feedback message={message} />
                                 <Row>
-                                    <FormInput type="text" className="col-6" icon={faUser} onChange={this.inputChangeHandler} value={first_name} name="first_name" required placeholder="First name" />
-                                    <FormInput type="text" className="col-6" icon={faUser} onChange={this.inputChangeHandler} value={last_name} name="last_name" required placeholder="Last name" />
-                                    <FormInput type="text" className="col-6" icon={faUser} onChange={this.inputChangeHandler} value={username} name="username" required placeholder="Username" />
-                                    <FormInput type="email" className="col-6" icon={faEnvelope} onChange={this.inputChangeHandler} value={email} name="email" required placeholder="Email" />
-                                    <FormInput type="select" className="col-6" addon={<span className="text-white text-small d-inline-flex">
+                                    <FormInput type="text" className="col-md-6" icon={faUser} onChange={this.inputChangeHandler} value={first_name} name="first_name" required placeholder="First name" />
+                                    <FormInput type="text" className="col-md-6" icon={faUser} onChange={this.inputChangeHandler} value={last_name} name="last_name" required placeholder="Last name" />
+                                    <FormInput type="text" className="col-md-6" icon={faUser} onChange={this.inputChangeHandler} value={username} name="username" required placeholder="Username" />
+                                    <FormInput type="email" className="col-md-6" icon={faEnvelope} onChange={this.inputChangeHandler} value={email} name="email" required placeholder="Email" />
+                                    <FormInput type="select" className="col-md-6" addon={<span className="text-white text-small d-inline-flex">
                                         <div className="border border-1 border-white rounded-circle overflow-hidden position-relative d-flex justify-content-center align-items-center mr-2" style={{ width: 20, height: 20 }}>
                                             <span className={`flag-icon text-large position-absolute flag-icon-${country.toLowerCase()}`} />
                                         </div>
@@ -103,11 +103,11 @@ class Add extends Component {
                                         {countriesOptions}
                                     </FormInput>
                                     <input type="hidden" value={code} name="code" />
-                                    <FormInput type="tel" className="col-6" addon={<span className="text-white text-small">+{code}</span>} onChange={this.inputChangeHandler} value={phone} name="phone" required placeholder="Phone" />
-                                    <FormInput type="password" className="col-6" icon={faLock} onChange={this.inputChangeHandler} value={password} name="password" required placeholder="Password" />
-                                    <FormInput type="password" className="col-6" icon={faLock} onChange={this.inputChangeHandler} value={password_confirmation} name="password_confirmation" required placeholder="Repeat Password" />
+                                    <FormInput type="tel" className="col-md-6" addon={<span className="text-white text-small">+{code}</span>} onChange={this.inputChangeHandler} value={phone} name="phone" required placeholder="Phone" />
+                                    <FormInput type="password" className="col-md-6" icon={faLock} onChange={this.inputChangeHandler} value={password} name="password" required placeholder="Password" />
+                                    <FormInput type="password" className="col-md-6" icon={faLock} onChange={this.inputChangeHandler} value={password_confirmation} name="password_confirmation" required placeholder="Repeat Password" />
 
-                                    <div className="col-6">
+                                    <div className="col-md-6">
                                         <FormButton color="green" icon={faPlusCircle}>Add User</FormButton>
                                     </div>
                                 </Row>

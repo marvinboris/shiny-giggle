@@ -32,8 +32,89 @@ class DashboardController extends Controller
         }
 
         $subscribers = count(User::get()) + count($guests);
-        $notifications = count($user->unreadNotifications);
+        $notifications = count(ContactUs::whereStatus(0)->get());
         $paidPoints = 0;
+
+        $financeTrackerData = [];
+        $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        $dayOfWeek = Carbon::today()->dayOfWeek;
+        if ($dayOfWeek > 0) {
+            for ($i = 1; $i <= $dayOfWeek; $i++) {
+                $subDays = $dayOfWeek - $i;
+                $silver = 0;
+                $gold = 0;
+                $diamond = 0;
+                foreach (PlanUser::whereDate('created_at', Carbon::today()->subDays($subDays))->get() as $plan_user) {
+                    if ($plan_user->user) {
+                        // $transaction = Deposit::whereData(json_encode(['plan_user_id' => $plan_user->id]))->first();
+                        switch ($plan_user->plan->slug) {
+                            case 'silver-plan':
+                                $silver++;
+                                // $silver += $transaction->amount;
+                                break;
+
+                            case 'gold-plan':
+                                $gold++;
+                                // $gold += $transaction->amount;
+                                break;
+
+                            case 'diamond-plan':
+                                $diamond++;
+                                // $diamond += $transaction->amount;
+                                break;
+                        }
+                    }
+                }
+                $financeTrackerData[] = [
+                    'name' => $days[$i],
+                    'silver' => $silver,
+                    'gold' => $gold,
+                    'diamond' => $diamond,
+                ];
+            }
+
+            for ($i = $dayOfWeek + 1; $i <= 7; $i++) {
+                $day = $i;
+                if ($i === 7) $day = 0;
+                $financeTrackerData[] = ['name' => $days[$day], 'silver' => 0, 'gold' => 0, 'diamond' => 0];
+            }
+        } else {
+            for ($i = 0; $i < 7; $i++) {
+                $subDays = 6 - $i;
+                $silver = 0;
+                $gold = 0;
+                $diamond = 0;
+                foreach (PlanUser::whereDate('created_at', Carbon::today()->subDays($subDays))->get() as $plan_user) {
+                    if ($plan_user->user) {
+                        // $transaction = Deposit::whereData(json_encode(['plan_user_id' => $plan_user->id]))->first();
+                        switch ($plan_user->plan->slug) {
+                            case 'silver-plan':
+                                $silver++;
+                                // $silver += $transaction->amount;
+                                break;
+
+                            case 'gold-plan':
+                                $gold++;
+                                // $gold += $transaction->amount;
+                                break;
+
+                            case 'diamond-plan':
+                                $diamond++;
+                                // $diamond += $transaction->amount;
+                                break;
+                        }
+                    }
+                }
+                $day = $i;
+                if ($subDays === 0) $day = 0;
+                $financeTrackerData[] = [
+                    'name' => $days[$day],
+                    'silver' => $silver,
+                    'gold' => $gold,
+                    'diamond' => $diamond,
+                ];
+            }
+        }
 
         $contacts = [];
         foreach (ContactUs::latest()->limit(5)->get() as $contact) {
@@ -91,6 +172,7 @@ class DashboardController extends Controller
                 'paidPoints' => $paidPoints,
             ],
             'totalUsers' => $users->toArray(),
+            'financeTrackerData' => $financeTrackerData,
             'contacts' => $contacts,
             'packages' => $packages,
             'plans' => $plans,

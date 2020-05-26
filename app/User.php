@@ -11,6 +11,11 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable, HasApiTokens;
 
+    public function receivesBroadcastNotificationsOn()
+    {
+        return 'user.' . $this->role() . '.' . $this->id;
+    }
+
     /**
      * The attributes that are mass assignable.
      *

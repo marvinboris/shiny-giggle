@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Admin;
+use App\ContactUs;
 use App\Http\Controllers\Controller;
 use App\Mail\VerificationCode;
 use App\User;
+use buibr\Budget\BudgetSMS;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\Request;
@@ -56,7 +58,16 @@ class AuthController extends Controller
         if ($admin) {
             if (Hash::check($input['password'], $admin->password)) {
                 $code = User::generateNewRef();
-                Mail::to($admin->email)->send(new VerificationCode($code));
+                if ($request->otp === 'sms') {
+                    $budget = new BudgetSMS([
+                        'username' => env('BUDGET_USERNAME'),
+                        'userid' => env('BUDGET_USER_ID'),
+                        'handle' => env('BUDGET_HANDLE'),
+                        'from' => env('APP_NAME'),
+                    ]);
+
+                    $budget->send('+' . $admin->phone, 'Your Verification Code is ' . $code);
+                } else if ($request->otp === 'email') Mail::to($admin->email)->send(new VerificationCode($code));
                 $hash = Crypt::encryptString(json_encode([
                     'id' => $admin->id,
                     'code' => $code,
@@ -81,6 +92,14 @@ class AuthController extends Controller
 
         $code = User::generateNewRef();
         Mail::to($admin->email)->send(new VerificationCode($code));
+        $budget = new BudgetSMS([
+            'username' => env('BUDGET_USERNAME'),
+            'userid' => env('BUDGET_USER_ID'),
+            'handle' => env('BUDGET_HANDLE'),
+            'from' => env('APP_NAME'),
+        ]);
+
+        $budget->send('+' . $admin->phone, 'Your Verification Code is ' . $code);
         $hash = Crypt::encryptString(json_encode([
             'id' => $admin->id,
             'code' => $code,
@@ -114,7 +133,8 @@ class AuthController extends Controller
                     $tokenResult->token->expires_at
                 )->toDateTimeString(),
                 'userData' => array_merge($admin->toArray(), [
-                    'notifications' => $admin->unreadNotifications()->orderBy('created_at', 'desc')->limit(5)->get(),
+                    'notifications' => $admin->unreadNotifications()->latest()->limit(5)->get(),
+                    'messages' => ContactUs::whereStatus(0)->latest()->limit(5)->get()
                 ])
             ]);
         }

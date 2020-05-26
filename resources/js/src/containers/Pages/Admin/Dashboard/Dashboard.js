@@ -15,12 +15,13 @@ import Card from '../../../../components/Backend/Dashboard/Card/Card';
 import Table from '../../../../components/Backend/UI/Table/Table';
 import Error from '../../../../components/Error/Error';
 import CustomSpinner from '../../../../components/UI/CustomSpinner/CustomSpinner';
+import FinanceTracker from './FinanceTracker/FinanceTracker';
 
 import * as actions from '../../../../store/actions';
 import { updateObject, convertDate } from '../../../../shared/utility';
 
 // Images
-import FinanceTracker from '../../../../assets/images/Group 166@2x.png';
+// import FinanceTracker from '../../../../assets/images/Group 166@2x.png';
 
 class Dashboard extends Component {
     state = {
@@ -60,7 +61,7 @@ class Dashboard extends Component {
     }
 
     render() {
-        let { backend: { dashboard: { loading, error, blocksData, totalUsers, contacts, packages, plans } } } = this.props;
+        let { backend: { dashboard: { loading, error, blocksData, totalUsers, contacts, packages, plans, financeTrackerData } } } = this.props;
         const { countries } = this.state;
         let content = null;
         let errors = null;
@@ -140,6 +141,31 @@ class Dashboard extends Component {
                         </div>
                     });
                 });
+
+                // const financeTrackerData = [
+                //     {
+                //         name: 'Monday', silver: 4000, gold: 2400, diamond: 2400,
+                //     },
+                //     {
+                //         name: 'Tuesday', silver: 3000, gold: 1398, diamond: 2210,
+                //     },
+                //     {
+                //         name: 'Wednesday', silver: 2000, gold: 9800, diamond: 2290,
+                //     },
+                //     {
+                //         name: 'Thursday', silver: 2780, gold: 3908, diamond: 2000,
+                //     },
+                //     {
+                //         name: 'Friday', silver: 1890, gold: 4800, diamond: 2181,
+                //     },
+                //     {
+                //         name: 'Saturday', silver: 2390, gold: 3800, diamond: 2500,
+                //     },
+                //     {
+                //         name: 'Sunday', silver: 3490, gold: 4300, diamond: 2100,
+                //     },
+                // ];
+
                 const contactsData = contacts.map(message => updateObject(message, {
                     user_name: message.user.first_name + ' ' + message.user.last_name,
                     created_at: convertDate(message.created_at),
@@ -149,10 +175,12 @@ class Dashboard extends Component {
                             View
                         </Button>
 
-                        <Button size="sm" color="lightblue">
-                            <FontAwesomeIcon icon={faReply} className="mr-2" fixedWidth />
-                            Reply
-                        </Button>
+                        <Link className="mr-2" to={'/admin/contact-us/' + message.id + '/edit'}>
+                            <Button size="sm" color="lightblue">
+                                <FontAwesomeIcon icon={faReply} className="mr-2" fixedWidth />
+                                Reply
+                            </Button>
+                        </Link>
                     </div>
                 }));
 
@@ -191,7 +219,7 @@ class Dashboard extends Component {
 
                                     <Row className="p-3 flex-fill">
                                         <Col xs={12} lg={11}>
-                                            <img src={FinanceTracker} alt="Finance Tracker" className="img-fluid" />
+                                            <FinanceTracker data={financeTrackerData} />
                                         </Col>
                                     </Row>
                                 </div>
@@ -242,7 +270,7 @@ class Dashboard extends Component {
 
                                             <OwlCarousel ref="All Packages" options={{ responsive: { 0: { items: 1 } }, loop: false, dots: false }} events={{ onDragged: this.carouselChanged }}>
                                                 {plans.map(({ price, name }) => <div key={name + ' ' + price}>
-                                                    <Col xs={9} className="text-center text-700 mx-auto text-x-large">
+                                                    <Col xs={10} sm={9} className="text-center text-700 mx-auto text-x-large">
                                                         <div className="pb-2 mb-2 px-5 border-bottom border-border">
                                                             <FontAwesomeIcon fixedWidth icon={faMedal} />{name}
                                                         </div>

@@ -50,8 +50,8 @@ class AuthController extends Controller
         $user->email_verified_at = time();
         $user->save();
         $user = User::find($user->id);
-        $link = url('/api/email/verify/' . $user->id) . '/' . Crypt::encryptString($user->toJson());
-        Mail::to($user->email)->send(new VerificationLink($link));
+        // $link = url('/api/email/verify/' . $user->id) . '/' . Crypt::encryptString($user->toJson());
+        // Mail::to($user->email)->send(new VerificationLink($link));
         return response()->json([
             'message' => 'Successfully created user!',
             'email' => $request->email

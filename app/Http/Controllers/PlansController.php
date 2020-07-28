@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Admin;
 use App\Http\Controllers\Method\MonetbilController;
+use App\Http\Controllers\Method\PayeerController;
 use App\LimoPayment;
 use App\Method;
 use App\Notifications\Admin as NotificationsAdmin;
@@ -52,6 +53,15 @@ class PlansController extends Controller
                         'plan_id' => $plan->id
                     ]);
                     $link = $monetbil['link'];
+                    break;
+                case 'Payeer':
+                    $payeer = PayeerController::generateWidgetData([
+                        'amount' => $plan->price,
+                        'type' => 'plan',
+                        'plan_id' => $plan->id,
+                        'plan_name' => $plan->name,
+                    ]);
+                    $link = $payeer['link'];
                     break;
                 case 'Limo':
                     $link = route('plans.payment.limo');

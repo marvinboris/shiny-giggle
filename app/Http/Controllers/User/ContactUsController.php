@@ -16,6 +16,13 @@ class ContactUsController extends Controller
         ]);
     }
 
+    public function show($id)
+    {
+        return response()->json([
+            'contact' => request()->user()->contact_us()->find($id)->toArray()
+        ]);
+    }
+
     public function store(Request $request)
     {
         $request->validate([

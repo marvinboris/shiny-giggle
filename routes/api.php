@@ -127,6 +127,7 @@ Route::namespace('User')->prefix('user')->name('user.')->group(function () {
         });
 
         Route::prefix('contact-us')->name('contact-us.')->group(function () {
+            Route::get('{id}', 'ContactUsController@show')->name('show');
             Route::post('', 'ContactUsController@store')->name('store');
             Route::get('', 'ContactUsController@index')->name('index');
         });

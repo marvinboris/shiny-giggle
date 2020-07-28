@@ -39,6 +39,7 @@ export {
     resetDashboard,
 
     getUserContactUsList,
+    getUserContactUs,
     postUserContactUs,
     resetSimulation,
 

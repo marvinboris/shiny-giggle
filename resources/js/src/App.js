@@ -25,6 +25,7 @@ import Verify from './containers/Pages/Admin/Auth/Verify';
 import Limo from './containers/Pages/Payment/Limo';
 import Btc from './containers/Pages/Payment/Btc';
 import Mobile from './containers/Pages/Payment/Mobile';
+import Payeer from './containers/Pages/Payment/Payeer';
 import PaymentSuccess from './containers/Pages/Payment/Success';
 
 // Backend pages
@@ -49,6 +50,7 @@ import AdminAddPlan from './containers/Pages/Admin/Plans/Add';
 import AdminPlanDeposit from './containers/Pages/Admin/Plans/Deposit';
 import AdminCalculationDeposit from './containers/Pages/Admin/Plans/Calculation';
 
+import UserContactUsShow from './containers/Pages/User/ContactUs/View';
 import UserContactUsAdd from './containers/Pages/User/ContactUs/Add';
 import UserContactUsList from './containers/Pages/User/ContactUs';
 import UserDashboard from './containers/Pages/User/Dashboard/Dashboard';
@@ -110,6 +112,7 @@ class App extends Component {
           <Route path="/user/subscription/plans" component={Plans} />
           <Route path="/user/calculate" component={Calculate} />
           <Route path="/user/contact-us/add" component={UserContactUsAdd} />
+          <Route path="/user/contact-us/:id" component={UserContactUsShow} />
           <Route path="/user/contact-us" component={UserContactUsList} />
 
 
@@ -137,6 +140,7 @@ class App extends Component {
 
 
 
+          <Route path="/plans/:slug/payment/payeer" component={Payeer} />
           <Route path="/plans/:slug/payment/mobile" component={Mobile} />
           <Route path="/plans/:slug/payment/btc" component={Btc} />
           <Route path="/plans/:slug/payment/limo" component={Limo} />

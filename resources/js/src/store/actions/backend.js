@@ -10,7 +10,7 @@ export const getNotifications = () => async dispatch => {
     dispatch(notificationsStart());
 
     try {
-        const res = await fetch(rootPath + '/api/notifications', {
+        const res = await fetch(`${rootPath}/api/notifications`, {
             method: 'GET',
             headers: {
                 Authorization: token
@@ -29,7 +29,7 @@ export const getNotification = id => async dispatch => {
     dispatch(notificationsStart());
 
     try {
-        const res = await fetch(rootPath + '/api/notifications/' + id, {
+        const res = await fetch(`${rootPath}/api/notifications/${id}`, {
             method: 'GET',
             headers: {
                 Authorization: token
@@ -56,7 +56,26 @@ export const getUserContactUsList = () => async dispatch => {
     dispatch(contactUsStart());
 
     try {
-        const res = await fetch(rootPath + '/api/user/contact-us', {
+        const res = await fetch(`${rootPath}/api/user/contact-us`, {
+            method: 'GET',
+            headers: {
+                Authorization: token
+            }
+        });
+        const resData = await res.json();
+        dispatch(contactUsSuccess(resData));
+    } catch (err) {
+        console.log(err);
+        dispatch(contactUsFail(err));
+    }
+};
+
+export const getUserContactUs = id => async dispatch => {
+    const token = localStorage.getItem('token');
+    dispatch(contactUsStart());
+
+    try {
+        const res = await fetch(`${rootPath}/api/user/contact-us/${id}`, {
             method: 'GET',
             headers: {
                 Authorization: token
@@ -77,7 +96,7 @@ export const postUserContactUs = data => async dispatch => {
     try {
         const form = new FormData(data);
 
-        const res = await fetch(rootPath + '/api/user/contact-us', {
+        const res = await fetch(`${rootPath}/api/user/contact-us`, {
             method: 'POST',
             mode: 'cors',
             body: form,
@@ -105,7 +124,7 @@ export const getUserDashboard = () => async dispatch => {
     dispatch(dashboardStart());
 
     try {
-        const res = await fetch(rootPath + '/api/user/dashboard', {
+        const res = await fetch(`${rootPath}/api/user/dashboard`, {
             method: 'GET',
             headers: {
                 Authorization: token
@@ -130,7 +149,7 @@ export const getUserPackages = () => async dispatch => {
     dispatch(getUserPackagesStart());
 
     try {
-        const res = await fetch(rootPath + '/api/user/packages', {
+        const res = await fetch(`${rootPath}/api/user/packages`, {
             method: 'GET',
             headers: {
                 Authorization: token
@@ -156,7 +175,7 @@ export const getUserCalculatePlans = () => async dispatch => {
     dispatch(calculateStart());
 
     try {
-        const res = await fetch(rootPath + '/api/user/calculate/plans', {
+        const res = await fetch(`${rootPath}/api/user/calculate/plans`, {
             method: 'GET',
             headers: {
                 Authorization: token
@@ -175,7 +194,7 @@ export const getUserCalculatePlan = code => async dispatch => {
     dispatch(calculateStart());
 
     try {
-        const res = await fetch(rootPath + '/api/user/calculate/' + code, {
+        const res = await fetch(`${rootPath}/api/user/calculate/${code}`, {
             method: 'GET',
             headers: {
                 Authorization: token
@@ -196,7 +215,7 @@ export const postUserCalculate = data => async dispatch => {
     try {
         const form = new FormData(data);
 
-        const res = await fetch(rootPath + '/api/user/calculate', {
+        const res = await fetch(`${rootPath}/api/user/calculate`, {
             method: 'POST',
             mode: 'cors',
             body: form,
@@ -220,7 +239,7 @@ export const getUserPaidAmount = () => async dispatch => {
     dispatch(getUserPaidAmountStart());
 
     try {
-        const res = await fetch(rootPath + '/api/user/paid-amount', {
+        const res = await fetch(`${rootPath}/api/user/paid-amount`, {
             method: 'GET',
             headers: {
                 Authorization: token
@@ -242,7 +261,7 @@ export const getAdminDashboard = () => async dispatch => {
     dispatch(dashboardStart());
 
     try {
-        const res = await fetch(rootPath + '/api/admin/dashboard', {
+        const res = await fetch(`${rootPath}/api/admin/dashboard`, {
             method: 'GET',
             headers: {
                 Authorization: token
@@ -267,7 +286,7 @@ export const getAdminUsers = () => async dispatch => {
     dispatch(usersStart());
 
     try {
-        const res = await fetch(rootPath + '/api/admin/users', {
+        const res = await fetch(`${rootPath}/api/admin/users`, {
             method: 'GET',
             headers: {
                 Authorization: token
@@ -286,7 +305,7 @@ export const getAdminUser = id => async dispatch => {
     dispatch(usersStart());
 
     try {
-        const res = await fetch(rootPath + '/api/admin/users/' + id, {
+        const res = await fetch(`${rootPath}/api/admin/users/${id}`, {
             method: 'GET',
             headers: {
                 Authorization: token
@@ -306,7 +325,7 @@ export const postAdminAddUser = data => async dispatch => {
 
     try {
         const formData = new FormData(data);
-        const res = await fetch(rootPath + '/api/admin/users', {
+        const res = await fetch(`${rootPath}/api/admin/users`, {
             method: 'POST',
             mode: 'cors',
             body: formData,
@@ -331,7 +350,7 @@ export const postAdminEditUser = (id, data) => async dispatch => {
 
     try {
         const formData = new FormData(data);
-        const res = await fetch(rootPath + '/api/admin/users/' + id, {
+        const res = await fetch(`${rootPath}/api/admin/users/${id}`, {
             method: 'POST',
             mode: 'cors',
             body: formData,
@@ -356,7 +375,7 @@ export const postAdminDeleteUser = (id, data) => async dispatch => {
 
     try {
         const formData = new FormData(data);
-        const res = await fetch(rootPath + '/api/admin/users/' + id + '/delete', {
+        const res = await fetch(`${rootPath}/api/admin/users/${id}/delete`, {
             method: 'POST',
             mode: 'cors',
             body: formData,
@@ -386,7 +405,7 @@ export const getAdminSalesReport = () => async dispatch => {
     dispatch(financesStart());
 
     try {
-        const res = await fetch(rootPath + '/api/admin/finances/sales-report', {
+        const res = await fetch(`${rootPath}/api/admin/finances/sales-report`, {
             method: 'GET',
             headers: {
                 Authorization: token
@@ -405,7 +424,7 @@ export const getAdminLimoPayments = () => async dispatch => {
     dispatch(financesStart());
 
     try {
-        const res = await fetch(rootPath + '/api/admin/finances/limo-payments', {
+        const res = await fetch(`${rootPath}/api/admin/finances/limo-payments`, {
             method: 'GET',
             headers: {
                 Authorization: token
@@ -424,7 +443,7 @@ export const getAdminLimoPayment = id => async dispatch => {
     dispatch(financesStart());
 
     try {
-        const res = await fetch(rootPath + '/api/admin/finances/limo-payments/' + id, {
+        const res = await fetch(`${rootPath}/api/admin/finances/limo-payments/${id}`, {
             method: 'GET',
             headers: {
                 Authorization: token
@@ -444,7 +463,7 @@ export const postAdminLimoPayment = (id, data) => async dispatch => {
 
     try {
         const formData = new FormData(data);
-        const res = await fetch(rootPath + '/api/admin/finances/limo-payments/' + id, {
+        const res = await fetch(`${rootPath}/api/admin/finances/limo-payments/${id}`, {
             method: 'POST',
             mode: 'cors',
             body: formData,
@@ -468,7 +487,7 @@ export const getAdminCreditsList = () => async dispatch => {
     dispatch(financesStart());
 
     try {
-        const res = await fetch(rootPath + '/api/admin/finances/credits', {
+        const res = await fetch(`${rootPath}/api/admin/finances/credits`, {
             method: 'GET',
             headers: {
                 Authorization: token
@@ -488,7 +507,7 @@ export const postAdminAddCredit = data => async dispatch => {
 
     try {
         const formData = new FormData(data);
-        const res = await fetch(rootPath + '/api/admin/finances/credits', {
+        const res = await fetch(`${rootPath}/api/admin/finances/credits`, {
             method: 'POST',
             mode: 'cors',
             body: formData,
@@ -514,7 +533,7 @@ export const getAdminContactUsList = () => async dispatch => {
     dispatch(contactUsStart());
 
     try {
-        const res = await fetch(rootPath + '/api/admin/contact-us', {
+        const res = await fetch(`${rootPath}/api/admin/contact-us`, {
             method: 'GET',
             headers: {
                 Authorization: token
@@ -533,7 +552,7 @@ export const getAdminContactUs = id => async dispatch => {
     dispatch(contactUsStart());
 
     try {
-        const res = await fetch(rootPath + '/api/admin/contact-us/' + id, {
+        const res = await fetch(`${rootPath}/api/admin/contact-us/${id}`, {
             method: 'GET',
             headers: {
                 Authorization: token
@@ -553,7 +572,7 @@ export const postAdminEditContactUs = (id, data) => async dispatch => {
 
     try {
         const formData = new FormData(data);
-        const res = await fetch(rootPath + '/api/admin/contact-us/' + id, {
+        const res = await fetch(`${rootPath}/api/admin/contact-us/${id}`, {
             method: 'POST',
             mode: 'cors',
             body: formData,
@@ -578,7 +597,7 @@ export const postAdminDeleteContactUs = (id, data) => async dispatch => {
 
     try {
         const formData = new FormData(data);
-        const res = await fetch(rootPath + '/api/admin/contact-us/' + id + '/delete', {
+        const res = await fetch(`${rootPath}/api/admin/contact-us/${id}/delete`, {
             method: 'POST',
             mode: 'cors',
             body: formData,
@@ -608,7 +627,7 @@ export const getAdminPlans = () => async dispatch => {
     dispatch(plansStart());
 
     try {
-        const res = await fetch(rootPath + '/api/admin/plans', {
+        const res = await fetch(`${rootPath}/api/admin/plans`, {
             method: 'GET',
             headers: {
                 Authorization: token
@@ -627,7 +646,7 @@ export const getAdminPlanDetails = () => async dispatch => {
     dispatch(plansStart());
 
     try {
-        const res = await fetch(rootPath + '/api/admin/plans/details', {
+        const res = await fetch(`${rootPath}/api/admin/plans/details`, {
             method: 'GET',
             headers: {
                 Authorization: token
@@ -647,7 +666,7 @@ export const postAdminAddPlan = data => async dispatch => {
 
     try {
         const formData = new FormData(data);
-        const res = await fetch(rootPath + '/api/admin/plans', {
+        const res = await fetch(`${rootPath}/api/admin/plans`, {
             method: 'POST',
             mode: 'cors',
             body: formData,
@@ -672,7 +691,7 @@ export const postAdminPlanDeposit = data => async dispatch => {
 
     try {
         const formData = new FormData(data);
-        const res = await fetch(rootPath + '/api/admin/plans/deposit', {
+        const res = await fetch(`${rootPath}/api/admin/plans/deposit`, {
             method: 'POST',
             mode: 'cors',
             body: formData,
@@ -697,7 +716,7 @@ export const postAdminCalculationsDeposit = data => async dispatch => {
 
     try {
         const formData = new FormData(data);
-        const res = await fetch(rootPath + '/api/admin/plans/calculations', {
+        const res = await fetch(`${rootPath}/api/admin/plans/calculations`, {
             method: 'POST',
             mode: 'cors',
             body: formData,

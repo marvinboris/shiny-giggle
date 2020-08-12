@@ -76,7 +76,7 @@ class PayeerController extends Controller
             $payload['link'] = $response->url;
         } else {
             $payload['status'] = 'failure';
-            $payload['link'] = 'Error during the process, please retry.';
+            $payload['link'] = implode(". ", $response->errors);
         }
 
         return $payload;

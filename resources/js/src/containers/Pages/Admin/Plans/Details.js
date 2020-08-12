@@ -66,7 +66,7 @@ class Index extends Component {
                                     { name: 'User ID', key: 'ref' },
                                     { name: 'Plan', key: 'plan_name' },
                                     { name: 'Plan Code', key: 'code' },
-                                    { name: 'Points', key: 'points' },
+                                    { name: 'Rem. Calculations', key: 'points' },
                                     { name: 'Used Calculations', key: 'calculations' },
                                     { name: 'Expiry Date', key: 'expiry_date' },
                                     { name: 'Creation date', key: 'created_at' },

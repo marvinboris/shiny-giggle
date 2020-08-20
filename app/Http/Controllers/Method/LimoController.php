@@ -17,8 +17,8 @@ class LimoController extends Controller
 {
     public static function generateWidgetData($input)
     {
-        $amount = 0.01;
-        // $amount = $input['amount'];
+        // $amount = 0.01;
+        $amount = $input['amount'];
         $product_model = $input['type'];
 
         // Products List

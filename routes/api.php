@@ -6,6 +6,7 @@ use App\Deposit;
 use App\Events\MyEvent;
 use App\Events\MyNotifications;
 use App\Guest;
+use App\Http\Controllers\UtilController;
 use App\LimoPayment;
 use App\Method;
 use App\PlanUser;
@@ -135,8 +136,6 @@ Route::namespace('User')->prefix('user')->name('user.')->group(function () {
 });
 
 Route::middleware('auth:admin,api,outer')->group(function () {
-    Route::any('broadcast/auth', 'Api\BroadcastAuthController@auth');
-
     Route::get('logout', function () {
         request()->user()->token()->revoke();
         return response()->json([
@@ -145,18 +144,7 @@ Route::middleware('auth:admin,api,outer')->group(function () {
     })->name('logout');
 
     Route::get('user', function () {
-        $user = request()->user();
-        switch ($user->token()->name) {
-            case 'User Personal Access Token':
-                $user = User::find($user->id);
-                break;
-            case 'Admin Personal Access Token':
-                $user = Admin::find($user->id);
-                break;
-            case 'Guest Personal Access Token':
-                $user = Guest::find($user->id);
-                break;
-        }
+        $user = UtilController::user(request()->user());
 
         $role = $user->role();
 
@@ -239,6 +227,10 @@ Route::middleware('auth:admin,api,outer')->group(function () {
 Route::namespace('Method')->group(function () {
     Route::get('monetbil/notify', 'MonetbilController@notify')->name('monetbil.notify.get');
     Route::post('monetbil/notify', 'MonetbilController@notify')->name('monetbil.notify.post');
+    
+    Route::get('limo/proceed', 'LimoController@proceed')->name('limo.proceed');
+    Route::get('limo/notify', 'LimoController@notify')->name('limo.notify.get');
+    Route::post('limo/notify', 'LimoController@notify')->name('limo.notify.post');
 });
 
 

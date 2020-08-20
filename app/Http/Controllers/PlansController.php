@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Admin;
+use App\Http\Controllers\Method\LimoController;
 use App\Http\Controllers\Method\MonetbilController;
 use App\Http\Controllers\Method\PayeerController;
 use App\LimoPayment;
@@ -64,7 +65,15 @@ class PlansController extends Controller
                     $link = $payeer['link'];
                     break;
                 case 'Limo':
-                    $link = route('plans.payment.limo');
+                    $limo = LimoController::generateWidgetData([
+                        'amount' => $plan->price,
+                        'type' => 'plan',
+                        'email' => UtilController::user(request()->user())->email,
+                        'plan_id' => $plan->id,
+                        'plan_name' => $plan->name,
+                    ]);
+                    $link = $limo['link'];
+                    // $link = route('plans.payment.limo');
                     break;
                 default:
                     $link = route('plans.payment.confirm', ['plan' => $plan->slug, 'method' => $method->slug]);
@@ -75,13 +84,13 @@ class PlansController extends Controller
 
         return response()->json([
             'plan' => $plan,
-            'methods' => $methods
+            'methods' => $methods,
         ]);
     }
 
     public function userPlans()
     {
-        return response()->json(request()->user()->plans);
+        return response()->json(UtilController::user(request()->user())->plans);
     }
 
     public function bitcoin()
@@ -90,7 +99,7 @@ class PlansController extends Controller
 
     public function limo(Request $request)
     {
-        $user = $request->user();
+        $user = UtilController::user($request->user());
         $request->validate([
             'transfer_no' => 'required|numeric',
             'date' => 'required|date',
@@ -125,7 +134,7 @@ class PlansController extends Controller
 
     public function getCalculate()
     {
-        $user = request()->user();
+        $user = UtilController::user(request()->user());
 
         $plan = $user->plan;
         $packs = $plan->packs;
@@ -141,7 +150,7 @@ class PlansController extends Controller
 
     public function getCalculateFromCode($code)
     {
-        $user = request()->user();
+        $user = UtilController::user(request()->user());
 
         $plan = $user->plans()->whereCode($code)->first();
         $packs = $plan->packs;
@@ -157,7 +166,7 @@ class PlansController extends Controller
 
     public function makeCalculation()
     {
-        $user = request()->user();
+        $user = UtilController::user(request()->user());
 
         $role = $user->role();
 

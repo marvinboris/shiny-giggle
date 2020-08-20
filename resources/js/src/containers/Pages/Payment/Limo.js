@@ -30,7 +30,8 @@ class Limo extends Component {
 
     onSubmitHandler = e => {
         e.preventDefault();
-        this.props.onPostLimoPayment(e.target);
+        window.location.href = this.props.payment.methods.find(({ slug }) => slug === 'limo').link;
+        // this.props.onPostLimoPayment(e.target);
     }
 
     inputChangeHandler = e => {
@@ -44,7 +45,7 @@ class Limo extends Component {
 
     render() {
         const { payment: { loading, error, plan, methods, message } } = this.props;
-        const { transfer_no, date, name, email, phone, limo_id, page } = this.state;
+        // const { transfer_no, date, name, email, phone, limo_id, page } = this.state;
 
         if (message) this.props.history.push(message);
 
@@ -53,65 +54,79 @@ class Limo extends Component {
         if (loading) content = <CustomSpinner />;
         else {
             if (plan && methods) {
-                content = <Form onSubmit={this.onSubmitHandler} className="row">
-                    <Col xs={12} className="text-white pb-4 text-justify">
-                        Transfer <span className="text-700 text-lightblue">${plan.price}</span> Limo to the <span className="text-700 text-orange">TTAGVP</span> (Limo Calc - limocalc072@gmail.com) Liyeplimal account and fill this form with that transfer's recipe information.
-                    </Col>
+                content = <Form onSubmit={e => this.onSubmitHandler(e)} className="mr-auto">
+                    <FormInput type="text" icon={faWallet} value="Limo Payment" required readonly />
+                    <FormInput type="text" icon={faDollarSign} value={`$${plan.price} Dollar`} append="Limo" required readonly />
 
-                    <Col xs={12} className={`d-${page === 1 ? 'block' : 'none'} d-sm-block`}>
-                        <Row>
-                            <FormInput className="col-md-6" type="text" icon={faUser} value="TTAGVP" required readonly />
-                            <FormInput className="col-md-6" type="text" icon={faWallet} name="transfer_no" value={transfer_no} onChange={this.inputChangeHandler} placeholder="Transfer No" required />
-
-                            <FormGroup className="d-sm-none mt-5 col-md-6 mb-0 pb-0">
-                                <FormButton type="button" onClick={() => this.goToPage(2)} color="yellow" icon={faSignInAlt}>Next</FormButton>
-                            </FormGroup>
-                        </Row>
-                    </Col>
-
-                    <Col xs={12} className={`d-${page === 2 ? 'block' : 'none'} d-sm-block`}>
-                        <Row>
-                            <FormInput className="col-md-6" type="date" icon={faCalendar} name="date" value={date} onChange={this.inputChangeHandler} placeholder="Date" required />
-                            <FormInput className="col-md-6" type="text" icon={faUser} name="name" value={name} onChange={this.inputChangeHandler} placeholder="Full Name" required />
-
-                            <FormGroup className="d-sm-none mt-5 col-md-6 mb-0 pb-0">
-                                <FormButton type="button" onClick={() => this.goToPage(3)} color="yellow" icon={faSignInAlt}>Next</FormButton>
-                            </FormGroup>
-                            <FormGroup className="d-sm-none col-md-6">
-                                <FormButton type="button" onClick={() => this.goToPage(1)} color="lightblue" before icon={faArrowLeft}>Previous</FormButton>
-                            </FormGroup>
-                        </Row>
-                    </Col>
-
-                    <Col xs={12} className={`d-${page === 3 ? 'block' : 'none'} d-sm-block`}>
-                        <Row>
-                            <FormInput className="col-md-6" type="email" icon={faEnvelope} name="email" value={email} onChange={this.inputChangeHandler} placeholder="E-Mail Address" required />
-                            <FormInput className="col-md-6" type="tel" icon={faPhone} name="phone" value={phone} onChange={this.inputChangeHandler} placeholder="Phone Number" required />
-
-                            <FormGroup className="d-sm-none mt-5 col-md-6 mb-0 pb-0">
-                                <FormButton type="button" onClick={() => this.goToPage(4)} color="yellow" icon={faSignInAlt}>Next</FormButton>
-                            </FormGroup>
-                            <FormGroup className="d-sm-none col-md-6">
-                                <FormButton type="button" onClick={() => this.goToPage(2)} color="lightblue" before icon={faArrowLeft}>Previous</FormButton>
-                            </FormGroup>
-                        </Row>
-                    </Col>
-
-                    <Col xs={12} className={`d-${page === 4 ? 'block' : 'none'} d-sm-block`}>
-                        <Row>
-                            <FormInput className="col-md-6" type="text" icon={faUser} name="limo_id" value={limo_id} onChange={this.inputChangeHandler} placeholder="Liyeplimal User ID" required />
-                            <FormInput className="col-md-6" type="text" icon={faDollarSign} value={`$${plan.price} Dollar`} append="Limo" required readonly />
-                            <input type="hidden" name="amount" value={plan.price} />
-
-                            <FormGroup className="mt-5 col-md-6 mb-0 pb-0">
-                                <FormButton color="yellow" icon={faAngleDoubleRight}>Proceed</FormButton>
-                            </FormGroup>
-                            <FormGroup className="d-sm-none col-md-6">
-                                <FormButton type="button" onClick={() => this.goToPage(3)} color="lightblue" before icon={faArrowLeft}>Previous</FormButton>
-                            </FormGroup>
-                        </Row>
-                    </Col>
+                    <FormGroup className="ml-2 mt-4 mb-5 text-light text-justify">
+                        <span className="text-300 pr-1">Your total amount is </span>
+                        <span className="text-700 text-yellow">{plan.price} Limo</span>
+                    </FormGroup>
+                    <FormGroup>
+                        <FormButton color="yellow" icon={faAngleDoubleRight}>Proceed</FormButton>
+                    </FormGroup>
                 </Form>;
+
+                // content = <Form onSubmit={this.onSubmitHandler} className="row">
+                //     <Col xs={12} className="text-white pb-4 text-justify">
+                //         Transfer <span className="text-700 text-lightblue">${plan.price}</span> Limo to the <span className="text-700 text-orange">TTAGVP</span> (Limo Calc - limocalc072@gmail.com) Liyeplimal account and fill this form with that transfer's recipe information.
+                //     </Col>
+
+                //     <Col xs={12} className={`d-${page === 1 ? 'block' : 'none'} d-sm-block`}>
+                //         <Row>
+                //             <FormInput className="col-md-6" type="text" icon={faUser} value="TTAGVP" required readonly />
+                //             <FormInput className="col-md-6" type="text" icon={faWallet} name="transfer_no" value={transfer_no} onChange={this.inputChangeHandler} placeholder="Transfer No" required />
+
+                //             <FormGroup className="d-sm-none mt-5 col-md-6 mb-0 pb-0">
+                //                 <FormButton type="button" onClick={() => this.goToPage(2)} color="yellow" icon={faSignInAlt}>Next</FormButton>
+                //             </FormGroup>
+                //         </Row>
+                //     </Col>
+
+                //     <Col xs={12} className={`d-${page === 2 ? 'block' : 'none'} d-sm-block`}>
+                //         <Row>
+                //             <FormInput className="col-md-6" type="date" icon={faCalendar} name="date" value={date} onChange={this.inputChangeHandler} placeholder="Date" required />
+                //             <FormInput className="col-md-6" type="text" icon={faUser} name="name" value={name} onChange={this.inputChangeHandler} placeholder="Full Name" required />
+
+                //             <FormGroup className="d-sm-none mt-5 col-md-6 mb-0 pb-0">
+                //                 <FormButton type="button" onClick={() => this.goToPage(3)} color="yellow" icon={faSignInAlt}>Next</FormButton>
+                //             </FormGroup>
+                //             <FormGroup className="d-sm-none col-md-6">
+                //                 <FormButton type="button" onClick={() => this.goToPage(1)} color="lightblue" before icon={faArrowLeft}>Previous</FormButton>
+                //             </FormGroup>
+                //         </Row>
+                //     </Col>
+
+                //     <Col xs={12} className={`d-${page === 3 ? 'block' : 'none'} d-sm-block`}>
+                //         <Row>
+                //             <FormInput className="col-md-6" type="email" icon={faEnvelope} name="email" value={email} onChange={this.inputChangeHandler} placeholder="E-Mail Address" required />
+                //             <FormInput className="col-md-6" type="tel" icon={faPhone} name="phone" value={phone} onChange={this.inputChangeHandler} placeholder="Phone Number" required />
+
+                //             <FormGroup className="d-sm-none mt-5 col-md-6 mb-0 pb-0">
+                //                 <FormButton type="button" onClick={() => this.goToPage(4)} color="yellow" icon={faSignInAlt}>Next</FormButton>
+                //             </FormGroup>
+                //             <FormGroup className="d-sm-none col-md-6">
+                //                 <FormButton type="button" onClick={() => this.goToPage(2)} color="lightblue" before icon={faArrowLeft}>Previous</FormButton>
+                //             </FormGroup>
+                //         </Row>
+                //     </Col>
+
+                //     <Col xs={12} className={`d-${page === 4 ? 'block' : 'none'} d-sm-block`}>
+                //         <Row>
+                //             <FormInput className="col-md-6" type="text" icon={faUser} name="limo_id" value={limo_id} onChange={this.inputChangeHandler} placeholder="Liyeplimal User ID" required />
+                //             <FormInput className="col-md-6" type="text" icon={faDollarSign} value={`$${plan.price} Dollar`} append="Limo" required readonly />
+                //             <input type="hidden" name="amount" value={plan.price} />
+
+                //             <FormGroup className="mt-5 col-md-6 mb-0 pb-0">
+                //                 <FormButton color="yellow" icon={faAngleDoubleRight}>Proceed</FormButton>
+                //             </FormGroup>
+                //             <FormGroup className="d-sm-none col-md-6">
+                //                 <FormButton type="button" onClick={() => this.goToPage(3)} color="lightblue" before icon={faArrowLeft}>Previous</FormButton>
+                //             </FormGroup>
+                //         </Row>
+                //     </Col>
+                // </Form>
+                // ;
             } else content = <div className="py-5">
                 <Error err={error} />
             </div>;

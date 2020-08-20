@@ -25,23 +25,24 @@ export default ({ limo, mobile, btc, payeer, children, loading, link }) => <>
             <Col xl={6} className="border-right-sm border-right-0 border-border pr-md-5 py-5">
                 <Row className="justify-content-center align-items-center">
                     <Col xs={12}>
-                    {!loading ?
-                        <>
-                            <div className="mb-4 mr-auto">
-                                <div className="d-flex justify-content-center justify-content-sm-start align-items-center text-secondary px-md-3">
-                                    {limo ? <ActiveLink link={link + '/limo'} src={limoImg}>Limo</ActiveLink> : <InactiveLink link={link + '/limo'} src={limoImg}>Limo</InactiveLink>}
-                                    <div style={{ fontSize: 30 }} className="text-yellow text-100 px-md-3 px-2">|</div>
-                                    {mobile ? <ActiveLink link={link + '/mobile'} src={mobileImg}>Mobile Payment</ActiveLink> : <InactiveLink link={link + '/mobile'} src={mobileImg}>Mobile Payment</InactiveLink>}
-                                    <div style={{ fontSize: 30 }} className="text-yellow text-100 px-md-3 px-2">|</div>
-                                    {btc ? <ActiveLink link={link + '/btc'} src={btcImg}>Bitcoin</ActiveLink> : <InactiveLink link={link + '/btc'} src={btcImg}>Bitcoin</InactiveLink>}
-                                    <div style={{ fontSize: 30 }} className="text-yellow text-100 px-md-3 px-2">|</div>
-                                    {payeer ? <ActiveLink link={link + '/payeer'} src={payeerImg}>Payeer</ActiveLink> : <InactiveLink link={link + '/payeer'} src={payeerImg}>Payeer</InactiveLink>}
+                        {!loading ?
+                            <>
+                                <div className="mb-4 mr-auto">
+                                    <div className="d-flex justify-content-center justify-content-sm-start align-items-center text-secondary px-md-3">
+                                        {limo ? <ActiveLink link={link + '/limo'} src={limoImg}>Limo</ActiveLink> : <InactiveLink link={link + '/limo'} src={limoImg}>Limo</InactiveLink>}
+                                        <div style={{ fontSize: 30 }} className="text-yellow text-100 px-md-3 px-2">|</div>
+                                        {mobile ? <ActiveLink link={link + '/mobile'} src={mobileImg}>Mobile Payment</ActiveLink> : <InactiveLink link={link + '/mobile'} src={mobileImg}>Mobile Payment</InactiveLink>}
+                                        <div style={{ fontSize: 30 }} className="text-yellow text-100 px-md-3 px-2">|</div>
+                                        {btc ? <ActiveLink link={link + '/btc'} src={btcImg}>Bitcoin</ActiveLink> : <InactiveLink link={link + '/btc'} src={btcImg}>Bitcoin</InactiveLink>}
+                                        <div style={{ fontSize: 30 }} className="text-yellow text-100 px-md-3 px-2">|</div>
+                                        {payeer ? <ActiveLink link={link + '/payeer'} src={payeerImg}>Payeer</ActiveLink> : <InactiveLink link={link + '/payeer'} src={payeerImg}>Payeer</InactiveLink>}
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div className={"px-0 " + (limo ? "w-100" : "col-md-8")}>{children}</div>
-                        </>
-                    : children}
+                                <div className={"px-0 col-md-8"}>{children}</div>
+                                {/* <div className={"px-0 " + (limo ? "w-100" : "col-md-8")}>{children}</div> */}
+                            </>
+                            : children}
                     </Col>
                 </Row>
             </Col>

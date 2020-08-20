@@ -9,11 +9,56 @@ use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
+    private function get()
+    {
+        $page = +request()->page;
+        $show = request()->show;
+        $search = request()->search;
+
+        $total = 0;
+
+        $users = [];
+        $filteredUsers = User::latest();
+
+        $filteredUsers = $filteredUsers
+            ->when($search, function ($query, $search) {
+                if ($search !== "")
+                    $query
+                        ->where('email', 'LIKE', "%$search%")
+                        ->orWhere('phone', 'LIKE', "%$search%")
+                        ->orWhere('first_name', 'LIKE', "%$search%")
+                        ->orWhere('last_name', 'LIKE', "%$search%")
+                        ->orWhere('ref', 'LIKE', "%$search%");
+            });
+
+        $total = $filteredUsers->count();
+
+        if ($show !== 'All') $filteredUsers = $filteredUsers->skip(($page - 1) * $show)->take($show);
+
+        $filteredUsers = $filteredUsers->get();
+
+        foreach ($filteredUsers as $user) {
+            $users[] = array_merge($user->toArray(), []);
+        }
+
+        return [
+            'users' => $users,
+            'total' => $total,
+        ];
+    }
+
+
     //
     public function  index()
     {
+        $data = $this->get();
+
+        $users = $data['users'];
+        $total = $data['total'];
+
         return response()->json([
-            'totalUsers' => User::get()->toArray()
+            'totalUsers' => $users,
+            'total' => $total,
         ]);
     }
 

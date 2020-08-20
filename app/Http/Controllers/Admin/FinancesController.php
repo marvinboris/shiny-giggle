@@ -17,44 +17,149 @@ use Illuminate\Http\Request;
 
 class FinancesController extends Controller
 {
-    //
-    public function sales_report()
+    private function get($filter)
     {
-        $salesReport = [];
-        foreach (Deposit::all() as $transaction) {
-            if ($transaction->user) {
-                $object = array_merge($transaction->toArray(), [
-                    'user' => $transaction->user,
-                    'method' => $transaction->method,
-                ]);
-                if ($transaction->type === 'plan' && $transaction->status === 2) {
-                    $plan_user = PlanUser::find($transaction->data->plan_user_id);
-                    if (!$plan_user) dd($transaction->id);
-                    $object = array_merge($object, [
-                        'plan' => $plan_user->plan,
-                        'code' => $plan_user->code
+        $page = +request()->page;
+        $show = request()->show;
+        $search = request()->search;
+
+        $total = 0;
+
+        $data = [];
+        $filteredData = [];
+
+        switch ($filter) {
+            case 'sales_report':
+                $filteredData = Deposit::latest();
+
+                $filteredData = $filteredData
+                    ->join('users', 'users.id', '=', 'deposits.user_id')
+                    ->select('deposits.*')
+                    ->when($search, function ($query, $search) {
+                        if ($search !== "")
+                            $query
+                                ->where('type', 'LIKE', "%$search%")
+                                ->orWhere('name', 'LIKE', "%$search%")
+                                ->orWhere('first_name', 'LIKE', "%$search%")
+                                ->orWhere('last_name', 'LIKE', "%$search%")
+                                ->orWhere('ref', 'LIKE', "%$search%");
+                    });
+
+                $total = $filteredData->count();
+
+                if ($show !== 'All') $filteredData = $filteredData->skip(($page - 1) * $show)->take($show);
+
+                $filteredData = $filteredData->get();
+
+                foreach ($filteredData as $item) {
+                    if ($item->user) {
+                        $object = array_merge($item->toArray(), [
+                            'user' => $item->user,
+                            'method' => $item->method,
+                        ]);
+                        if ($item->type === 'plan' && $item->status === 2) {
+                            $plan_user = PlanUser::find($item->data->plan_user_id);
+                            if (!$plan_user) dd($item->id);
+                            $object = array_merge($object, [
+                                'plan' => $plan_user->plan,
+                                'code' => $plan_user->code
+                            ]);
+                        }
+                        $data[] = $object;
+                    }
+                }
+                break;
+
+            case 'limo_payments':
+                $filteredData = LimoPayment::latest();
+
+                $filteredData = $filteredData
+                    ->join('users', 'users.id', '=', 'limo_payments.user_id')
+                    ->select('limo_payments.*')
+                    ->when($search, function ($query, $search) {
+                        if ($search !== "")
+                            $query
+                                ->where('name', 'LIKE', "%$search%")
+                                ->where('first_name', 'LIKE', "%$search%")
+                                ->where('last_name', 'LIKE', "%$search%")
+                                ->orWhere('slug', 'LIKE', "%$search%")
+                                ->orWhere('ref', 'LIKE', "%$search%");
+                    });
+
+                $total = $filteredData->count();
+
+                if ($show !== 'All') $filteredData = $filteredData->skip(($page - 1) * $show)->take($show);
+
+                $filteredData = $filteredData->get();
+
+                foreach ($filteredData as $item) {
+                    $data[] = array_merge($item->toArray(), [
+                        'user' => $item->user
                     ]);
                 }
-                $salesReport[] = $object;
-            }
+                break;
+
+            case 'credits':
+                $filteredData = Deposit::whereType('credits')->latest();
+
+                $filteredData = $filteredData
+                    ->join('users', 'users.id', '=', 'deposits.user_id')
+                    ->join('methods', 'methods.id', '=', 'deposits.method_id')
+                    ->select('deposits.*')
+                    ->when($search, function ($query, $search) {
+                        if ($search !== "")
+                            $query
+                                ->where('name', 'LIKE', "%$search%")
+                                ->where('first_name', 'LIKE', "%$search%")
+                                ->where('last_name', 'LIKE', "%$search%")
+                                ->orWhere('ref', 'LIKE', "%$search%");
+                    });
+
+                $total = $filteredData->count();
+
+                if ($show !== 'All') $filteredData = $filteredData->skip(($page - 1) * $show)->take($show);
+
+                $filteredData = $filteredData->get();
+
+                foreach ($filteredData as $item) {
+                    $data[] = array_merge($item->toArray(), [
+                        'user' => $item->user,
+                        'method' => $item->method,
+                    ]);
+                }
+                break;
         }
 
+        return [
+            'data' => $data,
+            'total' => $total,
+        ];
+    }
+
+
+    public function sales_report()
+    {
+        $data = $this->get('sales_report');
+
+        $salesReport = $data['data'];
+        $total = $data['total'];
+
         return response()->json([
-            'salesReport' => $salesReport
+            'salesReport' => $salesReport,
+            'total' => $total,
         ]);
     }
 
     public function limo_payments()
     {
-        $limoPayments = [];
-        foreach (LimoPayment::all() as $limoPayment) {
-            $limoPayments[] = array_merge($limoPayment->toArray(), [
-                'user' => $limoPayment->user
-            ]);
-        }
+        $data = $this->get('limo_payments');
+
+        $limoPayments = $data['data'];
+        $total = $data['total'];
 
         return response()->json([
-            'limoPayments' => $limoPayments
+            'limoPayments' => $limoPayments,
+            'total' => $total,
         ]);
     }
 
@@ -123,16 +228,14 @@ class FinancesController extends Controller
 
     public function index()
     {
-        $deposits = [];
-        foreach (Deposit::whereType('credits')->get() as $deposit) {
-            $deposits[] = array_merge($deposit->toArray(), [
-                'user' => $deposit->user,
-                'method' => $deposit->method,
-            ]);
-        }
+        $data = $this->get('credits');
+
+        $deposits = $data['data'];
+        $total = $data['total'];
 
         return response()->json([
-            'deposits' => $deposits
+            'deposits' => $deposits,
+            'total' => $total,
         ]);
     }
 

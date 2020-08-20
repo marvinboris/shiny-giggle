@@ -30,47 +30,45 @@ class Index extends Component {
     }
 
     render() {
-        let { backend: { plans: { loading, error, plans } } } = this.props;
+        let { backend: { plans: { loading, error, plans, total } } } = this.props;
         let content = null;
         let errors = null;
 
-        if (loading) content = <Col xs={12}>
-            <CustomSpinner />
-        </Col>;
-        else {
-            errors = <>
-                <Error err={error} />
-            </>;
-            if (plans) {
-                const plansData = plans.map(plan => {
-                    return updateObject(plan, {
-                        created_at: convertDate(plan.created_at),
-                        action: <div className="text-center">
-                            <FontAwesomeIcon icon={faEye} className="text-lightblue mr-2" fixedWidth />
-                            <FontAwesomeIcon icon={faEdit} className="text-green mr-2" fixedWidth />
-                            <FontAwesomeIcon icon={faTrash} className="text-red" fixedWidth />
-                        </div>
-                    });
-                });
+        if (!plans) plans = [];
 
-                content = (
-                    <>
-                        <Row>
-                            <List array={plansData} data={JSON.stringify(plans)} dark bordered add="Add Plan" link="/admin/plans/add" icon={faTasks} title="Plan List" innerClassName="bg-darkblue" className="bg-darklight shadow-sm"
-                                fields={[
-                                    { name: 'Name', key: 'name' },
-                                    { name: 'Slug', key: 'slug' },
-                                    { name: 'Points', key: 'points' },
-                                    { name: 'Validity (weeks)', key: 'validity' },
-                                    { name: 'Price', key: 'price' },
-                                    { name: 'Creation date', key: 'created_at' },
-                                    { name: 'Action', key: 'action' }
-                                ]} />
-                        </Row>
-                    </>
-                );
-            }
-        }
+        let plansData = [];
+
+        errors = <>
+            <Error err={error} />
+        </>;
+
+        plansData = plans.map(plan => {
+            return updateObject(plan, {
+                created_at: convertDate(plan.created_at),
+                action: <div className="text-center">
+                    <FontAwesomeIcon icon={faEye} className="text-lightblue mr-2" fixedWidth />
+                    <FontAwesomeIcon icon={faEdit} className="text-green mr-2" fixedWidth />
+                    <FontAwesomeIcon icon={faTrash} className="text-red" fixedWidth />
+                </div>
+            });
+        });
+
+        content = (
+            <>
+                <Row>
+                    <List loading={loading} array={plansData} data={JSON.stringify(plans)} get={this.props.onGetAdminPlans} total={total} dark bordered add="Add Plan" link="/admin/plans/add" icon={faTasks} title="Plan List" innerClassName="bg-darkblue" className="bg-darklight shadow-sm"
+                        fields={[
+                            { name: 'Name', key: 'name' },
+                            { name: 'Slug', key: 'slug' },
+                            { name: 'Points', key: 'points' },
+                            { name: 'Validity (weeks)', key: 'validity' },
+                            { name: 'Price', key: 'price' },
+                            { name: 'Creation date', key: 'created_at' },
+                            { name: 'Action', key: 'action' }
+                        ]} />
+                </Row>
+            </>
+        );
 
         return (
             <>
@@ -91,7 +89,7 @@ class Index extends Component {
 const mapStateToProps = state => ({ ...state });
 
 const mapDispatchToProps = dispatch => ({
-    onGetAdminPlans: () => dispatch(actions.getAdminPlans()),
+    onGetAdminPlans: (page, show, search) => dispatch(actions.getAdminPlans(page, show, search)),
     onResetPlans: () => dispatch(actions.resetPlans()),
 });
 

@@ -14,25 +14,97 @@ use Illuminate\Http\Request;
 
 class PlansController extends Controller
 {
+    private function get($filter)
+    {
+        $page = +request()->page;
+        $show = request()->show;
+        $search = request()->search;
+
+        $total = 0;
+
+        $data = [];
+        $filteredData = [];
+
+        switch ($filter) {
+            case 'plans':
+                $filteredData = Plan::latest();
+
+                $filteredData = $filteredData
+                    ->when($search, function ($query, $search) {
+                        if ($search !== "")
+                            $query
+                                ->where('name', 'LIKE', "%$search%")
+                                ->orWhere('slug', 'LIKE', "%$search%");
+                    });
+
+                $total = $filteredData->count();
+
+                if ($show !== 'All') $filteredData = $filteredData->skip(($page - 1) * $show)->take($show);
+
+                $filteredData = $filteredData->get();
+
+                foreach ($filteredData as $item) {
+                    $data[] = array_merge($item->toArray(), []);
+                }
+                break;
+
+            case 'details':
+                $filteredData = PlanUser::latest();
+
+                $filteredData = $filteredData
+                    ->when($search, function ($query, $search) {
+                        if ($search !== "")
+                            $query
+                                ->where('name', 'LIKE', "%$search%")
+                                ->orWhere('slug', 'LIKE', "%$search%")
+                                ->orWhere('ref', 'LIKE', "%$search%");
+                    });
+
+                $total = $filteredData->count();
+
+                if ($show !== 'All') $filteredData = $filteredData->skip(($page - 1) * $show)->take($show);
+
+                $filteredData = $filteredData->get();
+
+                foreach ($filteredData as $item) {
+                    $data[] = array_merge($item->toArray(), [
+                        'user' => $item->user,
+                        'plan' => $item->plan,
+                    ]);
+                }
+                break;
+        }
+
+        return [
+            'data' => $data,
+            'total' => $total,
+        ];
+    }
+
     //
     public function index()
     {
+        $data = $this->get('plans');
+
+        $plans = $data['data'];
+        $total = $data['total'];
+
         return response()->json([
-            'plans' => Plan::get()
+            'plans' => $plans,
+            'total' => $total,
         ]);
     }
 
     public function details()
     {
-        $plan_users = [];
-        foreach (PlanUser::get() as $plan_user) {
-            $plan_users[] = array_merge($plan_user->toArray(), [
-                'user' => $plan_user->user,
-                'plan' => $plan_user->plan,
-            ]);
-        }
+        $data = $this->get('details');
+
+        $plans = $data['data'];
+        $total = $data['total'];
+
         return response()->json([
-            'plans' => $plan_users
+            'plans' => $plans,
+            'total' => $total,
         ]);
     }
 
@@ -55,7 +127,7 @@ class PlansController extends Controller
     public function deposit(Request $request)
     {
         $request->validate([
-            'ref' => 'required|exists:users',
+            'ref' => 'required|exists:data',
             'id' => 'required|exists:plans',
         ]);
 
@@ -71,7 +143,7 @@ class PlansController extends Controller
             'expiry_date' => Carbon::now()->addWeeks($plan->validity)
         ]);
         $plan_user_id = PlanUser::whereCode($code)->first()->toArray()['id'];
-        
+
         Deposit::create([
             'user_id' => $user->id,
             'method_id' => Method::whereSlug('admin')->first()->id,
@@ -95,7 +167,7 @@ class PlansController extends Controller
     public function calculations(Request $request)
     {
         $request->validate([
-            'ref' => 'required|exists:users',
+            'ref' => 'required|exists:data',
             'id' => 'required|exists:plans',
             'points' => 'required|numeric',
         ]);

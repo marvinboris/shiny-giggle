@@ -8,17 +8,56 @@ use Illuminate\Http\Request;
 
 class ContactUsController extends Controller
 {
-    //
-    public function index()
+    private function get()
     {
+        $page = +request()->page;
+        $show = request()->show;
+        $search = request()->search;
+
+        $total = 0;
+
         $contacts = [];
-        foreach (ContactUs::get() as $contact) {
+        $filteredContacts = ContactUs::latest();
+
+        $filteredContacts = $filteredContacts
+            ->when($search, function ($query, $search) {
+                if ($search !== "")
+                    $query
+                        ->where('title', 'LIKE', "%$search%")
+                        ->orWhere('subject', 'LIKE', "%$search%")
+                        ->orWhere('feedback', 'LIKE', "%$search%")
+                        ->orWhere('message', 'LIKE', "%$search%");
+            });
+
+        $total = $filteredContacts->count();
+
+        if ($show !== 'All') $filteredContacts = $filteredContacts->skip(($page - 1) * $show)->take($show);
+
+        $filteredContacts = $filteredContacts->get();
+
+        foreach ($filteredContacts as $contact) {
             $contacts[] = array_merge($contact->toArray(), [
                 'user' => $contact->user
             ]);
         }
+
+        return [
+            'contacts' => $contacts,
+            'total' => $total,
+        ];
+    }
+
+    //
+    public function index()
+    {
+        $data = $this->get();
+
+        $contacts = $data['contacts'];
+        $total = $data['total'];
+
         return response()->json([
-            'contacts' => $contacts
+            'contacts' => $contacts,
+            'total' => $total,
         ]);
     }
 

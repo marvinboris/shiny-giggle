@@ -4,8 +4,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle, faFileExcel, faFilePdf, faFileCsv, faPrint, faAngleDoubleLeft, faChevronLeft, faChevronRight, faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 
-export default ({ fields, array, data, limit, bordered, xs = 12, sm = 12, md = 12, lg = 12, xl = 12, icon, title, add, link, className = '', dark, borderless, innerClassName = '', outerClassName = '', p0, select, children, selectHandler, style }) => {
-    const titles = fields.map(({ name }) => <th className="align-middle text-nowrap" key={name}>{name}</th>);
+import { updateObject } from '../../../../shared/utility';
+
+export default ({ fields, array, loading = false, get, total = 0, data, limit, bordered, xs = 12, sm = 12, md = 12, lg = 12, xl = 12, icon, title, add, link, className = '', dark, borderless, innerClassName = '', outerClassName = '', p0, select, children, selectHandler, style }) => {
+    const titles = fields.map(({ name, fixed }) => <th className="align-middle text-nowrap bg-soft" style={fixed ? { position: 'sticky', right: 0 } : {}} key={name}>{name}</th>);
     titles.unshift(<th className="text-center align-middle" key="#">SL</th>);
     if (select) titles.unshift(<th className="align-middle text-center" key="select_all">
         <input type="checkbox" onClick={selectHandler} className="select_all" />
@@ -18,30 +20,19 @@ export default ({ fields, array, data, limit, bordered, xs = 12, sm = 12, md = 1
     const [pageSecond, setPageSecond] = useState(2);
     const [pageLast, setPageLast] = useState(3);
 
-    const filteredArray = search === '' ? array : array.filter((item, i) => {
-        let check = false;
-        for (const iterator of fields) {
-            const key = iterator.key;
-            if (item[key]) {
-                if (typeof item[key] === 'string') check = item[key].toLowerCase().includes(search.toLowerCase());
-                else if (typeof item[key] === 'object') check = jsxToString(item[key]).toLowerCase().includes(search.toLowerCase());
-                else check = item[key].toString().includes(search.toLowerCase());
-                if (check) return check;
-            }
-        }
-    });
-    const limitedArray = show === 'All' ? filteredArray : filteredArray.filter((item, i) => (i >= (page - 1) * show) && (i < page * show));
+    const filteredArray = array;
+    const limitedArray = filteredArray;
 
-    const pageNumber = Math.ceil(filteredArray.length / show);
+    const pageNumber = Math.ceil(total / show);
 
     const content = limitedArray.map((item, index) => {
         if (limit && index >= limit) return null;
-        let inside = [<th className="text-center align-middle" key={'primary' + index}>{(page - 1) * show + index + 1}</th>];
+        let inside = [<th className="text-center align-middle" key={'primary' + index}>{(show === 'All' ? 0 : (page - 1) * show) + index + 1}</th>];
         if (select) inside.unshift(<th className="text-center align-middle" key={'secondary' + index}>
             <input type="checkbox" value={item._id} />
         </th>);
-        fields.forEach(({ key, minWidth }) => {
-            inside.push(<td className="align-middle text-nowrap position-relative" style={{ minWidth }} key={key}>{item[key]}</td>);
+        fields.forEach(({ key, minWidth, fixed }) => {
+            inside.push(<td className="align-middle text-nowrap" style={updateObject({ minWidth }, fixed ? { position: 'sticky', right: 0, backgroundColor: '#F4F4F4' } : {})} key={key}>{item[key]}</td>);
         });
 
         return <tr className="align-middle" key={index + 1}>{inside}</tr>;
@@ -50,49 +41,40 @@ export default ({ fields, array, data, limit, bordered, xs = 12, sm = 12, md = 1
     const inputChangedHandler = e => {
         const { name, value } = e.target;
         firstPageHandler();
-        if (name === 'show') return setShow(value);
-        if (name === 'search') return setSearch(value);
+        if (name === 'show') {
+            get(page, value, search);
+            return setShow(value);
+        }
+        if (name === 'search') {
+            if (timeout) clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                get(page, show, value);
+                clearTimeout(timeout);
+            }, 1000);
+            return setSearch(value);
+        }
     }
 
     const previousPageHandler = () => {
-        const lastPage = pageNumber;
         if (page <= 1) return;
-        if (page === 2) firstPageHandler();
-        else if (page === lastPage) setPage(page - 1);
-        else {
-            setPage(page - 1);
-            setPageFirst(pageFirst - 1);
-            setPageSecond(pageSecond - 1);
-            setPageLast(pageLast - 1);
-        }
+        pageChangeHandler(page - 1);
     }
 
     const nextPageHandler = () => {
         const lastPage = pageNumber;
         if (page >= lastPage) return;
-        setPage(page + 1);
-        if (page > 2) {
-            setPageFirst(pageFirst + 1);
-            setPageSecond(pageSecond + 1);
-            setPageLast(pageLast + 1);
-        }
+        pageChangeHandler(page + 1);
     }
 
     const firstPageHandler = () => {
         if (page <= 1) return;
-        setPage(1);
-        setPageFirst(1);
-        setPageSecond(2);
-        setPageLast(3);
+        pageChangeHandler(1);
     }
 
     const lastPageHandler = () => {
         const lastPage = pageNumber;
         if (page >= lastPage) return;
-        setPage(lastPage);
-        setPageFirst(lastPage - 2);
-        setPageSecond(lastPage - 1);
-        setPageLast(lastPage);
+        pageChangeHandler(lastPage);
     }
 
     const pageChangeHandler = page => {
@@ -101,6 +83,7 @@ export default ({ fields, array, data, limit, bordered, xs = 12, sm = 12, md = 1
         if (page === 1) pageFirst = 1;
         else if (page === lastPage) pageFirst = lastPage - 2;
         else pageFirst = page - 1;
+        get(page, show, search);
         setPage(page);
         setPageFirst(pageFirst);
         setPageSecond(pageFirst + 1);
@@ -148,6 +131,8 @@ export default ({ fields, array, data, limit, bordered, xs = 12, sm = 12, md = 1
             console.log(err)
         }
     }
+
+    const entries = total % show;
 
     return (
         <Col xs={xs} sm={sm} md={md} lg={lg} xl={xl} className={outerClassName}>
@@ -197,20 +182,24 @@ export default ({ fields, array, data, limit, bordered, xs = 12, sm = 12, md = 1
                     </Row>
                 </div>
 
-                <div className={"flex-fill d-flex flex-column " + (!p0 ? "p-4" : "p-0")}>
+                <div className={`flex-fill d-flex flex-column ${!p0 ? "p-4" : "p-0"}`}>
                     <div className="table-responsive flex-fill">
                         <Table dark={dark} bordered={bordered} borderless={borderless} className={innerClassName}>
                             <thead className="text-gray"><tr>{titles}</tr></thead>
-                            <tbody className="bg-darklight-50 text-light">{content}</tbody>
+                            <tbody className="bg-darklight-50 text-light">{!loading && content}</tbody>
                         </Table>
                     </div>
+
+                    {loading && <Col xs={12} className="text-center">
+                        <div className="text-center py-3">Processing...</div>
+                    </Col>}
 
                     <div>
                         {children}
                     </div>
 
                     <div>
-                        <div>Showing {limitedArray.length} of {filteredArray.length} entries.</div>
+                        <div>Showing {+page !== +pageNumber ? show : entries} of {total} entries.</div>
 
                         <div className="pt-2 d-flex justify-content-end">
                             {show === 'All' ? null : <ul className="pagination btn-group">

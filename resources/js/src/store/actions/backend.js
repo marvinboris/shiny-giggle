@@ -51,12 +51,12 @@ const contactUsFail = error => ({ type: actionTypes.CONTACT_US_FAIL, error });
 
 
 // User
-export const getUserContactUsList = () => async dispatch => {
+export const getUserContactUsList = (page = 1, show = 10, search = '') => async dispatch => {
     const token = localStorage.getItem('token');
     dispatch(contactUsStart());
 
     try {
-        const res = await fetch(`${rootPath}/api/user/contact-us`, {
+        const res = await fetch(`${rootPath}/api/user/contact-us?page=${page}&show=${show}&search=${search}`, {
             method: 'GET',
             headers: {
                 Authorization: token
@@ -281,12 +281,12 @@ export const resetUsers = () => ({ type: actionTypes.RESET_USERS });
 const usersStart = () => ({ type: actionTypes.USERS_START });
 const usersSuccess = data => ({ type: actionTypes.USERS_SUCCESS, ...data });
 const usersFail = error => ({ type: actionTypes.USERS_FAIL, error });
-export const getAdminUsers = () => async dispatch => {
+export const getAdminUsers = (page = 1, show = 10, search = '') => async dispatch => {
     const token = localStorage.getItem('token');
     dispatch(usersStart());
 
     try {
-        const res = await fetch(`${rootPath}/api/admin/users`, {
+        const res = await fetch(`${rootPath}/api/admin/users?page=${page}&show=${show}&search=${search}`, {
             method: 'GET',
             headers: {
                 Authorization: token
@@ -400,12 +400,12 @@ export const resetFinances = () => ({ type: actionTypes.RESET_FINANCES });
 const financesStart = () => ({ type: actionTypes.FINANCES_START });
 const financesSuccess = data => ({ type: actionTypes.FINANCES_SUCCESS, ...data });
 const financesFail = error => ({ type: actionTypes.FINANCES_FAIL, error });
-export const getAdminSalesReport = () => async dispatch => {
+export const getAdminSalesReport = (page = 1, show = 10, search = '') => async dispatch => {
     const token = localStorage.getItem('token');
     dispatch(financesStart());
 
     try {
-        const res = await fetch(`${rootPath}/api/admin/finances/sales-report`, {
+        const res = await fetch(`${rootPath}/api/admin/finances/sales-report?page=${page}&show=${show}&search=${search}`, {
             method: 'GET',
             headers: {
                 Authorization: token
@@ -419,12 +419,12 @@ export const getAdminSalesReport = () => async dispatch => {
     }
 };
 
-export const getAdminLimoPayments = () => async dispatch => {
+export const getAdminLimoPayments = (page = 1, show = 10, search = '') => async dispatch => {
     const token = localStorage.getItem('token');
     dispatch(financesStart());
 
     try {
-        const res = await fetch(`${rootPath}/api/admin/finances/limo-payments`, {
+        const res = await fetch(`${rootPath}/api/admin/finances/limo-payments?page=${page}&show=${show}&search=${search}`, {
             method: 'GET',
             headers: {
                 Authorization: token
@@ -482,12 +482,12 @@ export const postAdminLimoPayment = (id, data) => async dispatch => {
     }
 };
 
-export const getAdminCreditsList = () => async dispatch => {
+export const getAdminCreditsList = (page = 1, show = 10, search = '') => async dispatch => {
     const token = localStorage.getItem('token');
     dispatch(financesStart());
 
     try {
-        const res = await fetch(`${rootPath}/api/admin/finances/credits`, {
+        const res = await fetch(`${rootPath}/api/admin/finances/credits?page=${page}&show=${show}&search=${search}`, {
             method: 'GET',
             headers: {
                 Authorization: token
@@ -528,12 +528,12 @@ export const postAdminAddCredit = data => async dispatch => {
 
 
 
-export const getAdminContactUsList = () => async dispatch => {
+export const getAdminContactUsList = (page = 1, show = 10, search = '') => async dispatch => {
     const token = localStorage.getItem('token');
     dispatch(contactUsStart());
 
     try {
-        const res = await fetch(`${rootPath}/api/admin/contact-us`, {
+        const res = await fetch(`${rootPath}/api/admin/contact-us?page=${page}&show=${show}&search=${search}`, {
             method: 'GET',
             headers: {
                 Authorization: token
@@ -622,12 +622,12 @@ export const resetPlans = () => ({ type: actionTypes.RESET_PLANS });
 const plansStart = () => ({ type: actionTypes.PLANS_START });
 const plansSuccess = data => ({ type: actionTypes.PLANS_SUCCESS, ...data });
 const plansFail = error => ({ type: actionTypes.PLANS_FAIL, error });
-export const getAdminPlans = () => async dispatch => {
+export const getAdminPlans = (page = 1, show = 10, search = '') => async dispatch => {
     const token = localStorage.getItem('token');
     dispatch(plansStart());
 
     try {
-        const res = await fetch(`${rootPath}/api/admin/plans`, {
+        const res = await fetch(`${rootPath}/api/admin/plans?page=${page}&show=${show}&search=${search}`, {
             method: 'GET',
             headers: {
                 Authorization: token
@@ -641,12 +641,12 @@ export const getAdminPlans = () => async dispatch => {
     }
 };
 
-export const getAdminPlanDetails = () => async dispatch => {
+export const getAdminPlanDetails = (page = 1, show = 10, search = '') => async dispatch => {
     const token = localStorage.getItem('token');
     dispatch(plansStart());
 
     try {
-        const res = await fetch(`${rootPath}/api/admin/plans/details`, {
+        const res = await fetch(`${rootPath}/api/admin/plans/details?page=${page}&show=${show}&search=${search}`, {
             method: 'GET',
             headers: {
                 Authorization: token

@@ -166,7 +166,7 @@ class DashboardController extends Controller
 
         return response()->json([
             'blocksData' => [
-                'paidAmount' => $paidAmount,
+                'paidAmount' => round($paidAmount),
                 'subscribers' => $subscribers,
                 'notifications' => $notifications,
                 'paidPoints' => $paidPoints,

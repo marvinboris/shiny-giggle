@@ -25,55 +25,53 @@ class Index extends Component {
     }
 
     render() {
-        let { backend: { finances: { loading, error, deposits } } } = this.props;
+        let { backend: { finances: { loading, error, deposits, total } } } = this.props;
         let content = null;
         let errors = null;
 
-        if (loading) content = <Col xs={12}>
-            <CustomSpinner />
-        </Col>;
-        else {
-            errors = <>
-                <Error err={error} />
-            </>;
-            if (deposits) {
-                const depositsData = deposits.map(deposit => {
-                    const colors = ['primary', 'danger', 'success'];
-                    const texts = ['Pending', 'Failed', 'Success'];
-                    const icons = [faSpinner, faTimesCircle, faCheckCircle];
-                    return updateObject(deposit, {
-                        name: deposit.user.first_name + ' ' + deposit.user.last_name,
-                        ref: deposit.user.ref,
-                        method_name: deposit.method.name,
-                        created_at: convertDate(deposit.created_at),
-                        status: <Badge color={colors[deposit.status]} className="badge-block position-static"><FontAwesomeIcon icon={icons[deposit.status]} className="mr-2" fixedWidth />{texts[deposit.status]}</Badge>,
-                        action: <div className="text-center">
-                            <FontAwesomeIcon icon={faEye} className="text-lightblue mr-2" fixedWidth />
-                            <FontAwesomeIcon icon={faPrint} className="text-green mr-2" fixedWidth />
-                        </div>
-                    });
-                });
+        if (!deposits) deposits = [];
 
-                content = (
-                    <>
-                        <Row>
-                            <List array={depositsData} data={JSON.stringify(deposits)} dark bordered add="Add Credit" link="/admin/finances/credits/add" icon={faUserTie} title="Credit List" innerClassName="bg-darkblue" className="bg-darklight shadow-sm"
-                                fields={[
-                                    { name: 'Full Name', key: 'name' },
-                                    { name: 'User ID', key: 'ref' },
-                                    { name: 'Method', key: 'method_name' },
-                                    { name: 'Amount', key: 'amount' },
-                                    { name: 'Fees', key: 'fees' },
-                                    { name: 'Comments', key: 'comments' },
-                                    { name: 'Creation date', key: 'created_at' },
-                                    { name: 'Status', key: 'status' },
-                                    { name: 'Action', key: 'action' }
-                                ]} />
-                        </Row>
-                    </>
-                );
-            }
-        }
+        let depositsData = [];
+
+        errors = <>
+            <Error err={error} />
+        </>;
+
+        depositsData = deposits.map(deposit => {
+            const colors = ['primary', 'danger', 'success'];
+            const texts = ['Pending', 'Failed', 'Success'];
+            const icons = [faSpinner, faTimesCircle, faCheckCircle];
+            return updateObject(deposit, {
+                name: deposit.user.first_name + ' ' + deposit.user.last_name,
+                ref: deposit.user.ref,
+                method_name: deposit.method.name,
+                created_at: convertDate(deposit.created_at),
+                status: <Badge color={colors[deposit.status]} className="badge-block position-static"><FontAwesomeIcon icon={icons[deposit.status]} className="mr-2" fixedWidth />{texts[deposit.status]}</Badge>,
+                action: <div className="text-center">
+                    <FontAwesomeIcon icon={faEye} className="text-lightblue mr-2" fixedWidth />
+                    <FontAwesomeIcon icon={faPrint} className="text-green mr-2" fixedWidth />
+                </div>
+            });
+        });
+
+        content = (
+            <>
+                <Row>
+                    <List loading={loading} array={depositsData} data={JSON.stringify(deposits)} get={this.props.onGetAdminCreditsList} total={total} dark bordered add="Add Credit" link="/admin/finances/credits/add" icon={faUserTie} title="Credit List" innerClassName="bg-darkblue" className="bg-darklight shadow-sm"
+                        fields={[
+                            { name: 'Full Name', key: 'name' },
+                            { name: 'User ID', key: 'ref' },
+                            { name: 'Method', key: 'method_name' },
+                            { name: 'Amount', key: 'amount' },
+                            { name: 'Fees', key: 'fees' },
+                            { name: 'Comments', key: 'comments' },
+                            { name: 'Creation date', key: 'created_at' },
+                            { name: 'Status', key: 'status' },
+                            { name: 'Action', key: 'action' }
+                        ]} />
+                </Row>
+            </>
+        );
 
         return (
             <>
@@ -94,7 +92,7 @@ class Index extends Component {
 const mapStateToProps = state => ({ ...state });
 
 const mapDispatchToProps = dispatch => ({
-    onGetAdminCreditsList: () => dispatch(actions.getAdminCreditsList()),
+    onGetAdminCreditsList: (page, show, search) => dispatch(actions.getAdminCreditsList(page, show, search)),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Index));

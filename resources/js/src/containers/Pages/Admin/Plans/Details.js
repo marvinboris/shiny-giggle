@@ -30,53 +30,51 @@ class Index extends Component {
     }
 
     render() {
-        let { backend: { plans: { loading, error, plans } } } = this.props;
+        let { backend: { plans: { loading, error, plans, total } } } = this.props;
         let content = null;
         let errors = null;
 
-        if (loading) content = <Col xs={12}>
-            <CustomSpinner />
-        </Col>;
-        else {
-            errors = <>
-                <Error err={error} />
-            </>;
-            if (plans) {
-                const plansData = plans.map(plan => {
-                    return updateObject(plan, {
-                        user_name: plan.user.first_name + ' ' + plan.user.last_name,
-                        ref: plan.user.ref,
-                        plan_name: plan.plan.name,
-                        expiry_date: convertDate(plan.expiry_date),
-                        created_at: convertDate(plan.created_at),
-                        action: <div className="text-center">
-                            <FontAwesomeIcon icon={faEye} className="text-lightblue mr-2" fixedWidth />
-                            <FontAwesomeIcon icon={faEdit} className="text-green mr-2" fixedWidth />
-                            <FontAwesomeIcon icon={faTrash} className="text-red" fixedWidth />
-                        </div>
-                    });
-                });
+        if (!plans) plans = [];
 
-                content = (
-                    <>
-                        <Row>
-                            <List array={plansData} data={JSON.stringify(plans)} dark bordered icon={faTasks} title="Plan Details" innerClassName="bg-darkblue" className="bg-darklight shadow-sm"
-                                fields={[
-                                    { name: 'Full Name', key: 'user_name' },
-                                    { name: 'User ID', key: 'ref' },
-                                    { name: 'Plan', key: 'plan_name' },
-                                    { name: 'Plan Code', key: 'code' },
-                                    { name: 'Rem. Calculations', key: 'points' },
-                                    { name: 'Used Calculations', key: 'calculations' },
-                                    { name: 'Expiry Date', key: 'expiry_date' },
-                                    { name: 'Creation date', key: 'created_at' },
-                                    { name: 'Action', key: 'action' }
-                                ]} />
-                        </Row>
-                    </>
-                );
-            }
-        }
+        let plansData = [];
+
+        errors = <>
+            <Error err={error} />
+        </>;
+
+        plansData = plans.map(plan => {
+            return updateObject(plan, {
+                user_name: plan.user.first_name + ' ' + plan.user.last_name,
+                ref: plan.user.ref,
+                plan_name: plan.plan.name,
+                expiry_date: convertDate(plan.expiry_date),
+                created_at: convertDate(plan.created_at),
+                action: <div className="text-center">
+                    <FontAwesomeIcon icon={faEye} className="text-lightblue mr-2" fixedWidth />
+                    <FontAwesomeIcon icon={faEdit} className="text-green mr-2" fixedWidth />
+                    <FontAwesomeIcon icon={faTrash} className="text-red" fixedWidth />
+                </div>
+            });
+        });
+
+        content = (
+            <>
+                <Row>
+                    <List array={plansData} loading={loading} data={JSON.stringify(plans)} get={this.props.onGetAdminPlanDetails} total={total} dark bordered icon={faTasks} title="Plan Details" innerClassName="bg-darkblue" className="bg-darklight shadow-sm"
+                        fields={[
+                            { name: 'Full Name', key: 'user_name' },
+                            { name: 'User ID', key: 'ref' },
+                            { name: 'Plan', key: 'plan_name' },
+                            { name: 'Plan Code', key: 'code' },
+                            { name: 'Rem. Calculations', key: 'points' },
+                            { name: 'Used Calculations', key: 'calculations' },
+                            { name: 'Expiry Date', key: 'expiry_date' },
+                            { name: 'Creation date', key: 'created_at' },
+                            { name: 'Action', key: 'action' }
+                        ]} />
+                </Row>
+            </>
+        );
 
         return (
             <>
@@ -97,7 +95,7 @@ class Index extends Component {
 const mapStateToProps = state => ({ ...state });
 
 const mapDispatchToProps = dispatch => ({
-    onGetAdminPlanDetails: () => dispatch(actions.getAdminPlanDetails()),
+    onGetAdminPlanDetails: (page, show, search) => dispatch(actions.getAdminPlanDetails(page, show, search)),
     onResetPlans: () => dispatch(actions.resetPlans()),
 });
 

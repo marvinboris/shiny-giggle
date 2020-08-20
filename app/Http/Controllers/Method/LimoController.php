@@ -113,9 +113,7 @@ class LimoController extends Controller
         $amount = $hashData['amount'];
         $link = $hashData['link'];
 
-        $data = [
-            'type' => $product_model,
-        ];
+        $data = [];
 
         if ($product_model === 'plan') $data['plan_id'] = $plan_id;
 
@@ -127,6 +125,7 @@ class LimoController extends Controller
             'email' => $user->email,
             'limo_id' => $vhut,
             'amount' => $amount,
+            'type' => $product_model,
             'phone' => $user->phone,
             'status' => 0,
             'data' => json_encode($data)
@@ -151,7 +150,7 @@ class LimoController extends Controller
             // 'feedback' => $request->feedback
         ]);
 
-        $type = $limoPayment->data->type;
+        $type = $limoPayment->type;
         $plan_id = $limoPayment->data->plan_id;
         $plan = Plan::find($plan_id);
 
@@ -175,12 +174,9 @@ class LimoController extends Controller
                 'data' => json_encode(['plan_user_id' => $plan_user_id])
             ]);
 
-            $data = [
-                'type' => $type,
-            ];
+            $data = [];
 
             if ($type === 'plan') {
-                $data['plan_id'] = $plan_id;
                 $data['plan_user_id'] = $plan_user_id;
             }
 

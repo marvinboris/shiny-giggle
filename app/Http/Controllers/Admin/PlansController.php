@@ -127,7 +127,7 @@ class PlansController extends Controller
     public function deposit(Request $request)
     {
         $request->validate([
-            'ref' => 'required|exists:data',
+            'ref' => 'required|exists:users',
             'id' => 'required|exists:plans',
         ]);
 
@@ -167,7 +167,7 @@ class PlansController extends Controller
     public function calculations(Request $request)
     {
         $request->validate([
-            'ref' => 'required|exists:data',
+            'ref' => 'required|exists:users',
             'id' => 'required|exists:plans',
             'points' => 'required|numeric',
         ]);

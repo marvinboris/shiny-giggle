@@ -4,28 +4,61 @@ namespace App\Http\Controllers\Method;
 
 use App\Deposit;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\UtilController;
 use App\Method;
+use App\Plan;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class PayeerController extends Controller
 {
     public static function generateWidgetData($input)
     {
-        $request = request();
+        $user = UtilController::user(request()->user());
 
         $payload = [
             'status' => 'success',
             'link' => null
         ];
 
-        $user = $request->user();
+        $hash = Crypt::encrypt([
+            'user' => $user,
+            'amount' => $input['amount'],
+            'plan_id' => $input['plan_id'],
+            'plan_name' => $input['plan_name'],
+            'type' => $input['type'] ?? 'plan',
+        ]);
+
+        $payload['link'] = route('payeer.proceed') . '?hash=' . $hash;
+
+        return $payload;
+    }
+
+    public function proceed(Request $request)
+    {
+        $data = Crypt::decrypt($request->hash);
+
+        $payload = [
+            'status' => 'success',
+            'link' => null
+        ];
+
+        $user = $data['user'];
+        $type = $data['type'];
+        $plan_id = $data['plan_id'];
+        $plan_name = $data['plan_name'];
+        $amount = $data['amount'];
+
+        $plan = Plan::find($plan_id);
+
         $method = Method::whereSlug('payeer')->first();
         $payeer = Deposit::create([
             'user_id' => $user->id,
             'method_id' => $method->id,
-            'amount' => $input['amount'],
-            'status' => 0,
-            'type' => $input['type'] ?? 'plan',
+            'amount' => $amount,
+            'status' => 1,
+            'type' => $type,
         ]);
 
         $ch = curl_init();
@@ -43,9 +76,9 @@ class PayeerController extends Controller
         $lang = 'en';
         $m_shop = env('PAYEER_MERCHANT_ID');
         $m_orderid = $payeer->id;
-        $m_amount = $input['amount'];
+        $m_amount = $amount;
         $m_curr = 'USD';
-        $m_desc = 'limocalc.com - ' . $payeer->id . ' - ' . $input['plan_name'];
+        $m_desc = 'limocalc.com - ' . $payeer->id . ' - ' . $plan_name;
 
         curl_setopt(
             $ch,
@@ -73,12 +106,12 @@ class PayeerController extends Controller
 
         if (+$response->auth_error === 0) {
             // User will be redirected to complete their payment
-            $payload['link'] = $response->url;
-        } else {
-            $payload['status'] = 'failure';
-            $payload['link'] = implode(". ", $response->errors);
+            return $response->url;
         }
 
-        return $payload;
+        $payload['status'] = 'failure';
+        $payload['link'] = implode(". ", $response->errors);
+
+        return redirect('/plans/' . $plan->slug . '/payment/mobile');
     }
 }

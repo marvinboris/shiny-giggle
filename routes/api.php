@@ -227,7 +227,10 @@ Route::middleware('auth:admin,api,outer')->group(function () {
 Route::namespace('Method')->group(function () {
     Route::get('monetbil/notify', 'MonetbilController@notify')->name('monetbil.notify.get');
     Route::post('monetbil/notify', 'MonetbilController@notify')->name('monetbil.notify.post');
-    
+
+    Route::get('payeer/proceed', 'PayeerController@proceed')->name('payeer.proceed');
+    Route::get('payeer/notify', 'PayeerController@notify')->name('payeer.notify.get');
+
     Route::get('limo/proceed', 'LimoController@proceed')->name('limo.proceed');
     Route::get('limo/notify', 'LimoController@notify')->name('limo.notify.get');
     Route::post('limo/notify', 'LimoController@notify')->name('limo.notify.post');

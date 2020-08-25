@@ -39,7 +39,6 @@ class FinancesController extends Controller
                         if ($search !== "")
                             $query
                                 ->where('type', 'LIKE', "%$search%")
-                                ->orWhere('name', 'LIKE', "%$search%")
                                 ->orWhere('first_name', 'LIKE', "%$search%")
                                 ->orWhere('last_name', 'LIKE', "%$search%")
                                 ->orWhere('ref', 'LIKE', "%$search%");
@@ -74,16 +73,13 @@ class FinancesController extends Controller
                 $filteredData = LimoPayment::latest();
 
                 $filteredData = $filteredData
-                    ->join('users', 'users.id', '=', 'limo_payments.user_id')
-                    ->select('limo_payments.*')
+                    // ->join('users', 'users.id', '=', 'limo_payments.user_id')
+                    // ->select('limo_payments.*')
                     ->when($search, function ($query, $search) {
                         if ($search !== "")
                             $query
                                 ->where('name', 'LIKE', "%$search%")
-                                ->where('first_name', 'LIKE', "%$search%")
-                                ->where('last_name', 'LIKE', "%$search%")
-                                ->orWhere('slug', 'LIKE', "%$search%")
-                                ->orWhere('ref', 'LIKE', "%$search%");
+                                ->orWhere('limo_id', 'LIKE', "%$search%");
                     });
 
                 $total = $filteredData->count();

@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 
 import { updateObject } from '../../../../shared/utility';
 
+let timeout;
+
 export default ({ fields, array, loading = false, get, total = 0, data, limit, bordered, xs = 12, sm = 12, md = 12, lg = 12, xl = 12, icon, title, add, link, className = '', dark, borderless, innerClassName = '', outerClassName = '', p0, select, children, selectHandler, style }) => {
     const titles = fields.map(({ name, fixed }) => <th className="align-middle text-nowrap bg-soft" style={fixed ? { position: 'sticky', right: 0 } : {}} key={name}>{name}</th>);
     titles.unshift(<th className="text-center align-middle" key="#">SL</th>);
@@ -132,7 +134,8 @@ export default ({ fields, array, loading = false, get, total = 0, data, limit, b
         }
     }
 
-    const entries = total % show;
+    const modulo = total % show;
+    const entries = modulo !== 0 ? modulo : show;
 
     return (
         <Col xs={xs} sm={sm} md={md} lg={lg} xl={xl} className={outerClassName}>

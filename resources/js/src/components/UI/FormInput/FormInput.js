@@ -2,7 +2,7 @@ import React from 'react';
 import { FormGroup, InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const FormInput = ({ icon, addon, onChange, className = '', name, type = 'text', required, readonly, placeholder, value = '', append, children }) => <FormGroup className={className}>
+const FormInput = ({ icon, addon, onChange, className = '', name, type = 'text', required, readonly, placeholder, value = '', append, disabled, children }) => <FormGroup className={className}>
     <InputGroup className="bg-input rounded-2" size="lg">
         <InputGroupAddon addonType="prepend">
             <InputGroupText className="bg-transparent border-left-0 border-top-0 border-bottom-0 border-border px-4">
@@ -11,9 +11,9 @@ const FormInput = ({ icon, addon, onChange, className = '', name, type = 'text',
         </InputGroupAddon>
 
         {children ?
-            <Input onChange={onChange} type={type} name={name} required={required} readOnly={readonly} value={value} className="bg-input border-right-0 border-top-0 border-bottom-0 border-border text-small text-light h-100 px-4 py-3" placeholder={placeholder}>{children}</Input>
+            <Input onChange={onChange} type={type} name={name} disabled={disabled} required={required} readOnly={readonly} value={value} className="bg-input border-right-0 border-top-0 border-bottom-0 border-border text-small text-light h-100 px-4 py-3" placeholder={placeholder}>{children}</Input>
             :
-            <Input onChange={onChange} type={type} name={name} required={required} readOnly={readonly} value={value} className="bg-transparent border-0 text-small text-light h-100 px-4 py-3" placeholder={placeholder} />
+            <Input onChange={onChange} type={type} name={name} disabled={disabled} required={required} readOnly={readonly} value={value} className="bg-transparent border-0 text-small text-light h-100 px-4 py-3" placeholder={placeholder} />
         }
 
         {append ?

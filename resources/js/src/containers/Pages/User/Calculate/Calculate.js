@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { faCalendarAlt, faWallet, faCalendar, faAngleDoubleRight, faBox, faList, faClock, faAngleDoubleLeft, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarAlt, faWallet, faCalendar, faAngleDoubleRight, faBox, faList, faClock, faAngleDoubleLeft, faChevronLeft, faChevronRight, faSync } from '@fortawesome/free-solid-svg-icons';
 import { Col, Row, Form, FormGroup } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -48,7 +48,9 @@ class Calculate extends Component {
         selectedDuration: 'none',
         selectedPeriod: 'none',
         selectedReinvestment: '',
-        selectedPack: 'none'
+        selectedPack: 'none',
+
+        disabled: false,
     }
 
 
@@ -95,10 +97,12 @@ class Calculate extends Component {
     }
 
     submitHandler = e => {
+        if (this.state.disabled) return location.reload();
         e.preventDefault();
         const scrollTop = document.getElementById('scroll-target').offsetTop;
         window.scroll(0, scrollTop);
         this.props.onPostUserCalculate(e.target);
+        this.setState({ disabled: true });
     }
 
 
@@ -156,7 +160,7 @@ class Calculate extends Component {
 
     render() {
         let { calculation: { selectedPlan }, backend: { calculate: { loading, error, plans, simulation } } } = this.props;
-        let { points, page, packs, newPeriods, durations, name, pageFirst, pageLast, pageSecond, pack, duration, period, selectedDuration, selectedPack, selectedPeriod } = this.state;
+        let { points, page, packs, newPeriods, durations, name, pageFirst, pageLast, pageSecond, pack, duration, period, selectedDuration, selectedPack, selectedPeriod, disabled } = this.state;
 
         let content = '';
         packs = packs.map(({ id, name }) => <option key={id} value={id}>{name}</option>);
@@ -188,17 +192,17 @@ class Calculate extends Component {
         if (selectedPlan) formContent = <Col xs={12} className="pb-3 pt-sm-3">
             <Form id="scroll-target" onSubmit={this.submitHandler}>
                 <Row className="align-items-center">
-                    <FormInput type="select" className="col-xl-3" icon={faWallet} onChange={e => this.inputChangeHandler(e, "pack")} value={pack} name="pack" required>
+                    <FormInput type="select" disabled={disabled} className="col-xl-3" icon={faWallet} onChange={e => this.inputChangeHandler(e, "pack")} value={pack} name="pack" required>
                         <option>Select a package</option>
                         {packs}
                     </FormInput>
 
-                    <FormInput type="select" className="col-xl-3" icon={faCalendar} onChange={e => this.inputChangeHandler(e, "period")} value={period} name="period" required>
+                    <FormInput type="select" disabled={disabled} className="col-xl-3" icon={faCalendar} onChange={e => this.inputChangeHandler(e, "period")} value={period} name="period" required>
                         <option>Select Reinvestment type</option>
                         {newPeriods}
                     </FormInput>
 
-                    <FormInput type="select" className="col-xl-3" icon={faCalendar} onChange={e => this.inputChangeHandler(e, "duration")} value={duration} name="duration" required>
+                    <FormInput type="select" disabled={disabled} className="col-xl-3" icon={faCalendar} onChange={e => this.inputChangeHandler(e, "duration")} value={duration} name="duration" required>
                         <option>Select a duration</option>
                         {durations}
                     </FormInput>
@@ -206,7 +210,7 @@ class Calculate extends Component {
                     <input type="hidden" name="code" value={selectedPlan} />
 
                     <FormGroup className="col-xl-3 m-0">
-                        <FormButton color="yellow" icon={faAngleDoubleRight}>Calculate Investment</FormButton>
+                        <FormButton color={disabled ? "green" : "yellow"} icon={disabled ? faSync : faAngleDoubleRight}>{disabled ? 'Reset Calculation' : 'Calculate Investment'}</FormButton>
                     </FormGroup>
                 </Row>
             </Form>

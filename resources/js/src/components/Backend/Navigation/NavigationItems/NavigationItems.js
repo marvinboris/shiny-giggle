@@ -49,12 +49,6 @@ export default ({ cartItemsNumber, name, sidedrawerToggle, logoutHandler, role, 
         </DropdownItem>
     });
 
-    const commentItems = comments.map(comment => {
-        return <DropdownItem key={'comment_' + comment.id} className="text-dark border-top">
-            {comment.content}
-        </DropdownItem>
-    });
-
     const [modal, setModal] = useState(false);
 
     const toggle = () => setModal(!modal);

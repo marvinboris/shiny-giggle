@@ -43,6 +43,12 @@ export {
     postUserContactUs,
     resetSimulation,
 
+    resetOptions,
+    getAutoReinvests,
+    getAutoReinvest,
+    getAutoReinvestInit,
+    postAutoReinvest,
+
     getUserDashboard,
 
     resetUserPackages,

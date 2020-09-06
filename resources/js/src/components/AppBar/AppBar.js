@@ -19,9 +19,9 @@ export default ({ isAuthenticated, role, logout, dashboard }) => {
                 </Link>
 
                 {isAuthenticated ? <div className="d-flex align-items-center justify-content-end ml-auto">
-                    {role === 'guest' ? null : <FontAwesomeIcon onClick={dashboard} className="text-white" style={{ cursor: 'pointer' }} size="3x" icon={faTachometerAlt} />}
+                    {/* {role === 'guest' ? null : <FontAwesomeIcon onClick={dashboard} className="text-white" style={{ cursor: 'pointer' }} size="3x" icon={faTachometerAlt} />}
 
-                    <FontAwesomeIcon onClick={toggle} className="text-white ml-3" style={{ cursor: 'pointer' }} size="3x" icon={faPowerOff} />
+                    <FontAwesomeIcon onClick={toggle} className="text-white ml-3" style={{ cursor: 'pointer' }} size="3x" icon={faPowerOff} /> */}
                     <Modal isOpen={modal} toggle={toggle}>
                         <ModalHeader toggle={toggle}>Logout</ModalHeader>
                         <ModalBody className="text-center">
@@ -38,9 +38,9 @@ export default ({ isAuthenticated, role, logout, dashboard }) => {
 
         <div className="d-sm-none fixed-top w-100">
             {isAuthenticated ? <div className="d-flex align-items-center justify-content-end p-3">
-                {role === 'guest' ? null : <FontAwesomeIcon onClick={dashboard} className="text-white" style={{ cursor: 'pointer' }} size="2x" icon={faTachometerAlt} />}
+                {/* {role === 'guest' ? null : <FontAwesomeIcon onClick={dashboard} className="text-white" style={{ cursor: 'pointer' }} size="2x" icon={faTachometerAlt} />}
 
-                <FontAwesomeIcon onClick={toggle} className="text-white ml-3" style={{ cursor: 'pointer' }} size="2x" icon={faPowerOff} />
+                <FontAwesomeIcon onClick={toggle} className="text-white ml-3" style={{ cursor: 'pointer' }} size="2x" icon={faPowerOff} /> */}
                 <Modal isOpen={modal} toggle={toggle}>
                     <ModalHeader toggle={toggle}>Logout</ModalHeader>
                     <ModalBody className="text-center">

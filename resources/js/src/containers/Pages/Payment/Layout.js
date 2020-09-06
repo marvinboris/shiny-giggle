@@ -2,8 +2,6 @@ import React from 'react';
 import { Row, Col } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 
-import FrontEnd from '../../FrontEnd';
-
 import Title from '../../../components/UI/Title/Title';
 
 import manpaye from '../../../assets/images/Group 136@2x.png';
@@ -11,6 +9,8 @@ import limoImg from '../../../assets/images/Liom-logo-New@2x.png';
 import mobileImg from '../../../assets/images/Group 138@2x.png';
 import btcImg from '../../../assets/images/bitcoin@2x.png';
 import payeerImg from '../../../assets/images/41sEsPEXXOL.png';
+
+import './Layout.css';
 
 const MethodImg = ({ src, disabled }) => <><img src={src} alt="Payment" width={26} className="mr-2 d-none d-md-inline" style={disabled ? { filter: 'grayscale(1)' } : null} /><img src={src} alt="Payment" width={17} className="mr-2 d-md-none" style={disabled ? { filter: 'grayscale(1)' } : null} /></>;
 
@@ -20,11 +20,11 @@ const InactiveLink = ({ link, src, children }) => <><div className="d-md-none m-
 export default ({ limo, mobile, btc, payeer, children, loading, link }) => <>
     <Title check>Well done ! Please make payment and proceed to next step</Title>
 
-    <div className="mx-auto col-md-11 px-0 flex-fill d-flex align-items-center">
+    <div className="PaymentLayout mx-auto col-md-11 px-0 flex-fill d-flex align-items-center">
         <Row className="justify-content-between align-items-center flex-fill">
             <Col xl={6} className="border-right-sm border-right-0 border-border pr-md-5 py-5">
                 <Row className="justify-content-center align-items-center">
-                    <Col xs={12}>
+                    <Col xs={12} className="titles">
                         {!loading ?
                             <>
                                 <div className="mb-4 mr-auto">

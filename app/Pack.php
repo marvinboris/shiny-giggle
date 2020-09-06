@@ -15,4 +15,9 @@ class Pack extends Model
     {
         return $this->belongsToMany('App\Plan');
     }
+
+    public function auto_reinvests()
+    {
+        return $this->hasMany('App\AutoReinvest');
+    }
 }

@@ -78,6 +78,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany('App\Deposit');
     }
 
+    public function auto_reinvests()
+    {
+        return $this->hasMany('App\AutoReinvest');
+    }
+
     public function calculations()
     {
         $plans = $this->plans;

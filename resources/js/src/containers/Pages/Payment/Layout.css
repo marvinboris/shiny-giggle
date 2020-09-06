@@ -1,0 +1,10 @@
+.PaymentLayout .titles {
+    scale: 1;
+    transition: .25s;
+}
+
+@media screen and (max-width: 500px) {
+    .PaymentLayout .titles {
+        scale: .7;
+    }
+}

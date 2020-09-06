@@ -73,9 +73,10 @@ export default ({ cartItemsNumber, name, sidedrawerToggle, logoutHandler, role, 
         </Nav>
         <div className="ml-auto d-flex align-items-center">
             <div className="py-3 d-flex justify-content-between align-items-center">
-                {role === 'user' ? <div className="pr-5">
+                {role === 'user' ? <div className="pr-3 pr-lg-5">
                     <Link to='/user/calculate' className="text-decoration-none">
                         <Button size="lg" className="rounded-2 d-none d-lg-inline px-4" color="orange">Calculate Now</Button>
+                        <Button size="sm" className="rounded-2 d-inline d-lg-none" color="orange">Calculate Now</Button>
                     </Link>
                 </div> : null}
 

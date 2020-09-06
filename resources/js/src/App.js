@@ -53,6 +53,8 @@ import AdminCalculationDeposit from './containers/Pages/Admin/Plans/Calculation'
 import UserContactUsShow from './containers/Pages/User/ContactUs/View';
 import UserContactUsAdd from './containers/Pages/User/ContactUs/Add';
 import UserContactUsList from './containers/Pages/User/ContactUs';
+import UserAutoReinvestAdd from './containers/Pages/User/Options/AutoReinvest/Add';
+import UserAutoReinvestList from './containers/Pages/User/Options/AutoReinvest';
 import UserDashboard from './containers/Pages/User/Dashboard/Dashboard';
 import Plans from './containers/Pages/User/Subscription/Plans/Plans';
 import Buy from './containers/Pages/User/Subscription/Buy/Buy';
@@ -114,6 +116,9 @@ class App extends Component {
           <Route path="/user/contact-us/add" component={UserContactUsAdd} />
           <Route path="/user/contact-us/:id" component={UserContactUsShow} />
           <Route path="/user/contact-us" component={UserContactUsList} />
+          <Route path="/user/options/auto-reinvest/add" component={UserAutoReinvestAdd} />
+          {/* <Route path="/user/options/auto-reinvest/:id" component={UserAutoReinvestShow} /> */}
+          <Route path="/user/options/auto-reinvest" component={UserAutoReinvestList} />
 
 
 

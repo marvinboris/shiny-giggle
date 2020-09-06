@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { faWallet, faDollarSign, faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons';
-import { Form, FormGroup } from 'reactstrap';
+import { faWallet, faDollarSign, faAngleDoubleRight, faAngleDoubleLeft } from '@fortawesome/free-solid-svg-icons';
+import { Form, FormGroup, Row, Col } from 'reactstrap';
 import { connect } from 'react-redux';
 
 import * as actions from '../../../store/actions/index';
@@ -10,6 +10,7 @@ import Error from '../../../components/Error/Error';
 import FormInput from '../../../components/UI/FormInput/FormInput';
 import FormButton from '../../../components/UI/FormButton/FormButton';
 import CustomSpinner from '../../../components/UI/CustomSpinner/CustomSpinner';
+import { Link } from 'react-router-dom';
 
 class Mobile extends Component {
     componentDidMount() {
@@ -42,7 +43,10 @@ class Mobile extends Component {
                         <span className="text-700 text-yellow">{plan.price} USD</span>
                     </FormGroup>
                     <FormGroup>
-                        <FormButton color="yellow" icon={faAngleDoubleRight}>Proceed</FormButton>
+                        <Row>
+                            <Col xs={6} className="pr-1"><Link to="/dashboard"><FormButton type="button" color="red" icon={faAngleDoubleLeft}>Cancel</FormButton></Link></Col>
+                            <Col xs={6} className="pl-1"><FormButton color="yellow" icon={faAngleDoubleRight}>Proceed</FormButton></Col>
+                        </Row>
                     </FormGroup>
                 </Form>;
             } else content = <div className="py-5">

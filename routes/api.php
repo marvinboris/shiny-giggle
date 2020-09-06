@@ -132,6 +132,16 @@ Route::namespace('User')->prefix('user')->name('user.')->group(function () {
             Route::post('', 'ContactUsController@store')->name('store');
             Route::get('', 'ContactUsController@index')->name('index');
         });
+
+        Route::prefix('options')->name('options.')->group(function () {
+            // Route::get('{id}', 'OptionsController@show')->name('show');
+
+            Route::prefix('auto-reinvest')->name('auto-reinvest.')->group(function () {
+                Route::get('init', 'OptionsController@autoReinvestInit')->name('init');
+                Route::post('', 'OptionsController@autoReinvest')->name('store');
+                Route::get('', 'OptionsController@autoReinvests')->name('index');
+            });
+        });
     });
 });
 
@@ -230,6 +240,9 @@ Route::namespace('Method')->group(function () {
 
     Route::get('payeer/proceed', 'PayeerController@proceed')->name('payeer.proceed');
     Route::get('payeer/notify', 'PayeerController@notify')->name('payeer.notify.get');
+
+    Route::get('bitpay/proceed', 'BitpayController@proceed')->name('bitpay.proceed');
+    Route::get('bitpay/notify', 'BitpayController@notify')->name('bitpay.notify.get');
 
     Route::get('limo/proceed', 'LimoController@proceed')->name('limo.proceed');
     Route::get('limo/notify', 'LimoController@notify')->name('limo.notify.get');

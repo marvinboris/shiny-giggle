@@ -36,6 +36,10 @@ const initialState = {
         loading: false,
         error: null
     },
+    options: {
+        loading: false,
+        error: null
+    },
     settings: {
         loading: false,
         error: null
@@ -66,6 +70,11 @@ const resetCalculate = (state, action) => updateObject(state, { calculate: initi
 const calculateStart = (state, action) => updateObject(state, { calculate: updateObject(state.calculate, { loading: true, message: null }) });
 const calculateSuccess = (state, action) => updateObject(state, { calculate: updateObject(state.calculate, { loading: false, error: null, ...action }) });
 const calculateFail = (state, action) => updateObject(state, { calculate: updateObject(state.calculate, { loading: false, ...action }) });
+
+const resetOptions = (state, action) => updateObject(state, { options: initialState.options });
+const optionsStart = (state, action) => updateObject(state, { options: updateObject(state.options, { loading: true, message: null }) });
+const optionsSuccess = (state, action) => updateObject(state, { options: updateObject(state.options, { loading: false, error: null, ...action }) });
+const optionsFail = (state, action) => updateObject(state, { options: updateObject(state.options, { loading: false, ...action }) });
 
 
 
@@ -110,6 +119,11 @@ const reducer = (state = initialState, action) => {
         case actionTypes.CALCULATE_START: return calculateStart(state, action);
         case actionTypes.CALCULATE_FAIL: return calculateFail(state, action);
         case actionTypes.CALCULATE_SUCCESS: return calculateSuccess(state, action);
+
+        case actionTypes.RESET_OPTIONS: return resetOptions(state, action);
+        case actionTypes.OPTIONS_START: return optionsStart(state, action);
+        case actionTypes.OPTIONS_FAIL: return optionsFail(state, action);
+        case actionTypes.OPTIONS_SUCCESS: return optionsSuccess(state, action);
 
 
 

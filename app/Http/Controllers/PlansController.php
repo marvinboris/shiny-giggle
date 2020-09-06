@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Admin;
+use App\Http\Controllers\Method\BitpayController;
 use App\Http\Controllers\Method\LimoController;
 use App\Http\Controllers\Method\MonetbilController;
 use App\Http\Controllers\Method\PayeerController;
@@ -57,6 +58,15 @@ class PlansController extends Controller
                     break;
                 case 'Payeer':
                     $payeer = PayeerController::generateWidgetData([
+                        'amount' => $plan->price,
+                        'type' => 'plan',
+                        'plan_id' => $plan->id,
+                        'plan_name' => $plan->name,
+                    ]);
+                    $link = $payeer['link'];
+                    break;
+                case 'Bitcoin':
+                    $payeer = BitpayController::generateWidgetData([
                         'amount' => $plan->price,
                         'type' => 'plan',
                         'plan_id' => $plan->id,

@@ -10,6 +10,8 @@
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+window.BTC_VALUE_API_KEY = process.env.MIX_BTC_VALUE_API_KEY;
+
 import Echo from 'laravel-echo';
 
 window.$ = window.jQuery = require('jquery');

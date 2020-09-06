@@ -39,10 +39,10 @@ export default ({ name, messages = [], photo = "https://placehold.it/100x100", r
                 </Col>
             </>;
             sideDrawerItems = <>
-                <SideDrawerItem sideDrawerToggle={toggle} icon={faUserTie} dropdown id="Subscription Plan" select={selectItem} selected={selectedItem} path="/user/subscription" items={[
+                <SideDrawerItem sideDrawerToggle={toggle} icon={faUserTie} dropdown id="Subscription" select={selectItem} selected={selectedItem} path="/user/subscription" items={[
                     { link: '/user/subscription/buy', text: 'Buy Plan' },
                     { link: '/user/subscription/plans', text: 'My Plans' },
-                ]}>Subscription Plan</SideDrawerItem>
+                ]}>Subscription</SideDrawerItem>
                 <SideDrawerItem sideDrawerToggle={toggle} icon={faCalendarAlt} id="Calculate" select={selectItem} selected={selectedItem} href="/user/calculate">Calculate</SideDrawerItem>
                 {/* <SideDrawerItem sideDrawerToggle={toggle} icon={faMoneyBillWave} dropdown id="Finances" select={selectItem} selected={selectedItem} path="/user/finances" items={[
                     { link: '/user/finances/deposits/add', text: 'Deposit Credits' },
@@ -51,7 +51,7 @@ export default ({ name, messages = [], photo = "https://placehold.it/100x100", r
                 <SideDrawerItem sideDrawerToggle={toggle} icon={faEnvelope} id="Contact us" select={selectItem} selected={selectedItem} href="/user/contact-us/add">Contact us<Badge color="green" className="position-relative rounded-circle text-x-small text-700 d-inline-flex justify-content-center align-items-center" style={{ width: 18, height: 18, top: -7, transform: 'translateX(-40px)' }}><b className="text-white">{messages.length}</b></Badge></SideDrawerItem>
                 <SideDrawerItem sideDrawerToggle={toggle} icon={faCog} dropdown id="Options" select={selectItem} selected={selectedItem} path="/user/options" items={[
                     { link: '/user/options/terms-conditions', text: 'Terms & Conditions' },
-                    { link: '/user/options/auto-reinvest', text: 'Auto Reinvest (Coming soon)' },
+                    { link: '/user/options/auto-reinvest/add', text: 'Auto Reinvest' },
                     { link: '/user/options/sms-notification', text: 'SMS Notification (Coming soon)' },
                 ]}>Options</SideDrawerItem>
             </>;

@@ -37,7 +37,7 @@ class Add extends Component {
 
     submitHandler = async e => {
         e.preventDefault();
-        await this.props.post(e.target);
+        // await this.props.post(e.target);
     }
 
     inputChangeHandler = e => {

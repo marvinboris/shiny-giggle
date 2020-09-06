@@ -83,11 +83,11 @@ class Add extends Component {
 
                                     <Col lg={4}>
                                         <FormButton type="button" color={this.state.file ? "green" : "secondary"} before onClick={this.fileButtonClickedHandler} icon={this.state.file ? faCheck : faPaperclip}>{this.state.file ? 'File uploaded' : 'Attach a file'}</FormButton>
-                                        <input id="file" type="file" className="d-none" name="file" />
+                                        <input id="file" type="file" className="d-none" onChange={this.inputChangeHandler} name="file" />
                                     </Col>
 
                                     <Col lg={8} className="text-light d-flex align-items-center">
-                                        {this.state.file && <p>Only PDF, JPG, JPEG, PNG files are allowed</p>}
+                                        {!this.state.file && <p>Only PDF, JPG, JPEG, PNG files are allowed</p>}
                                     </Col>
 
                                     <Col md={6} className="mt-5">

@@ -8,7 +8,7 @@ import { faClock, faComments } from '@fortawesome/free-regular-svg-icons';
 // import NavigationItem from './NavigationItem/NavigationItem';
 // import MyDropdownItem from '../../../Navigation/NavigationItems/DropdownItem/DropdownItem';
 
-export default ({ cartItemsNumber, name, sidedrawerToggle, logoutHandler, role, notifications = [], messages = [], comments = [], date: { weekDay, day, month, year }, clock: { hours, minutes, seconds } }) => {
+export default ({ cartItemsNumber, name, sidedrawerToggle, logoutHandler, role, notifications = [], messages = [], date: { weekDay, day, month, year }, clock: { hours, minutes, seconds } }) => {
     const notificationItems = notifications.map(notification => {
         let message, icon;
         switch (notification.type) {
@@ -82,26 +82,6 @@ export default ({ cartItemsNumber, name, sidedrawerToggle, logoutHandler, role, 
 
                 <UncontrolledDropdown inNavbar>
                     <DropdownToggle nav className="p-0">
-                        <FontAwesomeIcon icon={faComments} className="text-light mr-3" size="lg" />
-                        <Badge color="pink" className="position-absolute rounded-circle d-inline-flex justify-content-center align-items-center" style={{ width: 20, height: 20, transform: 'translate(-30px, -5px)', zIndex: 2 }}>{comments.length}</Badge>
-                    </DropdownToggle>
-                    <DropdownMenu right style={{ width: '20rem' }}>
-                        {comments.length === 0 ? <DropdownItem disabled className="bg-dark text-white">
-                            <div className="py-2">No comment.</div>
-                        </DropdownItem> : <>
-                                <DropdownItem disabled className="text-left pt-0 small">
-                                    You have {comments.length || 4} comments.
-                                        </DropdownItem>
-                                {commentItems}
-                                <DropdownItem className="text-center pb-0 border-top">
-                                    <Link className="text-reset small" to={"/comments"}>View all comments</Link>
-                                </DropdownItem>
-                            </>}
-                    </DropdownMenu>
-                </UncontrolledDropdown>
-
-                <UncontrolledDropdown inNavbar>
-                    <DropdownToggle nav className="p-0">
                         <FontAwesomeIcon icon={faEnvelope} className="text-light mr-3" size="lg" />
                         <Badge color="green" className="position-absolute rounded-circle d-inline-flex justify-content-center align-items-center" style={{ width: 20, height: 20, transform: 'translate(-30px, -5px)', zIndex: 2 }}>{messages.length}</Badge>
                     </DropdownToggle>
@@ -140,7 +120,7 @@ export default ({ cartItemsNumber, name, sidedrawerToggle, logoutHandler, role, 
                     </DropdownMenu>
                 </UncontrolledDropdown>
             </div>
-            <div onClick={toggle} style={{ cursor: 'pointer' }} className="d-flex align-items-center ml-md-5">
+            <div onClick={toggle} style={{ cursor: 'pointer' }} className="d-flex align-items-center ml-3 ml-md-5">
                 <span className="d-none d-md-inline">Sign out</span>
                 <FontAwesomeIcon icon={faPowerOff} size="lg" className="ml-2" />
             </div>

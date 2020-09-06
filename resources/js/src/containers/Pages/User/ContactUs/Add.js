@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Col, Row } from 'reactstrap';
-import { faUserTie, faUser, faMoneyBillWave, faPlusCircle, faPaperPlane, faPaperclip } from '@fortawesome/free-solid-svg-icons';
+import { faUserTie, faUser, faMoneyBillWave, faPlusCircle, faPaperPlane, faPaperclip, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
 
 // Components
@@ -82,12 +82,12 @@ class Add extends Component {
                                     </Col>
 
                                     <Col lg={4}>
-                                        <FormButton type="button" color="secondary" before onClick={this.fileButtonClickedHandler} icon={faPaperclip}>Attach a file</FormButton>
+                                        <FormButton type="button" color={this.state.file ? "green" : "secondary"} before onClick={this.fileButtonClickedHandler} icon={this.state.file ? faCheck : faPaperclip}>{this.state.file ? 'File uploaded' : 'Attach a file'}</FormButton>
                                         <input id="file" type="file" className="d-none" name="file" />
                                     </Col>
 
                                     <Col lg={8} className="text-light d-flex align-items-center">
-                                        <p>Only PDF, JPG, JPEG, PNG files are allowed</p>
+                                        {this.state.file && <p>Only PDF, JPG, JPEG, PNG files are allowed</p>}
                                     </Col>
 
                                     <Col md={6} className="mt-5">

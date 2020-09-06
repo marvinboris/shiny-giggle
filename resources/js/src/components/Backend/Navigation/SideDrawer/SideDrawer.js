@@ -1,7 +1,7 @@
 import React from 'react';
 import { Col, Badge, ButtonGroup, Button, Collapse } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTachometerAlt, faUserTie, faCalendarAlt, faEnvelope, faTasks, faCog, faCircle, faEdit, faMoneyBillWave, faWallet, faCopy, faBell } from '@fortawesome/free-solid-svg-icons';
+import { faTachometerAlt, faUserTie, faCalendarAlt, faEnvelope, faTasks, faCog, faCircle, faEdit, faMoneyBillWave, faWallet, faCopy, faBell, faBox } from '@fortawesome/free-solid-svg-icons';
 import { faCheckCircle } from '@fortawesome/free-regular-svg-icons';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
@@ -39,7 +39,7 @@ export default ({ name, messages = [], photo = "https://placehold.it/100x100", r
                 </Col>
             </>;
             sideDrawerItems = <>
-                <SideDrawerItem sideDrawerToggle={toggle} icon={faUserTie} dropdown id="Subscription" select={selectItem} selected={selectedItem} path="/user/subscription" items={[
+                <SideDrawerItem sideDrawerToggle={toggle} icon={faBox} dropdown id="Subscription" select={selectItem} selected={selectedItem} path="/user/subscription" items={[
                     { link: '/user/subscription/buy', text: 'Buy Plan' },
                     { link: '/user/subscription/plans', text: 'My Plans' },
                 ]}>Subscription</SideDrawerItem>

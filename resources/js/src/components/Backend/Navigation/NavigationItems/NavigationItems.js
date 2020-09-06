@@ -8,6 +8,8 @@ import { faClock, faComments } from '@fortawesome/free-regular-svg-icons';
 // import NavigationItem from './NavigationItem/NavigationItem';
 // import MyDropdownItem from '../../../Navigation/NavigationItems/DropdownItem/DropdownItem';
 
+import MenuBar from '../../../../assets/images/menu-bar.svg';
+
 export default ({ cartItemsNumber, name, sidedrawerToggle, logoutHandler, role, notifications = [], messages = [], date: { weekDay, day, month, year }, clock: { hours, minutes, seconds } }) => {
     const notificationItems = notifications.map(notification => {
         let message, icon;
@@ -55,7 +57,8 @@ export default ({ cartItemsNumber, name, sidedrawerToggle, logoutHandler, role, 
 
     return <div className="px-3 bg-darkblue flex-fill d-flex align-items-center text-light text-large" style={{ height: 101 }}>
         <Nav className="mr-auto d-flex align-items-center" navbar>
-            <FontAwesomeIcon icon={faBars} className="mr-3 mr-md-5 ml-2 ml-md-4" style={{ cursor: 'pointer' }} onClick={sidedrawerToggle} size="2x" />
+            {/* <FontAwesomeIcon icon={faBars} className="mr-3 mr-md-5 ml-2 ml-md-4" style={{ cursor: 'pointer' }} onClick={sidedrawerToggle} size="2x" /> */}
+            <img className="d-inline mr-3 mr-md-5 ml-2 ml-md-4" style={{ cursor: 'pointer' }} src={MenuBar} onClick={sidedrawerToggle} />
             <div className="mr-4 d-none d-lg-block">
                 <FontAwesomeIcon icon={faCalendar} className="mr-2" />
                 <span className="text-300">Today is</span> <strong>{weekDay} {day} {month} {year}</strong>

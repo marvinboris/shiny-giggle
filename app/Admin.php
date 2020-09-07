@@ -46,7 +46,7 @@ class Admin extends Authenticatable
 
     public function getPhotoAttribute($value)
     {
-        return $this->directory . $value;
+        return public_path() . $this->directory . $value;
     }
 
     public function role()

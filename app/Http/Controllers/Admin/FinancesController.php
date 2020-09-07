@@ -198,6 +198,7 @@ class FinancesController extends Controller
                 'user_id' => $user->id,
                 'plan_id' => $plan->id,
                 'points' => $plan->points,
+                'total' => $plan->points,
                 'code' => $code,
                 'expiry_date' => Carbon::now()->addWeeks($plan->validity)
             ]);

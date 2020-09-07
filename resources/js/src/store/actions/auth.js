@@ -6,6 +6,7 @@ const authMessage = message => ({ type: actionTypes.AUTH_MESSAGE, message });
 const authFail = error => ({ type: actionTypes.AUTH_FAIL, error });
 
 const authLoginSuccess = (token, data) => ({ type: actionTypes.AUTH_LOGIN_SUCCESS, token, data: { ...data, role: 'user' } });
+const authPhotoSuccess = photo => ({ type: actionTypes.AUTH_PHOTO_SUCCESS, photo });
 const authSignupSuccess = email => ({ type: actionTypes.AUTH_SIGNUP_SUCCESS, signup: { status: true, email } });
 export const clearSignup = () => ({ type: actionTypes.CLEAR_SIGNUP, signup: { status: false, email: null } });
 
@@ -271,7 +272,32 @@ export const resendCode = hash => async dispatch => {
 
         dispatch(resendCodeSuccess(resData.hash, resData.message));
     } catch (err) {
-        dispatch(authFail());
+        dispatch(authFail(err));
+    }
+};
+
+export const authPhoto = photo => async dispatch => {
+    dispatch(authStart());
+    const token = localStorage.getItem('token');
+
+    try {
+        const formData = new FormData();
+        formData.append('photo', photo);
+
+        const res = await fetch(rootPath + '/api/photo', {
+            method: 'POST',
+            mode: 'cors',
+            body: formData,
+            headers: {
+                'Authorization': token
+            }
+        });
+
+        const resData = await res.json();
+
+        dispatch(authPhotoSuccess(resData.photo));
+    } catch (err) {
+        dispatch(authFail(err));
     }
 };
 

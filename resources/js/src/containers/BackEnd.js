@@ -9,7 +9,7 @@ import Toolbar from '../components/Backend/Navigation/Toolbar/Toolbar';
 import SideDrawer from '../components/Backend/Navigation/SideDrawer/SideDrawer';
 import CustomSpinner from '../components/UI/CustomSpinner/CustomSpinner';
 
-import { authLogout } from '../store/actions';
+import { authLogout, authPhoto } from '../store/actions';
 
 class BackEnd extends Component {
     state = {
@@ -168,7 +168,7 @@ class BackEnd extends Component {
 
         return <div className="BackEnd text-left">
             <Toolbar notifications={notifications || []} messages={messages || []} name={name || first_name + ' ' + last_name} role={role} toggle={this.toggle} logoutHandler={this.logoutHandler} date={date} clock={clock} />
-            <SideDrawer name={name || first_name + ' ' + last_name} messages={messages || []} isOpen={isOpen} photo={photo} role={role} id={ref} toggle={this.toggle} sponsor={sponsor} credits={credits} selectItem={this.selectItem} selectedItem={selectedItem} />
+            <SideDrawer name={name || first_name + ' ' + last_name} messages={messages || []} isOpen={isOpen} photo={photo} role={role} id={ref} toggle={this.toggle} sponsor={sponsor} credits={credits} selectItem={this.selectItem} selectedItem={selectedItem} editPhoto={this.props.onAuthPhoto} />
 
             <main className="bg-darkblue full-height-user position-relative pb-5">
                 <div className="bg-darkblue mb-5 pb-5">
@@ -195,7 +195,8 @@ class BackEnd extends Component {
 const mapStateToProps = state => ({ ...state });
 
 const mapDispatchToProps = dispatch => ({
-    onAuthLogout: () => dispatch(authLogout())
+    onAuthLogout: () => dispatch(authLogout()),
+    onAuthPhoto: photo => dispatch(authPhoto(photo)),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(BackEnd));

@@ -11,6 +11,8 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable, HasApiTokens;
 
+    protected $directory = "/profiles/";
+
     public function receivesBroadcastNotificationsOn()
     {
         return 'user.' . $this->role() . '.' . $this->id;
@@ -22,7 +24,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'email', 'first_name', 'last_name', 'username', 'phone', 'country', 'password', 'sponsor', 'ref', 'credits', 'is_active', 'last_login', 'ip'
+        'email', 'first_name', 'last_name', 'username', 'phone', 'country', 'password', 'sponsor', 'ref', 'credits', 'is_active', 'last_login', 'ip', 'photo'
     ];
 
     /**
@@ -60,7 +62,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function plans()
     {
-        return $this->belongsToMany('App\Plan', 'plan_user')->withPivot(['id', 'points', 'code', 'calculations', 'expiry_date']);
+        return $this->belongsToMany('App\Plan', 'plan_user')->withPivot(['id', 'points', 'code', 'calculations', 'expiry_date', 'total']);
     }
 
     public function limo_payments()
@@ -151,6 +153,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function sponsor()
     {
         return self::where('ref', $this->sponsor)->first();
+    }
+
+    public function getPhotoAttribute($value)
+    {
+        return $this->directory . $value;
     }
 
     public function role()

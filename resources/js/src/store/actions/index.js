@@ -1,5 +1,6 @@
 export {
     authLogin,
+    authPhoto,
     authSignup,
     forgotPassword,
     resetPassword,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Col, Badge, ButtonGroup, Button, Collapse } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTachometerAlt, faUserTie, faCalendarAlt, faEnvelope, faTasks, faCog, faCircle, faEdit, faMoneyBillWave, faWallet, faCopy, faBell, faBox } from '@fortawesome/free-solid-svg-icons';
@@ -13,7 +13,22 @@ const roles = {
     admin: 'Administrator'
 };
 
-export default ({ name, messages = [], photo = "https://placehold.it/100x100", role = '', credits = 0, id, sponsor, toggle, isOpen, selectItem, selectedItem }) => {
+export default ({ name, messages = [], photo = "https://placehold.it/100x100", role = '', credits = 0, id, sponsor, toggle, isOpen, selectItem, selectedItem, editPhoto }) => {
+    const [file, setFile] = useState(null);
+    const [clicked, setClicked] = useState(false);
+
+    const photoChangedHandler = e => {
+        const { files } = e.target;
+        setFile(files[0]);
+    };
+
+    const photoSubmittedHandler = () => {
+        editPhoto(file);
+        setClicked(true);
+    }
+
+    const editButtonClickedHandler = () => document.getElementById('photo').click();
+
     let addOns = null;
     let sideDrawerItems = null;
     switch (role) {
@@ -94,7 +109,11 @@ export default ({ name, messages = [], photo = "https://placehold.it/100x100", r
                                 <img src={photo} className="rounded-circle" style={{ width: 64, height: 64, objectFit: 'cover', objectPosition: 'center' }} alt="User profile" />
                             </div>
 
-                            <FontAwesomeIcon icon={faEdit} className="position-absolute text-orange" size="2x" style={{ top: 0, right: 0 }} />
+                            <div className="position-absolute text-orange text-right" style={{ top: 0, right: 0 }}>
+                                <FontAwesomeIcon icon={faEdit} size="2x" style={{ cursor: 'pointer' }} onClick={editButtonClickedHandler} />
+                                {file && !clicked && <div style={{ cursor: 'pointer' }} onClick={photoSubmittedHandler} className="text-center text-small">Edit</div>}
+                            </div>
+                            <input type="file" id="photo" className="d-none" accept=".jpg,.jpeg,.png" name="photo" onChange={photoChangedHandler} />
                         </Col>
                         <Col xs={12} className="p-0 h-100">
                             <div className="align-items-center text-center m-0 h-100">

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { Col, Row } from 'reactstrap';
 import { faTachometerAlt, faWallet, faUserFriends, faEnvelope, faTicketAlt } from '@fortawesome/free-solid-svg-icons';
 import OwlCarousel from 'react-owl-carousel2';
@@ -94,7 +94,7 @@ class Dashboard extends Component {
                 ];
 
                 const cards = data.map(({ title, titleColor, icon, link, color, children, details, circleBorder, circleColor }, index) => <Card color={color} key={index} title={title} titleColor={titleColor} details={details} circleBorder={circleBorder} circleColor={circleColor} icon={icon} link={link}>{children}</Card>);
-                const planCards = purchasedPlans.map((plan, index) => <UserPlan key={index} onClick={() => this.selectPlan(plan.pivot.code)} {...plan} />);
+                const planCards = purchasedPlans.map((plan, index) => <Link key={JSON.stringify(plan)} className="text-decoration-none" to="/user/calculate"><UserPlan onClick={() => this.selectPlan(plan.pivot.code)} {...plan} /></Link>);
                 plans = plans.map((plan, index) => ({
                     ...plan,
                     ...[{ color: 'light', chooseColor: 'yellow' }, { color: 'yellow', chooseColor: 'green' }, { color: 'yellow', chooseColor: 'green' }][index]

@@ -153,6 +153,27 @@ Route::middleware('auth:admin,api,outer')->group(function () {
         ]);
     })->name('logout');
 
+    Route::post('photo', function (Request $request) {
+        $user = UtilController::user($request->user());
+
+        $request->validate([
+            'photo' => 'required|file|image|mimes:jpeg,jpg,png'
+        ]);
+
+        if ($user->photo) unlink(public_path() . $user->photo);
+
+        $file = $request->photo;
+        $fileName = time() . $file->getClientOriginalName();
+        $file->move('profiles', $fileName);
+        $photo = htmlspecialchars($fileName);
+
+        $user->update(['photo' => $photo]);
+
+        return response()->json([
+            'photo' => $user->photo,
+        ]);
+    })->name('photo');
+
     Route::get('user', function () {
         $user = UtilController::user(request()->user());
 

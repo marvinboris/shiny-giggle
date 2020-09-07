@@ -25,7 +25,7 @@ class Plan extends Model
 
     public function users()
     {
-        return $this->belongsToMany('App\User', 'plan_user')->withPivot(['id', 'points', 'code', 'calculations', 'expiry_date']);
+        return $this->belongsToMany('App\User', 'plan_user')->withPivot(['id', 'points', 'code', 'calculations', 'expiry_date', 'total']);
     }
 
     public function guests()

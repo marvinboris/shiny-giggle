@@ -139,6 +139,7 @@ class PlansController extends Controller
             'plan_id' => $plan->id,
             'user_id' => $user->id,
             'points' => $plan->points,
+            'total' => $plan->points,
             'code' => $code,
             'expiry_date' => Carbon::now()->addWeeks($plan->validity)
         ]);
@@ -173,13 +174,14 @@ class PlansController extends Controller
         ]);
 
         $user = User::whereRef($request->ref)->first();
-        $plan = Plan::whereId($request->id)->first();
+        $plan = Plan::find($request->id);
 
         $code = Plan::code();
         $purchase = PlanUser::create([
             'plan_id' => $plan->id,
             'user_id' => $user->id,
             'points' => $request->points,
+            'total' => $request->points,
             'code' => $code,
             'expiry_date' => Carbon::now()->addWeeks($plan->validity)
         ]);

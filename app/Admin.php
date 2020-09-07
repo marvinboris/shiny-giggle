@@ -11,6 +11,8 @@ class Admin extends Authenticatable
     //
     use Notifiable, HasApiTokens;
 
+    protected $directory = "/profiles/";
+
     public function receivesBroadcastNotificationsOn()
     {
         return 'user.' . $this->role() . '.' . $this->id;
@@ -18,7 +20,7 @@ class Admin extends Authenticatable
 
     //
     protected $fillable = [
-        'name', 'email', 'password', 'is_active', 'phone', 'lang'
+        'name', 'email', 'password', 'is_active', 'phone', 'lang', 'photo'
     ];
 
     /**
@@ -40,6 +42,11 @@ class Admin extends Authenticatable
         }
 
         return $string;
+    }
+
+    public function getPhotoAttribute($value)
+    {
+        return $this->directory . $value;
     }
 
     public function role()

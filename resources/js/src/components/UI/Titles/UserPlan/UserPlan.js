@@ -12,7 +12,9 @@ export default class UserPlan extends Component {
     }
 
     componentDidMount() {
-        const { pivot: { points }, points: total } = this.props;
+        let { pivot: { points, total: optionalTotal }, points: total } = this.props;
+
+        if (optionalTotal) total = optionalTotal;
 
         const used = Math.max(total - points, 0);
         const percentage = (total - points) * 1000 / total;
@@ -33,7 +35,8 @@ export default class UserPlan extends Component {
     }
 
     render() {
-        let { name, price, pivot: { code, points }, slug, points: total, onClick, hover, selected } = this.props;
+        let { name, price, pivot: { code, points, total: optionalTotal }, slug, points: total, onClick, hover, selected } = this.props;
+        if (optionalTotal) total = optionalTotal;
         const { animatedPercentage, animatedUsed } = this.state;
         const left = Math.min(points, total);
         const unselectionable = left === 0;

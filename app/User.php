@@ -157,7 +157,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getPhotoAttribute($value)
     {
-        return public_path() . $this->directory . $value;
+        return $value ? public_path() . $this->directory . $value : null;
     }
 
     public function role()

@@ -3,6 +3,7 @@ export const updateObject = (oldObject, updatedProps) => ({
 });
 
 export const convertDate = date => {
+    if (!date) return 'Undefined';
     const d = new Date(date)
     const dtf = new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit' });
 

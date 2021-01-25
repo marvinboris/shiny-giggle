@@ -78,6 +78,11 @@ class TontineController extends Controller
         $duration = $plan->durations()->findOrFail(request()->duration)->weeks;
         $period = $plan->periods()->findOrFail(request()->period)->weeks;
 
+        $returned = false;
+        $amountToReturn = $pack->amount * 1.005;
+        $weeks = ceil(52 * 1.005 / $pack->rate);
+        $returnPeriods = floor($weeks / $period);
+
         $totalPeriods = floor($duration / $period);
         $packPeriod = floor(52 / $period);
         $floatingPackPeriod = (52 / $period) - $packPeriod;
@@ -131,11 +136,17 @@ class TontineController extends Controller
 
             if ($totalPeriods - $currentPeriod > $packPeriod) {
                 $selectedPacks = [];
-                while ($balance >= $minAmount) {
-                    $selectedPack = $plan->packs()->where('amount', '<=', $balance)->orderBy('amount', 'desc')->first();
-                    $leftPeriodPacks[] = ['pack' => $selectedPack, 'leftWeeks' => 52];
-                    $selectedPacks[] = $selectedPack;
-                    $balance -= $selectedPack->amount;
+                if ($currentPeriod + 1 >= $returnPeriods) {
+                    if (!$returned) {
+                        $balance -= $amountToReturn;
+                        $returned = true;
+                    }
+                    while ($balance >= $minAmount) {
+                        $selectedPack = $plan->packs()->where('amount', '<=', $balance)->orderBy('amount', 'desc')->first();
+                        $leftPeriodPacks[] = ['pack' => $selectedPack, 'leftWeeks' => 52];
+                        $selectedPacks[] = $selectedPack;
+                        $balance -= $selectedPack->amount;
+                    }
                 }
                 $ownedPacks[] = $selectedPacks;
             }

@@ -88,15 +88,22 @@ class Tontine extends Component {
     inputChangeHandler = e => {
         const { packs, durations, periods } = this.state;
         const { value, name } = e.target;
+        let amount, weeks, selectedPack;
         switch (name) {
             case "pack":
-                const selectedPack = packs.find(({ id }) => id === +value);
-                const amount = selectedPack.amount / this.state.members;
-                return this.setState({ newPeriods: periods.filter(item => item.id >= 7 - value), selectedPack: `$${selectedPack.name}`, period: value, amount });
-            case "duration": return this.setState({ selectedDuration: durations.find(({ id }) => id === +value).name, duration: value });
-            case "period": return this.setState({ selectedPeriod: periods.find(({ id }) => id === +value).name, period: value });
+                selectedPack = packs.find(({ id }) => id === +value);
+                amount = selectedPack.amount / this.state.members;
+                weeks = Math.ceil(52 * 1.005 / selectedPack.rate);
+                return this.setState({ newPeriods: periods.filter(item => item.id >= 7 - value), selectedPack: `$${selectedPack.name}`, pack: value, amount, weeks });
+            case "duration":
+                const selectedDuration = durations.find(({ id }) => id === +value).name;
+                return this.setState({ selectedDuration, duration: value });
+            case "period":
+                const selectedPeriod = periods.find(({ id }) => id === +value).name;
+                return this.setState({ selectedPeriod, period: value });
             case "members":
-                const amount = this.state.pack / value;
+                selectedPack = packs.find(({ id }) => id === +this.state.pack);
+                amount = selectedPack.amount / value;
                 return this.setState({ members: value, amount });
             default:
                 return this.setState({ [name]: value });
@@ -167,7 +174,13 @@ class Tontine extends Component {
 
     render() {
         let { calculation: { selectedPlan }, backend: { tontine: { loading, error, plans, simulation } } } = this.props;
-        let { points, page, packs, newPeriods, durations, name, pageFirst, pageLast, pageSecond, pack, duration, period, selectedDuration, selectedPack, selectedPeriod, disabled, members, amount } = this.state;
+        let {
+            points, page, packs, newPeriods, durations, name,
+            pageFirst, pageLast, pageSecond,
+            pack, duration, period, members, amount, weeks,
+            selectedDuration, selectedPack, selectedPeriod,
+            disabled
+        } = this.state;
 
         let content = '';
         packs = packs.map(({ id, name }) => <option key={id} value={id}>{name}</option>);
@@ -195,30 +208,39 @@ class Tontine extends Component {
         if (selectedPlan) formContent = <Col xs={12} className="pb-3 pt-sm-3">
             <Form id="scroll-target" onSubmit={this.submitHandler}>
                 <Row className="align-items-center">
-                    <FormInput type="select" disabled={disabled} className="col-xl-3" icon={faWallet} onChange={this.inputChangeHandler} value={pack} name="pack" required>
-                        <option>Select a package</option>
-                        {packs}
-                    </FormInput>
+                    <Col xl={9}>
+                        <Row>
+                            <FormInput type="select" disabled={disabled} className="col-xl-4" icon={faWallet} onChange={this.inputChangeHandler} value={pack} name="pack" required>
+                                <option>Select a package</option>
+                                {packs}
+                            </FormInput>
 
-                    <FormInput type="number" disabled={disabled} className="col-xl-3" icon={faUsers} onChange={this.inputChangeHandler} value={members} name="members" placeholder="Number of members" required />
+                            <FormInput type="number" disabled={disabled} className="col-xl-4" icon={faUsers} onChange={this.inputChangeHandler} value={members} name="members" placeholder="Number of members" required />
 
-                    <FormInput type="number" disabled={disabled} className="col-xl-3" icon={faDollarSign} onChange={this.inputChangeHandler} value={amount} name="amount" placeholder="Amount per member" readonly />
+                            <FormInput type="number" disabled={disabled} className="col-xl-4" icon={faDollarSign} onChange={this.inputChangeHandler} value={amount} name="amount" placeholder="Amount per member" readonly />
 
-                    <FormInput type="select" disabled={disabled} className="col-xl-3" icon={faCalendar} onChange={this.inputChangeHandler} value={period} name="period" required>
-                        <option>Select Reinvestment type</option>
-                        {newPeriods}
-                    </FormInput>
+                            <FormInput type="number" disabled={disabled} className="col-xl-4" icon={faCalendar} onChange={this.inputChangeHandler} value={weeks} name="weeks" placeholder="Necessary weeks" readonly />
 
-                    <FormInput type="select" disabled={disabled} className="col-xl-3" icon={faCalendar} onChange={this.inputChangeHandler} value={duration} name="duration" required>
-                        <option>Select a duration</option>
-                        {durations}
-                    </FormInput>
+                            <FormInput type="select" disabled={disabled} className="col-xl-4" icon={faCalendar} onChange={this.inputChangeHandler} value={period} name="period" required>
+                                <option>Select Reinvestment type</option>
+                                {newPeriods}
+                            </FormInput>
 
-                    <input type="hidden" name="code" value={selectedPlan} />
+                            <FormInput type="select" disabled={disabled} className="col-xl-4" icon={faCalendar} onChange={this.inputChangeHandler} value={duration} name="duration" required>
+                                <option>Select a duration</option>
+                                {durations}
+                            </FormInput>
+                        </Row>
 
-                    <FormGroup className="col-xl-3 m-0">
-                        <FormButton color={disabled ? "green" : "yellow"} icon={disabled ? faSync : faAngleDoubleRight}>{disabled ? 'Reset Calculation' : 'Calculate Investment'}</FormButton>
-                    </FormGroup>
+
+                        <input type="hidden" name="code" value={selectedPlan} />
+                    </Col>
+
+                    <Col xl={3}>
+                        <FormGroup className="m-0">
+                            <FormButton color={disabled ? "green" : "yellow"} icon={disabled ? faSync : faAngleDoubleRight}>{disabled ? 'Reset Calculation' : 'Calculate Investment'}</FormButton>
+                        </FormGroup>
+                    </Col>
                 </Row>
             </Form>
         </Col>;

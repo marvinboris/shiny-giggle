@@ -71,9 +71,6 @@ class CalculateController extends Controller
         if ($points === 0) return response()->json([
             'message' => 'Insufficent points. Please subscribe to a plan'
         ], 500);
-        else {
-            $pivot->update(['points' => $points - 1, 'calculations' => $calculations + 1]);
-        }
 
         $plan = Plan::find($pivot->plan_id);
         $pack = $plan->packs()->findOrFail(request()->pack);
@@ -83,6 +80,8 @@ class CalculateController extends Controller
         $totalPeriods = floor($duration / $period);
         $packPeriod = floor(52 / $period);
         $floatingPackPeriod = (52 / $period) - $packPeriod;
+
+        $minAmount = Pack::orderBy('amount', 'asc')->first()->amount;
 
         $balance = 0;
         $balances = [];
@@ -131,7 +130,7 @@ class CalculateController extends Controller
 
             if ($totalPeriods - $currentPeriod > $packPeriod) {
                 $selectedPacks = [];
-                while ($balance >= 100) {
+                while ($balance >= $minAmount) {
                     $selectedPack = $plan->packs()->where('amount', '<=', $balance)->orderBy('amount', 'desc')->first();
                     $leftPeriodPacks[] = ['pack' => $selectedPack, 'leftWeeks' => 52];
                     $selectedPacks[] = $selectedPack;
@@ -181,6 +180,8 @@ class CalculateController extends Controller
                 ];
             }
         }
+
+        $pivot->update(['points' => $points - 1, 'calculations' => $calculations + 1]);
 
         return response()->json([
             'simulation' => [

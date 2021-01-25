@@ -127,6 +127,13 @@ Route::namespace('User')->prefix('user')->name('user.')->group(function () {
             Route::post('', 'CalculateController@makeCalculation')->name('post');
         });
 
+        Route::prefix('tontine')->name('tontine.')->group(function () {
+            Route::get('plans', 'TontineController@userPlans')->name('plans');
+            Route::get('deposit-plans', 'TontineController@depositPlan')->name('deposit-plans');
+            Route::get('{code}', 'TontineController@getCalculateFromCode')->name('get');
+            Route::post('', 'TontineController@makeCalculation')->name('post');
+        });
+
         Route::prefix('contact-us')->name('contact-us.')->group(function () {
             Route::get('{id}', 'ContactUsController@show')->name('show');
             Route::post('', 'ContactUsController@store')->name('store');

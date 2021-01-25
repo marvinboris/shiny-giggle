@@ -32,6 +32,10 @@ const initialState = {
         loading: false,
         error: null
     },
+    tontine: {
+        loading: false,
+        error: null
+    },
     subscriptionPlan: {
         loading: false,
         error: null
@@ -70,6 +74,11 @@ const resetCalculate = (state, action) => updateObject(state, { calculate: initi
 const calculateStart = (state, action) => updateObject(state, { calculate: updateObject(state.calculate, { loading: true, message: null }) });
 const calculateSuccess = (state, action) => updateObject(state, { calculate: updateObject(state.calculate, { loading: false, error: null, ...action }) });
 const calculateFail = (state, action) => updateObject(state, { calculate: updateObject(state.calculate, { loading: false, ...action }) });
+
+const resetTontine = (state, action) => updateObject(state, { tontine: initialState.tontine });
+const tontineStart = (state, action) => updateObject(state, { tontine: updateObject(state.tontine, { loading: true, message: null }) });
+const tontineSuccess = (state, action) => updateObject(state, { tontine: updateObject(state.tontine, { loading: false, error: null, ...action }) });
+const tontineFail = (state, action) => updateObject(state, { tontine: updateObject(state.tontine, { loading: false, ...action }) });
 
 const resetOptions = (state, action) => updateObject(state, { options: initialState.options });
 const optionsStart = (state, action) => updateObject(state, { options: updateObject(state.options, { loading: true, message: null }) });
@@ -115,10 +124,16 @@ const reducer = (state = initialState, action) => {
 
 
         case actionTypes.RESET_SIMULATION: return resetSimulation(state, action);
+        
         case actionTypes.RESET_CALCULATE: return resetCalculate(state, action);
         case actionTypes.CALCULATE_START: return calculateStart(state, action);
         case actionTypes.CALCULATE_FAIL: return calculateFail(state, action);
         case actionTypes.CALCULATE_SUCCESS: return calculateSuccess(state, action);
+
+        case actionTypes.RESET_TONTINE: return resetTontine(state, action);
+        case actionTypes.TONTINE_START: return tontineStart(state, action);
+        case actionTypes.TONTINE_FAIL: return tontineFail(state, action);
+        case actionTypes.TONTINE_SUCCESS: return tontineSuccess(state, action);
 
         case actionTypes.RESET_OPTIONS: return resetOptions(state, action);
         case actionTypes.OPTIONS_START: return optionsStart(state, action);

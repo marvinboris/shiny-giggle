@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Col, Badge, ButtonGroup, Button, Collapse } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTachometerAlt, faUserTie, faCalendarAlt, faEnvelope, faTasks, faCog, faCircle, faEdit, faMoneyBillWave, faWallet, faCopy, faBell, faBox } from '@fortawesome/free-solid-svg-icons';
+import { faTachometerAlt, faUserTie, faCalendarAlt, faEnvelope, faTasks, faCog, faCircle, faEdit, faMoneyBillWave, faWallet, faCopy, faBell, faBox, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { faCheckCircle } from '@fortawesome/free-regular-svg-icons';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
@@ -59,6 +59,7 @@ export default ({ name, messages = [], photo = "https://placehold.it/100x100", r
                     { link: '/user/subscription/plans', text: 'My Plans' },
                 ]}>Subscription</SideDrawerItem>
                 <SideDrawerItem sideDrawerToggle={toggle} icon={faCalendarAlt} id="Calculate" select={selectItem} selected={selectedItem} href="/user/calculate">Calculate</SideDrawerItem>
+                <SideDrawerItem sideDrawerToggle={toggle} icon={faUsers} id="Tontine" select={selectItem} selected={selectedItem} href="/user/tontine">Tontine</SideDrawerItem>
                 {/* <SideDrawerItem sideDrawerToggle={toggle} icon={faMoneyBillWave} dropdown id="Finances" select={selectItem} selected={selectedItem} path="/user/finances" items={[
                     { link: '/user/finances/deposits/add', text: 'Deposit Credits' },
                     { link: '/user/finances/deposits/', text: 'Deposit List' },

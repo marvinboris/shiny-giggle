@@ -59,6 +59,11 @@ export {
     getUserCalculatePlan,
     postUserCalculate,
 
+    resetTontine,
+    getUserTontinePlans,
+    getUserTontinePlan,
+    postUserTontine,
+
 
 
     getAdminDashboard,

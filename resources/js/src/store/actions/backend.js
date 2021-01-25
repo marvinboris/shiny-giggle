@@ -253,6 +253,9 @@ export const getUserPackages = () => async dispatch => {
 
 
 export const resetSimulation = () => ({ type: actionTypes.RESET_SIMULATION });
+
+
+
 export const resetCalculate = () => ({ type: actionTypes.RESET_CALCULATE });
 const calculateStart = () => ({ type: actionTypes.CALCULATE_START });
 const calculateSuccess = data => ({ type: actionTypes.CALCULATE_SUCCESS, ...data });
@@ -317,6 +320,75 @@ export const postUserCalculate = data => async dispatch => {
         dispatch(calculateFail(err));
     }
 };
+
+
+
+export const resetTontine = () => ({ type: actionTypes.RESET_TONTINE });
+const tontineStart = () => ({ type: actionTypes.TONTINE_START });
+const tontineSuccess = data => ({ type: actionTypes.TONTINE_SUCCESS, ...data });
+const tontineFail = error => ({ type: actionTypes.TONTINE_FAIL, error });
+export const getUserTontinePlans = () => async dispatch => {
+    const token = localStorage.getItem('token');
+    dispatch(tontineStart());
+
+    try {
+        const res = await fetch(`${rootPath}/api/user/tontine/plans`, {
+            method: 'GET',
+            headers: {
+                Authorization: token
+            }
+        });
+        const resData = await res.json();
+        dispatch(tontineSuccess(resData));
+    } catch (err) {
+        console.log(err);
+        dispatch(tontineFail(err));
+    }
+};
+
+export const getUserTontinePlan = code => async dispatch => {
+    const token = localStorage.getItem('token');
+    dispatch(tontineStart());
+
+    try {
+        const res = await fetch(`${rootPath}/api/user/tontine/${code}`, {
+            method: 'GET',
+            headers: {
+                Authorization: token
+            }
+        });
+        const resData = await res.json();
+        dispatch(tontineSuccess(resData));
+    } catch (err) {
+        console.log(err);
+        dispatch(tontineFail(err));
+    }
+};
+
+export const postUserTontine = data => async dispatch => {
+    const token = localStorage.getItem('token');
+    dispatch(tontineStart());
+
+    try {
+        const form = new FormData(data);
+
+        const res = await fetch(`${rootPath}/api/user/tontine`, {
+            method: 'POST',
+            mode: 'cors',
+            body: form,
+            headers: {
+                Authorization: token
+            }
+        });
+        const resData = await res.json();
+        dispatch(tontineSuccess(resData));
+    } catch (err) {
+        console.log(err);
+        dispatch(tontineFail(err));
+    }
+};
+
+
 
 const getUserPaidAmountStart = () => ({ type: actionTypes.GET_USER_PAID_AMOUNT_START });
 const getUserPaidAmountSuccess = data => ({ type: actionTypes.GET_USER_PAID_AMOUNT_SUCCESS, ...data });

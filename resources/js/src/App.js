@@ -59,6 +59,7 @@ import UserDashboard from './containers/Pages/User/Dashboard/Dashboard';
 import Plans from './containers/Pages/User/Subscription/Plans/Plans';
 import Buy from './containers/Pages/User/Subscription/Buy/Buy';
 import Calculate from './containers/Pages/User/Calculate/Calculate';
+import Tontine from './containers/Pages/User/Tontine/Tontine';
 
 import './App.css';
 
@@ -113,6 +114,7 @@ class App extends Component {
           <Route path="/user/subscription/buy" component={Buy} />
           <Route path="/user/subscription/plans" component={Plans} />
           <Route path="/user/calculate" component={Calculate} />
+          <Route path="/user/tontine" component={Tontine} />
           <Route path="/user/contact-us/add" component={UserContactUsAdd} />
           <Route path="/user/contact-us/:id" component={UserContactUsShow} />
           <Route path="/user/contact-us" component={UserContactUsList} />

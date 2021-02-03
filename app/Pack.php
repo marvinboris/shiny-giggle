@@ -8,7 +8,7 @@ class Pack extends Model
 {
     //
     protected $fillable = [
-        'name', 'amount', 'rate'
+        'name', 'amount', 'rate', 'status'
     ];
 
     public function plans()

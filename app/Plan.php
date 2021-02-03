@@ -28,6 +28,11 @@ class Plan extends Model
         return $this->belongsToMany('App\User', 'plan_user')->withPivot(['id', 'points', 'code', 'calculations', 'expiry_date', 'total']);
     }
 
+    public function promotions()
+    {
+        return $this->belongsToMany('App\Promotion', 'promotion_plan');
+    }
+
     public function guests()
     {
         return $this->hasMany('App\Guest');

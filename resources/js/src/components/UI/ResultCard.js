@@ -1,22 +1,36 @@
-import React, { useState } from 'react';
-import { Badge, Col, Tooltip } from 'reactstrap';
+import React from 'react';
+import { Badge, Col } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFolder, faWallet, faCalendar, faArrowAltCircleDown } from '@fortawesome/free-solid-svg-icons';
+import { faFolder, faWallet, faCalendar, faArrowAltCircleDown, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
-export default function ResultCard({ invest, payout, week, balPrevW, totPayout, totBal, rem, activePacks, random }) {
+import View from '../Backend/UI/View/View';
+
+export default ({ invest, payout, week, balPrevW, totPayout, totBal, rem, activePacks, packs, random }) => {
     const investCheck = invest > 0;
     let investText = '';
-    if (investCheck) investText = '$' + invest;
+    if (investCheck) {
+        let varInvest = invest;
+        const boughtPacks = [];
+        while (varInvest >= packs[0].amount) {
+            const filteredPacks = packs.filter(pack => pack.amount <= varInvest);
+            const mostExpensivePack = filteredPacks[filteredPacks.length - 1];
+
+            boughtPacks.push(`$${mostExpensivePack.amount}`);
+            varInvest -= mostExpensivePack.amount;
+        }
+
+        investText = <div className="d-inline-flex">
+            <div className="pr-1">${invest}</div>
+
+            <View title={`Bought packages: Week ${week}`} content={boughtPacks.join(" + ")}>
+                <FontAwesomeIcon icon={faInfoCircle} />
+            </View>
+        </div>;
+    }
     else {
-        if (totBal > 100) investText = "Don't invest yet";
+        if (totBal > 200) investText = "Don't invest yet";
         else investText = "Can't invest";
     }
-
-    const [payoutsTooltipOpen, setPayoutsTooltipOpen] = useState(false);
-    const [packsTooltipOpen, setPacksTooltipOpen] = useState(false);
-
-    const payoutsToggle = () => setPayoutsTooltipOpen(!payoutsTooltipOpen);
-    const packsToggle = () => setPacksTooltipOpen(!packsTooltipOpen);
 
     return <Col className="mt-3" md={3}>
         <div style={{ backgroundColor: invest ? '#73EFC2' : '#EFECEC', fontFamily: 'Bahnschrift' }} className="h-100 text-left p-2 rounded-sm font-weight-lighter">
@@ -25,12 +39,12 @@ export default function ResultCard({ invest, payout, week, balPrevW, totPayout, 
             <div className="d-flex align-items-center pt-2 pr-1">
                 <div className="text-nowrap">Total Payout:</div>
                 <div className="text-truncate pl-1">{payout.join(" + ")}</div>
-                <FontAwesomeIcon icon={faArrowAltCircleDown} id={'payouts' + random} className="text-dark ml-auto" />
+                <div className="text-dark ml-auto">
+                    <View title={`Payouts: Week ${week}`} content={<div className="text-justify">{payout.join(" + ")}</div>}>
+                        <FontAwesomeIcon icon={faArrowAltCircleDown} />
+                    </View>
+                </div>
             </div>
-
-            <Tooltip placement="bottom" isOpen={payoutsTooltipOpen} target={'payouts' + random} toggle={payoutsToggle}>
-                <div className="text-justify">{payout.join(" + ")}</div>
-            </Tooltip>
 
             <div className="pt-2 text-truncate">Bal W{week}: <strong>${balPrevW.toFixed(2)} + <span style={{ color: '#039B54' }}>${totPayout}</span></strong></div>
 
@@ -47,21 +61,21 @@ export default function ResultCard({ invest, payout, week, balPrevW, totPayout, 
             <div className="d-flex">
                 <span>Total Packages:</span>
 
-                <FontAwesomeIcon icon={faArrowAltCircleDown} id={'packs' + random} className="text-dark ml-auto" />
-            </div>
-
-            <Tooltip placement="bottom" isOpen={packsTooltipOpen} target={'packs' + random} toggle={packsToggle}>
-                <div className="d-flex flex-wrap">
-                    {activePacks.map(({ leftWeeks, pack: { amount } }) =>
-                        <div key={week + Math.random().toString()}>
-                            {leftWeeks > 0 ? <div className="position-relative pr-3">
-                                <FontAwesomeIcon className="" size="2x" color="#05C945" icon={faFolder} />
-                                <span className="position-absolute text-bahnschrift text-white text-x-small" style={{ top: 0, transform: 'translate(calc(-15px - 50%), 10px)', zIndex: 3 }}>{amount}</span>
-                                <Badge className="rounded-circle float-right" style={{ top: 0, transform: 'translateX(-1.5rem)', zIndex: 2 }} color="danger">-{leftWeeks - 1}</Badge>
-                            </div> : ''}
-                        </div>)}
+                <div className="text-dark ml-auto">
+                    <View title={`Packages: Week ${week}`} content={<div className="d-flex flex-wrap">
+                        {activePacks.map(({ leftWeeks, pack: { amount } }) =>
+                            <div key={week + Math.random().toString()}>
+                                {leftWeeks > 0 ? <div className="position-relative pr-3">
+                                    <FontAwesomeIcon className="" size="2x" color="#05C945" icon={faFolder} />
+                                    <span className="position-absolute text-bahnschrift text-white text-x-small" style={{ top: 0, transform: 'translate(calc(-15px - 50%), 10px)', zIndex: 3 }}>{amount}</span>
+                                    <Badge className="rounded-circle float-right" style={{ top: 0, transform: 'translateX(-1.5rem)', zIndex: 2 }} color="danger">-{leftWeeks - 1}</Badge>
+                                </div> : ''}
+                            </div>)}
+                    </div>}>
+                        <FontAwesomeIcon icon={faArrowAltCircleDown} id={'packs' + random} />
+                    </View>
                 </div>
-            </Tooltip>
+            </div>
 
             <div className="d-flex text-truncate">
                 {activePacks.map(({ leftWeeks, pack: { amount } }) =>

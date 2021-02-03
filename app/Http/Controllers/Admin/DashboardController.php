@@ -151,7 +151,7 @@ class DashboardController extends Controller
             if ($plan_user->user) {
                 $transaction = Deposit::whereData(json_encode(['plan_user_id' => $plan_user->id]))->first();
                 $packages['monthly'][$plan_user->plan->slug][] = array_merge($plan_user->plan->toArray(), [
-                    'amount' => $transaction->amount
+                    'amount' => $transaction ? $transaction->amount : 0
                 ]);
             }
         }
@@ -159,7 +159,7 @@ class DashboardController extends Controller
             if ($plan_user->user) {
                 $transaction = Deposit::whereData(json_encode(['plan_user_id' => $plan_user->id]))->first();
                 $packages['yearly'][$plan_user->plan->slug][] = array_merge($plan_user->plan->toArray(), [
-                    'amount' => $transaction->amount
+                    'amount' => $transaction ? $transaction->amount : 0
                 ]);
             }
         }

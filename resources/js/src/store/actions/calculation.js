@@ -23,7 +23,7 @@ const getCalculateFail = error => ({
 export const getCalculate = () => dispatch => {
     dispatch(getCalculateStart());
     const token = localStorage.getItem('token');
-    const link = rootPath + '/api/calculate';
+    const link = `${rootPath}/calculate`;
 
     fetch(link, {
         method: 'GET',
@@ -39,7 +39,7 @@ export const getCalculate = () => dispatch => {
 export const getCalculateFromCode = code => dispatch => {
     dispatch(getCalculateStart());
     const token = localStorage.getItem('token');
-    const link = rootPath + '/api/calculate/' + code;
+    const link = `${rootPath}/calculate/${code}`;
 
     fetch(link, {
         method: 'GET',
@@ -69,7 +69,7 @@ const getUserPlansFail = error => ({
 export const getUserPlans = () => dispatch => {
     dispatch(getUserPlansStart());
     const token = localStorage.getItem('token');
-    const link = rootPath + '/api/user/plans';
+    const link = `${rootPath}/user/plans`;
 
     fetch(link, {
         method: 'GET',
@@ -101,7 +101,7 @@ export const makeCalculation = data => dispatch => {
     const token = localStorage.getItem('token');
 
     const form = new FormData(data);
-    const link = rootPath + '/api/calculate';
+    const link = `${rootPath}/calculate`;
     fetch(link, {
         method: 'POST',
         mode: 'cors',

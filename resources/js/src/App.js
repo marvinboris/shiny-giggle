@@ -37,6 +37,9 @@ import AdminUsers from './containers/Pages/Admin/Users';
 import AdminShowUser from './containers/Pages/Admin/Users/Show';
 import AdminAddUser from './containers/Pages/Admin/Users/Add';
 import AdminEditUser from './containers/Pages/Admin/Users/Edit';
+import Promotions from './containers/Pages/Admin/Promotions';
+import PromotionsAdd from './containers/Pages/Admin/Promotions/Add';
+import PromotionsEdit from './containers/Pages/Admin/Promotions/Edit';
 import AdminSalesReport from './containers/Pages/Admin/Finances/SalesReport';
 import AdminLimoPaymentEdit from './containers/Pages/Admin/Finances/Edit';
 import AdminLimoPayments from './containers/Pages/Admin/Finances/LimoPayments';
@@ -48,6 +51,7 @@ import AdminPlans from './containers/Pages/Admin/Plans';
 import AdminPlanDetails from './containers/Pages/Admin/Plans/Details';
 import AdminAddPlan from './containers/Pages/Admin/Plans/Add';
 import AdminPlanDeposit from './containers/Pages/Admin/Plans/Deposit';
+import AdminPlanBroadcast from './containers/Pages/Admin/Plans/Broadcast';
 import AdminCalculationDeposit from './containers/Pages/Admin/Plans/Calculation';
 
 import UserContactUsShow from './containers/Pages/User/ContactUs/View';
@@ -129,11 +133,17 @@ class App extends Component {
           {/* <Route path="/admin/users/:id" component={AdminShowUser} /> */}
           <Route path="/admin/users" component={AdminUsers} />
 
+          <Route path="/admin/promotions/:id/edit" component={PromotionsEdit} />
+          <Route path="/admin/promotions/add" component={PromotionsAdd} />
+          {/* <Route path="/admin/promotions/:id" component={PromotionsShow} /> */}
+          <Route path="/admin/promotions" component={Promotions} />
+
           <Route path="/admin/contact-us/:id/edit" component={AdminEditContactUs} />
           <Route path="/admin/contact-us" component={AdminContactUsList} />
 
           <Route path="/admin/plans/calculation" component={AdminCalculationDeposit} />
           <Route path="/admin/plans/deposit" component={AdminPlanDeposit} />
+          <Route path="/admin/plans/broadcast" component={AdminPlanBroadcast} />
           <Route path="/admin/plans/add" component={AdminAddPlan} />
           <Route path="/admin/plans/details" component={AdminPlanDetails} />
           <Route path="/admin/plans" component={AdminPlans} />
@@ -162,7 +172,9 @@ class App extends Component {
       );
     }
 
-    return <div className="App vh-100">
+    const dataReady = (isAuthenticated && role !== undefined) || !isAuthenticated;
+
+    return dataReady && <div className="App vh-100">
       <Layout>{routes}</Layout>
     </div>;
   }

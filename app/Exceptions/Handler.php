@@ -2,10 +2,11 @@
 
 namespace App\Exceptions;
 
+
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -28,6 +29,19 @@ class Handler extends ExceptionHandler
         'password',
         'password_confirmation',
     ];
+
+    /**
+     * Register the exception handling callbacks for the application.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->reportable(function (Throwable $e) {
+            //
+        });
+    }
+
 
     /**
      * Report or log an exception.

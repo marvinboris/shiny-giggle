@@ -53,6 +53,8 @@ export {
     getUserDashboard,
 
     resetUserPackages,
+    getUserPackages,
+    getUserPaidAmount,
 
     resetCalculate,
     getUserCalculatePlans,
@@ -93,5 +95,14 @@ export {
     getAdminPlanDetails,
     postAdminAddPlan,
     postAdminPlanDeposit,
+    postAdminPlanBroadcast,
     postAdminCalculationsDeposit,
+    
+    resetPromotions,
+    deletePromotions,
+    getPromotion,
+    getPromotions,
+    getPromotionsInfo,
+    patchPromotions,
+    postPromotions,
 } from './backend';

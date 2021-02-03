@@ -37,7 +37,7 @@ export const authLogin = data => async dispatch => {
     try {
         const form = new FormData(data);
 
-        const res = await fetch(rootPath + '/api/user/login', {
+        const res = await fetch(`${rootPath}/user/login`, {
             method: 'POST',
             mode: 'cors',
             body: form,
@@ -69,7 +69,7 @@ export const authSignup = data => async dispatch => {
     try {
         const form = new FormData(data);
 
-        const res = await fetch(rootPath + '/api/user/signup', {
+        const res = await fetch(`${rootPath}/user/signup`, {
             method: 'POST',
             mode: 'cors',
             body: form,
@@ -94,7 +94,7 @@ export const forgotPassword = data => async dispatch => {
     try {
         const form = new FormData(data);
 
-        const res = await fetch(rootPath + '/api/user/forgot', {
+        const res = await fetch(`${rootPath}/user/forgot`, {
             method: 'POST',
             mode: 'cors',
             body: form,
@@ -118,7 +118,7 @@ export const resetPassword = (id, code, data) => async dispatch => {
     try {
         const form = new FormData(data);
 
-        const res = await fetch(rootPath + '/api/user/reset/' + id + '/' + code, {
+        const res = await fetch(rootPath + '/user/reset/' + id + '/' + code, {
             method: 'POST',
             mode: 'cors',
             body: form,
@@ -142,7 +142,7 @@ export const authCode = data => async dispatch => {
     try {
         const form = new FormData(data);
 
-        const res = await fetch(rootPath + '/api/guest/login', {
+        const res = await fetch(`${rootPath}/guest/login`, {
             method: 'POST',
             mode: 'cors',
             body: form,
@@ -172,7 +172,7 @@ export const authGuest = data => async dispatch => {
     try {
         const form = new FormData(data);
 
-        const res = await fetch(rootPath + '/api/guest/signup', {
+        const res = await fetch(`${rootPath}/guest/signup`, {
             method: 'POST',
             mode: 'cors',
             body: form,
@@ -202,7 +202,7 @@ export const authAdmin = data => async dispatch => {
     try {
         const form = new FormData(data);
 
-        const res = await fetch(rootPath + '/api/admin/login', {
+        const res = await fetch(`${rootPath}/admin/login`, {
             method: 'POST',
             mode: 'cors',
             body: form,
@@ -229,7 +229,7 @@ export const authVerify = data => async dispatch => {
     try {
         const form = new FormData(data);
 
-        const res = await fetch(rootPath + '/api/admin/verify', {
+        const res = await fetch(`${rootPath}/admin/verify`, {
             method: 'POST',
             mode: 'cors',
             body: form,
@@ -262,7 +262,7 @@ export const resendCode = hash => async dispatch => {
         const formData = new FormData();
         formData.append('hash', hash);
 
-        const res = await fetch(rootPath + '/api/admin/resend', {
+        const res = await fetch(`${rootPath}/admin/resend`, {
             method: 'POST',
             mode: 'cors',
             body: formData,
@@ -284,7 +284,7 @@ export const authPhoto = photo => async dispatch => {
         const formData = new FormData();
         formData.append('photo', photo);
 
-        const res = await fetch(rootPath + '/api/photo', {
+        const res = await fetch(`${rootPath}/photo`, {
             method: 'POST',
             mode: 'cors',
             body: formData,
@@ -306,7 +306,7 @@ export const authLogout = () => async dispatch => {
     const token = localStorage.getItem('token');
 
     try {
-        const res = await fetch(rootPath + '/api/logout', {
+        const res = await fetch(`${rootPath}/logout`, {
             method: 'GET',
             headers: {
                 'Authorization': token
@@ -332,7 +332,7 @@ export const authCheckState = () => async dispatch => {
     if (!token) dispatch(authLogoutSuccess());
     else {
         try {
-            const res = await fetch(rootPath + '/api/user', {
+            const res = await fetch(`${rootPath}/user`, {
                 method: 'GET',
                 headers: {
                     'Authorization': token

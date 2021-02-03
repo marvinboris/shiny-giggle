@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-import { faCalendarAlt, faWallet, faCalendar, faAngleDoubleRight, faBox, faList, faClock, faAngleDoubleLeft, faChevronLeft, faChevronRight, faSync, faUsers, faDollarSign } from '@fortawesome/free-solid-svg-icons';
-import { Col, Row, Form, FormGroup } from 'reactstrap';
+import { faWallet, faCalendar, faAngleDoubleRight, faBox, faList, faClock, faAngleDoubleLeft, faChevronLeft, faChevronRight, faSync, faUsers, faDollarSign } from '@fortawesome/free-solid-svg-icons';
+import { Col, Row, Form, FormGroup, InputGroup, InputGroupAddon, InputGroupText, Input, Button } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import ReactOwlCarousel from 'react-owl-carousel';
 import OwlCarousel from 'react-owl-carousel2';
 
-import BackEnd from '../../../BackEnd';
 
 import Breadcrumb from '../../../../components/Backend/UI/Breadcrumb/Breadcrumb';
 import SpecialTitle from '../../../../components/UI/Titles/SpecialTitle/SpecialTitle';
@@ -31,22 +29,23 @@ class Tontine extends Component {
         pageSecond: 2,
         pageLast: 3,
 
-        name: null,
-        code: null,
+        name: '',
+        code: '',
         result: [],
         page: 1,
         newPeriods: [],
 
-        pack: null,
-        duration: null,
-        period: null,
+        pack: '',
+        duration: '',
+        period: '',
+        goto: '',
         members: '',
         amount: '',
         weeks: '',
 
         simulation: null,
 
-        points: null,
+        points: '',
 
         selectedDuration: 'none',
         selectedPeriod: 'none',
@@ -119,6 +118,16 @@ class Tontine extends Component {
         this.setState({ disabled: true });
     }
 
+    gotoHandler = e => {
+        e.preventDefault();
+        let week = this.state.goto;
+        const result = this.props.backend.tontine.simulation.leftPacksPerWeek;
+        if (week < 1) week = 1;
+        else if (week > result.length) week = result.length;
+        const page = Math.ceil(week / 8);
+        this.pageChangeHandler(page);
+    }
+
 
 
     previousPageHandler = () => {
@@ -177,7 +186,7 @@ class Tontine extends Component {
         let {
             points, page, packs, newPeriods, durations, name,
             pageFirst, pageLast, pageSecond,
-            pack, duration, period, members, amount, weeks,
+            pack, duration, period, goto, members, amount, weeks,
             selectedDuration, selectedPack, selectedPeriod,
             disabled
         } = this.state;
@@ -253,13 +262,13 @@ class Tontine extends Component {
                 const { leftPacksPerWeek } = simulation;
 
                 let rem = 0
-                leftPacksPerWeek.forEach(({ week, packs, balance, payouts, invest }, index) => {
+                leftPacksPerWeek.forEach(({ week, packs: activePacks, balance, payouts, invest }, index) => {
                     rem = (balance).toFixed(2);
                     const payout = payouts.map((item) => '$' + item.toFixed(2));
                     const balPrevW = (index === 0) ? 0 : leftPacksPerWeek[index - 1].balance;
                     const totPayout = payouts.reduce((acc, val) => Number(acc) + Number(val)).toFixed(2);
 
-                    result.push(<ResultCard key={week + Math.random().toString()} random={Math.round(Math.random() * 1000000).toString()} week={week} payout={payout} balw={balance} balPrevW={balPrevW} totBal={balance + invest} totPayout={totPayout} invest={invest} rem={rem} bg="#73EC2" activePacks={packs} />);
+                    result.push(<ResultCard key={week + Math.random().toString()} random={Math.round(Math.random() * 1000000).toString()} week={week} payout={payout} balw={balance} balPrevW={balPrevW} totBal={balance + invest} totPayout={totPayout} invest={invest} rem={rem} bg="#73EC2" activePacks={activePacks} packs={this.state.packs} />);
                 });
 
                 points = simulation.points;
@@ -319,7 +328,26 @@ class Tontine extends Component {
                             <Col className="text-md-left text-center mt-4" xs={12}>
                                 <div className="border-bottom pb-3 mb-3 text-bahnschrift">Balance after {simulation.leftPacksPerWeek.length < (8 * page) ? simulation.leftPacksPerWeek[simulation.leftPacksPerWeek.length - 1].week : simulation.leftPacksPerWeek[8 * page - 1].week} weeks of continuous investment : <strong className="text-green">${simulation.leftPacksPerWeek.length < (8 * page) ? simulation.leftPacksPerWeek[simulation.leftPacksPerWeek.length - 1].balance.toFixed(2) : simulation.leftPacksPerWeek[8 * page - 1].balance.toFixed(2)}</strong> approximately</div>
                             </Col>
-                            <Col xs={12} className="d-flex justify-content-center">
+                            <Col xs={12} className="d-md-flex justify-content-end align-items-center">
+                                <div className="mb-3">
+                                    <Form onSubmit={this.gotoHandler} inline>
+                                        <FormGroup className="mr-3">
+                                            <InputGroup>
+                                                <InputGroupAddon addonType="prepend">
+                                                    <InputGroupText>Go to week</InputGroupText>
+                                                </InputGroupAddon>
+                                                <Input type="number" placeholder="Week" name="goto" value={goto} onChange={this.inputChangeHandler} />
+                                                <InputGroupAddon addonType="append">
+                                                    <InputGroupText>[1-{simulation.leftPacksPerWeek.length}]</InputGroupText>
+                                                </InputGroupAddon>
+                                            </InputGroup>
+                                        </FormGroup>
+
+                                        <FormGroup>
+                                            <Button color="green">Go !</Button>
+                                        </FormGroup>
+                                    </Form>
+                                </div>
                                 <nav className="ml-md-auto">
                                     <ul className="pagination btn-group">
                                         <li className="btn btn-yellow" onClick={this.firstPageHandler}><FontAwesomeIcon icon={faAngleDoubleLeft} className="mr-2" />First</li>

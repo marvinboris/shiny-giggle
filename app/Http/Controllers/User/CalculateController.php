@@ -47,13 +47,15 @@ class CalculateController extends Controller
         $user = request()->user();
 
         $plan = $user->plans()->whereCode($code)->first();
-        $packs = $plan->packs;
+        $packs = $plan->packs()->whereStatus(1)->get();
         $periods = $plan->periods;
         $durations = $plan->durations;
 
         $points = $plan->pivot->points;
         return response()->json([
-            'plan' => $plan,
+            'plan' => array_merge($plan->toArray(), [
+                'packs' => $packs,
+            ]),
             'points' => $points
         ]);
     }

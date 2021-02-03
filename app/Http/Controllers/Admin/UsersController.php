@@ -2,8 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Deposit;
 use App\Http\Controllers\Controller;
+use App\Method;
+use App\Notifications\PlanUser as NotificationsPlanUser;
+use App\Plan;
+use App\PlanUser;
+use App\Promotion;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -92,6 +99,36 @@ class UsersController extends Controller
         ]);
         $user->email_verified_at = time();
         $user->save();
+        $user = User::find($user->id);
+
+        $promotions = Promotion::whereDate('start_time', '<=', Carbon::now())->whereDate('end_time', '>=', Carbon::now())->whereStatus(1)->get();
+        foreach ($promotions as $promotion) {
+            foreach ($promotion->plans as $plan) {
+                $code = Plan::code();
+                $purchase = PlanUser::create([
+                    'plan_id' => $plan->id,
+                    'user_id' => $user->id,
+                    'points' => $plan->points,
+                    'total' => $plan->points,
+                    'code' => $code,
+                    'expiry_date' => Carbon::now()->addWeeks($plan->validity)
+                ]);
+                $plan_user_id = PlanUser::whereCode($code)->first()->toArray()['id'];
+
+                Deposit::create([
+                    'user_id' => $user->id,
+                    'method_id' => Method::whereSlug('admin')->first()->id,
+                    'amount' => $plan->price,
+                    'status' => 2,
+                    'fees' => 0,
+                    'type' => 'plan',
+                    'data' => json_encode(['plan_user_id' => $plan_user_id])
+                ]);
+
+                $user->notify(new NotificationsPlanUser($purchase));
+            }
+        }
+
         return response()->json([
             'message' => [
                 'type' => 'success',

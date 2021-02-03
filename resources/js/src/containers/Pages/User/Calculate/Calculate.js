@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { faCalendarAlt, faWallet, faCalendar, faAngleDoubleRight, faBox, faList, faClock, faAngleDoubleLeft, faChevronLeft, faChevronRight, faSync } from '@fortawesome/free-solid-svg-icons';
-import { Col, Row, Form, FormGroup } from 'reactstrap';
+import { Col, Row, Form, FormGroup, Input, InputGroup, InputGroupAddon, InputGroupText, Button } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import ReactOwlCarousel from 'react-owl-carousel';
 import OwlCarousel from 'react-owl-carousel2';
 
-import BackEnd from '../../../BackEnd';
 
 import Breadcrumb from '../../../../components/Backend/UI/Breadcrumb/Breadcrumb';
 import SpecialTitle from '../../../../components/UI/Titles/SpecialTitle/SpecialTitle';
@@ -31,19 +29,20 @@ class Calculate extends Component {
         pageSecond: 2,
         pageLast: 3,
 
-        name: null,
-        code: null,
+        name: '',
+        code: '',
         result: [],
         page: 1,
         newPeriods: [],
 
-        pack: null,
-        duration: null,
-        period: null,
+        pack: '',
+        duration: '',
+        period: '',
+        goto: '',
 
         simulation: null,
 
-        points: null,
+        points: '',
 
         selectedDuration: 'none',
         selectedPeriod: 'none',
@@ -82,17 +81,22 @@ class Calculate extends Component {
         this.props.onGetUserCalculatePlan(code);
     }
 
-    inputChangeHandler = (e, name) => {
+    inputChangeHandler = e => {
         const { packs, durations, periods } = this.state;
-        const { value } = e.target;
+        const { value, name } = e.target;
+        let selectedPack;
         switch (name) {
-            case "pack": this.setState({ newPeriods: periods.filter(item => item.id >= 7 - value), selectedPack: "$" + packs.find(({ id }) => id === +value).name, period: value });
-                break;
-            case "duration": this.setState({ selectedDuration: durations.find(({ id }) => id === +value).name, duration: value });
-                break;
-            case "period": this.setState({ selectedPeriod: periods.find(({ id }) => id === +value).name, period: value });
-                break;
-            default: break;
+            case "pack":
+                selectedPack = packs.find(({ id }) => id === +value);
+                return this.setState({ newPeriods: periods.filter(item => item.id >= 7 - value), selectedPack: `$${selectedPack.name}`, pack: value });
+            case "duration":
+                const selectedDuration = durations.find(({ id }) => id === +value).name;
+                return this.setState({ selectedDuration, duration: value });
+            case "period":
+                const selectedPeriod = periods.find(({ id }) => id === +value).name;
+                return this.setState({ selectedPeriod, period: value });
+            default:
+                return this.setState({ [name]: value });
         }
     }
 
@@ -103,6 +107,16 @@ class Calculate extends Component {
         window.scroll(0, scrollTop);
         this.props.onPostUserCalculate(e.target);
         this.setState({ disabled: true });
+    }
+
+    gotoHandler = e => {
+        e.preventDefault();
+        let week = this.state.goto;
+        const result = this.props.backend.calculate.simulation.leftPacksPerWeek;
+        if (week < 1) week = 1;
+        else if (week > result.length) week = result.length;
+        const page = Math.ceil(week / 8);
+        this.pageChangeHandler(page);
     }
 
 
@@ -160,7 +174,7 @@ class Calculate extends Component {
 
     render() {
         let { calculation: { selectedPlan }, backend: { calculate: { loading, error, plans, simulation } } } = this.props;
-        let { points, page, packs, newPeriods, durations, name, pageFirst, pageLast, pageSecond, pack, duration, period, selectedDuration, selectedPack, selectedPeriod, disabled } = this.state;
+        let { points, page, packs, newPeriods, durations, name, pageFirst, pageLast, pageSecond, pack, duration, period, selectedDuration, selectedPack, selectedPeriod, disabled, goto } = this.state;
 
         let content = '';
         packs = packs.map(({ id, name }) => <option key={id} value={id}>{name}</option>);
@@ -174,10 +188,6 @@ class Calculate extends Component {
         else if (plans) {
             const plansData = plans.map((plan, index) => <UserPlan key={index} onClick={() => this.clickHandler(plan.pivot.code)} hover selected={selectedPlan === plan.pivot.code} simulation={simulation} {...plan} />);
             plansContent = <Col xs={12}>
-                {/* <Row className="d-none d-sm-flex">
-                {plans.map((plan, index) => <Col xs={4} className="p-0"><UserPlan key={index} onClick={() => this.clickHandler(plan.pivot.code)} hover selected={selectedPlan === plan.pivot.code} simulation={simulation} {...plan} /></Col>)}
-            </Row> */}
-
                 <Row>
                     <Col xs={12} className="p-0">
                         <OwlCarousel ref="Plans" options={{ responsive: { 0: { items: 1 }, 1100: { items: 2 }, 1550: { items: 3 } }, loop: false, dots: false }}>
@@ -192,17 +202,17 @@ class Calculate extends Component {
         if (selectedPlan) formContent = <Col xs={12} className="pb-3 pt-sm-3">
             <Form id="scroll-target" onSubmit={this.submitHandler}>
                 <Row className="align-items-center">
-                    <FormInput type="select" disabled={disabled} className="col-xl-3" icon={faWallet} onChange={e => this.inputChangeHandler(e, "pack")} value={pack} name="pack" required>
+                    <FormInput type="select" disabled={disabled} className="col-xl-3" icon={faWallet} onChange={this.inputChangeHandler} value={pack} name="pack" required>
                         <option>Select a package</option>
                         {packs}
                     </FormInput>
 
-                    <FormInput type="select" disabled={disabled} className="col-xl-3" icon={faCalendar} onChange={e => this.inputChangeHandler(e, "period")} value={period} name="period" required>
+                    <FormInput type="select" disabled={disabled} className="col-xl-3" icon={faCalendar} onChange={this.inputChangeHandler} value={period} name="period" required>
                         <option>Select Reinvestment type</option>
                         {newPeriods}
                     </FormInput>
 
-                    <FormInput type="select" disabled={disabled} className="col-xl-3" icon={faCalendar} onChange={e => this.inputChangeHandler(e, "duration")} value={duration} name="duration" required>
+                    <FormInput type="select" disabled={disabled} className="col-xl-3" icon={faCalendar} onChange={this.inputChangeHandler} value={duration} name="duration" required>
                         <option>Select a duration</option>
                         {durations}
                     </FormInput>
@@ -224,13 +234,13 @@ class Calculate extends Component {
                 const { leftPacksPerWeek } = simulation;
 
                 let rem = 0
-                leftPacksPerWeek.forEach(({ week, packs, balance, payouts, invest }, index) => {
+                leftPacksPerWeek.forEach(({ week, packs: activePacks, balance, payouts, invest }, index) => {
                     rem = (balance).toFixed(2);
                     const payout = payouts.map((item) => '$' + item.toFixed(2));
                     const balPrevW = (index === 0) ? 0 : leftPacksPerWeek[index - 1].balance;
                     const totPayout = payouts.reduce((acc, val) => Number(acc) + Number(val)).toFixed(2);
 
-                    result.push(<ResultCard key={week + Math.random().toString()} random={Math.round(Math.random() * 1000000).toString()} week={week} payout={payout} balw={balance} balPrevW={balPrevW} totBal={balance + invest} totPayout={totPayout} invest={invest} rem={rem} bg="#73EC2" activePacks={packs} />);
+                    result.push(<ResultCard key={week + Math.random().toString()} random={Math.round(Math.random() * 1000000).toString()} week={week} payout={payout} balw={balance} balPrevW={balPrevW} totBal={balance + invest} totPayout={totPayout} invest={invest} rem={rem} bg="#73EC2" activePacks={activePacks} packs={this.state.packs} />);
                 });
 
                 points = simulation.points;
@@ -273,9 +283,7 @@ class Calculate extends Component {
 
                     <div className="flex-fill bg-white overflow-hidden d-flex flex-column rounded-lg px-md-5 px-3 pt-3">
                         <div className="d-none d-md-block flex-fill" style={{ overflowY: 'auto', overflowX: 'hidden' }}>
-                            <Row
-                            // style={{ transform: 'scale(.8)', transformOrigin: 'center', margin: '-5% -10% -5% -10%' }}
-                            >
+                            <Row>
                                 {result}
                             </Row>
                         </div>
@@ -290,7 +298,27 @@ class Calculate extends Component {
                             <Col className="text-md-left text-center mt-4" xs={12}>
                                 <div className="border-bottom pb-3 mb-3 text-bahnschrift">Balance after {simulation.leftPacksPerWeek.length < (8 * page) ? simulation.leftPacksPerWeek[simulation.leftPacksPerWeek.length - 1].week : simulation.leftPacksPerWeek[8 * page - 1].week} weeks of continuous investment : <strong className="text-green">${simulation.leftPacksPerWeek.length < (8 * page) ? simulation.leftPacksPerWeek[simulation.leftPacksPerWeek.length - 1].balance.toFixed(2) : simulation.leftPacksPerWeek[8 * page - 1].balance.toFixed(2)}</strong> approximately</div>
                             </Col>
-                            <Col xs={12} className="d-flex justify-content-center">
+                            <Col xs={12} className="d-md-flex justify-content-end align-items-center">
+                                <div className="mb-3">
+                                    <Form onSubmit={this.gotoHandler} inline>
+                                        <FormGroup className="mr-3">
+                                            <InputGroup>
+                                                <InputGroupAddon addonType="prepend">
+                                                    <InputGroupText>Go to week</InputGroupText>
+                                                </InputGroupAddon>
+                                                <Input type="number" placeholder="Week" name="goto" value={goto} onChange={this.inputChangeHandler} />
+                                                <InputGroupAddon addonType="append">
+                                                    <InputGroupText>[1-{simulation.leftPacksPerWeek.length}]</InputGroupText>
+                                                </InputGroupAddon>
+                                            </InputGroup>
+                                        </FormGroup>
+
+                                        <FormGroup>
+                                            <Button color="green">Go !</Button>
+                                        </FormGroup>
+                                    </Form>
+                                </div>
+
                                 <nav className="ml-md-auto">
                                     <ul className="pagination btn-group">
                                         <li className="btn btn-yellow" onClick={this.firstPageHandler}><FontAwesomeIcon icon={faAngleDoubleLeft} className="mr-2" />First</li>

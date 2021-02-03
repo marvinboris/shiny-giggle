@@ -103,11 +103,20 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
 
         Route::prefix('plans')->name('plans.')->group(function () {
             Route::post('calculations', 'PlansController@calculations')->name('calculations');
+            Route::post('broadcast', 'PlansController@broadcast')->name('broadcast');
             Route::post('deposit', 'PlansController@deposit')->name('deposit');
             Route::post('', 'PlansController@store')->name('store');
             Route::get('details', 'PlansController@details')->name('details');
             Route::get('', 'PlansController@index')->name('index');
         });
+
+        Route::prefix('promotions')->name('promotions.')->group(function () {
+            Route::get('info', 'PromotionsController@info')->name('info');
+        });
+
+        Route::apiResources([
+            'promotions' => 'PromotionsController',
+        ]);
     });
 });
 

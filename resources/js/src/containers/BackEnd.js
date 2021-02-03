@@ -176,7 +176,7 @@ class BackEnd extends Component {
                 </div>
 
                 <footer className="position-absolute d-none d-sm-block py-3 px-4 bg-darklight text-white">
-                    <strong className="text-orange text-large">&copy;</strong> Copyright {new Date().getFullYear()} <strong><Link to="/" className="text-white">Liyeplimal Reinvestment System Calculator</Link></strong>. All rights reserved by <strong className="text-orange">Briluce Services</strong>. Developed by <strong className="text-lightblue">Code Items</strong>.
+                    <strong className="text-orange text-large">&copy;</strong> Copyright {new Date().getFullYear()} <strong><Link to="/" className="text-white">Liyeplimal Reinvestment System Calculator</Link></strong>. All rights reserved by <strong className="text-orange">Limocalc</strong>. Developed by <strong className="text-lightblue">Briluce Services</strong>.
                 </footer>
             </main>
 

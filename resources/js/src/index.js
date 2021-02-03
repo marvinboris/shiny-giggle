@@ -20,7 +20,7 @@ import 'react-owl-carousel2/src/owl.carousel.css';
 import 'react-owl-carousel2/src/owl.theme.default.css';
 
 // export const rootPath = 'http://invest-calc.test:3000';
-export const rootPath = '';
+export const rootPath = '/api';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const rootReducer = combineReducers({

@@ -40,6 +40,10 @@ const initialState = {
         loading: false,
         error: null
     },
+    promotions: {
+        loading: false,
+        error: null
+    },
     options: {
         loading: false,
         error: null
@@ -102,6 +106,11 @@ const plansStart = (state, action) => updateObject(state, { plans: updateObject(
 const plansSuccess = (state, action) => updateObject(state, { plans: updateObject(state.plans, { loading: false, error: null, ...action }) });
 const plansFail = (state, action) => updateObject(state, { plans: updateObject(state.plans, { loading: false, ...action }) });
 
+const resetPromotions = (state, action) => updateObject(state, { promotions: initialState.promotions });
+const promotionsStart = (state, action) => updateObject(state, { promotions: updateObject(state.promotions, { loading: true, message: null }) });
+const promotionsSuccess = (state, action) => updateObject(state, { promotions: updateObject(state.promotions, { loading: false, error: null, ...action }) });
+const promotionsFail = (state, action) => updateObject(state, { promotions: updateObject(state.promotions, { loading: false, ...action }) });
+
 
 
 const reducer = (state = initialState, action) => {
@@ -156,6 +165,11 @@ const reducer = (state = initialState, action) => {
         case actionTypes.PLANS_START: return plansStart(state, action);
         case actionTypes.PLANS_FAIL: return plansFail(state, action);
         case actionTypes.PLANS_SUCCESS: return plansSuccess(state, action);
+
+        case actionTypes.RESET_PROMOTIONS: return resetPromotions(state, action);
+        case actionTypes.PROMOTIONS_START: return promotionsStart(state, action);
+        case actionTypes.PROMOTIONS_FAIL: return promotionsFail(state, action);
+        case actionTypes.PROMOTIONS_SUCCESS: return promotionsSuccess(state, action);
 
         default: return state;
     }

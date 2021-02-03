@@ -9,7 +9,7 @@ export const getPlans = () => async dispatch => {
     dispatch(getPlansStart());
 
     try {
-        const res = await fetch(rootPath + '/api/plans', {
+        const res = await fetch(`${rootPath}/plans`, {
             method: 'GET',
             headers: {
                 Authorization: token
@@ -31,7 +31,7 @@ export const getPaymentInfo = slug => async dispatch => {
     dispatch(getPaymentInfoStart());
 
     try {
-        const res = await fetch(rootPath + `/api/plans/${slug}/payment`, {
+        const res = await fetch(rootPath + `/plans/${slug}/payment`, {
             method: 'GET',
             headers: {
                 Authorization: token
@@ -54,7 +54,7 @@ export const postLimoPayment = data => async dispatch => {
 
     try {
         const formData = new FormData(data);
-        const res = await fetch(rootPath + '/api/plans/payment/limo', {
+        const res = await fetch(`${rootPath}/plans/payment/limo`, {
             method: 'POST',
             mode: 'cors',
             body: formData,

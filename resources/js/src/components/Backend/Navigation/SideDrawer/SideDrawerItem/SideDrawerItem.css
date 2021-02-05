@@ -1,8 +1,69 @@
 .SideDrawerItem .angle-down {
     transform: translateY(-50%) rotate(0);
-    transition: all 0.25s;
+    transition: all 0.1s;
 }
 
 .SideDrawerItem .angle-down.open {
     transform: translateY(-50%) rotate(180deg);
+}
+
+.SideDrawerItem .absolute {
+    display: none;
+}
+
+.SideDrawer .SideDrawerItem span {
+    display: inline;
+}
+
+.SideDrawer .SideDrawerItem .icon {
+    margin-right: 1rem;
+}
+
+.SideDrawer.large.collapsed .SideDrawerItem span,
+.SideDrawer.large.collapsed .SideDrawerItem .angle-down,
+.SideDrawer.large.collapsed .collapse-container {
+    display: none !important;
+}
+
+.SideDrawer.large.collapsed .SideDrawerItem.active {
+    padding-right: 0 !important;
+}
+
+.SideDrawer.large.collapsed .SideDrawerItem .absolute {
+    top: 0;
+    left: calc(100% + 1px);
+    display: none;
+    opacity: 0;
+    border-radius: 0 0.25rem 0.25rem 0;
+    transition: all 0.1s;
+}
+
+.SideDrawer.large.collapsed .SideDrawerItem .absolute .nav-item {
+    white-space: nowrap;
+}
+
+.SideDrawer.large.collapsed .SideDrawerItem .absolute .text-truncate {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    background: var(--darklight);
+}
+
+.SideDrawer.large.collapsed .SideDrawerItem.active .absolute .text-truncate {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    color: var(--orange);
+    font-weight: 700;
+}
+
+.SideDrawer.large.collapsed .SideDrawerItem:hover .absolute {
+    display: block;
+    opacity: 1;
+}
+
+.SideDrawer.large.collapsed .SideDrawerItem.active .absolute .text-truncate {
+    background: var(--darkblue);
+}
+
+.SideDrawer.large.collapsed .SideDrawerItem .icon {
+    margin-right: 0;
 }

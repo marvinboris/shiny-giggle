@@ -166,18 +166,26 @@ class BackEnd extends Component {
         const { notifications, messages, toast, toastShow, isOpen, date, clock, selectedItem } = this.state;
         const { auth: { loading, data: { first_name, last_name, name, role, photo, ref, sponsor, credits } }, children } = this.props;
 
-        return <div className="BackEnd text-left">
+        const content = <>
+            <div className="bg-darkblue mb-5 pb-5">
+                {loading ? <div className="h-100 d-flex justify-content-center align-items-center"><CustomSpinner /></div> : children}
+            </div>
+
+            <footer className="position-absolute d-none d-sm-block py-3 px-4 bg-darklight text-white">
+                <strong className="text-orange text-large">&copy;</strong> Copyright {new Date().getFullYear()} <strong><Link to="/" className="text-white">Liyeplimal Reinvestment System Calculator</Link></strong>. All rights reserved by <strong className="text-orange">Limocalc</strong>. Developed by <strong className="text-lightblue">Briluce Services</strong>.
+            </footer>
+        </>;
+
+        return <div className={`BackEnd ${isOpen ? "expanded" : ""} text-left`}>
             <Toolbar notifications={notifications || []} messages={messages || []} name={name || first_name + ' ' + last_name} role={role} toggle={this.toggle} logoutHandler={this.logoutHandler} date={date} clock={clock} />
             <SideDrawer name={name || first_name + ' ' + last_name} messages={messages || []} isOpen={isOpen} photo={photo} role={role} id={ref} toggle={this.toggle} sponsor={sponsor} credits={credits} selectItem={this.selectItem} selectedItem={selectedItem} editPhoto={this.props.onAuthPhoto} />
 
-            <main className="bg-darkblue full-height-user position-relative pb-5">
-                <div className="bg-darkblue mb-5 pb-5">
-                    {loading ? <div className="h-100 d-flex justify-content-center align-items-center"><CustomSpinner /></div> : children}
-                </div>
+            <main className={`bg-darkblue d-none d-md-block border-top border-darkblue full-height-user position-relative pb-5`}>
+                {content}
+            </main>
 
-                <footer className="position-absolute d-none d-sm-block py-3 px-4 bg-darklight text-white">
-                    <strong className="text-orange text-large">&copy;</strong> Copyright {new Date().getFullYear()} <strong><Link to="/" className="text-white">Liyeplimal Reinvestment System Calculator</Link></strong>. All rights reserved by <strong className="text-orange">Limocalc</strong>. Developed by <strong className="text-lightblue">Briluce Services</strong>.
-                </footer>
+            <main className="bg-darkblue d-md-none full-height-user position-relative pb-5">
+                {content}
             </main>
 
             <div className="p-3 position-fixed Toast">

@@ -13016,6 +13016,10 @@ a.text-dark:focus {
   color: #049d27 !important;
 }
 
+:root {
+  --green: #049d27;
+}
+
 .nav-link.text-green:not(.active) {
   color: rgba(4, 157, 39, 0.5) !important;
   transition: all 0.25s;
@@ -13139,6 +13143,10 @@ a.text-dark:focus {
 
 .text-lemongreen {
   color: #f6ff01 !important;
+}
+
+:root {
+  --lemongreen: #f6ff01;
 }
 
 .nav-link.text-lemongreen:not(.active) {
@@ -13266,6 +13274,10 @@ a.text-dark:focus {
   color: #012840 !important;
 }
 
+:root {
+  --darkgreen: #012840;
+}
+
 .nav-link.text-darkgreen:not(.active) {
   color: rgba(1, 40, 64, 0.5) !important;
   transition: all 0.25s;
@@ -13389,6 +13401,10 @@ a.text-dark:focus {
 
 .text-darkblue {
   color: #000c2c !important;
+}
+
+:root {
+  --darkblue: #000c2c;
 }
 
 .nav-link.text-darkblue:not(.active) {
@@ -13516,6 +13532,10 @@ a.text-dark:focus {
   color: #f5a10e !important;
 }
 
+:root {
+  --yellow: #f5a10e;
+}
+
 .nav-link.text-yellow:not(.active) {
   color: rgba(245, 161, 14, 0.5) !important;
   transition: all 0.25s;
@@ -13639,6 +13659,10 @@ a.text-dark:focus {
 
 .text-darkyellow {
   color: #c88208 !important;
+}
+
+:root {
+  --darkyellow: #c88208;
 }
 
 .nav-link.text-darkyellow:not(.active) {
@@ -13766,6 +13790,10 @@ a.text-dark:focus {
   color: #ff0b33 !important;
 }
 
+:root {
+  --red: #ff0b33;
+}
+
 .nav-link.text-red:not(.active) {
   color: rgba(255, 11, 51, 0.5) !important;
   transition: all 0.25s;
@@ -13889,6 +13917,10 @@ a.text-dark:focus {
 
 .text-purered {
   color: #f60929 !important;
+}
+
+:root {
+  --purered: #f60929;
 }
 
 .nav-link.text-purered:not(.active) {
@@ -14015,6 +14047,10 @@ a.text-dark:focus {
 .text-orange,
 .SideDrawerItem.active span {
   color: #e79300 !important;
+}
+
+:root {
+  --orange: #e79300;
 }
 
 .nav-link.text-orange:not(.active),
@@ -14144,6 +14180,10 @@ a.text-dark:focus {
   color: #f67e09 !important;
 }
 
+:root {
+  --oranger: #f67e09;
+}
+
 .nav-link.text-oranger:not(.active) {
   color: rgba(246, 126, 9, 0.5) !important;
   transition: all 0.25s;
@@ -14267,6 +14307,10 @@ a.text-dark:focus {
 
 .text-scarlet {
   color: #8d004b !important;
+}
+
+:root {
+  --scarlet: #8d004b;
 }
 
 .nav-link.text-scarlet:not(.active) {
@@ -14394,6 +14438,10 @@ a.text-dark:focus {
   color: #005eb1 !important;
 }
 
+:root {
+  --blue: #005eb1;
+}
+
 .nav-link.text-blue:not(.active) {
   color: rgba(0, 94, 177, 0.5) !important;
   transition: all 0.25s;
@@ -14517,6 +14565,10 @@ a.text-dark:focus {
 
 .text-lightblue {
   color: #06b0b6 !important;
+}
+
+:root {
+  --lightblue: #06b0b6;
 }
 
 .nav-link.text-lightblue:not(.active) {
@@ -14644,6 +14696,10 @@ a.text-dark:focus {
   color: #df0873 !important;
 }
 
+:root {
+  --pink: #df0873;
+}
+
 .nav-link.text-pink:not(.active) {
   color: rgba(223, 8, 115, 0.5) !important;
   transition: all 0.25s;
@@ -14767,6 +14823,10 @@ a.text-dark:focus {
 
 .text-mydarkblue {
   color: #002f59 !important;
+}
+
+:root {
+  --mydarkblue: #002f59;
 }
 
 .nav-link.text-mydarkblue:not(.active) {
@@ -14894,6 +14954,10 @@ a.text-dark:focus {
   color: #ffffff !important;
 }
 
+:root {
+  --white: #ffffff;
+}
+
 .nav-link.text-white:not(.active) {
   color: rgba(255, 255, 255, 0.5) !important;
   transition: all 0.25s;
@@ -15017,6 +15081,10 @@ a.text-dark:focus {
 
 .text-black {
   color: #000000 !important;
+}
+
+:root {
+  --black: #000000;
 }
 
 .nav-link.text-black:not(.active) {
@@ -15144,6 +15212,10 @@ a.text-dark:focus {
   color: #aaa !important;
 }
 
+:root {
+  --gray: #aaa;
+}
+
 .nav-link.text-gray:not(.active) {
   color: rgba(170, 170, 170, 0.5) !important;
   transition: all 0.25s;
@@ -15267,6 +15339,10 @@ a.text-dark:focus {
 
 .text-darklight {
   color: #1b223f !important;
+}
+
+:root {
+  --darklight: #1b223f;
 }
 
 .nav-link.text-darklight:not(.active) {
@@ -15394,6 +15470,10 @@ a.text-dark:focus {
   color: #606060 !important;
 }
 
+:root {
+  --border: #606060;
+}
+
 .nav-link.text-border:not(.active) {
   color: rgba(96, 96, 96, 0.5) !important;
   transition: all 0.25s;
@@ -15519,6 +15599,10 @@ a.text-dark:focus {
   color: #cacaca !important;
 }
 
+:root {
+  --light: #cacaca;
+}
+
 .nav-link.text-light:not(.active) {
   color: rgba(202, 202, 202, 0.5) !important;
   transition: all 0.25s;
@@ -15642,6 +15726,10 @@ a.text-dark:focus {
 
 .text-input {
   color: #28324c !important;
+}
+
+:root {
+  --input: #28324c;
 }
 
 .nav-link.text-input:not(.active) {

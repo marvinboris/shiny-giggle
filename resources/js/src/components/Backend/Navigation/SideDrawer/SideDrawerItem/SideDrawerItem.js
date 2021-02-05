@@ -25,14 +25,19 @@ const SideDrawerItem = ({ children, dropdown, icon, href = '', items, path = '',
     if (selected === '') isSelected = match;
 
     let content;
-    if (!dropdown) content = <>
+    if (!dropdown) content = <div className="position-relative">
         <NavLink onClick={onSideDrawerToggle} exact={exact} className="SideDrawerItem d-sm-none nav-link pl-3 text-large text-300 text-light" activeClassName="active bg-darkblue py-3" to={href}>
-            <FontAwesomeIcon fixedWidth icon={icon} className="mr-3" /> <span>{children}</span>
+            <FontAwesomeIcon fixedWidth icon={icon} className="icon" /> <span>{children}</span>
         </NavLink>
+
         <NavLink onClick={onSelect} exact={exact} className="SideDrawerItem nav-link d-none d-sm-block pl-3 text-large text-300 text-light" activeClassName="active bg-darkblue py-3" to={href}>
-            <FontAwesomeIcon fixedWidth icon={icon} className="mr-3" /> <span>{children}</span>
+            <FontAwesomeIcon fixedWidth icon={icon} className="icon" /> <span>{children}</span>
+
+            <div className="position-absolute absolute shadow-sm">
+                <div className="text-truncate px-4">{children}</div>
+            </div>
         </NavLink>
-    </>;
+    </div>;
     else {
         const itemEls = items.map(({ link = '', text }) => (
             <li className="nav-item text-300" key={text}>
@@ -44,15 +49,30 @@ const SideDrawerItem = ({ children, dropdown, icon, href = '', items, path = '',
         content = (
             <div>
                 <Button color="link" onClick={onSelect} className={`SideDrawerItem nav-link d-block w-100 pl-3 text-large text-300 rounded-0 text-left text-light position-relative ${match ? 'active bg-darkblue py-3' : ''}`} style={match ? { paddingRight: 60 } : {}}>
-                    <FontAwesomeIcon fixedWidth icon={icon} className="mr-3" />
+                    <FontAwesomeIcon fixedWidth icon={icon} className="icon" />
+
                     <span>{children}</span>
+
                     <FontAwesomeIcon fixedWidth icon={faAngleDown} className={`position-absolute angle-down ${isSelected ? 'open' : ''}`} style={{ right: 16, top: '50%' }} />
+
+                    <div className="position-absolute absolute shadow-sm bg-darklight">
+                        <div className="text-truncate px-4">{children}</div>
+
+                        <div className="bg-darkblue-20 pr-4 pl-3">
+                            <ul className="nav flex-column border-left ml-3 border-white-20 text-small">
+                                {itemEls}
+                            </ul>
+                        </div>
+                    </div>
                 </Button>
-                <Collapse isOpen={isSelected} className="pl-3 bg-darkblue-20">
-                    <ul className="nav flex-column border-left ml-3 border-white-20">
-                        {itemEls}
-                    </ul>
-                </Collapse>
+
+                <div className="collapse-container">
+                    <Collapse isOpen={isSelected} className="pl-3 bg-darkblue-20">
+                        <ul className="nav flex-column border-left ml-3 border-white-20">
+                            {itemEls}
+                        </ul>
+                    </Collapse>
+                </div>
             </div>
         );
     }

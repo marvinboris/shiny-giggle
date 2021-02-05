@@ -1,5 +1,6 @@
 .BackEnd main {
     padding-left: 0;
+    transition: all 0.25s;
 }
 
 .BackEnd footer {
@@ -19,7 +20,16 @@
     .BackEnd main {
         padding-left: 280px;
     }
+
+    .BackEnd.expanded main {
+        padding-left: 60px;
+    }
+
     .BackEnd footer {
         width: calc(100% - 280px);
+    }
+
+    .BackEnd.expanded footer {
+        width: calc(100% - 60px);
     }
 }

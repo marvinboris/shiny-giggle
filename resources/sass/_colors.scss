@@ -35,6 +35,10 @@ $colors: "green" $mygreen $white, "lemongreen" $mylemongreen $dark, "darkgreen" 
     color: $color !important;
   }
 
+  :root {
+    --#{$name}: #{$color};
+  }
+
   .nav-link.text-#{$name}:not(.active) {
     color: rgba($color, 0.5) !important;
     transition: all 0.25s;

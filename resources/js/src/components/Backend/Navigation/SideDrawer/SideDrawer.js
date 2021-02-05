@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Col, Badge, ButtonGroup, Button, Collapse } from 'reactstrap';
+import { Col, Badge, ButtonGroup, Collapse } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTachometerAlt, faUserTie, faCalendarAlt, faEnvelope, faTasks, faCog, faCircle, faEdit, faMoneyBillWave, faWallet, faCopy, faBell, faBox, faUsers, faCalendar } from '@fortawesome/free-solid-svg-icons';
+import { faTachometerAlt, faUserTie, faCalendarAlt, faEnvelope, faTasks, faCog, faEdit, faWallet, faCopy, faBell, faBox, faUsers, faCalendar } from '@fortawesome/free-solid-svg-icons';
 import { faCheckCircle } from '@fortawesome/free-regular-svg-icons';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
@@ -13,7 +13,7 @@ const roles = {
     admin: 'Administrator'
 };
 
-export default ({ name, messages = [], photo = "https://placehold.it/100x100", role = '', credits = 0, id, sponsor, toggle, isOpen, selectItem, selectedItem, editPhoto }) => {
+export default ({ name, messages = [], photo = "https://placehold.it/100x100", role = '', credits = 0, id, toggle, isOpen, selectItem, selectedItem, editPhoto }) => {
     const [file, setFile] = useState(null);
     const [clicked, setClicked] = useState(false);
 
@@ -105,52 +105,60 @@ export default ({ name, messages = [], photo = "https://placehold.it/100x100", r
             break;
     }
 
-    return (
-        <Collapse isOpen={isOpen} className="SideDrawer nav-left-sidebar bg-darklight border-right border-darkblue text-white position-fixed d-md-block" style={{ width: 280 }}>
-            <div className="menu-list">
-                <Col xs={12}>
-                    <div className="py-3 align-items-center border-top border-bottom border-white-20">
-                        <Col xs={12} className="px-2 position-relative d-flex justify-content-center">
-                            <div className="border-3 border-orange d-flex justify-content-center align-items-center border rounded-circle" style={{ width: 84, height: 84 }}>
-                                <img src={photo} className="rounded-circle" style={{ width: 64, height: 64, objectFit: 'cover', objectPosition: 'center' }} alt="User profile" />
-                            </div>
+    const content = <div className="menu-list">
+        <Col xs={12}>
+            <div className="user-info py-3 align-items-center border-top border-bottom border-white-20">
+                <Col xs={12} className="px-2 position-relative d-flex justify-content-center">
+                    <div className="border-3 border-orange d-flex justify-content-center align-items-center border rounded-circle" style={{ width: 84, height: 84 }}>
+                        <img src={photo} className="rounded-circle" style={{ width: 64, height: 64, objectFit: 'cover', objectPosition: 'center' }} alt="User profile" />
+                    </div>
 
-                            <div className="position-absolute text-orange text-right" style={{ top: 0, right: 0 }}>
-                                <FontAwesomeIcon icon={faEdit} size="2x" style={{ cursor: 'pointer' }} onClick={editButtonClickedHandler} />
-                                {file && !clicked && <div style={{ cursor: 'pointer' }} onClick={photoSubmittedHandler} className="text-center text-small">Edit</div>}
+                    <div className="position-absolute text-orange text-right" style={{ top: 0, right: 0 }}>
+                        <FontAwesomeIcon icon={faEdit} size="2x" style={{ cursor: 'pointer' }} onClick={editButtonClickedHandler} />
+                        {file && !clicked && <div style={{ cursor: 'pointer' }} onClick={photoSubmittedHandler} className="text-center text-small">Edit</div>}
+                    </div>
+                    <input type="file" id="photo" className="d-none" accept=".jpg,.jpeg,.png" name="photo" onChange={photoChangedHandler} />
+                </Col>
+                <Col xs={12} className="p-0 h-100">
+                    <div className="align-items-center text-center m-0 h-100">
+                        <Col xs={12} className="p-0 text-large mb-3">
+                            <strong>{name}</strong>
+
+                            <div className="d-flex justify-content-center position-relative">
+                                <div className="border-bottom border-border" style={{ width: 100 }} />
+
+                                <div className="bg-orange border rounded-circle border-white position-absolute" style={{ width: 10, height: 10, bottom: 0, left: '50%', transform: 'translate(-50%, 50%)' }} />
                             </div>
-                            <input type="file" id="photo" className="d-none" accept=".jpg,.jpeg,.png" name="photo" onChange={photoChangedHandler} />
                         </Col>
-                        <Col xs={12} className="p-0 h-100">
-                            <div className="align-items-center text-center m-0 h-100">
-                                <Col xs={12} className="p-0 text-large mb-3">
-                                    <strong>{name}</strong>
-
-                                    <div className="d-flex justify-content-center position-relative">
-                                        <div className="border-bottom border-border" style={{ width: 100 }} />
-
-                                        <div className="bg-orange border rounded-circle border-white position-absolute" style={{ width: 10, height: 10, bottom: 0, left: '50%', transform: 'translate(-50%, 50%)' }} />
-                                    </div>
-                                </Col>
-                                {addOns}
-                                <Col xs={12} className="p-0 text-green text-300 small">
-                                    <FontAwesomeIcon fixedWidth icon={faCheckCircle} size="sm" className="mr-1" />{roles[role]}
-                                </Col>
-                            </div>
+                        {addOns}
+                        <Col xs={12} className="p-0 text-green text-300 small">
+                            <FontAwesomeIcon fixedWidth icon={faCheckCircle} size="sm" className="mr-1" />{roles[role]}
                         </Col>
                     </div>
                 </Col>
-                <nav className="navbar navbar-expand navbar-dark py-0 px-0 mt-5">
-                    <div className="collapse navbar-collapse" id="navbarNav">
-                        <ul className="navbar-nav w-100 flex-column">
-                            <SideDrawerItem sideDrawerToggle={toggle} icon={faTachometerAlt} id="Dashboard" select={selectItem} selected={selectedItem} href="/dashboard">Dashboard</SideDrawerItem>
-                            {sideDrawerItems}
-                            <SideDrawerItem sideDrawerToggle={toggle} icon={faBell} exact={false} id="Notifications" select={selectItem} selected={selectedItem} href="/notifications">Notifications</SideDrawerItem>
-                        </ul>
-                    </div>
-                </nav>
             </div>
-            <div className="backdrop w-100 bg-darkblue-50 position-fixed d-md-none" onClick={toggle} style={{ top: 101, zIndex: -1 }} />
-        </Collapse>
-    )
+        </Col>
+        <nav className="navbar navbar-expand navbar-dark py-0 px-0 mt-5">
+            <div className="collapse navbar-collapse" id="navbarNav">
+                <ul className="navbar-nav w-100 flex-column">
+                    <SideDrawerItem sideDrawerToggle={toggle} icon={faTachometerAlt} id="Dashboard" select={selectItem} selected={selectedItem} href="/dashboard">Dashboard</SideDrawerItem>
+                    {sideDrawerItems}
+                    <SideDrawerItem sideDrawerToggle={toggle} icon={faBell} exact={false} id="Notifications" select={selectItem} selected={selectedItem} href="/notifications">Notifications</SideDrawerItem>
+                </ul>
+            </div>
+        </nav>
+    </div>;
+
+    return <>
+        <div className={`SideDrawer large ${isOpen ? "collapsed" : ""} nav-left-sidebar bg-darklight border-right border-darkblue text-white position-fixed d-none d-md-block`}>
+            {content}
+        </div>
+
+        <div className="d-md-none">
+            <Collapse isOpen={isOpen} className="SideDrawer nav-left-sidebar bg-darklight border-right border-darkblue text-white position-fixed" style={{ width: 280 }}>
+                {content}
+                <div className="backdrop w-100 bg-darkblue-50 position-fixed d-md-none" onClick={toggle} style={{ top: 101, zIndex: -1 }} />
+            </Collapse>
+        </div>
+    </>;
 };

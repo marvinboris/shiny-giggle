@@ -33,10 +33,9 @@ class Dashboard extends Component {
     async componentDidMount() {
         const { onGetAdminDashboard } = this.props;
         onGetAdminDashboard();
-        const cors = 'https://cors-anywhere.herokuapp.com/';
 
-        const phoneRes = await fetch(cors + 'http://country.io/phone.json', { method: 'GET', mode: 'cors' });
-        const namesRes = await fetch(cors + 'http://country.io/names.json', { method: 'GET', mode: 'cors' });
+        const phoneRes = await fetch(CORS + 'http://country.io/phone.json', { method: 'GET', mode: 'cors' });
+        const namesRes = await fetch(CORS + 'http://country.io/names.json', { method: 'GET', mode: 'cors' });
 
         const phone = await phoneRes.json();
         const names = await namesRes.json();

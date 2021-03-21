@@ -12,6 +12,8 @@
 
 window.BTC_VALUE_API_KEY = process.env.MIX_BTC_VALUE_API_KEY;
 
+window.CORS = "https://jsonp.afeld.me/?url=";
+
 import Echo from 'laravel-echo';
 
 window.$ = window.jQuery = require('jquery');

@@ -5,7 +5,7 @@ import { faFolder, faWallet, faCalendar, faArrowAltCircleDown, faInfoCircle } fr
 
 import View from '../Backend/UI/View/View';
 
-export default ({ invest, payout, week, balPrevW, totPayout, totBal, rem, activePacks, packs, random }) => {
+export default ({ invest, payout, week, balPrevW, totPayout, totBal, totInv, rem, activePacks, packs, random }) => {
     const investCheck = invest > 0;
     let investText = '';
     if (investCheck) {
@@ -49,6 +49,8 @@ export default ({ invest, payout, week, balPrevW, totPayout, totBal, rem, active
             <div className="pt-2 text-truncate">Bal W{week}: <strong>${balPrevW.toFixed(2)} + <span style={{ color: '#039B54' }}>${totPayout}</span></strong></div>
 
             <div className="pt-2">Total Bal: <strong>${totBal.toFixed(2)}</strong></div>
+
+            <div className="pt-2">Total Inv: <strong>${totInv.toFixed(2)}</strong></div>
 
             <div className="pt-2">Invest: <strong>{investText}</strong> </div>
 

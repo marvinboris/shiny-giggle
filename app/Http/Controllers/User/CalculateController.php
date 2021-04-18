@@ -83,13 +83,15 @@ class CalculateController extends Controller
         $packPeriod = floor(52 / $period);
         $floatingPackPeriod = (52 / $period) - $packPeriod;
 
-        $minAmount = Pack::orderBy('amount', 'asc')->first()->amount;
+        $minAmount = Pack::whereStatus(1)->orderBy('amount', 'asc')->first()->amount;
 
         $balance = 0;
         $balances = [];
         $ownedPacks = [[$pack]];
         $leftPacks = [[['pack' => $pack, 'leftWeeks' => 52]]];
         $leftPacksPerWeek = [];
+        $totalInvest = $pack->amount;
+        $totalInvests = [];
 
         function rpa(Pack $pack, $period)
         {
@@ -109,6 +111,7 @@ class CalculateController extends Controller
         for ($currentPeriod = 0; $currentPeriod <= $totalPeriods; $currentPeriod++) {
             $leftPeriodPacks = [];
             $balances[] = $balance;
+            $totalInvests[] = $totalInvest;
 
             foreach ($ownedPacks as $ownedPacksPeriod => $ownedPeriodPacks) {
                 if ($currentPeriod - $ownedPacksPeriod < $packPeriod) {
@@ -133,10 +136,11 @@ class CalculateController extends Controller
             if ($totalPeriods - $currentPeriod > $packPeriod) {
                 $selectedPacks = [];
                 while ($balance >= $minAmount) {
-                    $selectedPack = $plan->packs()->where('amount', '<=', $balance)->orderBy('amount', 'desc')->first();
+                    $selectedPack = $plan->packs()->whereStatus(1)->where('amount', '<=', $balance)->orderBy('amount', 'desc')->first();
                     $leftPeriodPacks[] = ['pack' => $selectedPack, 'leftWeeks' => 52];
                     $selectedPacks[] = $selectedPack;
                     $balance -= $selectedPack->amount;
+                    $totalInvest += $selectedPack->amount;
                 }
                 $ownedPacks[] = $selectedPacks;
             }
@@ -177,6 +181,7 @@ class CalculateController extends Controller
                     'week' => $currentPeriod * $period + $index + 1,
                     'packs' => $packs,
                     'balance' => $currentBalance,
+                    'totalInvest' => $totalInvests[$currentPeriod],
                     'payouts' => $payouts,
                     'invest' => $finalInvest
                 ];

@@ -234,13 +234,13 @@ class Calculate extends Component {
                 const { leftPacksPerWeek } = simulation;
 
                 let rem = 0
-                leftPacksPerWeek.forEach(({ week, packs: activePacks, balance, payouts, invest }, index) => {
+                leftPacksPerWeek.forEach(({ week, packs: activePacks, balance, payouts, invest, totalInvest }, index) => {
                     rem = (balance).toFixed(2);
                     const payout = payouts.map((item) => '$' + item.toFixed(2));
                     const balPrevW = (index === 0) ? 0 : leftPacksPerWeek[index - 1].balance;
                     const totPayout = payouts.reduce((acc, val) => Number(acc) + Number(val)).toFixed(2);
 
-                    result.push(<ResultCard key={week + Math.random().toString()} random={Math.round(Math.random() * 1000000).toString()} week={week} payout={payout} balw={balance} balPrevW={balPrevW} totBal={balance + invest} totPayout={totPayout} invest={invest} rem={rem} bg="#73EC2" activePacks={activePacks} packs={this.state.packs} />);
+                    result.push(<ResultCard key={week + Math.random().toString()} random={Math.round(Math.random() * 1000000).toString()} week={week} payout={payout} balw={balance} balPrevW={balPrevW} totBal={balance + invest} totInv={totalInvest} totPayout={totPayout} invest={invest} rem={rem} bg="#73EC2" activePacks={activePacks} packs={this.state.packs} />);
                 });
 
                 points = simulation.points;

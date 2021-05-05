@@ -40,7 +40,7 @@ export default ({ invest, payout, week, balPrevW, totPayout, totBal, totInv, rem
                 <div className="text-nowrap">Total Payout:</div>
                 <div className="text-truncate pl-1">{payout.join(" + ")}</div>
                 <div className="text-dark ml-auto">
-                    <View title={`Payouts: Week ${week}`} content={<div className="text-justify">{payout.join(" + ")}</div>}>
+                    <View title={`Payouts: Week ${week} - $${totPayout} total payout`} content={<div className="text-justify">{payout.join(" + ")}</div>}>
                         <FontAwesomeIcon icon={faArrowAltCircleDown} />
                     </View>
                 </div>
@@ -64,7 +64,7 @@ export default ({ invest, payout, week, balPrevW, totPayout, totBal, totInv, rem
                 <span>Total Packages:</span>
 
                 <div className="text-dark ml-auto">
-                    <View title={`Packages: Week ${week}`} content={<div className="d-flex flex-wrap">
+                    <View title={`Packages: Week ${week} - $${totPayout} total payout`} content={<div className="d-flex flex-wrap">
                         {activePacks.map(({ leftWeeks, pack: { amount } }) =>
                             <div key={week + Math.random().toString()}>
                                 {leftWeeks > 0 ? <div className="position-relative pr-3">

@@ -44,7 +44,7 @@ class Mobile extends Component {
                     </FormGroup>
                     <FormGroup>
                         <Row>
-                            <Col xs={6} className="pr-1"><Link to="/dashboard"><FormButton type="button" color="red" icon={faAngleDoubleLeft}>Cancel</FormButton></Link></Col>
+                            <Col xs={6} className="pr-1"><Link to="/dashboard" className="text-decoration-none text-reset"><FormButton type="button" color="red" icon={faAngleDoubleLeft}>Cancel</FormButton></Link></Col>
                             <Col xs={6} className="pl-1"><FormButton color="yellow" icon={faAngleDoubleRight}>Proceed</FormButton></Col>
                         </Row>
                     </FormGroup>

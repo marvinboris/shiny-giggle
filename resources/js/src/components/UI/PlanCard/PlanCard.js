@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle, faAngleDoubleRight, faCheckCircle, faStar } from '@fortawesome/free-solid-svg-icons';
 import { NavLink } from 'react-router-dom';
 
-export default ({ name, slug, points, validity, price, best, color, chooseColor, durations, packs }) => <NavLink className="text-decoration-none text-left" to={`/plans/${slug}/payment/limo`}>
+export default ({ name, slug, points, validity, price, best, color, chooseColor, durations, packs }) => <NavLink className="text-decoration-none text-left" to={`/plans/${slug}/payment/mobile`}>
     <div className={`rounded-4 shadow-sm bg-${best ? 'white' : 'darkgreen'} text-${best ? 'dark' : 'white'} px-1`}>
         <div className="border-bottom border-border py-3 px-4 d-flex justify-content-between align-items-end">
             <div className="position-relative">

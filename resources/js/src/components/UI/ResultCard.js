@@ -46,18 +46,18 @@ export default ({ invest, payout, week, balPrevW, totPayout, totBal, totInv, rem
                 </div>
             </div>
 
-            <div className="pt-2 text-truncate">Bal W{week}: <strong className="text-montserrat">${balPrevW.toFixed(2)} + <span style={{ color: '#039B54' }}>${totPayout}</span></strong></div>
+            <div className="pt-2 text-truncate">Bal W{week}: <span className="text-montserrat text-500">${balPrevW.toFixed(2)} + <span style={{ color: '#039B54' }}>${totPayout}</span></span></div>
 
-            <div className="pt-2">Total Bal: <strong className="text-montserrat">${totBal.toFixed(2)}</strong></div>
+            <div className="pt-2">Total Bal: <span className="text-montserrat text-500">${totBal.toFixed(2)}</span></div>
 
-            <div className="pt-2">Total Inv: <strong className="text-montserrat">${totInv.toFixed(2)}</strong></div>
+            <div className="pt-2">Total Inv: <span className="text-montserrat text-500">${totInv.toFixed(2)}</span></div>
 
             <div className="pt-2">Invest: <strong>{investText}</strong> </div>
 
-            <div className="pt-2 pb-2">Rem: <strong className="text-montserrat" style={{ color: '#039B54' }}>${rem}</strong></div>
+            <div className="pt-2 pb-2">Rem: <span className="text-montserrat text-500" style={{ color: '#039B54' }}>${rem}</span></div>
 
             <div style={{ backgroundColor: invest ? '#056424' : '#05C945' }} className="text-white rounded-sm py-1 pl-3 w-100 d-flex align-items-center">
-                <FontAwesomeIcon icon={faWallet} className="pr-3 d-none" size="2x" /><span className="pr-3 font-weight-lighter">W{week} Bal :</span> <strong>${rem}</strong>
+                <FontAwesomeIcon icon={faWallet} className="pr-3 d-none" size="2x" /><span className="pr-3 font-weight-lighter">W{week} Bal :</span> <span className="text-montserrat text-500">${rem}</span>
             </div>
             <hr />
             <div className="d-flex">
@@ -69,7 +69,7 @@ export default ({ invest, payout, week, balPrevW, totPayout, totBal, totInv, rem
                             <div key={week + Math.random().toString()}>
                                 {leftWeeks > 0 ? <div className="position-relative pr-3">
                                     <FontAwesomeIcon className="" size="2x" color="#05C945" icon={faFolder} />
-                                    <span className="position-absolute text-bahnschrift text-white text-x-small text-montserrat" style={{ top: 0, transform: 'translate(calc(-15px - 50%), 10px)', zIndex: 3 }}>{amount}</span>
+                                    <span className="position-absolute text-white text-x-small text-montserrat" style={{ top: 0, transform: 'translate(calc(-15px - 50%), 10px)', zIndex: 3 }}>{amount}</span>
                                     <Badge className="rounded-circle float-right" style={{ top: 0, transform: 'translateX(-1.5rem)', zIndex: 2 }} color="danger">-{leftWeeks - 1}</Badge>
                                 </div> : ''}
                             </div>)}
